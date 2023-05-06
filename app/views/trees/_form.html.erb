@@ -1,0 +1,47 @@
+<%= form_with(model: tree) do |form| %>
+  <% if tree.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(tree.errors.count, "error") %> prohibited this tree from being saved:</h2>
+
+      <ul>
+        <% tree.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :gender, style: "display: block" %>
+    <%= form.check_box :gender %>
+  </div>
+
+  <div>
+    <%= form.label :alive, style: "display: block" %>
+    <%= form.check_box :alive %>
+  </div>
+
+  <div>
+    <%= form.label :birth, style: "display: block" %>
+    <%= form.date_field :birth %>
+  </div>
+
+  <div>
+    <%= form.label :death, style: "display: block" %>
+    <%= form.date_field :death %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
