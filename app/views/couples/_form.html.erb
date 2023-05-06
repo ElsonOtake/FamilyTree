@@ -1,0 +1,42 @@
+<%= form_with(model: couple) do |form| %>
+  <% if couple.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(couple.errors.count, "error") %> prohibited this couple from being saved:</h2>
+
+      <ul>
+        <% couple.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :tree1_id, style: "display: block" %>
+    <%= form.text_field :tree1_id %>
+  </div>
+
+  <div>
+    <%= form.label :tree2_id, style: "display: block" %>
+    <%= form.text_field :tree2_id %>
+  </div>
+
+  <div>
+    <%= form.label :marriage, style: "display: block" %>
+    <%= form.date_field :marriage %>
+  </div>
+
+  <div>
+    <%= form.label :separation, style: "display: block" %>
+    <%= form.date_field :separation %>
+  </div>
+
+  <div>
+    <%= form.label :local, style: "display: block" %>
+    <%= form.text_area :local %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
