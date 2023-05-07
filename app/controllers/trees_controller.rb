@@ -8,6 +8,31 @@ class TreesController < ApplicationController
 
   # GET /trees/1 or /trees/1.json
   def show
+    @parents = @tree.couples
+    if @parents.empty?
+      @father = nil
+      @mother = nil
+    else
+      if Tree.find(@parents[0].tree1_id).gender = "M"
+        @father = Tree.find(@parents[0].tree2_id)
+        @mother = Tree.find(@parents[0].tree1_id)
+      else
+        @father = Tree.find(@parents[0].tree1_id)
+        @mother = Tree.find(@parents[0].tree2_id)
+      end
+    end
+      
+    couple = Couple.where(tree1_id: @tree).or(Couple.where(tree2_id: @tree))
+    if couple.empty?
+      @mate = nil
+      @children = nil
+    else
+      @mate = Tree.find(couple[0].tree1_id) if couple[0].tree1_id != @tree.id
+      @mate = Tree.find(couple[0].tree2_id) if couple[0].tree2_id != @tree.id
+      @children = couple[0].trees
+    end
+
+
   end
 
   # GET /trees/new
