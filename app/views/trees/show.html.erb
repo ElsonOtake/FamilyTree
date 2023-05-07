@@ -2,9 +2,30 @@
 
 <%= render @tree %>
 
+<h4>Parents</h4>
+<%= link_to @father.name, tree_path(@father) unless @father.nil? %><br>
+<%= link_to @mother.name, tree_path(@mother) unless @mother.nil? %><br>
+
+<h4>Siblings</h4>
+<% unless @parents.empty? %>
+  <% @parents[0].trees.each do |sibling| %>
+    <%= link_to sibling.name, tree_path(sibling) if sibling.id != @tree.id %><br>
+  <% end %>
+<% end %>
+
+<h4>Mate</h4>
+<%= link_to @mate.name, tree_path(@mate) unless @mate.nil? %><br>
+
+<h4>Children</h4>
+<% @children.each do |child| %>
+  <%= link_to child.name, tree_path(child) %><br>
+<% end %>
+
+<br>
+
 <div>
   <%= link_to "Edit this tree", edit_tree_path(@tree) %> |
   <%= link_to "Back to trees", trees_path %>
 
-  <%= button_to "Destroy this tree", @tree, method: :delete %>
+  <%#= button_to "Destroy this tree", @tree, method: :delete %>
 </div>

@@ -14,19 +14,26 @@
     <%= tree.alive %>
   </p>
 
-  <p>
-    <strong>Birth:</strong>
-    <%= tree.birth %>
-  </p>
+  <% unless tree.birth.nil? %>
+    <p>
+      <strong>Birth:</strong>
+      <%= tree.birth %>
+      <%= distance_of_time_in_words(tree.birth, Date.today) %>
+    </p>
+  <% end %>
 
-  <p>
-    <strong>Death:</strong>
-    <%= tree.death %>
-  </p>
+  <% unless tree.death.nil? %>
+    <p>
+      <strong>Death:</strong>
+      <%= tree.death %>
+    </p>
+  <% end %>
 
-  <p>
-    <strong>description:</strong>
-    <%= tree.description %>
-  </p>
+  <% unless tree.description.nil? %>
+    <p>
+      <%# <strong>description:</strong> %>
+      <%= tree.description %>
+    </p>
+  <% end %>
 
 </div>
