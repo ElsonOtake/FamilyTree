@@ -1,9 +1,11 @@
 class TreesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_tree, only: %i[ show edit update destroy ]
 
   # GET /trees or /trees.json
   def index
     @trees = Tree.all
+    # Tree.select("upper(left(name, 1)) initial").distinct.order(:initial)
   end
 
   # GET /trees/1 or /trees/1.json
