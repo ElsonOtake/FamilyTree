@@ -1,25 +1,33 @@
 <%= render @person %>
 
-<h4>Parents</h4>
-<%= link_to @father.name, person_path(@father) unless @father.nil? %><br>
-<%= link_to @mother.name, person_path(@mother) unless @mother.nil? %><br>
+<h4 class="subtitle has-text-grey-light">Parents</h4>
+<div class="box">
+  <%= link_to @father.name, person_path(@father) unless @father.nil? %><br>
+  <%= link_to @mother.name, person_path(@mother) unless @mother.nil? %><br>
+</div>
 
-<h4>Siblings</h4>
-<% unless @parents.empty? %>
-  <% @parents[0].people.each do |sibling| %>
-    <%= link_to sibling.name, person_path(sibling) if sibling.id != @person.id %><br>
+<h4 class="subtitle has-text-grey-light">Siblings</h4>
+<div class="box">
+  <% unless @parents.empty? %>
+    <% @parents[0].people.each do |sibling| %>
+      <%= link_to sibling.name, person_path(sibling) if sibling.id != @person.id %><br>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
-<h4>Mate</h4>
-<%= link_to @mate.name, person_path(@mate) unless @mate.nil? %><br>
+<h4 class="subtitle has-text-grey-light">Mate</h4>
+<div class="box">
+  <%= link_to @mate.name, person_path(@mate) unless @mate.nil? %><br>
+</div>
 
-<h4>Children</h4>
-<% unless @children.nil? %>
-  <% @children.each do |child| %>
-    <%= link_to child.name, person_path(child) %><br>
+<h4 class="subtitle has-text-grey-light">Children</h4>
+  <div class="box">
+  <% unless @children.nil? %>
+    <% @children.each do |child| %>
+      <%= link_to child.name, person_path(child) %><br>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
 <br>
 
