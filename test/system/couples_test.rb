@@ -17,8 +17,8 @@ class CouplesTest < ApplicationSystemTestCase
     fill_in "Local", with: @couple.local
     fill_in "Marriage", with: @couple.marriage
     fill_in "Separation", with: @couple.separation
-    fill_in "Tree1", with: @couple.tree1_id
-    fill_in "Tree2", with: @couple.tree2_id
+    fill_in "Person1", with: @couple.person1_id
+    fill_in "Person2", with: @couple.person2_id
     click_on "Create Couple"
 
     assert_text "Couple was successfully created"
@@ -32,8 +32,8 @@ class CouplesTest < ApplicationSystemTestCase
     fill_in "Local", with: @couple.local
     fill_in "Marriage", with: @couple.marriage
     fill_in "Separation", with: @couple.separation
-    fill_in "Tree1", with: @couple.tree1_id
-    fill_in "Tree2", with: @couple.tree2_id
+    fill_in "Person1", with: @couple.person1_id
+    fill_in "Person2", with: @couple.person2_id
     click_on "Update Couple"
 
     assert_text "Couple was successfully updated"

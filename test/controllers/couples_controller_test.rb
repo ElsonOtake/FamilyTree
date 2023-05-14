@@ -17,7 +17,7 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create couple" do
     assert_difference("Couple.count") do
-      post couples_url, params: { couple: { local: @couple.local, marriage: @couple.marriage, separation: @couple.separation, tree1_id: @couple.tree1_id, tree2_id: @couple.tree2_id } }
+      post couples_url, params: { couple: { local: @couple.local, marriage: @couple.marriage, separation: @couple.separation, person1_id: @couple.person1_id, person2_id: @couple.person2_id } }
     end
 
     assert_redirected_to couple_url(Couple.last)
@@ -34,7 +34,7 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update couple" do
-    patch couple_url(@couple), params: { couple: { local: @couple.local, marriage: @couple.marriage, separation: @couple.separation, tree1_id: @couple.tree1_id, tree2_id: @couple.tree2_id } }
+    patch couple_url(@couple), params: { couple: { local: @couple.local, marriage: @couple.marriage, separation: @couple.separation, person1_id: @couple.person1_id, person2_id: @couple.person2_id } }
     assert_redirected_to couple_url(@couple)
   end
 

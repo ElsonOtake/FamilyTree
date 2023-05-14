@@ -66,6 +66,6 @@ class CouplesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def couple_params
-      params.require(:couple).permit(:tree1_id, :tree2_id, :marriage, :separation, :local)
+      params.require(:couple).permit(:person1_id, :person2_id, :marriage, :separation, :local)
     end
 end

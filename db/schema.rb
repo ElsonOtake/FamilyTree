@@ -36,8 +36,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_14_131948) do
   enable_extension "xml2"
 
   create_table "couples", force: :cascade do |t|
-    t.integer "tree1_id"
-    t.integer "tree2_id"
+    t.integer "person1_id"
+    t.integer "person2_id"
     t.date "marriage"
     t.date "separation"
     t.text "local"
@@ -45,14 +45,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_14_131948) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "couples_trees", id: false, force: :cascade do |t|
-    t.bigint "tree_id", null: false
+  create_table "couples_people", id: false, force: :cascade do |t|
+    t.bigint "person_id", null: false
     t.bigint "couple_id", null: false
-    t.index ["couple_id"], name: "index_couples_trees_on_couple_id"
-    t.index ["tree_id"], name: "index_couples_trees_on_tree_id"
+    t.index ["couple_id"], name: "index_couples_people_on_couple_id"
+    t.index ["person_id"], name: "index_couples_people_on_person_id"
   end
 
-  create_table "trees", force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.string "name"
     t.integer "gender"
     t.boolean "alive", default: true
