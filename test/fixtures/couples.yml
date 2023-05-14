@@ -1,15 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  tree1_id: 
-  tree2_id: 
+  person1_id: 
+  person2_id: 
   marriage: 2023-05-05
   separation: 2023-05-05
   local: MyText
 
 two:
-  tree1_id: 
-  tree2_id: 
+  person1_id: 
+  person2_id: 
   marriage: 2023-05-05
   separation: 2023-05-05
   local: MyText

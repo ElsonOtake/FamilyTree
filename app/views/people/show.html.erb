@@ -1,0 +1,33 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @person %>
+
+<h4>Parents</h4>
+<%= link_to @father.name, person_path(@father) unless @father.nil? %><br>
+<%= link_to @mother.name, person_path(@mother) unless @mother.nil? %><br>
+
+<h4>Siblings</h4>
+<% unless @parents.empty? %>
+  <% @parents[0].people.each do |sibling| %>
+    <%= link_to sibling.name, person_path(sibling) if sibling.id != @person.id %><br>
+  <% end %>
+<% end %>
+
+<h4>Mate</h4>
+<%= link_to @mate.name, person_path(@mate) unless @mate.nil? %><br>
+
+<h4>Children</h4>
+<% unless @children.nil? %>
+  <% @children.each do |child| %>
+    <%= link_to child.name, person_path(child) %><br>
+  <% end %>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Edit this person", edit_person_path(@person) %> |
+  <%= link_to "Back to people", people_path %>
+
+  <%#= button_to "Destroy this person", @person, method: :delete %>
+</div>

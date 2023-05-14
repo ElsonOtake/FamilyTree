@@ -1,0 +1,39 @@
+<div id="<%= dom_id person %>">
+  <p>
+    <strong>Name:</strong>
+    <%= person.name %>
+  </p>
+
+  <p>
+    <strong>gender:</strong>
+    <%= person.gender %>
+  </p>
+
+  <p>
+    <strong>Alive:</strong>
+    <%= person.alive %>
+  </p>
+
+  <% unless person.birth.nil? %>
+    <p>
+      <strong>Birth:</strong>
+      <%= person.birth %>
+      <%= distance_of_time_in_words(person.birth, Date.today) %>
+    </p>
+  <% end %>
+
+  <% unless person.death.nil? %>
+    <p>
+      <strong>Death:</strong>
+      <%= person.death %>
+    </p>
+  <% end %>
+
+  <% unless person.description.nil? %>
+    <p>
+      <%# <strong>description:</strong> %>
+      <%= person.description %>
+    </p>
+  <% end %>
+
+</div>
