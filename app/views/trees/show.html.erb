@@ -17,8 +17,10 @@
 <%= link_to @mate.name, tree_path(@mate) unless @mate.nil? %><br>
 
 <h4>Children</h4>
-<% @children.each do |child| %>
-  <%= link_to child.name, tree_path(child) %><br>
+<% unless @children.nil? %>
+  <% @children.each do |child| %>
+    <%= link_to child.name, tree_path(child) %><br>
+  <% end %>
 <% end %>
 
 <br>
