@@ -1,4 +1,5 @@
 <div id="<%= dom_id person %>">
+
   <p>
     <strong>Name:</strong>
     <%= person.name %>
@@ -6,7 +7,10 @@
 
   <p>
     <strong>gender:</strong>
-    <%= person.gender %>
+    <%= icon('fa-solid', 'mars') if person.gender == "M" %>
+    <%= icon('fa-solid', 'venus') if person.gender == "F" %>
+    <%= icon('fa-solid', 'mars-and-venus') if person.gender == "X" %>
+    <%= icon('fa-solid', 'dog') if person.gender == "P" %>
   </p>
 
   <p>
