@@ -2,14 +2,21 @@
 
 <h4 class="subtitle has-text-grey-light">Parents</h4>
 <div class="box">
-  <%= link_to @father.name, person_path(@father) unless @father.nil? %><br>
-  <%= link_to @mother.name, person_path(@mother) unless @mother.nil? %><br>
+  <% unless @father.nil? %>
+    <%= render "icon", variable: @father %>
+    <%= link_to @father.name, person_path(@father) %><br>
+  <% end %>
+  <% unless @mother.nil? %>
+    <%= render "icon", variable: @mother %>
+    <%= link_to @mother.name, person_path(@mother) %><br>
+  <% end %>
 </div>
 
 <h4 class="subtitle has-text-grey-light">Siblings</h4>
 <div class="box">
   <% unless @parents.empty? %>
     <% @parents[0].people.each do |sibling| %>
+      <%= render "icon", variable: sibling if sibling.id != @person.id %>
       <%= link_to sibling.name, person_path(sibling) if sibling.id != @person.id %><br>
     <% end %>
   <% end %>
@@ -17,6 +24,7 @@
 
 <h4 class="subtitle has-text-grey-light">Mate</h4>
 <div class="box">
+  <%= render "icon", variable: @mate %>
   <%= link_to @mate.name, person_path(@mate) unless @mate.nil? %><br>
 </div>
 
@@ -24,6 +32,7 @@
   <div class="box">
   <% unless @children.nil? %>
     <% @children.each do |child| %>
+      <%= render "icon", variable: child %>
       <%= link_to child.name, person_path(child) %><br>
     <% end %>
   <% end %>
