@@ -3,38 +3,84 @@
 <h4 class="subtitle has-text-grey-light">Parents</h4>
 <div class="box">
   <% unless @father.nil? %>
-    <%= render "icon", variable: @father %>
-    <%= link_to @father.name, person_path(@father) %><br>
-  <% end %>
-  <% unless @mother.nil? %>
-    <%= render "icon", variable: @mother %>
-    <%= link_to @mother.name, person_path(@mother) %><br>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <%= render "icon", variable: @father %>
+          </td>
+          <td>
+            <%= link_to @father.name, person_path(@father) %><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= render "icon", variable: @mother %>
+          </td>
+          <td>
+            <%= link_to @mother.name, person_path(@mother) %><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   <% end %>
 </div>
 
 <h4 class="subtitle has-text-grey-light">Siblings</h4>
 <div class="box">
   <% unless @parents.empty? %>
-    <% @parents[0].people.each do |sibling| %>
-      <%= render "icon", variable: sibling if sibling.id != @person.id %>
-      <%= link_to sibling.name, person_path(sibling) if sibling.id != @person.id %><br>
-    <% end %>
+    <table class="table">
+      <tbody>
+        <% @parents[0].people.each do |sibling| %>
+          <% if sibling.id != @person.id %>
+            <tr>
+              <td>
+                <%= render "icon", variable: sibling %>
+              </td>
+              <td>
+                <%= link_to sibling.name, person_path(sibling) %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
 </div>
 
 <h4 class="subtitle has-text-grey-light">Mate</h4>
 <div class="box">
-  <%= render "icon", variable: @mate %>
-  <%= link_to @mate.name, person_path(@mate) unless @mate.nil? %><br>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>
+          <%= render "icon", variable: @mate %>
+        </td>
+        <td>
+          <%= link_to @mate.name, person_path(@mate) unless @mate.nil? %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <h4 class="subtitle has-text-grey-light">Children</h4>
   <div class="box">
   <% unless @children.nil? %>
-    <% @children.each do |child| %>
-      <%= render "icon", variable: child %>
-      <%= link_to child.name, person_path(child) %><br>
-    <% end %>
+    <table class="table">
+      <tbody>
+        <% @children.each do |child| %>
+          <tr>
+            <td>
+              <%= render "icon", variable: child %>
+            </td>
+            <td>
+              <%= link_to child.name, person_path(child) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% end %>
 </div>
 
