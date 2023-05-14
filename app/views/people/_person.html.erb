@@ -1,43 +1,44 @@
-<div id="<%= dom_id person %>">
+<div id="<%= dom_id person %>" class="box">
+  <div class="card-content">
+    <div class="media block">
+      <div class="media-left">
+        <figure class="image is-48x48">
+          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="media-content">
+        <p class="title is-4">
+          <%= person.name %>
+          <span>
+            <%= icon('fa-solid', 'mars', class: "has-text-info") if person.gender == "M" %>
+            <%= icon('fa-solid', 'venus', class: "has-text-danger") if person.gender == "F" %>
+            <%= icon('fa-solid', 'mars-and-venus', class: "has-text-primary") if person.gender == "X" %>
+            <%= icon('fa-solid', 'dog', class: "has-text-warning") if person.gender == "P" %>
+          </span>
+        </p>
+        <%# <p class="subtitle is-6">@johnsmith</p> %>
+      </div>
+    </div>
 
-  <p>
-    <strong>Name:</strong>
-    <%= person.name %>
-  </p>
+    <div class="content">
+      
+      <% if !person.birth.nil? && !person.death.nil? %>
+        <%= "Faleceu em #{person.death.strftime('%d de %B de %Y')} aos #{((person.death - person.birth)/365.25).to_i} anos de idade" %><br>
+      <% elsif person.birth.nil? && !person.death.nil? %>
+        <%= "Faleceu em #{person.death.strftime('%d de %B de %Y')}" %>
+      <% elsif !person.birth.nil? %>
+        <%= "#{((Date.today - person.birth)/365.25).to_i} anos de idade" %><br>
+      <% end %>
+      <% if !person.birth.nil? %>
+        <%= "Aniversário: #{person.birth.strftime('%d/%B')}" %>
+      <% end %>
 
-  <p>
-    <strong>gender:</strong>
-    <%= icon('fa-solid', 'mars', class: "has-text-info") if person.gender == "M" %>
-    <%= icon('fa-solid', 'venus', class: "has-text-danger") if person.gender == "F" %>
-    <%= icon('fa-solid', 'mars-and-venus', class: "has-text-primary") if person.gender == "X" %>
-    <%= icon('fa-solid', 'dog', class: "has-text-warning") if person.gender == "P" %>
-  </p>
-
-  <p>
-    <strong>Alive:</strong>
-    <%= person.alive %>
-  </p>
-
-  <% unless person.birth.nil? %>
-    <p>
-      <strong>Birth:</strong>
-      <%= person.birth %>
-      <%= distance_of_time_in_words(person.birth, Date.today) %>
-    </p>
-  <% end %>
-
-  <% unless person.death.nil? %>
-    <p>
-      <strong>Death:</strong>
-      <%= person.death %>
-    </p>
-  <% end %>
-
-  <% unless person.description.nil? %>
-    <p>
-      <%# <strong>description:</strong> %>
-      <%= person.description %>
-    </p>
-  <% end %>
-
+      <% unless person.description.nil? %>
+        <br><br>
+        <p>
+          <%= person.description %>
+        </p>
+      <% end %>
+    </div>
+  </div>
 </div>
