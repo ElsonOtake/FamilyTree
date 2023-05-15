@@ -1,12 +1,20 @@
-<h1>People</h1>
+<h1>Family Tree</h1>
 
 <div id="people">
-  <% @people.each do |person| %>
-    <%= render person %>
-    <p>
-      <%= link_to "Show this person", person %>
-    </p>
-  <% end %>
+  <table class="table">
+    <tbody>
+      <% @people.each do |person| %>
+        <tr>
+          <td>
+            <%= render "icon", variable: person %>
+          </td>
+          <td>
+            <%= link_to person.name, person_path(person) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 
 <%= link_to "New person", new_person_path %>
