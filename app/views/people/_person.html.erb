@@ -13,7 +13,9 @@
             <%= render "icon", variable: person %>
           </span>
         </p>
-        <%# <p class="subtitle is-6">@johnsmith</p> %>
+        <% unless person.kanji.nil? %>
+          <p class="subtitle is-6"><%= person.kanji %></p>
+        <% end %>
       </div>
     </div>
 
