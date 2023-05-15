@@ -50,18 +50,20 @@
 
 <h4 class="subtitle has-text-grey-light">Mate</h4>
 <div class="box">
-  <table class="table">
-    <tbody>
-      <tr>
-        <td>
-          <%= render "icon", variable: @mate %>
-        </td>
-        <td>
-          <%= link_to @mate.name, person_path(@mate) unless @mate.nil? %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <% unless @mate.nil? %>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <%= render "icon", variable: @mate %>
+          </td>
+          <td>
+            <%= link_to @mate.name, person_path(@mate) unless @mate.nil? %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
 </div>
 
 <h4 class="subtitle has-text-grey-light">Children</h4>
