@@ -30,8 +30,10 @@ class PeopleController < ApplicationController
     if !couple.empty?
       couple.each do |mate|
         @mate << Person.find(mate.person1_id) unless mate.person1_id == @person.id
-        @mate << Person.find(mate.person2_id) unless mate.person2_id != @person.id
-        @children << mate.people
+        @mate << Person.find(mate.person2_id) unless mate.person2_id == @person.id
+        mate.people.each do |child|
+          @children << child
+        end
       end
     end
   end
