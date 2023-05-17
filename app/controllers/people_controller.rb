@@ -24,17 +24,16 @@ class PeopleController < ApplicationController
       end
     end
       
+    @mate = []
+    @children = []
     couple = Couple.where(person1_id: @person).or(Couple.where(person2_id: @person))
-    if couple.empty?
-      @mate = nil
-      @children = nil
-    else
-      @mate = Person.find(couple[0].person1_id) if couple[0].person1_id != @person.id
-      @mate = Person.find(couple[0].person2_id) if couple[0].person2_id != @person.id
-      @children = couple[0].people
+    if !couple.empty?
+      couple.each do |mate|
+        @mate << Person.find(mate.person1_id) unless mate.person1_id == @person.id
+        @mate << Person.find(mate.person2_id) unless mate.person2_id != @person.id
+        @children << mate.people
+      end
     end
-
-
   end
 
   # GET /people/new
