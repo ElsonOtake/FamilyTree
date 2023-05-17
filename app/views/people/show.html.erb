@@ -50,17 +50,19 @@
 
 <h4 class="subtitle has-text-grey-light">Mate</h4>
 <div class="box">
-  <% unless @mate.nil? %>
+  <% unless @mate.empty? %>
     <table class="table">
       <tbody>
-        <tr>
-          <td>
-            <%= render "icon", variable: @mate %>
-          </td>
-          <td>
-            <%= link_to @mate.name, person_path(@mate) unless @mate.nil? %>
-          </td>
-        </tr>
+        <% @mate.each do |partner| %>
+          <tr>
+            <td>
+              <%= render "icon", variable: partner %>
+            </td>
+            <td>
+              <%= link_to partner.name, person_path(partner) %>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   <% end %>
@@ -68,7 +70,7 @@
 
 <h4 class="subtitle has-text-grey-light">Children</h4>
   <div class="box">
-  <% unless @children.nil? %>
+  <% unless @children.empty? %>
     <table class="table">
       <tbody>
         <% @children.each do |child| %>
