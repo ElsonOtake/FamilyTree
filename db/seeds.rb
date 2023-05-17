@@ -546,7 +546,7 @@ unless Person.any?
   Person.create(name: 'Naoshi Konno', gender: 'M', alive: true, birth: '1940-1-1',
     description: 'Conhecido somente o ano de nascimento. Dia e mês chutado.')
   Person.create(name: 'Hermenegildo Gonçalo da Silva', gender: 'M', alive: true, birth: '1966-1-8')
-  Person.create(name: 'Lilian Hiromi Job', gender: 'F', alive: true, birth: '1976-11-14')
+  Person.create(name: 'Lilian Hiromi Job', gender: 'F', alive: true, birth: '1976-11-14', kanji: '城 裕美')
   Person.create(name: 'Luna', gender: 'P', alive: true, birth: '2012-10-21')
   Person.create(name: 'Alice Tieco Todaki', gender: 'F', alive: true, birth: '1962-1-10')
   Person.create(name: 'Aroldo Yukio Todaki', gender: 'M', alive: true, birth: '1964-8-24',
