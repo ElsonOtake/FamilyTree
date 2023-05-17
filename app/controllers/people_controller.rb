@@ -4,8 +4,8 @@ class PeopleController < ApplicationController
 
   # GET /people or /people.json
   def index
-    first = Person.select("upper(left(name, 1)) initial").distinct.order(:initial)
-    @people = Person.where('name like ?', "#{first[0].initial}%").order(:name)
+    @first = Person.select("upper(left(name, 1)) initial").distinct.order(:initial)
+    @people = Person.where('name like ?', "#{@first[0].initial}%").order(:name)
   end
 
   # GET /people/1 or /people/1.json

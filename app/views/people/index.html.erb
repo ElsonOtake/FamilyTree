@@ -1,5 +1,9 @@
 <h1>Family Tree</h1>
 
+<% @first.each do |letter| %>
+  <span><a class="button is-small"><%= letter.initial %></a></span>
+<% end %>
+
 <div id="people">
   <table class="table">
     <tbody>
