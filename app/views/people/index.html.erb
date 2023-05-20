@@ -2,7 +2,11 @@
 
 <div class="buttons are-small box">
   <% @first.each do |letter| %>
-    <%= link_to letter.initial, nil, class: "button is-rounded" %>
+    <% if letter.initial == "A" %>
+      <%= link_to letter.initial, nil, class: "button is-rounded is-info is-selected" %>
+    <% else %>
+      <%= link_to letter.initial, nil, class: "button is-rounded" %>
+    <% end %>
   <% end %>
 </div>
 
