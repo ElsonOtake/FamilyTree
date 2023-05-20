@@ -10,11 +10,7 @@
 </div>
 
 <ul id="people" class="box">
-  <% @people.each do |person| %>
-    <li class="mb-2">
-      <%= render "icon", variable: person %><%= link_to person.name, person_path(person) %>
-    </li>
-  <% end %>
+  <%= render "people/list", people: @people %>
 </ul>
 
 <%#= link_to "New person", new_person_path %>
