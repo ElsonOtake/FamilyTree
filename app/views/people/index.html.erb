@@ -2,11 +2,10 @@
 
 <div class="buttons are-small box">
   <% @first.each do |letter| %>
-    <% if letter.initial == "A" %>
-      <%= link_to letter.initial, nil, class: "button is-rounded is-info is-selected" %>
-    <% else %>
-      <%= link_to letter.initial, nil, class: "button is-rounded" %>
-    <% end %>
+    <%= form_with url: search_users_first_letter_path, method: :post do |form| %>
+      <%= form.hidden_field :letter, value: letter.initial %>
+      <%= form.submit letter.initial, class: "button is-rounded" %>
+    <% end  %>
   <% end %>
 </div>
 
