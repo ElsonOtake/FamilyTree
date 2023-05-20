@@ -1,5 +1,7 @@
+<%= turbo_frame_tag "list" do %>
   <% people.each do |person| %>
     <li class="mb-2">
-      <%= render "icon", variable: person %><%= link_to person.name, person_path(person) %>
+      <%= render "people/icon", variable: person %><%= link_to person.name, person_path(person) %>
     </li>
   <% end %>
+<% end %>
