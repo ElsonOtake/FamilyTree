@@ -1,18 +1,37 @@
 <h1 class="title has-text-info">Family Tree</h1>
 
-<div class="buttons are-small box">
-  <% @first.each do |letter| %>
-    <%= form_with url: search_users_first_letter_path, method: :post do |form| %>
-      <%= form.hidden_field :letter, value: letter.initial %>
-      <%= form.submit letter.initial,
-        data: {
-          controller: "stimulus",
-          action: "stimulus#select"
-        },
-        class: "first-letter-button button is-rounded"
-      %>
+<p class="has-text-link has-text-weight-semibold">Search by</p>
+<div class="box">
+  <p class="has-text-link has-text-weight-semibold">Name</p>
+  <div class="box">
+    <%= form_with url: search_users_name_path, method: :post do |form| %>
+      <div class="field has-addons">
+        <div class="control">
+          <%= form.text_field :name, class: "input is-info is-rounded", placeholder: "Search by name" %>
+        </div>
+
+        <div class="control">
+          <%= form.submit "Search", class: "button is-info is-rounded" %>
+        </div>
+      </div>
     <% end  %>
-  <% end %>
+  </div>
+
+  <p class="has-text-link has-text-weight-semibold">Initial</p>
+  <div class="buttons are-small box">
+    <% @first.each do |letter| %>
+      <%= form_with url: search_users_first_letter_path, method: :post do |form| %>
+        <%= form.hidden_field :letter, value: letter.initial %>
+        <%= form.submit letter.initial,
+          data: {
+            controller: "stimulus",
+            action: "stimulus#select"
+          },
+          class: "first-letter-button button is-rounded"
+        %>
+      <% end  %>
+    <% end %>
+  </div>
 </div>
 
 <ul id="people" class="box">
