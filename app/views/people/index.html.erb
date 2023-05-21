@@ -4,7 +4,13 @@
   <% @first.each do |letter| %>
     <%= form_with url: search_users_first_letter_path, method: :post do |form| %>
       <%= form.hidden_field :letter, value: letter.initial %>
-      <%= form.submit letter.initial, class: "button is-rounded" %>
+      <%= form.submit letter.initial,
+        data: {
+          controller: "stimulus",
+          action: "stimulus#select"
+        },
+        class: "first-letter-button button is-rounded"
+      %>
     <% end  %>
   <% end %>
 </div>
