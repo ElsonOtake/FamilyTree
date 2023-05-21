@@ -19,16 +19,28 @@
 
   <p class="has-text-link has-text-weight-semibold">Initial</p>
   <div class="buttons are-small box">
+    <% first_one = true %>
     <% @first.each do |letter| %>
       <%= form_with url: search_users_first_letter_path, method: :post do |form| %>
         <%= form.hidden_field :letter, value: letter.initial %>
-        <%= form.submit letter.initial,
-          data: {
-            controller: "stimulus",
-            action: "stimulus#select"
-          },
-          class: "first-letter-button button is-rounded"
-        %>
+        <% if first_one %>
+          <%= form.submit letter.initial,
+            data: {
+              controller: "stimulus",
+              action: "stimulus#select"
+            },
+            class: "first-letter-button button is-rounded is-info"
+          %>
+          <% first_one = false %>
+        <% else %>
+          <%= form.submit letter.initial,
+            data: {
+              controller: "stimulus",
+              action: "stimulus#select"
+            },
+            class: "first-letter-button button is-rounded"
+          %>
+        <% end %>
       <% end  %>
     <% end %>
   </div>
