@@ -4,6 +4,6 @@ class Search::UsersController < ApplicationController
   end
   
   def name
-
+    @people = Person.where('lower(name) like ?', "%#{params[:name].downcase}%").order(:name)
   end
 end
