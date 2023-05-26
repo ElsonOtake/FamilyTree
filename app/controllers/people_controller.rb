@@ -16,11 +16,11 @@ class PeopleController < ApplicationController
       @mother = nil
     else
       if Person.find(@parents[0].person1_id).gender = "M"
-        @father = Person.find(@parents[0].person2_id)
-        @mother = Person.find(@parents[0].person1_id)
-      else
         @father = Person.find(@parents[0].person1_id)
         @mother = Person.find(@parents[0].person2_id)
+      else
+        @father = Person.find(@parents[0].person2_id)
+        @mother = Person.find(@parents[0].person1_id)
       end
     end
       
