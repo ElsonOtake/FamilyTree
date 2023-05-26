@@ -272,7 +272,7 @@ unless Person.any?
     kanji: '山崎 宗直', description: 'Toyama. Entrada em Santos no Brasil em 03 de maio de 1932 no navio Santos Maru')
   Person.create(name: 'Soichiro Yamasaki', gender: 'M', alive: false, birth: '1907-4-10', death: '1969-6-14',
     kanji: '山崎 宗一郎', description: 'Tokyo. Entrada em Santos no Brasil em 03 de maio de 1932 no navio Santos Maru')
-  Person.create(name: 'Yoshie Sakamoto', gender: 'F', alive: false, birth: '1925-2-7', death: '1962-2-16',
+  Person.create(name: 'Yoshie Sakamoto', gender: 'F', alive: false, birth: '1925-2-7', death: '1961-2-16',
     kanji: '近藤 芳江', description: 'Fukuoka. Chegada em Santos/SP 01/10/1934 no navio La Plata Maru')
   Person.create(name: 'Yasuo Shimada', gender: 'M', alive: false, birth: '1929-9-4', death: '1972-1-25')
   Person.create(name: 'Mikiji Missu', gender: 'M', alive: true, birth: '1928-8-4',
@@ -1460,7 +1460,7 @@ unless Person.any?
     kanji: '近藤 ハツミ', description: 'Fukuoka. Chegada em Santos/SP 01/10/1934 no navio La Plata Maru. Família Ogata')
   Person.create(name: 'Sumie Kondo', gender: 'F', alive: false, birth: '1928-8-19',
     kanji: '近藤 すみゑ', description: 'Fukuoka. Chegada em Santos/SP 01/10/1934 no navio La Plata Maru')
-  Person.create(name: 'Chikae Kondo', gender: 'F', alive: false, birth: '1931-2-18',
+  Person.create(name: 'Chikae Waragai', gender: 'F', alive: false, birth: '1931-2-18',
     kanji: '近藤 近江', description: 'Fukuoka. Chegada em Santos/SP 01/10/1934 no navio La Plata Maru')
   Person.create(name: 'Akira Kondo', gender: 'M', alive: false, birth: '1922-1-10',
     kanji: '近藤 晟', description: 'Fukuoka. Chegada em Santos/SP 01/10/1934 no navio La Plata Maru. Adotado')
@@ -1478,6 +1478,11 @@ unless Person.any?
   Person.create(name: 'Ryan Cunico Otake', gender: 'M', alive: true, birth: '2018-8-17')
   Person.create(name: 'Bryan Cunico Otake', gender: 'M', alive: true, birth: '2020-11-25')
   Person.create(name: 'Arielly da Silva Otake', gender: 'F', alive: true, birth: '1996-12-14')
+  Person.create(name: 'Elio Tadashi Kazihara', gender: 'M', alive: true)
+  Person.create(name: 'Tatsugoro Waragai', gender: 'M', alive: false, birth: '1921-8-10',
+    description: 'Fukushima')
+  Person.create(name: 'Sanju Waragai', gender: 'M', alive: false)
+  Person.create(name: 'Gin Waragai', gender: 'F', alive: false)
 end
 
 unless Couple.any?
@@ -1813,6 +1818,9 @@ unless Couple.any?
   Couple.create(person1_id: 91, person2_id: 1031)
   Couple.create(person1_id: 91, person2_id: 1033)
   Couple.create(person1_id: 90, person2_id: 1036)
+  Couple.create(person1_id: 387, person2_id: 1037, marriage: '2023-05-22')
+  Couple.create(person1_id: 1021, person2_id: 1038, marriage: '1954-1-2')
+  Couple.create(person1_id: 1039, person2_id: 1040)
 
   Couple.find(2).people << Person.find(1)
   Couple.find(7).people << Person.find(4)
@@ -2520,4 +2528,5 @@ unless Couple.any?
   Couple.find(330).people << Person.find(1032)
   Couple.find(331).people << Person.find(1034)
   Couple.find(331).people << Person.find(1035)
+  Couple.find(335).people << Person.find(1038)
 end
