@@ -9,16 +9,14 @@
       <div class="media-content">
         <p class="title is-4">
           <%= person.name %>
-          <span>
-            <%= render "icon", variable: person %>
-          </span>
+          <%= render "icon", variable: person %>
+          <%= link_to icon('fa-solid fa-xs', 'pen', class: 'has-text-cyan'),
+            edit_person_path(person)   
+          %>
         </p>
         <% unless person.kanji.nil? %>
           <p class="subtitle is-6"><%= person.kanji %></p>
         <% end %>
-        <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
-          edit_person_path(person)   
-        %>
       </div>
     </div>
 
