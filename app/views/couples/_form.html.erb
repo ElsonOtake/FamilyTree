@@ -10,33 +10,47 @@
       </ul>
     </div>
   <% end %>
+  <div class="columns">
+    <div class="field column">
+      <%= form.label :person1_id, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.text_field :person1_id, class: "input" %>
+      </div>
+    </div>
 
-  <div>
-    <%= form.label :person1_id, style: "display: block" %>
-    <%= form.text_field :person1_id %>
+    <div class="field column">
+      <%= form.label :person2_id, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.text_field :person2_id, class: "input" %>
+      </div>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="field column">
+      <%= form.label :marriage, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.date_field :marriage, class: "input" %>
+      </div>
+      <p class="help is-info">mm/dd/yyyy</p>
+    </div>
+
+    <div class="field column">
+      <%= form.label :separation, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.date_field :separation, class: "input" %>
+      </div>
+      <p class="help is-info">mm/dd/yyyy</p>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :person2_id, style: "display: block" %>
-    <%= form.text_field :person2_id %>
+  <div class="field">
+    <%= form.label :local, style: "display: block", class: "label" %>
+    <div class="control">
+      <%= form.text_area :local, class: "input" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :marriage, style: "display: block" %>
-    <%= form.date_field :marriage %>
-  </div>
-
-  <div>
-    <%= form.label :separation, style: "display: block" %>
-    <%= form.date_field :separation %>
-  </div>
-
-  <div>
-    <%= form.label :local, style: "display: block" %>
-    <%= form.text_area :local %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="control">
+    <%= form.submit class: "button is-link is-light" %>
   </div>
 <% end %>
