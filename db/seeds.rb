@@ -20,10 +20,10 @@ unless Person.any?
     kanji: '大竹 坂本 幸枝', description: 'Natural de Pompéia/SP')
   Person.create(name: 'Tetuo Nakabaiashi Sakamoto', gender: 'M', alive: true, birth: '1944-3-10',
     description: 'Natural de Paulópolis/SP')
-  Person.create(name: 'Armando Masao Sakamoto', gender: 'M', alive: false, birth: '1947-7-27', death: '2017-4-26',
+  Person.create(name: 'Armando Massao Sakamoto', gender: 'M', alive: false, birth: '1947-7-27', death: '2017-4-26',
     description: 'Natural de Paulópolis SP')
   Person.create(name: 'Julio Minor Sakamoto', gender: 'M', alive: true, birth: '1950-10-10')
-  Person.create(name: 'Yoriko Ueno', gender: 'F', alive: true, birth: '1950-10-10')
+  Person.create(name: 'Helena Yoriko Ueno', gender: 'F', alive: true, birth: '1950-10-10')
   Person.create(name: 'Emilia Setuko Sakamoto', gender: 'F', alive: true, birth: '1952-4-29')
   Person.create(name: 'Alice Sakamoto', gender: 'F', alive: false, birth: '1956-7-26')
   Person.create(name: 'Marina Sakamoto', gender: 'F', alive: false, birth: '1958-1-11', death: '1998-5-10')
@@ -82,16 +82,16 @@ unless Person.any?
   Person.create(name: 'Eiko Cristina Otake', gender: 'F', alive: false, birth: '1959-9-22', death: '1995-1-30')
   Person.create(name: 'Francisco Fernando Otake', gender: 'M', alive: true, birth: '1968-5-26')
   Person.create(name: 'Tikashi Sakamoto', gender: 'M', alive: false, kanji: '坂本 近至')
-  Person.create(name: 'Asa Yamasaki', gender: 'F', alive: false, birth: '1914-2-28', death: '1986-12-28',
+  Person.create(name: 'Asa Yamazaki', gender: 'F', alive: false, birth: '1914-2-28', death: '1986-12-28',
     kanji: 'あさ', description: 'Yamanashi. Entrada em Santos no Brasil em 27 de junho de 1932 no navio Manila Maru')
-  Person.create(name: 'Tani Yamasaki', gender: 'F', alive: false, birth: '1916-2-10',
+  Person.create(name: 'Tani Yamazaki', gender: 'F', alive: false, birth: '1916-2-10',
     kanji: 'たに', description: 'Yamanashi. Entrada em Santos no Brasil em 27 de junho de 1932 no navio Manila Maru')
   Person.create(name: 'Rikizo Sakamoto', gender: 'M', alive: false, birth: '1920-11-28', death: '1990-12-13',
     kanji: '坂本 力三', description: 'Yamanashi. Entrada em Santos no Brasil em 27 de junho de 1932 no navio Manila ' \
     'Maru. Faleceu em Diadema/SP')
   Person.create(name: 'Yoshio Sakamoto', gender: 'M', alive: false, birth: '1923-3-30', death: '2003-6-11',
     kanji: '坂本 善夫', description: 'Yamanashi. Entrada em Santos no Brasil em 27 de junho de 1932 no navio Manila Maru')
-  Person.create(name: 'Toshio Sakamoto', gender: 'M', alive: false, birth: '1926-5-15', death: '1958-7-31',
+  Person.create(name: 'Toshio Sakamoto', gender: 'M', alive: false, birth: '1926-5-14', death: '1958-7-31',
     kanji: '坂本 俊雄', description: 'Yamanashi. Entrada em Santos no Brasil em 27 de junho de 1932 no navio Manila ' \
     'Maru. Morreu na obra de construção da av 9 de Julho.')
   Person.create(name: 'Michio Sakamoto', gender: 'M', alive: true, birth: '1928-5-5',
@@ -266,11 +266,11 @@ unless Person.any?
   Person.create(name: 'Sandra Regina Otake', gender: 'F', alive: true, birth: '1967-9-20')
   Person.create(name: 'Yoshio Otake', gender: 'F', alive: false, birth: '1904-3-30',
     kanji: '大竹 よしお', description: 'Gifu. Entrada em Santos no Brasil em 01 de Setembro de 1927 no navio Manila Maru')
-  Person.create(name: 'Tomihide Sakamoto', gender: 'M', alive: false, birth: '1930-4-19',
+  Person.create(name: 'Tomihide Sakamoto', gender: 'M', alive: false, birth: '1930-4-19', death: '1932-7-29',
     kanji: '坂本 富英', description: 'Yamanashi. Entrada em Santos no Brasil em 27 de junho de 1932 no navio Manila Maru')
-  Person.create(name: 'Munenao Yamasaki', gender: 'M', alive: false, birth: '1910-6-22', death: '1967-10-27',
+  Person.create(name: 'Munenawo Yamazaki', gender: 'M', alive: false, birth: '1910-6-22', death: '1967-10-27',
     kanji: '山崎 宗直', description: 'Toyama. Entrada em Santos no Brasil em 03 de maio de 1932 no navio Santos Maru')
-  Person.create(name: 'Soichiro Yamasaki', gender: 'M', alive: false, birth: '1907-4-10', death: '1969-6-14',
+  Person.create(name: 'Soichiro Yamazaki', gender: 'M', alive: false, birth: '1907-4-10', death: '1969-6-14',
     kanji: '山崎 宗一郎', description: 'Tokyo. Entrada em Santos no Brasil em 03 de maio de 1932 no navio Santos Maru')
   Person.create(name: 'Yoshie Sakamoto', gender: 'F', alive: false, birth: '1925-2-7', death: '1961-2-16',
     kanji: '近藤 芳江', description: 'Fukuoka. Chegada em Santos/SP 01/10/1934 no navio La Plata Maru')
@@ -324,40 +324,40 @@ unless Person.any?
   Person.create(name: 'Takeshi Nakabayashi', gender: 'M', alive: false, description: 'Morreu de difteria')
   Person.create(name: 'Takemi Nakabayashi', gender: 'M', alive: false, description: 'Morreu de difteria')
   Person.create(name: 'Yoko Kondo', gender: 'F', alive: true)
-  Person.create(name: 'Wilson Eiji Sakamoto', gender: 'M', alive: true)
-  Person.create(name: 'Nelson Takeshi Sakamoto', gender: 'M', alive: true)
+  Person.create(name: 'Wilson Eidi Sakamoto', gender: 'M', alive: true, birth: '1957-10-7', description: 'Dracena')
+  Person.create(name: 'Nelson Takeshi Sakamoto', gender: 'M', alive: true, birth: '1958-11-2', description: 'Dracena')
   Person.create(name: 'Alice Mizue Sakamoto', gender: 'F', alive: true)
   Person.create(name: 'Milton Tsuyoshi Sakamoto', gender: 'M', alive: true)
   Person.create(name: 'Sérgio Koji Sakamoto', gender: 'M', alive: true)
-  Person.create(name: 'Tomiko Sakamoto', gender: 'F', alive: true)
+  Person.create(name: 'Tomi Sekito Sakamoto', gender: 'F', alive: true, birth: '1931-6-12', description: 'Iguape/SP')
   Person.create(name: 'Emiko', gender: 'F', alive: true)
-  Person.create(name: 'Seichi Sakamoto', gender: 'M', alive: true)
-  Person.create(name: 'Luiz Yoji Sakamoto', gender: 'M', alive: true, birth: '1947-10-1')
+  Person.create(name: 'Seyishi Sakamoto', gender: 'M', alive: true, birth: '1945-6-1')
+  Person.create(name: 'Luiz Riyoji Sakamoto', gender: 'M', alive: true, birth: '1947-10-1', description: 'Oswaldo Cruz')
   Person.create(name: 'Moriyaki Sakamoto', gender: 'M', alive: true)
-  Person.create(name: 'Teruko Sakamoto', gender: 'F', alive: true)
-  Person.create(name: 'Haruko Sakamoto', gender: 'F', alive: true)
-  Person.create(name: 'Marie Sakamoto', gender: 'F', alive: true)
+  Person.create(name: 'Teruko Maruo Sakamoto', gender: 'F', alive: true, birth: '1924-8-4', description: 'Fukuoka')
+  Person.create(name: 'Haruko Fujisawa', gender: 'F', alive: true)
+  Person.create(name: 'Marie Sakamoto', gender: 'F', alive: true, birth: '1955-3-12', description: 'Panorama')
   Person.create(name: 'Osamu Sakamoto', gender: 'M', alive: true)
-  Person.create(name: 'Junji Sakamoto', gender: 'M', alive: true)
-  Person.create(name: 'Satoru Sakamoto', gender: 'M', alive: true)
-  Person.create(name: 'Hiroko Sakamoto', gender: 'F', alive: true)
+  Person.create(name: 'Junji Sakamoto', gender: 'M', alive: true, birth: '1960-6-5', description: 'Panorama')
+  Person.create(name: 'Satoru Sakamoto', gender: 'M', alive: true, birth: '1957-6-6', description: 'Panorama')
+  Person.create(name: 'Hiroko Sakamoto', gender: 'F', alive: true, birth: '1963-9-12', description: 'Panorama')
   Person.create(name: 'Elina Sakamoto', gender: 'F', alive: true)
-  Person.create(name: 'Atsuko Yamamoto', gender: 'F', alive: true)
+  Person.create(name: 'Atsuko Yamamoto', gender: 'F', alive: true, birth: '1966-5-7', description: 'Panorama')
   Person.create(name: 'Soji Yamazaki', gender: 'M', alive: true)
   Person.create(name: 'Emiko', gender: 'F', alive: true)
   Person.create(name: 'Emi', gender: 'F', alive: true)
   Person.create(name: 'Fabio Eiji Yamazaki', gender: 'M', alive: true)
-  Person.create(name: 'Marie Sato', gender: 'F', alive: true)
+  Person.create(name: 'Marie Sato', gender: 'F', alive: true, birth: '1952-8-6', description: 'São Paulo/SP')
   Person.create(name: 'Nelson Sato', gender: 'M', alive: true)
   Person.create(name: 'Wiliam Hiroshi Sato', gender: 'M', alive: true)
   Person.create(name: 'Wellington Hitoshi Sato', gender: 'M', alive: true)
-  Person.create(name: 'Tomoko Yoshii Yamazaki', gender: 'F', alive: true, birth: '1934-8-22')
+  Person.create(name: 'Tomoko Yoshii Yamazaki', gender: 'F', alive: true, birth: '1934-8-21')
   Person.create(name: 'Masaaki Yoshii', gender: 'M', alive: false, birth: '1932-8-18', death: '1997-11-26')
   Person.create(name: 'Edson Yoshii', gender: 'M', alive: true, birth: '1961-4-30')
   Person.create(name: 'Rosemaly Naomi Tabuti', gender: 'F', alive: true, birth: '1969-2-5')
-  Person.create(name: 'Naokatsu Yamazaki', gender: 'M', alive: true, birth: '1936-2-5',
-    kanji: '直勝', description: 'Registrado como Naomatsu')
-  Person.create(name: 'Ayako Kurasa Yamazaki', gender: 'F', alive: false, birth: '1941-4-21', death: '1992-11-27')
+  Person.create(name: 'Naomatsu Yamazaki', gender: 'M', alive: true, birth: '1936-2-5',
+    kanji: '直勝', description: 'Guarujá/SP. Naokatsu')
+  Person.create(name: 'Ayaka Yamazaki', gender: 'F', alive: false, birth: '1941-4-21', death: '1992-11-27', description: 'Descalvado')
   Person.create(name: 'Reimi Yamazaki', gender: 'F', alive: true, birth: '1969-8-2')
   Person.create(name: 'Meire Yamazaki', gender: 'F', alive: true)
   Person.create(name: 'Erica Yamazaki', gender: 'F', alive: true)
@@ -373,7 +373,7 @@ unless Person.any?
   Person.create(name: 'Mitio Nakamura', gender: 'M', alive: false, birth: '1935-1-1', death: '1991-3-1',
     description: 'Conhecido somente o ano de nascimento e falecimento. Dia e mês chutado.')
   Person.create(name: 'Gilberto Shigeru Nakamura', gender: 'M', alive: true)
-  Person.create(name: 'Elisabete Nakamura Kagohara', gender: 'F', alive: true)
+  Person.create(name: 'Elisabeth Nakamura Kagohara', gender: 'F', alive: true, birth: '1971-1-24')
   Person.create(name: 'Janete Asami Sato', gender: 'F', alive: true)
   Person.create(name: 'Fumi Nakabayashi', gender: 'F', alive: false, birth: '1921-5-28',
     kanji: '田中 フミ', description: 'Hokkaido. Entrada em Santos/SP em 03/02/1933 no navio Buenos Aires Maru')
@@ -1376,7 +1376,7 @@ unless Person.any?
   Person.create(name: 'Kauane Otake Ribeiro da Silva', gender: 'F', alive: true, birth: '2001-6-4')
   Person.create(name: 'Larissa Bini Garcia Otake', gender: 'F', alive: true, birth: '2010-1-20')
   Person.create(name: 'Gabriella Duarte Ribeiro Silva', gender: 'F', alive: true, birth: '2003-6-1')
-  Person.create(name: 'Yuji Sakamoto', gender: 'M', alive: true)
+  Person.create(name: 'Yuji Sakamoto', gender: 'M', alive: true, birth: '1968-8-18', description: 'Panorama')
   Person.create(name: 'Eduardo Nakabayashi', gender: 'M', alive: true)
   Person.create(name: 'Elaine', gender: 'F', alive: true)
   Person.create(name: 'Manu', gender: 'F', alive: true)
@@ -1386,7 +1386,7 @@ unless Person.any?
   Person.create(name: 'Mônica', gender: 'F', alive: true)
   Person.create(name: 'Katia Maeda Kanoski', gender: 'F', alive: true, description: 'Família Kanosuke')
   Person.create(name: 'Amanda', gender: 'F', alive: true)
-  Person.create(name: 'Alberto Nakamura', gender: 'M', alive: true)
+  Person.create(name: 'Alberto Nakamura', gender: 'M', alive: true, birth: '1975-10-31', description: 'São Paulo/SP')
   Person.create(name: 'Shigeo Yamazaki', gender: 'M', alive: true)
   Person.create(name: 'Ekizo Nakao', gender: 'M', alive: false, birth: '1879-1-1',
     kanji: '中尾 易藏', description: 'Saga. Entrada em Santos/SP em 31/08/1925 no navio Kawachi Maru. ' \
@@ -1466,7 +1466,7 @@ unless Person.any?
     kanji: '近藤 晟', description: 'Fukuoka. Chegada em Santos/SP 01/10/1934 no navio La Plata Maru. Adotado')
   Person.create(name: 'Mitinoiti Kondo', gender: 'M', alive: false)
   Person.create(name: 'Torano Kondo', gender: 'F', alive: false)
-  Person.create(name: 'Tomekiti Ogata', gender: 'M', alive: false)
+  Person.create(name: 'Tamekichi Ogata', gender: 'M', alive: false)
   Person.create(name: 'Kikuno Ogata', gender: 'F', alive: false)
   Person.create(name: 'Claudio Teles Filho', gender: 'M', alive: true, birth: '1987-4-2')
   Person.create(name: 'Desconhecido Juliana', gender: 'M', alive: true)
@@ -1483,6 +1483,23 @@ unless Person.any?
     description: 'Fukushima')
   Person.create(name: 'Sanju Waragai', gender: 'M', alive: false)
   Person.create(name: 'Gin Waragai', gender: 'F', alive: false)
+  Person.create(name: 'Masaemon Sekito', gender: 'M', alive: false)
+  Person.create(name: 'Tome Sekito', gender: 'F', alive: false)
+  Person.create(name: 'Monjiro Maruo', gender: 'M', alive: false)
+  Person.create(name: 'Tora Maruo', gender: 'F', alive: false)
+  Person.create(name: 'Sueichi Fujisawa', gender: 'M', alive: false)
+  Person.create(name: 'Yukino Fujisawa', gender: 'F', alive: false)
+  Person.create(name: 'Kátia Lie Sakamoto', gender: 'F', alive: true, birth: '1966-9-6', description: 'Dracena')
+  Person.create(name: 'Lourdes Koroshue Sakamoto', gender: 'F', alive: false)
+  Person.create(name: 'Nobuichi Koroshue', gender: 'M', alive: false)
+  Person.create(name: 'Asako Sezaki', gender: 'F', alive: false)
+  Person.create(name: 'Hidetaro Kuraba', gender: 'M', alive: false)
+  Person.create(name: 'Sigeco Nakashima Kuraba', gender: 'F', alive: false)
+  Person.create(name: 'Shigueyoshi Nakamura', gender: 'M', alive: false)
+  Person.create(name: 'Kiku Nakamura', gender: 'F', alive: false)
+  Person.create(name: 'Curt Neumann', gender: 'M', alive: false, birth: '1948-8-4', description: 'Blumenau/SC')
+  Person.create(name: 'Kurt Wernar Neumann', gender: 'M', alive: false)
+  Person.create(name: 'Ana Ruth Neumann', gender: 'F', alive: false)
 end
 
 unless Couple.any?
@@ -1509,11 +1526,11 @@ unless Couple.any?
   Couple.create(person1_id: 46, person2_id: 170)
   Couple.create(person1_id: 47, person2_id: 87)
   Couple.create(person1_id: 49, person2_id: 171)
-  Couple.create(person1_id: 53, person2_id: 234)
+  Couple.create(person1_id: 53, person2_id: 234, marriage: '1943-7-26', local: 'Paulopolis')
   Couple.create(person1_id: 53, person2_id: 235)
-  Couple.create(person1_id: 54, person2_id: 176)
-  Couple.create(person1_id: 55, person2_id: 229)
-  Couple.create(person1_id: 56, person2_id: 223)
+  Couple.create(person1_id: 54, person2_id: 176, marriage: '1944-5-13', local: 'Pompeia')
+  Couple.create(person1_id: 55, person2_id: 229, marriage: '1955-7-9')
+  Couple.create(person1_id: 56, person2_id: 223, marriage: '1956-11-28')
   Couple.create(person1_id: 57, person2_id: 271)
   Couple.create(person1_id: 60, person2_id: 180)
   Couple.create(person1_id: 61, person2_id: 179)
@@ -1563,11 +1580,11 @@ unless Couple.any?
   Couple.create(person1_id: 247, person2_id: 248)
   Couple.create(person1_id: 251, person2_id: 252, marriage: '1957-12-21')
   Couple.create(person1_id: 253, person2_id: 297)
-  Couple.create(person1_id: 255, person2_id: 256)
+  Couple.create(person1_id: 255, person2_id: 256, marriage: '1967-12-16', local: 'Santo Amaro/SP')
   Couple.create(person1_id: 255, person2_id: 299)
   Couple.create(person1_id: 260, person2_id: 261)
   Couple.create(person1_id: 263, person2_id: 303)
-  Couple.create(person1_id: 266, person2_id: 267)
+  Couple.create(person1_id: 266, person2_id: 267, marriage: '1965-1-21')
   Couple.create(person1_id: 280, person2_id: 281)
   Couple.create(person1_id: 254, person2_id: 284)
   Couple.create(person1_id: 285, person2_id: 286)
@@ -1821,6 +1838,15 @@ unless Couple.any?
   Couple.create(person1_id: 387, person2_id: 1037, marriage: '2023-05-22')
   Couple.create(person1_id: 1021, person2_id: 1038, marriage: '1954-1-2')
   Couple.create(person1_id: 1039, person2_id: 1040)
+  Couple.create(person1_id: 1041, person2_id: 1042)
+  Couple.create(person1_id: 1043, person2_id: 1044)
+  Couple.create(person1_id: 1045, person2_id: 1046)
+  Couple.create(person1_id: 231, person2_id: 1048)
+  Couple.create(person1_id: 1049, person2_id: 1050)
+  Couple.create(person1_id: 1051, person2_id: 1052)
+  Couple.create(person1_id: 1053, person2_id: 1054)
+  Couple.create(person1_id: 10, person2_id: 1055, marriage: '1973-11-18', local: 'São Paulo/SP')
+  Couple.create(person1_id: 1056, person2_id: 1057)
 
   Couple.find(2).people << Person.find(1)
   Couple.find(7).people << Person.find(4)
@@ -2529,4 +2555,12 @@ unless Couple.any?
   Couple.find(331).people << Person.find(1034)
   Couple.find(331).people << Person.find(1035)
   Couple.find(335).people << Person.find(1038)
+  Couple.find(336).people << Person.find(229)
+  Couple.find(337).people << Person.find(234)
+  Couple.find(338).people << Person.find(235)
+  Couple.find(339).people << Person.find(1047)
+  Couple.find(340).people << Person.find(1048)
+  Couple.find(341).people << Person.find(256)
+  Couple.find(342).people << Person.find(267)
+  Couple.find(344).people << Person.find(1055)
 end
