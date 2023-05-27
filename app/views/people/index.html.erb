@@ -1,11 +1,11 @@
-<div class="is-flex is-justify-content-space-between">
-  <h1 class="title has-text-info">Family Tree</h1>
-  <%= link_to "New person", new_person_path, class: "button is-link is-light" %>
+<div class="is-flex is-align-items-center mb-4">
+  <h1 class="title has-text-info m-0">Family Tree</h1>
+  <%= link_to icon('fa-solid fa-xl', 'user-plus', class: 'has-text-primary ml-4'), new_person_path %>
 </div>
 
 <p class="has-text-link has-text-weight-semibold">Search by</p>
 <div class="box">
-  <div class="columns is-vcentered">
+  <div class="columns">
     <div class="column">
       <p class="has-text-link has-text-weight-semibold">Name</p>
       <div class="box">
