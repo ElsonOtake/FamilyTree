@@ -64,6 +64,10 @@
             <td>
               <%= link_to partner.name, person_path(partner) %>
             </td>
+            <td>
+              <%#= link_to "Edit this couple", edit_couple_path(@couple) %>
+              <%= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), nil %>
+            </td>
           </tr>
         <% end %>
       </tbody>
