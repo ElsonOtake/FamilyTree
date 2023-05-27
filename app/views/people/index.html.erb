@@ -1,4 +1,7 @@
-<h1 class="title has-text-info">Family Tree</h1>
+<div class="is-flex is-justify-content-space-between">
+  <h1 class="title has-text-info">Family Tree</h1>
+  <%= link_to "New person", new_person_path, class: "button is-link is-light" %>
+</div>
 
 <p class="has-text-link has-text-weight-semibold">Search by</p>
 <div class="box">
@@ -54,5 +57,3 @@
 <ul id="people" class="box">
   <%= render "people/list", people: @people %>
 </ul>
-
-<%#= link_to "New person", new_person_path %>
