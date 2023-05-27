@@ -48,7 +48,10 @@
   <% end %>
 </div>
 
+<div class="is-flex">
 <h4 class="subtitle has-text-grey-light">Mate</h4>
+<%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'), new_couple_path %>
+</div>
 <div class="box">
   <% unless @mate.empty? %>
     <table class="table">
