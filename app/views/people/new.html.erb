@@ -1,9 +1,11 @@
-<h1 class="title has-text-info">New person</h1>
+<%= turbo_frame_tag "new_person" do %>
+  <h1 class="title has-text-info">New person</h1>
 
-<%= render "form", person: @person %>
+  <%= render "form", person: @person %>
 
-<br>
+  <br>
 
-<div>
-  <%= link_to "Back to people", people_path %>
-</div>
+  <div>
+    <%#= link_to "Back to people", people_path %>
+  </div>
+<% end %>
