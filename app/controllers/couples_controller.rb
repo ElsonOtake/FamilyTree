@@ -27,6 +27,12 @@ class CouplesController < ApplicationController
   def create
     @couple = Couple.new(couple_params)
 
+    if @couple.person1_id > @couple.person2_id
+      aux = @couple.person1_id
+      @couple.person1_id = @couple.person2_id
+      @couple.person2_id = aux
+    end
+
     respond_to do |format|
       if @couple.save
         format.html { redirect_to couple_url(@couple), notice: "Couple was successfully created." }
