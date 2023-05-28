@@ -1,6 +1,8 @@
 class CouplesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_couple, only: %i[ show edit update destroy ]
+  before_action :set_person, only: %i[ new edit ]
+  before_action :set_people, only: %i[ new edit ]
 
   # GET /couples or /couples.json
   def index
@@ -14,6 +16,7 @@ class CouplesController < ApplicationController
   # GET /couples/new
   def new
     @couple = Couple.new
+    @couple.person1_id = @person.id
   end
 
   # GET /couples/1/edit
@@ -23,6 +26,12 @@ class CouplesController < ApplicationController
   # POST /couples or /couples.json
   def create
     @couple = Couple.new(couple_params)
+
+    if @couple.person1_id > @couple.person2_id
+      aux = @couple.person1_id
+      @couple.person1_id = @couple.person2_id
+      @couple.person2_id = aux
+    end
 
     respond_to do |format|
       if @couple.save
@@ -60,8 +69,16 @@ class CouplesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_person
+      @person = Person.find(params[:person_id])
+    end
+    
     def set_couple
       @couple = Couple.find(params[:id])
+    end
+    
+    def set_people
+      @people = Person.where.not(gender: ['P', @person.gender]).order(:name)
     end
 
     # Only allow a list of trusted parameters through.

@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "new_child" do %>
+  <h1 class="title has-text-info">New child</h1>
+
+  <%= render "form", person: @person, couple: @couple, people: @people %>
+<% end %>

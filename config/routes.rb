@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :couples
-  resources :people
+  resources :people do
+    resources :couples, only: [:new, :edit] do
+      resources :children
+    end
+  end
+  resources :couples, except: [:new, :edit]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

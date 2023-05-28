@@ -15,7 +15,7 @@ class PeopleController < ApplicationController
       @father = nil
       @mother = nil
     else
-      if Person.find(@parents[0].person1_id).gender = "M"
+      if Person.find(@parents[0].person1_id).gender == "M"
         @father = Person.find(@parents[0].person1_id)
         @mother = Person.find(@parents[0].person2_id)
       else
@@ -25,12 +25,14 @@ class PeopleController < ApplicationController
     end
       
     @mate = []
+    @couple = []
     @children = []
     couple = Couple.where(person1_id: @person).or(Couple.where(person2_id: @person))
     if !couple.empty?
       couple.each do |mate|
         @mate << Person.find(mate.person1_id) unless mate.person1_id == @person.id
         @mate << Person.find(mate.person2_id) unless mate.person2_id == @person.id
+        @couple << mate
         mate.people.each do |child|
           @children << child
         end
