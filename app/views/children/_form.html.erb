@@ -1,8 +1,8 @@
-<%= form_with do |form| %>
+<%= form_with(url: person_couple_children_path(person, couple)) do |form| %>
   <div class="field column">
     <%= form.label "Child", style: "display: block", class: "label" %>
     <div class="control">
-      <%= form.select :child, @people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } %>
+      <%= form.select :child_id, people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } %>
     </div>
   </div>
 
