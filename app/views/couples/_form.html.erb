@@ -11,13 +11,16 @@
     </div>
   <% end %>
   
-  <%= form.hidden_field :person1_id, class: "input" %>
+  <%= form.hidden_field :person1_id, class: "input" if couple.person1_id == @person.id %>
+  <%= form.hidden_field :person2_id, class: "input" if couple.person2_id == @person.id %>
   
   <div class="columns">
+
     <div class="field column">
       <%= form.label "Mate", style: "display: block", class: "label" %>
       <div class="control">
-        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' }  %>
+        <%= form.select :person1_id, @people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } if couple.person2_id == @person.id %>
+        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } if couple.person1_id == @person.id %>
       </div>
     </div>
 
