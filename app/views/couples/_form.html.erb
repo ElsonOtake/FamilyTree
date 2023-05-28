@@ -1,4 +1,4 @@
-<%= form_with(model: couple) do |form| %>
+<%= form_with(model: couple, url: url) do |form| %>
   <% if couple.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(couple.errors.count, "error") %> prohibited this couple from being saved:</h2>
@@ -10,28 +10,31 @@
       </ul>
     </div>
   <% end %>
+  
+  <%= form.hidden_field :person1_id, class: "input" %>
+  
   <div class="columns">
     <div class="field column">
-      <%= form.label :person1_id, style: "display: block", class: "label" %>
+      <%= form.label "Mate", style: "display: block", class: "label" %>
       <div class="control">
-        <%= form.text_field :person1_id, class: "input" %>
+        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' }  %>
       </div>
     </div>
 
-    <div class="field column">
-      <%= form.label :person2_id, style: "display: block", class: "label" %>
-      <div class="control">
-        <%= form.text_field :person2_id, class: "input" %>
-      </div>
-    </div>
-  </div>
-  <div class="columns">
     <div class="field column">
       <%= form.label :marriage, style: "display: block", class: "label" %>
       <div class="control">
         <%= form.date_field :marriage, class: "input" %>
       </div>
       <p class="help is-info">mm/dd/yyyy</p>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="field column">
+      <%= form.label :local, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.text_area :local, class: "input" %>
+      </div>
     </div>
 
     <div class="field column">
@@ -40,13 +43,6 @@
         <%= form.date_field :separation, class: "input" %>
       </div>
       <p class="help is-info">mm/dd/yyyy</p>
-    </div>
-  </div>
-
-  <div class="field">
-    <%= form.label :local, style: "display: block", class: "label" %>
-    <div class="control">
-      <%= form.text_area :local, class: "input" %>
     </div>
   </div>
 
