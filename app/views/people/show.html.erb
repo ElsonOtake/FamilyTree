@@ -84,7 +84,15 @@
               %>
             </td>
             <td>
-              <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'), edit_person_couple_path(@person, @couple[index]) %>
+              <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
+                edit_person_couple_path(@person, @couple[index]),
+                data: {
+                  turbo_frame: "edit_couple",
+                  controller: "stimulus",
+                  stimulus_id_value: "couple_edit",
+                  action: "stimulus#open"
+                }
+              %>
             </td>
           </tr>
         <% end %>
