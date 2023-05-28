@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   resources :people do
     resources :couples, only: [:new, :edit]
   end
-  resources :couples, except: [:new, :edit]
+  resources :couples, except: [:new, :edit] do
+    resources :children
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
