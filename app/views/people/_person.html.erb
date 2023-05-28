@@ -11,7 +11,13 @@
           <%= person.name %>
           <%= render "icon", variable: person %>
           <%= link_to icon('fa-solid fa-xs', 'pen', class: 'has-text-cyan'),
-            edit_person_path(person)   
+            edit_person_path(person),
+            data: {
+              turbo_frame: "edit_person",
+              controller: "stimulus",
+              stimulus_id_value: "person_edit",
+              action: "stimulus#open"
+            }
           %>
         </p>
         <% unless person.kanji.nil? %>
