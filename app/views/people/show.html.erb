@@ -50,7 +50,15 @@
 
 <div class="is-flex">
 <h4 class="subtitle has-text-grey-light">Mate</h4>
-<%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'), new_person_couple_path(@person) %>
+<%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'),
+  new_person_couple_path(@person),
+  data: {
+    turbo_frame: "new_couple",
+    controller: "stimulus",
+    stimulus_id_value: "couple_new",
+    action: "stimulus#open"
+  }
+%>
 </div>
 <div class="box">
   <% unless @mate.empty? %>
@@ -68,7 +76,7 @@
               <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary'), new_person_couple_child_path(@person, @couple[index]) %>
             </td>
             <td>
-              <%= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), edit_person_couple_path(@person, @couple[index]) %>
+              <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'), edit_person_couple_path(@person, @couple[index]) %>
             </td>
           </tr>
         <% end %>
@@ -105,3 +113,7 @@
 
   <%#= button_to "Destroy this person", @person, method: :delete %>
 </div>
+
+<%= render "shared/modal", tag_name: "new_couple", modal_id: "couple_new" %>
+<%= render "shared/modal", tag_name: "new_child", modal_id: "child_new" %>
+<%= render "shared/modal", tag_name: "edit_couple", modal_id: "couple_edit" %>
