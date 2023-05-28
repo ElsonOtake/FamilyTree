@@ -1,6 +1,6 @@
-<h1 class="title has-text-info">New couple</h1>
+<h1 class="title has-text-info">New mate <%= @person.name %></h1>
 
-<%= render "form", couple: @couple %>
+<%= render "form", couple: @couple, url: person_couples_path(@person) %>
 
 <br>
 
