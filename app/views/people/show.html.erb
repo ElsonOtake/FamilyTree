@@ -50,7 +50,7 @@
 
 <div class="is-flex">
 <h4 class="subtitle has-text-grey-light">Mate</h4>
-<%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'), new_couple_path %>
+<%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'), new_person_couple_path(@person) %>
 </div>
 <div class="box">
   <% unless @mate.empty? %>
@@ -65,8 +65,7 @@
               <%= link_to partner.name, person_path(partner) %>
             </td>
             <td>
-              <%#= link_to "Edit this couple", edit_couple_path(@couple) %>
-              <%= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), nil %>
+              <%#= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), edit_person_couple_path(@person, ) %>
             </td>
           </tr>
         <% end %>
