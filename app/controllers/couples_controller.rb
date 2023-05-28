@@ -1,7 +1,7 @@
 class CouplesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_couple, only: %i[ show edit update destroy ]
-  before_action :set_person, except: %i[ index ]
+  before_action :set_person, only: %i[ new edit ]
   before_action :set_people, only: %i[ new edit ]
 
   # GET /couples or /couples.json
