@@ -7,19 +7,23 @@
         </figure>
       </div>
       <div class="media-content">
-        <p class="title is-4">
-          <%= person.name %>
-          <%= render "icon", variable: person %>
-          <%= link_to icon('fa-solid fa-xs', 'pen', class: 'has-text-cyan'),
-            edit_person_path(person),
-            data: {
-              turbo_frame: "edit_person",
-              controller: "stimulus",
-              stimulus_id_value: "person_edit",
-              action: "stimulus#open"
-            }
-          %>
-        </p>
+        <div class="columns is-vcentered">
+          <div class="column is-narrow title m-0">
+            <%= person.name %>
+          </div>
+          <div class="column is-narrow">
+            <%= render "icon", variable: person %>
+            <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
+              edit_person_path(person),
+              data: {
+                turbo_frame: "edit_person",
+                controller: "stimulus",
+                stimulus_id_value: "person_edit",
+                action: "stimulus#open"
+              }
+            %>
+          </div>
+        </div>
         <% unless person.kanji.nil? %>
           <p class="subtitle is-6"><%= person.kanji %></p>
         <% end %>
