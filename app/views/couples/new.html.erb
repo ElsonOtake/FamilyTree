@@ -1,9 +1,11 @@
-<h1 class="title has-text-info">New mate <%= @person.name %></h1>
+<%= turbo_frame_tag "new_couple" do %>
+  <h1 class="title has-text-info">New mate <%= @person.name %></h1>
 
-<%= render "form", couple: @couple %>
+  <%= render "form", couple: @couple %>
 
-<br>
+  <br>
 
-<div>
-  <%#= link_to "Back to couples", couples_path %>
-</div>
+  <div>
+    <%#= link_to "Back to couples", couples_path %>
+  </div>
+<% end %>
