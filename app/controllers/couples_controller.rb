@@ -1,6 +1,7 @@
 class CouplesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_couple, only: %i[ show edit update destroy ]
+  before_action :set_person, except: %i[ index ]
 
   # GET /couples or /couples.json
   def index
@@ -14,6 +15,8 @@ class CouplesController < ApplicationController
   # GET /couples/new
   def new
     @couple = Couple.new
+    @couple.person1_id = @person.id
+    @people = Person.where.not(gender: ['P', @person.gender]).order(:name)
   end
 
   # GET /couples/1/edit
@@ -60,6 +63,10 @@ class CouplesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_person
+      @person = Person.find(params[:person_id])
+    end
+    
     def set_couple
       @couple = Couple.find(params[:id])
     end
