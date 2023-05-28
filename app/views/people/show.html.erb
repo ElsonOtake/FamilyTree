@@ -65,7 +65,7 @@
               <%= link_to partner.name, person_path(partner) %>
             </td>
             <td>
-              <%= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), edit_person_couple_path(partner, @couple[index]) %>
+              <%= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), edit_person_couple_path(@person, @couple[index]) %>
             </td>
           </tr>
         <% end %>
