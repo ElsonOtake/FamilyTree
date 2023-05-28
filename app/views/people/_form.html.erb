@@ -11,37 +11,74 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="columns">
+    <div class="field column">
+      <%= form.label :name, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.text_field :name, class: "input" %>
+      </div>
+    </div>
+
+    <div class="field column">
+      <%= form.label :kanji, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.text_field :kanji, class: "input" %>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :gender, style: "display: block" %>
-    <%= form.check_box :gender %>
+  <div class="columns">
+    <div class="field column">
+      <%= form.label :gender, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.radio_button :gender, "M" %>
+        <%= form.label "Masc" %>
+        <%= form.radio_button :gender, "F", class: "ml-2" %>
+        <%= form.label "Fem" %>
+        <%= form.radio_button :gender, "P", class: "ml-2" %>
+        <%= form.label "Pet" %>
+        <%= form.radio_button :gender, "X", class: "ml-2" %>
+        <%= form.label "Outro" %>
+      </div>
+    </div>
+
+    <div class="field column">
+      <%= form.label :alive, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.radio_button :alive, true %>
+        <%= form.label "Yes" %>
+        <%= form.radio_button :alive, false, class: "ml-2" %>
+        <%= form.label "No" %>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :alive, style: "display: block" %>
-    <%= form.check_box :alive %>
+  <div class="columns">
+    <div class="field column">
+      <%= form.label :birth, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.date_field :birth, class: "input" %>
+      </div>
+      <p class="help is-info">mm/dd/yyyy</p>
+    </div>
+
+    <div class="field column">
+      <%= form.label :death, style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.date_field :death, class: "input" %>
+      </div>
+      <p class="help is-info">mm/dd/yyyy</p>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :birth, style: "display: block" %>
-    <%= form.date_field :birth %>
+  <div class="field">
+    <%= form.label :description, style: "display: block", class: "label" %>
+    <div class="control">
+      <%= form.text_area :description, class: "input" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :death, style: "display: block" %>
-    <%= form.date_field :death %>
-  </div>
-
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="control">
+    <%= form.submit class: "button is-link is-light" %>
   </div>
 <% end %>

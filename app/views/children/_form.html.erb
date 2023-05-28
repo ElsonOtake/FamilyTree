@@ -1,0 +1,12 @@
+<%= form_with(url: person_couple_children_path(person, couple)) do |form| %>
+  <div class="field column">
+    <%= form.label "Child", style: "display: block", class: "label" %>
+    <div class="control">
+      <%= form.select :child_id, people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } %>
+    </div>
+  </div>
+
+  <div class="control">
+    <%= form.submit class: "button is-link is-light" %>
+  </div>
+<% end %>
