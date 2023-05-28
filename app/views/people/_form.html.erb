@@ -79,6 +79,11 @@
   </div>
 
   <div class="control">
-    <%= form.submit class: "button is-link is-light" %>
+    <%= form.submit class: "button is-link is-light",
+      data: {
+        controller: "stimulus",
+        action: "stimulus#closeAllModals"
+      }
+    %>
   </div>
 <% end %>
