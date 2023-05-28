@@ -1500,6 +1500,7 @@ unless Person.any?
   Person.create(name: 'Curt Neumann', gender: 'M', alive: false, birth: '1948-8-4', description: 'Blumenau/SC')
   Person.create(name: 'Kurt Wernar Neumann', gender: 'M', alive: false)
   Person.create(name: 'Ana Ruth Neumann', gender: 'F', alive: false)
+  Person.create(name: 'Shiyuki Yamada', gender: 'F', birth: '2022-02-02')
 end
 
 unless Couple.any?
@@ -2563,4 +2564,5 @@ unless Couple.any?
   Couple.find(341).people << Person.find(256)
   Couple.find(342).people << Person.find(267)
   Couple.find(344).people << Person.find(1055)
+  Couple.find(236).people << Person.find(1058)
 end
