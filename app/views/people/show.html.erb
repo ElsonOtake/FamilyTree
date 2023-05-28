@@ -56,7 +56,7 @@
   <% unless @mate.empty? %>
     <table class="table">
       <tbody>
-        <% @mate.each do |partner| %>
+        <% @mate.each_with_index do |partner, index| %>
           <tr>
             <td>
               <%= render "icon", variable: partner %>
@@ -65,7 +65,7 @@
               <%= link_to partner.name, person_path(partner) %>
             </td>
             <td>
-              <%#= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), edit_person_couple_path(@person, ) %>
+              <%= link_to icon('fa-solid', 'pen', class: 'has-text-primary'), edit_person_couple_path(partner, @couple[index]) %>
             </td>
           </tr>
         <% end %>
