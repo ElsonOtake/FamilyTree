@@ -95,6 +95,6 @@ class PeopleController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def person_params
-      params.require(:person).permit(:name, :gender, :alive, :birth, :death, :description)
+      params.require(:person).permit(:name, :kanji, :gender, :alive, :birth, :death, :description)
     end
 end
