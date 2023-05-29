@@ -69,10 +69,11 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.update(person_params)
         format.html { redirect_to person_url(@person), notice: "Person was successfully updated." }
-        format.json { render :show, status: :ok, location: @person }
+        format.turbo_stream { flash.now[:notice] = "Person was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @person.errors, status: :unprocessable_entity }
+        flash.now[:notice] = @person.errors.full_messages[0]
+        format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
       end
     end
   end
