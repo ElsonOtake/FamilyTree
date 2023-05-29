@@ -36,10 +36,11 @@ class CouplesController < ApplicationController
     respond_to do |format|
       if @couple.save
         format.html { redirect_to couple_url(@couple), notice: "Couple was successfully created." }
-        format.json { render :show, status: :created, location: @couple }
+        format.turbo_stream { flash.now[:notice] = "Couple was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @couple.errors, status: :unprocessable_entity }
+        flash.now[:notice] = @couple.errors.full_messages[0]
+        format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
       end
     end
   end
@@ -49,10 +50,11 @@ class CouplesController < ApplicationController
     respond_to do |format|
       if @couple.update(couple_params)
         format.html { redirect_to couple_url(@couple), notice: "Couple was successfully updated." }
-        format.json { render :show, status: :ok, location: @couple }
+        format.turbo_stream { flash.now[:notice] = "Couple was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @couple.errors, status: :unprocessable_entity }
+        flash.now[:notice] = @couple.errors.full_messages[0]
+        format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
       end
     end
   end
