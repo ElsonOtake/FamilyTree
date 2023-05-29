@@ -61,4 +61,8 @@ export default class extends Controller {
       this.closeModal(target);
     }
   }
+  
+  closeNotification() {
+    const notification = document.querySelectorAll("#flash div");
+    notification[0].parentNode.removeChild(notification[0]);  }
 }

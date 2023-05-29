@@ -15,8 +15,12 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if @couple.people << @child
         format.html { redirect_to person_path(@person), notice: "Child was successfully created." }
+        format.turbo_stream { flash.now[:notice] = "Child was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
+        flash.now[:notice] = @couple.errors.full_messages[0]
+        format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
+
       end
     end
   end
