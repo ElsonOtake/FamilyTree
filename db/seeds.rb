@@ -551,7 +551,7 @@ unless Person.any?
   Person.create(name: 'Alice Tieco Todaki', gender: 'F', alive: true, birth: '1962-1-10')
   Person.create(name: 'Aroldo Yukio Todaki', gender: 'M', alive: true, birth: '1964-8-24',
     description: 'Natural de Inúbia Paulista SP')
-  Person.create(name: 'Anderson Masao Todaki', gender: 'M', alive: true, birth: '1992-8-16',
+  Person.create(name: 'Anderson Masao Todaki', gender: 'M', alive: true, birth: '1992-8-16', kanji: '雅夫',
     description: 'Natural da cidade de Hamakita na província de Shizuoka')
   Person.create(name: 'Tomoyo Job', gender: 'M', alive: true, birth: '1932-7-6', description: 'Natural de Braúna- SP')
   Person.create(name: 'Elza Yoshico Job', gender: 'F', alive: false, birth: '1938-9-25', death: '2020-1-12',
@@ -996,7 +996,7 @@ unless Person.any?
   Person.create(name: 'Robson Chikasawa', gender: 'M', alive: true)
   Person.create(name: 'Melissa Ayumi Osawa', gender: 'F', alive: true, birth: '2020-6-11')
   Person.create(name: 'Melissa Fregonezi Sakamoto', gender: 'F', alive: true, birth: '2020-7-31')
-  Person.create(name: 'Sayaka Yamada', gender: 'F', alive: true, birth: '2020-9-19')
+  Person.create(name: 'Sayaka Yamada', gender: 'F', alive: true, birth: '2020-9-19', kanji: '楓__')
   Person.create(name: 'Joelcio Almeida', gender: 'M', alive: true, birth: '1971-11-13')
   Person.create(name: 'João Otake Almeida', gender: 'M', alive: true, birth: '2021-6-12',
     description: 'Nasceu as 14:11 com 3,115 kg e 48,5 cm')
@@ -1500,7 +1500,7 @@ unless Person.any?
   Person.create(name: 'Curt Neumann', gender: 'M', alive: false, birth: '1948-8-4', description: 'Blumenau/SC')
   Person.create(name: 'Kurt Wernar Neumann', gender: 'M', alive: false)
   Person.create(name: 'Ana Ruth Neumann', gender: 'F', alive: false)
-  Person.create(name: 'Shiyuki Yamada', gender: 'F', birth: '2022-02-02')
+  Person.create(name: 'Shiyuki Yamada', gender: 'F', birth: '2022-02-02', kanji: '梓由希')
 end
 
 unless Couple.any?
