@@ -1,7 +1,7 @@
 Couple updated by <%= @user.name %> (<%= @user.email %>)
 
 id: <%= @couple.id %>
-couple: <%= @person_1_name %> & <%= @person_2_name %>
+couple: <%= @person_1_name %> (<%= @couple.person1_id %>) & <%= @person_2_name %> (<%= @couple.person2_id %>)
 <% if @couple.marriage.respond_to?(:strftime) || !(@couple.marriage.nil? || @couple.marriage.empty?) %>
 marriage: <%= @couple.marriage %>
 <% end %>

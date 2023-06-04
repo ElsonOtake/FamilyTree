@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <th>couple</th>
-    <td><%= @person_1_name %> & <%= @person_2_name %></td>
+    <td><%= @person_1_name %> (<%= @couple.person1_id %>) & <%= @person_2_name %> (<%= @couple.person2_id %>)</td>
   </tr>
   <% if @couple.marriage.respond_to?(:strftime) || !(@couple.marriage.nil? || @couple.marriage.empty?) %>
     <tr>

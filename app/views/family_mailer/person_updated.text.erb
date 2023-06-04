@@ -1,7 +1,6 @@
 Person updated by <%= @user.name %> (<%= @user.email %>)
 
-id: <%= @person.id %>
-name: <%= @person.name %>
+name: <%= @person.name %> (<%= @person.id %>)
 <% unless @person.kanji.empty? %>
 kanji: <%= @person.kanji %>
 <% end %>
