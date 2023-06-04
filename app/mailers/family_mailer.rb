@@ -1,9 +1,9 @@
-class MailerMailer < ApplicationMailer
+class FamilyMailer < ApplicationMailer
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.mailer_mailer.person_created.subject
+  #   en.family_mailer.person_created.subject
   #
   def person_created
     @greeting = "Hi"
@@ -14,7 +14,7 @@ class MailerMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.mailer_mailer.person_updated.subject
+  #   en.family_mailer.person_updated.subject
   #
   def person_updated
     @greeting = "Hi"
@@ -25,7 +25,7 @@ class MailerMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.mailer_mailer.couple_created.subject
+  #   en.family_mailer.couple_created.subject
   #
   def couple_created
     @greeting = "Hi"
@@ -36,7 +36,7 @@ class MailerMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.mailer_mailer.couple_updated.subject
+  #   en.family_mailer.couple_updated.subject
   #
   def couple_updated
     @greeting = "Hi"
@@ -47,7 +47,7 @@ class MailerMailer < ApplicationMailer
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.mailer_mailer.child_created.subject
+  #   en.family_mailer.child_created.subject
   #
   def child_created
     @greeting = "Hi"

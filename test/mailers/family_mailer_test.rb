@@ -1,8 +1,8 @@
 require "test_helper"
 
-class MailerMailerTest < ActionMailer::TestCase
+class FamilyMailerTest < ActionMailer::TestCase
   test "person_created" do
-    mail = MailerMailer.person_created
+    mail = FamilyMailer.person_created
     assert_equal "Person created", mail.subject
     assert_equal ["to@example.org"], mail.to
     assert_equal ["from@example.com"], mail.from
@@ -10,7 +10,7 @@ class MailerMailerTest < ActionMailer::TestCase
   end
 
   test "person_updated" do
-    mail = MailerMailer.person_updated
+    mail = FamilyMailer.person_updated
     assert_equal "Person updated", mail.subject
     assert_equal ["to@example.org"], mail.to
     assert_equal ["from@example.com"], mail.from
@@ -18,7 +18,7 @@ class MailerMailerTest < ActionMailer::TestCase
   end
 
   test "couple_created" do
-    mail = MailerMailer.couple_created
+    mail = FamilyMailer.couple_created
     assert_equal "Couple created", mail.subject
     assert_equal ["to@example.org"], mail.to
     assert_equal ["from@example.com"], mail.from
@@ -26,7 +26,7 @@ class MailerMailerTest < ActionMailer::TestCase
   end
 
   test "couple_updated" do
-    mail = MailerMailer.couple_updated
+    mail = FamilyMailer.couple_updated
     assert_equal "Couple updated", mail.subject
     assert_equal ["to@example.org"], mail.to
     assert_equal ["from@example.com"], mail.from
@@ -34,7 +34,7 @@ class MailerMailerTest < ActionMailer::TestCase
   end
 
   test "child_created" do
-    mail = MailerMailer.child_created
+    mail = FamilyMailer.child_created
     assert_equal "Child created", mail.subject
     assert_equal ["to@example.org"], mail.to
     assert_equal ["from@example.com"], mail.from
