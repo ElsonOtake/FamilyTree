@@ -23,7 +23,7 @@ class FamilyMailerPreview < ActionMailer::Preview
 
   # Preview this email at http://localhost:3000/rails/mailers/family_mailer/child_created
   def child_created
-    FamilyMailer.child_created
+    FamilyMailer.with(user: User.first, child: Person.first, couple: Couple.first).child_created
   end
 
 end

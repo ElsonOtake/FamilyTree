@@ -57,8 +57,12 @@ class FamilyMailer < ApplicationMailer
   #   en.family_mailer.child_created.subject
   #
   def child_created
-    @greeting = "Hi"
+    @user = params[:user]
+    @child = params[:child]
+    @couple = params[:couple]
+    @person_1_name = Person.find(@couple.person1_id).name
+    @person_2_name = Person.find(@couple.person2_id).name
 
-    mail to: "no-reply@example.com"
+    mail to: "no-reply@example.com", subject: "Child created: #{@child.name} (#{@child.id}) by #{@user.name}"
   end
 end
