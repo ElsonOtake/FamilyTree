@@ -5,9 +5,10 @@ class FamilyMailer < ApplicationMailer
   #   en.family_mailer.person_created.subject
   #
   def person_created
-    @greeting = "Hi"
+    @user = params[:user]
+    @person = params[:person]
 
-    mail to: "eaorigami@gmail.com"
+    mail to: "eaorigami@gmail.com", subject: "Created (#{@person.id}) #{@person.name} by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
