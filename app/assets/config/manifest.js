@@ -7,3 +7,4 @@
 //= link controllers/stimulus_controller.js
 //= link controllers/index.js
 //= link EAO.png
+//= link_tree ../builds
