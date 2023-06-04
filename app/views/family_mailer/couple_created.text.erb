@@ -1,3 +1,13 @@
-Family#couple_created
+Couple created by <%= @user.name %> (<%= @user.email %>)
 
-<%= @greeting %>, find me in app/views/family_mailer/couple_created.text.erb
+id: <%= @couple.id %>
+couple: <%= @person_1_name %> & <%= @person_2_name %>
+<% if @couple.marriage.respond_to?(:strftime) || !(@couple.marriage.nil? || @couple.marriage.empty?) %>
+marriage: <%= @couple.marriage %>
+<% end %>
+<% if @couple.separation.respond_to?(:strftime) || !(@couple.separation.nil? || @couple.separation.empty?) %>
+separation: <%= @couple.separation %>
+<% end %>
+<% if !(@couple.local.nil? || @couple.local.empty?) %>
+local: <%= @couple.local %>
+<% end %>

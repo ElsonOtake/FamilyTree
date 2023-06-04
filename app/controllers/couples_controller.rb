@@ -35,6 +35,7 @@ class CouplesController < ApplicationController
 
     respond_to do |format|
       if @couple.save
+        FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
         format.html { redirect_to couple_url(@couple), notice: "Couple was successfully created." }
         format.turbo_stream { flash.now[:notice] = "Couple was successfully created." }
       else
