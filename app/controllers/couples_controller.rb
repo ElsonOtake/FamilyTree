@@ -49,6 +49,7 @@ class CouplesController < ApplicationController
   def update
     respond_to do |format|
       if @couple.update(couple_params)
+        FamilyMailer.with(user: current_user, couple: @couple).couple_updated.deliver_later
         format.html { redirect_to couple_url(@couple), notice: "Couple was successfully updated." }
         format.turbo_stream { flash.now[:notice] = "Couple was successfully updated." }
       else
