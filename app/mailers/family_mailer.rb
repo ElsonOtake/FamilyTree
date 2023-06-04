@@ -8,7 +8,7 @@ class FamilyMailer < ApplicationMailer
     @user = params[:user]
     @person = params[:person]
 
-    mail to: "no-reply@example.com", subject: "Person created (#{@person.id}) #{@person.name} by #{@user.name}"
+    mail to: "no-reply@example.com", subject: "Person created: #{@person.name} (#{@person.id}) by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -20,7 +20,7 @@ class FamilyMailer < ApplicationMailer
     @user = params[:user]
     @person = params[:person]
 
-    mail to: "no-reply@example.com", subject: "Person updated (#{@person.id}) #{@person.name} by #{@user.name}"
+    mail to: "no-reply@example.com", subject: "Person updated: #{@person.name} (#{@person.id}) by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -34,7 +34,7 @@ class FamilyMailer < ApplicationMailer
     @person_1_name = Person.find(@couple.person1_id).name
     @person_2_name = Person.find(@couple.person2_id).name
 
-    mail to: "no-reply@example.com", subject: "Couple created (#{@couple.id}) #{@person_1_name} & #{@person_2_name} by #{@user.name}"
+    mail to: "no-reply@example.com", subject: "Couple created: #{@person_1_name} & #{@person_2_name} (#{@couple.id}) by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -48,7 +48,7 @@ class FamilyMailer < ApplicationMailer
     @person_1_name = Person.find(@couple.person1_id).name
     @person_2_name = Person.find(@couple.person2_id).name
 
-    mail to: "no-reply@example.com", subject: "Couple updated (#{@couple.id}) #{@person_1_name} & #{@person_2_name} by #{@user.name}"
+    mail to: "no-reply@example.com", subject: "Couple updated: #{@person_1_name} & #{@person_2_name} (#{@couple.id}) by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml

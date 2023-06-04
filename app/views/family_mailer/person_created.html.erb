@@ -2,12 +2,8 @@
 
 <table>
   <tr>
-    <th>id</th>
-    <td><%= @person.id %></td>
-  </tr>
-  <tr>
     <th>name</th>
-    <td><%= @person.name %></td>
+    <td><%= @person.name %> (<%= @person.id %>)</td>
   </tr>
   <% unless @person.kanji.empty? %>
     <tr>
