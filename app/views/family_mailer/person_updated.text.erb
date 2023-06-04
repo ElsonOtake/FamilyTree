@@ -1,3 +1,25 @@
-Family#person_updated
+Updated by <%= @user.name %> (<%= @user.email %>)
 
-<%= @greeting %>, find me in app/views/family_mailer/person_updated.text.erb
+id: <%= @person.id %>
+name: <%= @person.name %>
+<% unless @person.kanji.empty? %>
+kanji: <%= @person.kanji %>
+<% end %>
+gender: <%= @person.gender %>
+alive: <%= @person.alive %>
+<% if @person.birth.respond_to?(:strftime) || !(@person.birth.nil? || @person.birth.empty?) %>
+birth: <%= @person.birth %>
+<% end %>
+<% if @person.death.respond_to?(:strftime) || !(@person.death.nil? || @person.death.empty?) %>
+death: <%= @person.death %>
+<% end %>
+<% unless @person.description.empty? %>
+description: <%= @person.description %>
+<% end %>
+
+
+
+
+
+
+
