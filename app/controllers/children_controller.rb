@@ -14,6 +14,7 @@ class ChildrenController < ApplicationController
     
     respond_to do |format|
       if @couple.people << @child
+        FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_created.deliver_later
         format.html { redirect_to person_path(@person), notice: "Child was successfully created." }
         format.turbo_stream { flash.now[:notice] = "Child was successfully created." }
       else
