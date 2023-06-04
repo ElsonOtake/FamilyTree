@@ -1,17 +1,17 @@
 Person created by <%= @user.name %> (<%= @user.email %>)
 
-name: <%= @person.name %> (<%= @person.id %>)
+Name: <%= @person.name %> (<%= @person.id %>)
 <% unless @person.kanji.empty? %>
-kanji: <%= @person.kanji %>
+Kanji: <%= @person.kanji %>
 <% end %>
-gender: <%= @person.gender %>
-alive: <%= @person.alive %>
+Gender: <%= @person.gender %>
+Alive: <%= @person.alive %>
 <% if @person.birth.respond_to?(:strftime) || !(@person.birth.nil? || @person.birth.empty?) %>
-birth: <%= @person.birth %>
+Birth: <%= @person.birth %>
 <% end %>
 <% if @person.death.respond_to?(:strftime) || !(@person.death.nil? || @person.death.empty?) %>
-death: <%= @person.death %>
+Death: <%= @person.death %>
 <% end %>
 <% unless @person.description.empty? %>
-description: <%= @person.description %>
+Description: <%= @person.description %>
 <% end %>

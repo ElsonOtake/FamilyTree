@@ -2,38 +2,38 @@
 
 <table>
   <tr>
-    <th>name</th>
+    <th>Name</th>
     <td><%= @person.name %> (<%= @person.id %>)</td>
   </tr>
   <% unless @person.kanji.empty? %>
     <tr>
-      <th>kanji</th>
+      <th>Kanji</th>
       <td><%= @person.kanji %></td>
     </tr>
   <% end %>
   <tr>
-    <th>gender</th>
+    <th>Gender</th>
     <td><%= @person.gender %></td>
   </tr>
   <tr>
-    <th>alive</th>
+    <th>Alive</th>
     <td><%= @person.alive %></td>
   </tr>
   <% if @person.birth.respond_to?(:strftime) || !(@person.birth.nil? || @person.birth.empty?) %>
     <tr>
-      <th>birth</th>
+      <th>Birth</th>
       <td><%= @person.birth %></td>
     </tr>
   <% end %>
   <% if @person.death.respond_to?(:strftime) || !(@person.death.nil? || @person.death.empty?) %>
     <tr>
-      <th>death</th>
+      <th>Death</th>
       <td><%= @person.death %></td>
     </tr>
   <% end %>
   <% unless @person.description.empty? %>
     <tr>
-      <th>description</th>
+      <th>Description</th>
       <td><%= @person.description %></td>
     </tr>
   <% end %>
