@@ -1,5 +1,30 @@
-<h1>Family#couple_created</h1>
+<h1>Couple created by <%= @user.name %> (<%= @user.email %>)</h1>
 
-<p>
-  <%= @greeting %>, find me in app/views/family_mailer/couple_created.html.erb
-</p>
+<table>
+  <tr>
+    <th>id</th>
+    <td><%= @couple.id %></td>
+  </tr>
+  <tr>
+    <th>couple</th>
+    <td><%= @person_1_name %> & <%= @person_2_name %></td>
+  </tr>
+  <% if @couple.marriage.respond_to?(:strftime) || !(@couple.marriage.nil? || @couple.marriage.empty?) %>
+    <tr>
+      <th>marriage</th>
+      <td><%= @couple.marriage %></td>
+    </tr>
+  <% end %>
+  <% if @couple.separation.respond_to?(:strftime) || !(@couple.separation.nil? || @couple.separation.empty?) %>
+    <tr>
+      <th>separation</th>
+      <td><%= @couple.separation %></td>
+    </tr>
+  <% end %>
+  <% if !(@couple.local.nil? || @couple.local.empty?) %>
+    <tr>
+      <th>local</th>
+      <td><%= @couple.local %></td>
+    </tr>
+  <% end %>
+</table>

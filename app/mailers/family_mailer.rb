@@ -8,7 +8,7 @@ class FamilyMailer < ApplicationMailer
     @user = params[:user]
     @person = params[:person]
 
-    mail to: "eaorigami@gmail.com", subject: "Created (#{@person.id}) #{@person.name} by #{@user.name}"
+    mail to: "eaorigami@gmail.com", subject: "Person created (#{@person.id}) #{@person.name} by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -20,7 +20,7 @@ class FamilyMailer < ApplicationMailer
     @user = params[:user]
     @person = params[:person]
 
-    mail to: "eaorigami@gmail.com", subject: "Updated (#{@person.id}) #{@person.name} by #{@user.name}"
+    mail to: "eaorigami@gmail.com", subject: "Person updated (#{@person.id}) #{@person.name} by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -29,9 +29,12 @@ class FamilyMailer < ApplicationMailer
   #   en.family_mailer.couple_created.subject
   #
   def couple_created
-    @greeting = "Hi"
+    @user = params[:user]
+    @couple = params[:couple]
+    @person_1_name = Person.find(@couple.person1_id).name
+    @person_2_name = Person.find(@couple.person2_id).name
 
-    mail to: "eaorigami@gmail.com"
+    mail to: "eaorigami@gmail.com", subject: "Couple created (#{@couple.id}) #{@person_1_name} & #{@person_2_name} by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -45,7 +48,7 @@ class FamilyMailer < ApplicationMailer
     @person_1_name = Person.find(@couple.person1_id).name
     @person_2_name = Person.find(@couple.person2_id).name
 
-    mail to: "eaorigami@gmail.com", subject: "Updated (#{@couple.id}) #{@person_1_name} & #{@person_2_name} by #{@user.name}"
+    mail to: "eaorigami@gmail.com", subject: "Couple updated (#{@couple.id}) #{@person_1_name} & #{@person_2_name} by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
