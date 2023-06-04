@@ -40,9 +40,12 @@ class FamilyMailer < ApplicationMailer
   #   en.family_mailer.couple_updated.subject
   #
   def couple_updated
-    @greeting = "Hi"
+    @user = params[:user]
+    @couple = params[:couple]
+    @person_1_name = Person.find(@couple.person1_id).name
+    @person_2_name = Person.find(@couple.person2_id).name
 
-    mail to: "no-reply@example.com"
+    mail to: "no-reply@example.com", subject: "Updated (#{@couple.id}) #{@person_1_name} & #{@person_2_name} by #{@user.name}"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
