@@ -55,6 +55,7 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.save
+        FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
         format.html { redirect_to person_url(@person), notice: "Person was successfully created." }
         format.turbo_stream { flash.now[:notice] = "Person was successfully created." }
       else
