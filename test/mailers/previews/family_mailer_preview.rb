@@ -8,7 +8,7 @@ class FamilyMailerPreview < ActionMailer::Preview
 
   # Preview this email at http://localhost:3000/rails/mailers/family_mailer/person_updated
   def person_updated
-    FamilyMailer.person_updated
+    FamilyMailer.with(user: User.last, person: Person.last).person_updated
   end
 
   # Preview this email at http://localhost:3000/rails/mailers/family_mailer/couple_created
