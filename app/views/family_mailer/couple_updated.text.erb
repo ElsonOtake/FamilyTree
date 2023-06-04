@@ -1,13 +1,13 @@
 Couple updated by <%= @user.name %> (<%= @user.email %>)
 
-id: <%= @couple.id %>
-couple: <%= @person_1_name %> (<%= @couple.person1_id %>) & <%= @person_2_name %> (<%= @couple.person2_id %>)
+Id: <%= @couple.id %>
+Couple: <%= @person_1_name %> (<%= @couple.person1_id %>) & <%= @person_2_name %> (<%= @couple.person2_id %>)
 <% if @couple.marriage.respond_to?(:strftime) || !(@couple.marriage.nil? || @couple.marriage.empty?) %>
-marriage: <%= @couple.marriage %>
+Marriage: <%= @couple.marriage %>
 <% end %>
 <% if @couple.separation.respond_to?(:strftime) || !(@couple.separation.nil? || @couple.separation.empty?) %>
-separation: <%= @couple.separation %>
+Separation: <%= @couple.separation %>
 <% end %>
 <% if !(@couple.local.nil? || @couple.local.empty?) %>
-local: <%= @couple.local %>
+Local: <%= @couple.local %>
 <% end %>

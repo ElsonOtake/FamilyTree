@@ -2,28 +2,28 @@
 
 <table>
   <tr>
-    <th>id</th>
+    <th>Id</th>
     <td><%= @couple.id %></td>
   </tr>
   <tr>
-    <th>couple</th>
+    <th>Couple</th>
     <td><%= @person_1_name %> (<%= @couple.person1_id %>) & <%= @person_2_name %> (<%= @couple.person2_id %>)</td>
   </tr>
   <% if @couple.marriage.respond_to?(:strftime) || !(@couple.marriage.nil? || @couple.marriage.empty?) %>
     <tr>
-      <th>marriage</th>
+      <th>Marriage</th>
       <td><%= @couple.marriage %></td>
     </tr>
   <% end %>
   <% if @couple.separation.respond_to?(:strftime) || !(@couple.separation.nil? || @couple.separation.empty?) %>
     <tr>
-      <th>separation</th>
+      <th>Separation</th>
       <td><%= @couple.separation %></td>
     </tr>
   <% end %>
   <% if !(@couple.local.nil? || @couple.local.empty?) %>
     <tr>
-      <th>local</th>
+      <th>Local</th>
       <td><%= @couple.local %></td>
     </tr>
   <% end %>
