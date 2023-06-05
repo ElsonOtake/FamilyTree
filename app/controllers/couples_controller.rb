@@ -1,7 +1,7 @@
 class CouplesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_couple, only: %i[ show edit update destroy ]
-  before_action :set_person, only: %i[ new edit ]
+  before_action :set_person, only: %i[ new edit create update]
   before_action :set_people, only: %i[ new edit ]
 
   # GET /couples or /couples.json
@@ -36,7 +36,7 @@ class CouplesController < ApplicationController
     respond_to do |format|
       if @couple.save
         FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
-        format.html { redirect_to couple_url(@couple), notice: "Couple was successfully created." }
+        format.html { redirect_to person_url(@person), notice: "Couple was successfully created." }
         format.turbo_stream { flash.now[:notice] = "Couple was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class CouplesController < ApplicationController
     respond_to do |format|
       if @couple.update(couple_params)
         FamilyMailer.with(user: current_user, couple: @couple).couple_updated.deliver_later
-        format.html { redirect_to couple_url(@couple), notice: "Couple was successfully updated." }
+        format.html { redirect_to person_url(@person), notice: "Couple was successfully updated." }
         format.turbo_stream { flash.now[:notice] = "Couple was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
