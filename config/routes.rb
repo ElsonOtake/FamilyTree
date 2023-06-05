@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :people do
-    resources :couples, only: [:new, :edit] do
+    resources :couples, only: [:new, :edit, :create, :update] do
       resources :children
     end
   end
-  resources :couples, except: [:new, :edit]
+  resources :couples, only: [:index, :show, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # search
   namespace :search do
-    namespace :users do
+    namespace :people do
       post "first_letter", :as => "first_letter"
       post "name", :as => "name"
     end
