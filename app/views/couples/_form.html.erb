@@ -1,4 +1,4 @@
-<%= form_with(model: couple) do |form| %>
+<%= form_with(model: couple, url: url) do |form| %>
   <% if couple.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(couple.errors.count, "error") %> prohibited this couple from being saved:</h2>
