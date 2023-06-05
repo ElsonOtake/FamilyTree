@@ -1,4 +1,4 @@
-class Search::UsersController < ApplicationController
+class Search::PeopleController < ApplicationController
   def first_letter
     @people = Person.where('name like ?', "#{params[:letter]}%").order(:name)
   end
