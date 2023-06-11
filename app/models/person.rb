@@ -7,4 +7,14 @@ class Person < ApplicationRecord
 
   enum gender: [:M, :F, :P, :X]
 
+  def slug_candidates
+    [
+      :name,
+      [:name, :description]
+    ]
+  end
+
+  def should_generate_new_friendly_id?
+    name_changed?
+  end
 end
