@@ -3,7 +3,13 @@ class Person < ApplicationRecord
   validates :name, presence: true
   
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :finders]
+  friendly_id :slug_candidates, use: [:slugged, :finders]
 
   enum gender: [:M, :F, :P, :X]
+
+  def slug_candidates
+    [
+      :name,
+      [:name, :description]
+    ]
 end
