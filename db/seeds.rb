@@ -2567,3 +2567,5 @@ unless Couple.any?
   couple.people << Person.find_by_name('Curt Neumann')
   couple = Couple.create!(person1_id: Person.find_by_name('Anderson Masao Todaki').id, person2_id: Person.find_by_name('Marina Todaki').id)
 end
+
+Person.find_each(&:save)
