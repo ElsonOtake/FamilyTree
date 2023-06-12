@@ -1,5 +1,7 @@
 class Person < ApplicationRecord
   has_and_belongs_to_many :couples
+  has_one_attached :avatar
+  
   validates :name, presence: true
   
   extend FriendlyId
