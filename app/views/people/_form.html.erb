@@ -11,6 +11,13 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= form.label :avatar, style: "display: block", class: "label" %>
+    <div class="control">
+      <%= form.file_field :avatar %>
+    </div>
+  </div>
+
   <div class="columns">
     <div class="field column">
       <%= form.label :name, style: "display: block", class: "label" %>
