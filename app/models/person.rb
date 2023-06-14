@@ -5,6 +5,7 @@ class Person < ApplicationRecord
   end
   
   validates :name, presence: true
+  validates :avatar, content_type: [:png, :jpg, :jpeg]
   
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders, :history]
