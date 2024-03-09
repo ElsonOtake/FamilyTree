@@ -1,6 +1,6 @@
 <%= render @person %>
 
-<h4 class="subtitle has-text-grey-light">Parents</h4>
+<h4 class="subtitle has-text-grey">Parents</h4>
 <div class="box">
   <% unless @father.nil? %>
     <table class="table">
@@ -26,7 +26,7 @@
   <% end %>
 </div>
 
-<h4 class="subtitle has-text-grey-light">Siblings</h4>
+<h4 class="subtitle has-text-grey">Siblings</h4>
 <div class="box">
   <% unless @parents.empty? %>
     <table class="table">
@@ -49,7 +49,7 @@
 </div>
 
 <div class="is-flex">
-<h4 class="subtitle has-text-grey-light">Mate</h4>
+<h4 class="subtitle has-text-grey">Mate</h4>
 <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'),
   new_person_couple_path(@person),
   data: {
@@ -101,7 +101,7 @@
   <% end %>
 </div>
 
-<h4 class="subtitle has-text-grey-light">Children</h4>
+<h4 class="subtitle has-text-grey">Children</h4>
   <div class="box">
   <% unless @children.empty? %>
     <table class="table">
