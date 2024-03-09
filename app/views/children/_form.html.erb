@@ -2,7 +2,7 @@
   <div class="field column">
     <%= form.label "Child", style: "display: block", class: "label" %>
     <div class="control">
-      <%= form.select :child_id, people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } %>
+      <%= form.select :child_id, people&.collect { |c| [c.name, c.id] }, { include_blank: true, prompt: "Select child" }, { class: 'input' } %>
     </div>
   </div>
 
