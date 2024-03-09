@@ -38,10 +38,10 @@
       <% elsif person.birth.nil? && !person.death.nil? %>
         <%= "Faleceu em #{person.death.strftime('%d de %B de %Y')}" %>
       <% elsif !person.birth.nil? %>
-        <%= "#{((Date.today - person.birth)/365.25).to_i} anos de idade" %><br>
+        <%= "#{((Date.today - person.birth)/365.25).to_i} #{t(:year_old)}" %><br>
       <% end %>
       <% if !person.birth.nil? %>
-        <%= "Aniversário: #{person.birth.strftime('%d/%B')}" %>
+        <%= "#{t(:birthday)}: #{l person.birth, format: :short}" %>
       <% end %>
 
       <% unless person.description.nil? %>
