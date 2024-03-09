@@ -41,8 +41,7 @@ export default class extends Controller {
     });
 
     document.addEventListener('keydown', (event) => {
-      const e = event || window.event;
-      if (e.key == "Escape") { // Escape key
+      if (event.key == "Escape") {
         this.closeAllModals();
       }
     });
