@@ -19,8 +19,8 @@
     <div class="field column">
       <%= form.label "Mate", style: "display: block", class: "label" %>
       <div class="control">
-        <%= form.select :person1_id, @people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } if couple.person2_id == @person.id %>
-        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } if couple.person1_id == @person.id %>
+        <%= form.select :person1_id, @people&.collect { |c| [c.name, c.id] }, { include_blank: true, prompt: "Select mate" }, { class: 'input' } if couple.person2_id == @person.id %>
+        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, { include_blank: true, prompt: "Select mate" }, { class: 'input' } if couple.person1_id == @person.id %>
       </div>
     </div>
 
