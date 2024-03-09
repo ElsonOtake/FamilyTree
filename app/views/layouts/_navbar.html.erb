@@ -60,6 +60,25 @@
     </div> %>
 
     <div class="navbar-end">
+      <% if user_signed_in? %>
+        <% locales = {
+              pt: "Português",
+              en: "English",
+              ja: "日本語"
+            }.with_indifferent_access
+        %>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <%= locales[current_user.locale] %>
+          </a>
+
+          <div class="navbar-dropdown is-active">
+            <% locales.each do |key, value| %>
+              <%= link_to value, person_locale_change_path(current_user, key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == current_user.locale %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
       <div class="navbar-item is-hidden-touch">
         <div class="buttons">
           <% if user_signed_in? %>
