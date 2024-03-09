@@ -107,6 +107,8 @@ GEM
       xpath (~> 3.2)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
+    cssbundling-rails (1.4.0)
+      railties (>= 6.0.0)
     date (3.3.3)
     debug (1.7.2)
       irb (>= 1.5.0)
@@ -278,6 +280,7 @@ DEPENDENCIES
   bootsnap
   bulma-rails (~> 0.9.4)
   capybara
+  cssbundling-rails (~> 1.4)
   debug
   devise
   dotenv-rails
