@@ -34,9 +34,9 @@
     <div class="content">
       
       <% if !person.birth.nil? && !person.death.nil? %>
-        <%= "Faleceu em #{person.death.strftime('%d de %B de %Y')} aos #{((person.death - person.birth)/365.25).to_i} anos de idade" %><br>
+        <%= t(:passed_away_on_years_of_age, date: l(person.death, format: :long), years: ((person.death - person.birth)/365.25).to_i) %><br>
       <% elsif person.birth.nil? && !person.death.nil? %>
-        <%= "Faleceu em #{person.death.strftime('%d de %B de %Y')}" %>
+        <%= t(:passed_away_on, date: l(person.death, format: :long)) %>
       <% elsif !person.birth.nil? %>
         <%= "#{((Date.today - person.birth)/365.25).to_i} #{t(:year_old)}" %><br>
       <% end %>
