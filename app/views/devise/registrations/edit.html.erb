@@ -55,8 +55,8 @@
 
   <div class="actions">
     <div class="buttons">
-      <%= f.submit t(:update), class: "button is-link is-light" %>
-      <%= link_to t(:back), :back, class: "button is-link is-light" %>
+      <%= f.submit t(:update), class: "button is-link" %>
+      <%= link_to t(:back), :back, class: "button is-link" %>
     </div>
   </div>
 <% end %>
@@ -65,7 +65,7 @@
 
 <%= button_to t(:cancel_my_account),
   registration_path(resource_name),
-  class: "button is-danger is-light",
+  class: "button is-danger",
   data: { confirm: t(:are_you_sure), turbo_confirm: t(:are_you_sure) },
   method: :delete
 %>
