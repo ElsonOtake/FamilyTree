@@ -1,13 +1,13 @@
 <%= form_with(url: person_couple_children_path(person, couple)) do |form| %>
   <div class="field column">
-    <%= form.label "Child", style: "display: block", class: "label" %>
+    <%= form.label :child, t(:child), style: "display: block", class: "label" %>
     <div class="control">
-      <%= form.select :child_id, people&.collect { |c| [c.name, c.id] }, {}, { class: 'input' } %>
+      <%= form.select :child_id, people&.collect { |c| [c.name, c.id] }, { prompt: t(:select_child) }, { class: 'input' } %>
     </div>
   </div>
 
   <div class="control">
-    <%= form.submit class: "button is-link is-light",
+    <%= form.submit class: "button is-link",
       data: {
         controller: "stimulus",
         action: "stimulus#closeAllModals"

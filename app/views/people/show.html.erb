@@ -1,133 +1,129 @@
 <%= render @person %>
 
-<h4 class="subtitle has-text-grey-light">Parents</h4>
-<div class="box">
-  <% unless @father.nil? %>
-    <table class="table">
-      <tbody>
-        <tr>
-          <td>
-            <%= render "icon", variable: @father %>
-          </td>
-          <td>
-            <%= link_to @father.name, person_path(@father) %><br>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= render "icon", variable: @mother %>
-          </td>
-          <td>
-            <%= link_to @mother.name, person_path(@mother) %><br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  <% end %>
-</div>
-
-<h4 class="subtitle has-text-grey-light">Siblings</h4>
-<div class="box">
-  <% unless @parents.empty? %>
-    <table class="table">
-      <tbody>
-        <% @parents[0].people.each do |sibling| %>
-          <% if sibling.id != @person.id %>
+<div class="columns is-multiline">
+  <div class="column is-full-tablet is-half-desktop">
+    <h4 class="subtitle has-text-grey"><%= t(:parents) %></h4>
+    <div class="box">
+      <% unless @father.nil? %>
+        <table class="table">
+          <tbody>
             <tr>
               <td>
-                <%= render "icon", variable: sibling %>
-              </td>
-              <td>
-                <%= link_to sibling.name, person_path(sibling) %>
+                <%= render "icon", person: @father %>
+                <%= link_to @father.name, person_path(@father) %><br>
               </td>
             </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
-</div>
+            <tr>
+              <td>
+                <%= render "icon", person: @mother %>
+                <%= link_to @mother.name, person_path(@mother) %><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
 
-<div class="is-flex">
-<h4 class="subtitle has-text-grey-light">Mate</h4>
-<%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'),
-  new_person_couple_path(@person),
-  data: {
-    turbo_frame: "new_couple",
-    controller: "stimulus",
-    stimulus_id_value: "couple_new",
-    action: "stimulus#open"
-  }
-%>
-</div>
-<div class="box">
-  <% unless @mate.empty? %>
-    <table class="table">
-      <tbody>
-        <% @mate.each_with_index do |partner, index| %>
-          <tr>
-            <td>
-              <%= render "icon", variable: partner %>
-            </td>
-            <td>
-              <%= link_to partner.name, person_path(partner) %>
-            </td>
-            <td>
-              <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary'),
-                new_person_couple_child_path(@person, @couple[index]),
-                data: {
-                  turbo_frame: "new_child",
-                  controller: "stimulus",
-                  stimulus_id_value: "child_new",
-                  action: "stimulus#open"
-                }
-              %>
-            </td>
-            <td>
-              <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
-                edit_person_couple_path(@person, @couple[index]),
-                data: {
-                  turbo_frame: "edit_couple",
-                  controller: "stimulus",
-                  stimulus_id_value: "couple_edit",
-                  action: "stimulus#open"
-                }
-              %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
-</div>
+  <div class="column is-full-tablet is-half-desktop">
+    <h4 class="subtitle has-text-grey"><%= t(:siblings) %></h4>
+    <div class="box">
+      <% unless @parents.empty? %>
+        <table class="table">
+          <tbody>
+            <% @parents[0].people.each do |sibling| %>
+              <% if sibling.id != @person.id %>
+                <tr>
+                  <td>
+                    <%= render "icon", person: sibling %>
+                    <%= link_to sibling.name, person_path(sibling) %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
 
-<h4 class="subtitle has-text-grey-light">Children</h4>
-  <div class="box">
-  <% unless @children.empty? %>
-    <table class="table">
-      <tbody>
-        <% @children.each do |child| %>
-          <tr>
-            <td>
-              <%= render "icon", variable: child %>
-            </td>
-            <td>
-              <%= link_to child.name, person_path(child) %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
-</div>
+  <div class="column is-full-tablet is-half-desktop">
+    <div class="is-flex">
+      <h4 class="subtitle has-text-grey"><%= t(:mate) %></h4>
+      <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'),
+        new_person_couple_path(@person),
+        data: {
+          turbo_frame: "new_couple",
+          controller: "stimulus",
+          stimulus_id_value: "couple_new",
+          action: "stimulus#open"
+        }
+      %>
+    </div>
+    <div class="box">
+      <% unless @mate.empty? %>
+        <table class="table">
+          <tbody>
+            <% @mate.each_with_index do |partner, index| %>
+              <tr>
+                <td>
+                  <%= render "icon", person: partner %>
+                  <%= link_to partner.name, person_path(partner) %>
+                </td>
+                <td>
+                  <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary'),
+                    new_person_couple_child_path(@person, @couple[index]),
+                    data: {
+                      turbo_frame: "new_child",
+                      controller: "stimulus",
+                      stimulus_id_value: "child_new",
+                      action: "stimulus#open"
+                    }
+                  %>
+                </td>
+                <td>
+                  <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
+                    edit_person_couple_path(@person, @couple[index]),
+                    data: {
+                      turbo_frame: "edit_couple",
+                      controller: "stimulus",
+                      stimulus_id_value: "couple_edit",
+                      action: "stimulus#open"
+                    }
+                  %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
 
+  <div class="column is-full-tablet is-half-desktop">
+    <h4 class="subtitle has-text-grey"><%= t(:children) %></h4>
+      <div class="box">
+      <% unless @children.empty? %>
+        <table class="table">
+          <tbody>
+            <% @children.each do |child| %>
+              <tr>
+                <td>
+                  <%= render "icon", person: child %>
+                  <%= link_to child.name, person_path(child) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>
 <br>
 
 <div>
-  <%#= link_to "Edit this person", edit_person_path(@person) %>
-  <%= link_to "Back to people", people_path, class: 'button is-link is-light' %>
-
-  <%#= button_to "Destroy this person", @person, method: :delete %>
+  <%= link_to t(:back_to_people), people_path, class: 'button is-link' %>
 </div>
 
 <%= render "shared/modal", tag_name: "new_couple", modal_id: "couple_new" %>

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "new_person" do %>
-  <h1 class="title has-text-info">New person</h1>
+  <h1 class="title has-text-info"><%= t('helpers.submit.create', model: t(:person)) %></h1>
 
   <%= render "form", person: @person %>
 
