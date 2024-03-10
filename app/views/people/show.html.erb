@@ -26,7 +26,7 @@
   </div>
 
   <div class="column is-full-tablet is-half-desktop">
-    <h4 class="subtitle has-text-grey">Siblings</h4>
+    <h4 class="subtitle has-text-grey"><%= t(:siblings) %></h4>
     <div class="box">
       <% unless @parents.empty? %>
         <table class="table">
@@ -49,7 +49,7 @@
 
   <div class="column is-full-tablet is-half-desktop">
     <div class="is-flex">
-      <h4 class="subtitle has-text-grey">Mate</h4>
+      <h4 class="subtitle has-text-grey"><%= t(:mate) %></h4>
       <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'),
         new_person_couple_path(@person),
         data: {
@@ -101,7 +101,7 @@
   </div>
 
   <div class="column is-full-tablet is-half-desktop">
-    <h4 class="subtitle has-text-grey">Children</h4>
+    <h4 class="subtitle has-text-grey"><%= t(:children) %></h4>
       <div class="box">
       <% unless @children.empty? %>
         <table class="table">
@@ -123,10 +123,7 @@
 <br>
 
 <div>
-  <%#= link_to "Edit this person", edit_person_path(@person) %>
-  <%= link_to "Back to people", people_path, class: 'button is-link is-light' %>
-
-  <%#= button_to "Destroy this person", @person, method: :delete %>
+  <%= link_to t(:back_to_people), people_path, class: 'button is-link is-light' %>
 </div>
 
 <%= render "shared/modal", tag_name: "new_couple", modal_id: "couple_new" %>
