@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "new_couple" do %>
-  <h1 class="title has-text-info">New mate <%= @person.name %></h1>
+  <h1 class="title has-text-info"><%= t('helpers.submit.create', model: t(:mate)) %> <%= @person.name %></h1>
 
   <%= render "form", couple: @couple, url: person_couples_path(@person) %>
 

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :couples, only: [:new, :edit, :create, :update] do
       resources :children
     end
+    patch 'change/:locale', to: 'people#change', as: 'locale_change'
   end
   resources :couples, only: [:index, :show, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

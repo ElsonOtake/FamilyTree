@@ -6,6 +6,8 @@ class User < ApplicationRecord
   before_save :to_lowercase
   validates :name, presence: true
 
+  enum locale: [ :pt, :en, :ja ]
+
   def to_lowercase
     email.downcase!
   end

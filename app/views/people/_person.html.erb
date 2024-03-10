@@ -1,7 +1,7 @@
 <div id="<%= dom_id person %>" class="box">
   <div class="card-content">
-    <div class="media block">
-      <div class="media-left">
+    <div class="block columns">
+      <div class="column is-narrow">
         <% if person.avatar.attached? %>
           <%= link_to image_tag(person.avatar.variant(:thumb)), person.avatar %>
         <% else %>
@@ -10,13 +10,10 @@
           </figure>
         <% end %>
       </div>
-      <div class="media-content">
-        <div class="columns is-vcentered">
-          <div class="column is-narrow title m-0">
-            <%= person.name %>
-          </div>
-          <div class="column is-narrow">
-            <%= render "icon", variable: person %>
+      <div class="column">
+        <div class="title">
+          <%= render "icon", person: person %><%= person.name %>
+          <span class="is-size-6">
             <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
               edit_person_path(person),
               data: {
@@ -26,10 +23,10 @@
                 action: "stimulus#open"
               }
             %>
-          </div>
+          </span>
         </div>
         <% unless person.kanji.nil? %>
-          <p class="subtitle"><%= person.kanji %></p>
+          <p class="subtitle mt-4"><%= person.kanji %></p>
         <% end %>
       </div>
     </div>
@@ -37,14 +34,14 @@
     <div class="content">
       
       <% if !person.birth.nil? && !person.death.nil? %>
-        <%= "Faleceu em #{person.death.strftime('%d de %B de %Y')} aos #{((person.death - person.birth)/365.25).to_i} anos de idade" %><br>
+        <%= t(:passed_away_on_years_of_age, date: l(person.death, format: :long), years: ((person.death - person.birth)/365.25).to_i) %><br>
       <% elsif person.birth.nil? && !person.death.nil? %>
-        <%= "Faleceu em #{person.death.strftime('%d de %B de %Y')}" %>
+        <%= t(:passed_away_on, date: l(person.death, format: :long)) %>
       <% elsif !person.birth.nil? %>
-        <%= "#{((Date.today - person.birth)/365.25).to_i} anos de idade" %><br>
+        <%= "#{((Date.today - person.birth)/365.25).to_i} #{t(:year_old)}" %><br>
       <% end %>
       <% if !person.birth.nil? %>
-        <%= "Aniversário: #{person.birth.strftime('%d/%B')}" %>
+        <%= "#{t(:birthday)}: #{l person.birth, format: :short}" %>
       <% end %>
 
       <% unless person.description.nil? %>

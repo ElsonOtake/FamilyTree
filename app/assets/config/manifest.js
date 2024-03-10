@@ -1,5 +1,4 @@
 //= link_person ../images
-//= link_directory ../stylesheets .css
 //= link_person ../../javascript .js
 //= link_person ../../../vendor/javascript .js
 //= link application.js

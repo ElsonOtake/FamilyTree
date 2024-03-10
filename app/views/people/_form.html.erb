@@ -1,7 +1,7 @@
 <%= form_with(model: person) do |form| %>
   <% if person.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(person.errors.count, "error") %> prohibited this person from being saved:</h2>
+      <h2><%= t('errors.template.header', count: errors.count, model: t(:person)) %></h2>
 
       <ul>
         <% person.errors.each do |error| %>
@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :avatar, style: "display: block", class: "label" %>
+    <%= form.label :avatar, t(:avatar), style: "display: block", class: "label" %>
     <div class="control">
       <%= form.file_field :avatar %>
     </div>
@@ -20,14 +20,14 @@
 
   <div class="columns">
     <div class="field column">
-      <%= form.label :name, style: "display: block", class: "label" %>
+      <%= form.label :name, t(:name), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.text_field :name, class: "input" %>
       </div>
     </div>
 
     <div class="field column">
-      <%= form.label :kanji, style: "display: block", class: "label" %>
+      <%= form.label :kanji, t(:kanji), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.text_field :kanji, class: "input" %>
       </div>
@@ -36,33 +36,33 @@
 
   <div class="columns">
     <div class="field column">
-      <%= form.label :gender, style: "display: block", class: "label" %>
+      <%= form.label :gender, t(:gender), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.radio_button :gender, "M" %>
-        <%= form.label "Masc" %>
+        <%= form.label t(:male) %>
         <%= form.radio_button :gender, "F", class: "ml-2" %>
-        <%= form.label "Fem" %>
+        <%= form.label t(:female) %>
         <%= form.radio_button :gender, "P", class: "ml-2" %>
-        <%= form.label "Pet" %>
+        <%= form.label t(:pet) %>
         <%= form.radio_button :gender, "X", class: "ml-2" %>
-        <%= form.label "Outro" %>
+        <%= form.label t(:other) %>
       </div>
     </div>
 
     <div class="field column">
-      <%= form.label :alive, style: "display: block", class: "label" %>
+      <%= form.label :alive, t(:alive), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.radio_button :alive, true %>
-        <%= form.label "Yes" %>
+        <%= form.label t(:yes) %>
         <%= form.radio_button :alive, false, class: "ml-2" %>
-        <%= form.label "No" %>
+        <%= form.label t(:no) %>
       </div>
     </div>
   </div>
 
   <div class="columns">
     <div class="field column">
-      <%= form.label :birth, style: "display: block", class: "label" %>
+      <%= form.label :birth, t(:birthday), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.date_field :birth, class: "input" %>
       </div>
@@ -70,7 +70,7 @@
     </div>
 
     <div class="field column">
-      <%= form.label :death, style: "display: block", class: "label" %>
+      <%= form.label :death, t(:death), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.date_field :death, class: "input" %>
       </div>
@@ -79,14 +79,14 @@
   </div>
 
   <div class="field">
-    <%= form.label :description, style: "display: block", class: "label" %>
+    <%= form.label :description, t(:remark), style: "display: block", class: "label" %>
     <div class="control">
       <%= form.text_area :description, class: "input" %>
     </div>
   </div>
 
   <div class="control">
-    <%= form.submit class: "button is-link is-light",
+    <%= form.submit class: "button is-link",
       data: {
         controller: "stimulus",
         action: "stimulus#closeAllModals"
