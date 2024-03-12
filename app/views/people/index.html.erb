@@ -1,5 +1,5 @@
 <div class="is-flex is-align-items-center mb-4">
-  <h1 class="title has-text-info m-0"><%= t(:family_tree) %></h1>
+  <h1 class="title has-text-info m-0"><%= t('.family_tree') %></h1>
   <%= link_to icon('fa-solid fa-xl', 'user-plus', class: 'has-text-primary ml-4'),
     new_person_path,
     data: {
@@ -11,27 +11,27 @@
   %>
 </div>
 
-<p class="has-text-link has-text-weight-semibold"><%= t(:search) %></p>
+<p class="has-text-link has-text-weight-semibold"><%= t('.search') %></p>
 <div class="box">
   <div class="columns">
     <div class="column">
-      <p class="has-text-link has-text-weight-semibold"><%= t(:name) %></p>
+      <p class="has-text-link has-text-weight-semibold"><%= t('people.form.name') %></p>
       <div class="box">
         <%= form_with url: search_people_name_path, method: :post do |form| %>
           <div class="field has-addons">
             <div class="control">
-              <%= form.text_field :name, class: "input is-info is-rounded", placeholder: t(:search_by_name) %>
+              <%= form.text_field :name, class: "input is-info is-rounded", placeholder: t('.search_by_name') %>
             </div>
 
             <div class="control">
-              <%= form.submit t(:search), class: "button is-info is-rounded" %>
+              <%= form.submit t('.search'), class: "button is-info is-rounded" %>
             </div>
           </div>
         <% end  %>
       </div>
     </div>
     <div class="column">
-      <p class="has-text-link has-text-weight-semibold"><%= t(:first_char) %></p>
+      <p class="has-text-link has-text-weight-semibold"><%= t('.first_char') %></p>
       <div class="buttons are-small box">
         <% first_one = true %>
         <% @first.each do |letter| %>

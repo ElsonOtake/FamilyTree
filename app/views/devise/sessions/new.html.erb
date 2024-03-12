@@ -1,15 +1,15 @@
-<h2 class="title has-text-info">Log in</h2>
+<h2 class="title has-text-info"><%= t('.log_in') %></h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
-    <%= f.label :email, class: "label" %>
+    <%= f.label :email, t('devise.email'), class: "label" %>
     <div class="control">
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= f.label :password, class: "label" %>
+    <%= f.label :password, t('devise.password'), class: "label" %>
     <div class="control">
       <%= f.password_field :password, autocomplete: "current-password", class: "input" %>
     </div>
@@ -17,18 +17,18 @@
 
   <% if devise_mapping.rememberable? %>
     <div class="field">
-      <%= f.label :remember_me, class: "checkbox mr-1" %>
+      <%= f.label :remember_me, t('.remember_me'), class: "checkbox mr-1" %>
       <%= f.check_box :remember_me %>
     </div>
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Log in", class: "button is-link" %>
+    <%= f.submit t('.log_in'), class: "button is-link" %>
   </div>
 <% end %>
 
-<%= link_to "Forgot your password?", new_password_path(resource_name), class: "button is-danger mt-6" %>
 
+<%= link_to t('devise.passwords.new.forgot_your_password'), new_password_path(resource_name), class: "button is-danger mt-6" %>
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name), class: "button is-link mt-6" %>
+  <%= link_to t('.didnt_receive_confirmation_instructions'), new_confirmation_path(resource_name), class: "button is-link mt-6" %>
 <% end %>
