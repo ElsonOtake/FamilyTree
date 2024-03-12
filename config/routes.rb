@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :children
     end
     patch 'change/:locale', to: 'people#change', as: 'locale_change'
+    patch 'change_unidentified/:locale', on: :collection, to: 'people#change_unidentified', as: 'locale_change_unidentified'
   end
   resources :couples, only: [:index, :show, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
