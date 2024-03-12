@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  include Pagy::Backend
   before_action :authenticate_user!, except: :change_unidentified
   before_action :set_person, only: %i[ show edit update destroy ]
 
@@ -7,7 +8,7 @@ class PeopleController < ApplicationController
     @first = Person.select("upper(left(name, 1)) initial").distinct.order(:initial)
     # @people = Person.where('name like ?', "#{@first[0].initial}%").order(:name)
     @q = Person.ransack(params[:q])
-    @people = @q.result(distinct: true)
+    @pagy, @people = pagy(@q.result(distinct: true), items: 10)
   end
 
   # GET /people/1 or /people/1.json
