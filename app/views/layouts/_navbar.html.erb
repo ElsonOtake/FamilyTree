@@ -63,43 +63,50 @@
     </div> %>
 
     <div class="navbar-end">
-      <% if user_signed_in? %>
-        <% locales = {
-              pt: "Português",
-              en: "English",
-              ja: "日本語"
-            }.with_indifferent_access
-        %>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
+      <% locales = {
+            pt: "Português",
+            en: "English",
+            ja: "日本語"
+          }.with_indifferent_access
+      %>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <% if user_signed_in? %>
             <%= locales[current_user.locale] %>
-          </a>
+          <% else %>
+            <% session[:locale] ||= I18n.default_locale.to_s %>
+            <%= locales[session[:locale]] %>
+          <% end %>
+        </a>
 
-          <div class="navbar-dropdown is-active">
-            <% locales.each do |key, value| %>
+        <div class="navbar-dropdown is-active">
+          <% locales.each do |key, value| %>
+            <% if user_signed_in? %>
               <%= link_to value, person_locale_change_path(current_user, key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == current_user.locale %>
+            <% else %>
+              <%= link_to value, locale_change_unidentified_people_path(key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == session[:locale] %>
             <% end %>
-          </div>
+          <% end %>
         </div>
-      <% end %>
+      </div>
       <div class="navbar-item is-hidden-touch">
         <div class="buttons">
           <% if user_signed_in? %>
-            <%= link_to t(:edit_profile), edit_user_registration_path, class: "button is-link is-outlined" %>
-            <%= button_to t(:log_out), destroy_user_session_path, method: :delete, class: "button is-danger is-outlined" %>
+            <%= link_to t('.edit_profile'), edit_user_registration_path, class: "button is-link is-outlined" %>
+            <%= button_to t('.log_out'), destroy_user_session_path, method: :delete, class: "button is-danger is-outlined" %>
           <% else %>
-            <%= link_to "Sign Up", new_user_registration_path, class: "button is-link is-outlined" %>
-            <%= link_to "Log in", new_user_session_path, class: "button is-info is-outlined" %>
+            <%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path, class: "button is-link is-outlined" %>
+            <%= link_to t('devise.sessions.new.log_in'), new_user_session_path, class: "button is-info is-outlined" %>
           <% end %>
         </div>
       </div>
       <div class="navbar-item is-hidden-desktop">
           <% if user_signed_in? %>
-            <%= link_to t(:edit_profile), edit_user_registration_path, class: "navbar-item" %>
-            <%= link_to t(:log_out), destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-item" %>
+            <%= link_to t('.edit_profile'), edit_user_registration_path, class: "navbar-item" %>
+            <%= link_to t('.log_out'), destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-item" %>
           <% else %>
-            <%= link_to "Sign Up", new_user_registration_path, class: "navbar-item" %>
-            <%= link_to "Log in", new_user_session_path, class: "navbar-item" %>
+            <%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path, class: "navbar-item" %>
+            <%= link_to t('devise.sessions.new.log_in'), new_user_session_path, class: "navbar-item" %>
           <% end %>
       </div>
     </div>

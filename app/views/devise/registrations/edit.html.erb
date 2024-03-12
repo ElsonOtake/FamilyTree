@@ -1,4 +1,4 @@
-<h2 class="title has-text-info"><%= t(:edit_user) %></h2>
+<h2 class="title has-text-info"><%= t('.edit_user') %></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
@@ -11,43 +11,43 @@
   </div>
 
   <div class="field">
-    <%= f.label :email, t(:email), class: "label" %>
+    <%= f.label :email, t('devise.email'), class: "label" %>
     <div class="control">
       <%= f.email_field :email, autocomplete: "email", class: "input" %>
     </div>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div><%= t(:currently_waiting_confirmation_for) %><%= resource.unconfirmed_email %></div>
+    <div><%= t('.currently_waiting_confirmation_for') %><%= resource.unconfirmed_email %></div>
   <% end %>
 
   <div class="field">
-    <%= f.label :password, t(:password), class: "label" %>
+    <%= f.label :password, t('devise.password'), class: "label" %>
     <div class="control">
       <%= f.password_field :password, autocomplete: "new-password", class: "input" %>
     </div>
     <% if @minimum_password_length %>
-      <span class="help is-danger"><%= t(:characters_minimum, count: @minimum_password_length) %><span class="has-text-info">(<%= t(:leave_blank) %>)</span></span>
+      <span class="help is-danger"><%= t('devise.characters_minimum', count: @minimum_password_length) %><span class="has-text-info">(<%= t('.leave_blank') %>)</span></span>
     <% end %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, t(:password_confirmation), class: "label" %>
+    <%= f.label :password_confirmation, t('devise.password_confirmation'), class: "label" %>
     <div class="control">
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= f.label :current_password, t(:current_password), class: "label" %>
+    <%= f.label :current_password, t('.current_password'), class: "label" %>
     <div class="control">
       <%= f.password_field :current_password, autocomplete: "current-password", class: "input" %>
     </div>
-    <p class="help is-info"><%= t(:we_need_your_current_password) %></p>
+    <p class="help is-info"><%= t('.we_need_your_current_password') %></p>
   </div>
 
   <div class="field">
-    <%= f.label :phone, t(:phone), class: "label" %>
+    <%= f.label :phone, t('devise.registrations.phone'), class: "label" %>
     <div class="control">
       <%= f.text_field :phone, autocomplete: "phone", class: "input" %>
     </div>
@@ -55,15 +55,15 @@
 
   <div class="actions">
     <div class="buttons">
-      <%= f.submit t(:update), class: "button is-link" %>
-      <%= link_to t(:back_to_people), root_path, class: "button is-link" %>
+      <%= f.submit t('.update'), class: "button is-link" %>
+      <%= link_to t('people.show.back_to_people'), root_path, class: "button is-link" %>
     </div>
   </div>
 <% end %>
 
-<h3 class="subtitle has-text-info mt-6"><%= t(:unhappy) %></h3>
+<h3 class="subtitle has-text-info mt-6"><%= t('.unhappy') %></h3>
 
-<%= button_to t(:cancel_my_account),
+<%= button_to t('.cancel_my_account'),
   registration_path(resource_name),
   class: "button is-danger",
   data: { confirm: t(:are_you_sure), turbo_confirm: t(:are_you_sure) },

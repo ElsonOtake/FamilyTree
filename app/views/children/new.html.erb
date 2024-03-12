@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "new_child" do %>
-  <h1 class="title has-text-info"><%= t('helpers.submit.create', model: t(:child)) %></h1>
+  <h1 class="title has-text-info"><%= t('helpers.submit.create', model: t('children.form.child')) %></h1>
 
   <%= render "form", person: @person, couple: @couple, people: @people %>
 <% end %>
