@@ -3,6 +3,9 @@
     <a class="navbar-item" href="<%= root_path %>">
       <img src="<%= image_path "EAO.png" %>" width="90" height="45">
     </a>
+    <% if user_signed_in? %>
+      <p class="subtitle my-auto"><%= current_user.name %></p>
+    <% end %>
 
     <a
       role="button"
