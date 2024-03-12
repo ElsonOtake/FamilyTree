@@ -11,59 +11,103 @@
   %>
 </div>
 
-<p class="has-text-link has-text-weight-semibold"><%= t('.search') %></p>
+<%= search_form_for @q do |f| %>
+
+  <%= f.label :name_or_description_cont %>
+  <%= f.search_field :name_or_description_cont %>
+
+  <%= f.label :birth_eq %>
+  <%= f.date_field :birth_eq %>
+
+  <%= f.label :birth_gteq %>
+  <%= f.date_field :birth_gteq %>
+
+  <%= f.label :birth_lteq %>
+  <%= f.date_field :birth_lteq %>
+
+  <%= f.label :gender_eq %>
+  <%= f.select :gender_eq, Person.genders.to_a, { include_blank: true } %>
+
+  <%= f.label :alive_eq %>
+  <%= f.select :alive_eq, [true, false], { include_blank: true } %>
+
+  <%= f.submit %>
+<% end %>
+
+<%# <p class="has-text-link has-text-weight-semibold"> %>
+  <%#= t('.search') %>
+<%# </p>
 <div class="box">
   <div class="columns">
-    <div class="column">
-      <p class="has-text-link has-text-weight-semibold"><%= t('people.form.name') %></p>
-      <div class="box">
-        <%= form_with url: search_people_name_path, method: :post do |form| %>
-          <div class="field has-addons">
-            <div class="control">
-              <%= form.text_field :name, class: "input is-info is-rounded", placeholder: t('.search_by_name') %>
-            </div>
+    <div class="column"> %>
+      <%# <p class="has-text-link has-text-weight-semibold"> %>
+        <%#= t('people.form.name') %>
+      <%# </p>
+      <div class="box"> %>
+        <%#= form_with url: search_people_name_path, method: :post do |form| %>
+          <%# <div class="field has-addons">
+            <div class="control"> %>
+              <%#= form.text_field :name, class: "input is-info is-rounded", placeholder: t('.search_by_name') %>
+            <%# </div>
 
-            <div class="control">
-              <%= form.submit t('.search'), class: "button is-info is-rounded" %>
-            </div>
-          </div>
-        <% end  %>
-      </div>
+            <div class="control"> %>
+              <%#= form.submit t('.search'), class: "button is-info is-rounded" %>
+            <%# </div> %>
+          <%# </div> %>
+        <%# end  %>
+      <%# </div>
     </div>
     <div class="column">
-      <p class="has-text-link has-text-weight-semibold"><%= t('.first_char') %></p>
-      <div class="buttons are-small box">
-        <% first_one = true %>
-        <% @first.each do |letter| %>
-          <%= form_with url: search_people_first_letter_path, method: :post do |form| %>
-            <%= form.hidden_field :letter, value: letter.initial %>
-            <% if first_one %>
-              <%= form.submit letter.initial,
+      <p class="has-text-link has-text-weight-semibold"> %>
+        <%#= t('.first_char') %>
+      <%# </p>
+      <div class="buttons are-small box"> %>
+        <%# first_one = true %>
+        <%# @first.each do |letter| %>
+          <%#= form_with url: search_people_first_letter_path, method: :post do |form| %>
+            <%#= form.hidden_field :letter, value: letter.initial %>
+            <%# if first_one %>
+              <%#= form.submit letter.initial,
                 data: {
                   controller: "stimulus",
                   action: "stimulus#select"
                 },
                 class: "first-letter-button button is-rounded is-info"
               %>
-              <% first_one = false %>
-            <% else %>
-              <%= form.submit letter.initial,
+              <%# first_one = false %>
+            <%# else %>
+              <%#= form.submit letter.initial,
                 data: {
                   controller: "stimulus",
                   action: "stimulus#select"
                 },
                 class: "first-letter-button button is-rounded"
               %>
-            <% end %>
-          <% end  %>
-        <% end %>
-      </div>
+            <%# end %>
+          <%# end  %>
+        <%# end %>
+      <%# </div>
     </div>
   </div>
-</div>
+</div> %>
 
-<ul id="people" class="box">
-  <%= render "people/list", people: @people %>
-</ul>
+<%# <ul id="people" class="box"> %>
+  <%#= render "people/list", people: @people %>
+<%# </ul> %>
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= sort_link(@q, :name, 'Name', default_order: :asc) %></th>
+      <th><%= sort_link(@q, :gender, 'Gender') %></th>
+      <th><%= sort_link(@q, :birth, 'Birth') %></th>
+      <th><%= sort_link(@q, :death, 'Death') %></th>
+      <th><%= sort_link(@q, :alive, 'Alive') %></th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody id="people">
+    <%= render "people/table", people: @people %>
+  </tbody>
+</table>
 
 <%= render "shared/modal", tag_name: "new_person", modal_id: "person_new" %>
