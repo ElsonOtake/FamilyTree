@@ -1,7 +1,7 @@
 <%= form_with(model: couple, url: url) do |form| %>
   <% if couple.errors.any? %>
     <div style="color: red">
-      <h2><%= t('errors.template.header', count: errors.count, model: t(:mate)) %></h2>
+      <h2><%= t('errors.template.header', count: errors.count, model: t('people.show.mate')) %></h2>
 
       <ul>
         <% couple.errors.each do |error| %>
@@ -17,35 +17,35 @@
   <div class="columns">
 
     <div class="field column">
-      <%= form.label :mate, t(:mate), style: "display: block", class: "label" %>
+      <%= form.label :mate, t('people.show.mate'), style: "display: block", class: "label" %>
       <div class="control">
-        <%= form.select :person1_id, @people&.collect { |c| [c.name, c.id] }, { prompt: t(:select_mate) }, { class: 'input' } if couple.person2_id == @person.id %>
-        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, { prompt: t(:select_mate) }, { class: 'input' } if couple.person1_id == @person.id %>
+        <%= form.select :person1_id, @people&.collect { |c| [c.name, c.id] }, { prompt: t('.select_mate') }, { class: 'input' } if couple.person2_id == @person.id %>
+        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, { prompt: t('.select_mate') }, { class: 'input' } if couple.person1_id == @person.id %>
       </div>
     </div>
 
     <div class="field column">
-      <%= form.label :marriage, t(:marriage), style: "display: block", class: "label" %>
+      <%= form.label :marriage, t('.marriage'), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.date_field :marriage, class: "input" %>
       </div>
-      <p class="help is-info"><%= t(:mm_dd_yyyy) %></p>
+      <p class="help is-info"><%= t('people.form.mm_dd_yyyy') %></p>
     </div>
   </div>
   <div class="columns">
     <div class="field column">
-      <%= form.label :local, t(:local), style: "display: block", class: "label" %>
+      <%= form.label :local, t('.local'), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.text_area :local, class: "input" %>
       </div>
     </div>
 
     <div class="field column">
-      <%= form.label :separation, t(:separation), style: "display: block", class: "label" %>
+      <%= form.label :separation, t('.separation'), style: "display: block", class: "label" %>
       <div class="control">
         <%= form.date_field :separation, class: "input" %>
       </div>
-      <p class="help is-info"><%= t(:mm_dd_yyyy) %></p>
+      <p class="help is-info"><%= t('people.form.mm_dd_yyyy') %></p>
     </div>
   </div>
 
