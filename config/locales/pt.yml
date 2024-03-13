@@ -18,8 +18,6 @@ pt:
     index:
       family_tree: "Árvore genealógica"
       search_by_name: "Busca por nome"
-      # search: "Busca"
-      # first_char: "Primeiro caracter"
       gteq: "de"
       lteq: "até"
       all: "Tudo"

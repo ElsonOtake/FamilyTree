@@ -18,8 +18,6 @@ ja:
     index:
       family_tree: "家系図"
       search_by_name: "名前で検索"
-      # search: "検索"
-      # first_char: "最初の文字"
       gteq: "から"
       lteq: "まで"
       all: "すべて"

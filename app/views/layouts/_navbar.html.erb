@@ -92,11 +92,11 @@
       <div class="navbar-item is-hidden-touch">
         <div class="buttons">
           <% if user_signed_in? %>
-            <%= link_to t('.edit_profile'), edit_user_registration_path, class: "button is-link is-outlined" %>
-            <%= button_to t('.log_out'), destroy_user_session_path, method: :delete, class: "button is-danger is-outlined" %>
+            <%= link_to t('.edit_profile'), edit_user_registration_path, class: "button is-info is-rounded is-outlined" %>
+            <%= button_to t('.log_out'), destroy_user_session_path, method: :delete, class: "button is-danger is-rounded is-outlined" %>
           <% else %>
-            <%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path, class: "button is-link is-outlined" %>
-            <%= link_to t('devise.sessions.new.log_in'), new_user_session_path, class: "button is-info is-outlined" %>
+            <%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path, class: "button is-info is-rounded is-outlined" %>
+            <%= link_to t('devise.sessions.new.log_in'), new_user_session_path, class: "button is-info is-rounded is-outlined" %>
           <% end %>
         </div>
       </div>
