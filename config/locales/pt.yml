@@ -17,9 +17,9 @@ pt:
   people:
     index:
       family_tree: "Árvore genealógica"
-      search_by_name: "Busca por nome"
-      search: "Busca"
-      first_char: "Primeiro caracter"
+      # search_by_name: "Busca por nome"
+      # search: "Busca"
+      # first_char: "Primeiro caracter"
     edit:
       edit_person: "Editar pessoa"
     form:

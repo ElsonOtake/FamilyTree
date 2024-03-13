@@ -16,9 +16,9 @@ en:
   people:
     index:
       family_tree: "Family tree"
-      search_by_name: "Search by name"
-      search: "Search"
-      first_char: "First char"
+      # search_by_name: "Search by name"
+      # search: "Search"
+      # first_char: "First char"
     edit:
       edit_person: "Edit person"
     form:

@@ -17,9 +17,9 @@ ja:
   people:
     index:
       family_tree: "家系図"
-      search_by_name: "名前で検索"
-      search: "検索"
-      first_char: "最初の文字"
+      # search_by_name: "名前で検索"
+      # search: "検索"
+      # first_char: "最初の文字"
     edit:
       edit_person: "人物の編集"
     form:
