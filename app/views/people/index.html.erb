@@ -69,6 +69,7 @@
   <div class="column">
     <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
 
+      <%== pagy_bulma_nav(@pagy) %>
       <table class="table">
         <thead>
           <tr>
@@ -83,7 +84,6 @@
           <%= render "people/table", people: @people %>
         </tbody>
       </table>
-      <%== pagy_bulma_nav(@pagy) %>
 
     <% end %>
   </div>
