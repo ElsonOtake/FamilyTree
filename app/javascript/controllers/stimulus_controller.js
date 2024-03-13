@@ -11,12 +11,6 @@ export default class extends Controller {
     nav.classList.toggle("is-active");
   }
 
-  select = () => {
-    const buttons = document.querySelectorAll(".first-letter-button");
-    buttons.forEach(button => button.classList.remove("is-info"));
-    this.element.classList.toggle("is-info");
-  }
-
   openModal = (el) => {
     el.classList.add('is-active');
   }
