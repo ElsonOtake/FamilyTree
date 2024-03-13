@@ -1,47 +1,47 @@
-<h2 class="title has-text-info">Sign up</h2>
+<h2 class="title has-text-info"><%= t('.sign_up') %></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :name, class: "label" %>
+    <%= f.label :name, t(:name), class: "label" %>
     <div class="control">
       <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= f.label :email, class: "label" %>
+    <%= f.label :email, t('devise.email'), class: "label" %>
     <div class="control">
       <%= f.email_field :email, autocomplete: "email", class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= f.label :password, class: "label" %>
+    <%= f.label :password, t('devise.password'), class: "label" %>
     <div class="control">
       <%= f.password_field :password, autocomplete: "new-password", class: "input" %>
       <% if @minimum_password_length %>
-        <p class="help is-danger">(<%= @minimum_password_length %> characters minimum)</p>
+        <p class="help is-danger">(<%= t('devise.characters_minimum', count: @minimum_password_length) %>)</p>
       <% end %>
     </div>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, class: "label" %>
+    <%= f.label :password_confirmation, t('devise.password_confirmation'), class: "label" %>
     <div class="control">
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= f.label :phone, class: "label" %>
+    <%= f.label :phone, t('devise.registrations.phone'), class: "label" %>
     <div class="control">
       <%= f.text_field :phone, autocomplete: "phone", class: "input" %>
     </div>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: "button is-link" %>
+    <%= f.submit t('.sign_up'), class: "button is-link" %>
   </div>
 <% end %>
