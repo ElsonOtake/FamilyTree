@@ -12,7 +12,7 @@ pt:
       select_mate: "Selecione cônjuge"
       marriage: "Casamento"
       separation: "Separação"
-      mm_dd_yyyy: "mm/dd/aaaa"
+
       local: "Local"
   people:
     index:
@@ -38,6 +38,7 @@ pt:
       alive: "Vivo"
       death: "Falecimento"
       remark: "Observação"
+      mm_dd_yyyy: "mm/dd/aaaa"
       'yes': "Sim"
       'no': "Não"
       male: "Masc"

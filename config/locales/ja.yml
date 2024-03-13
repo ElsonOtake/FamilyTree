@@ -12,7 +12,6 @@ ja:
       select_mate: "配偶者を選択してください"
       marriage: "結婚"
       separation: "分離"
-      mm_dd_yyyy: "月/日/年"
       local: "地元"
   people:
     index:
@@ -38,6 +37,7 @@ ja:
       alive: "生きている"
       death: "死"
       remark: "述べる"
+      mm_dd_yyyy: "月/日/年"
       'yes': "はい"
       'no': "いいえ"
       male: "男"
