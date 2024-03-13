@@ -4,14 +4,14 @@
       <td>
         <%= render "people/icon", person: person %>
         <%= link_to person_path(person), data: { turbo_frame: "_top" } do %>
-          <%= highlight person.name, params.dig(:q, :name_or_description_cont) %>
+          <%= highlight person.name, params.dig(:q, :name_cont) %>
         <% end %>
       </td>
       <td><%= person.gender %></td>
       <td><%= person.birth %></td>
       <td><%= person.death %></td>
       <td><%= person.alive %></td>
-      <td><%= highlight person.description, params.dig(:q, :name_or_description_cont) %></td>
+      <td><%= highlight person.description, params.dig(:q, :description_cont) %></td>
     </tr>
   <% end %>
 <% end %>

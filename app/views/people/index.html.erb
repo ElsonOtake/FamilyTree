@@ -13,8 +13,8 @@
 
 <%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance } do |f| %>
 
-  <%= f.label :name_or_description_cont %>
-  <%= f.search_field :name_or_description_cont, oninput: "this.form.requestSubmit();" %>
+  <%= f.label :name_cont %>
+  <%= f.search_field :name_cont, oninput: "this.form.requestSubmit();" %>
 
   <%= f.label :birth_eq %>
   <%= f.date_field :birth_eq, oninput: "this.form.requestSubmit();" %>
@@ -31,7 +31,10 @@
   <%= f.label :alive_eq %>
   <%= f.select :alive_eq, [true, false], { include_blank: true }, onchange: "this.form.requestSubmit();" %>
 
-  <%= f.submit %>
+  <%= f.label :description_cont %>
+  <%= f.search_field :description_cont, oninput: "this.form.requestSubmit();" %>
+
+  <%= f.submit class: "is-hidden" %>
 <% end %>
 
 <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
@@ -52,7 +55,7 @@
       <%= render "people/table", people: @people %>
     </tbody>
   </table>
-  
+
 <% end %>
 
 <%= render "shared/modal", tag_name: "new_person", modal_id: "person_new" %>
