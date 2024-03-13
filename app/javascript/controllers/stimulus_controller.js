@@ -3,7 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="stimulus"
 export default class extends Controller {
   static values = { id: { type: String, default: "" } };
-  static targets = [ "form", "field" ];
 
   burger = () => {
     const burger = document.querySelector(".navbar-burger");
@@ -65,11 +64,5 @@ export default class extends Controller {
   closeNotification = () => {
     const notification = document.querySelectorAll("#flash div");
     notification[0].parentNode.removeChild(notification[0]);
-  }
-
-  search = () => {
-    this.fieldTarget.focus();
-    this.formTarget.submit();
-    // console.log("form", this.formSearchTarget, this.element.value);
   }
 }

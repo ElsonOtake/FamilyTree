@@ -34,69 +34,9 @@
   <%= f.submit %>
 <% end %>
 
-<%# <p class="has-text-link has-text-weight-semibold"> %>
-  <%#= t('.search') %>
-<%# </p>
-<div class="box">
-  <div class="columns">
-    <div class="column"> %>
-      <%# <p class="has-text-link has-text-weight-semibold"> %>
-        <%#= t('people.form.name') %>
-      <%# </p>
-      <div class="box"> %>
-        <%#= form_with url: search_people_name_path, method: :post do |form| %>
-          <%# <div class="field has-addons">
-            <div class="control"> %>
-              <%#= form.text_field :name, class: "input is-info is-rounded", placeholder: t('.search_by_name') %>
-            <%# </div>
-
-            <div class="control"> %>
-              <%#= form.submit t('.search'), class: "button is-info is-rounded" %>
-            <%# </div> %>
-          <%# </div> %>
-        <%# end  %>
-      <%# </div>
-    </div>
-    <div class="column">
-      <p class="has-text-link has-text-weight-semibold"> %>
-        <%#= t('.first_char') %>
-      <%# </p>
-      <div class="buttons are-small box"> %>
-        <%# first_one = true %>
-        <%# @first.each do |letter| %>
-          <%#= form_with url: search_people_first_letter_path, method: :post do |form| %>
-            <%#= form.hidden_field :letter, value: letter.initial %>
-            <%# if first_one %>
-              <%#= form.submit letter.initial,
-                data: {
-                  controller: "stimulus",
-                  action: "stimulus#select"
-                },
-                class: "first-letter-button button is-rounded is-info"
-              %>
-              <%# first_one = false %>
-            <%# else %>
-              <%#= form.submit letter.initial,
-                data: {
-                  controller: "stimulus",
-                  action: "stimulus#select"
-                },
-                class: "first-letter-button button is-rounded"
-              %>
-            <%# end %>
-          <%# end  %>
-        <%# end %>
-      <%# </div>
-    </div>
-  </div>
-</div> %>
-
-<%# <ul id="people" class="box"> %>
-  <%#= render "people/list", people: @people %>
-<%# </ul> %>
 <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
-  <%== pagy_bulma_nav(@pagy) %>
 
+  <%== pagy_bulma_nav(@pagy) %>
   <table class="table">
     <thead>
       <tr>
@@ -112,6 +52,7 @@
       <%= render "people/table", people: @people %>
     </tbody>
   </table>
+  
 <% end %>
 
 <%= render "shared/modal", tag_name: "new_person", modal_id: "person_new" %>

@@ -12,12 +12,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "people#index"
-
-  # search
-  namespace :search do
-    namespace :people do
-      post "first_letter", :as => "first_letter"
-      post "name", :as => "name"
-    end
-  end
 end
