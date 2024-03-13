@@ -16,23 +16,30 @@
   <%= f.label :name_cont %>
   <%= f.search_field :name_cont, oninput: "this.form.requestSubmit();" %>
 
-  <%= f.label :birth_eq %>
-  <%= f.date_field :birth_eq, oninput: "this.form.requestSubmit();" %>
+    <%= f.label :birth_gteq %>
+    <%= f.date_field :birth_gteq, oninput: "this.form.requestSubmit();" %>
 
-  <%= f.label :birth_gteq %>
-  <%= f.date_field :birth_gteq, oninput: "this.form.requestSubmit();" %>
+    <%= f.label :birth_lteq %>
+    <%= f.date_field :birth_lteq, oninput: "this.form.requestSubmit();" %>
 
-  <%= f.label :birth_lteq %>
-  <%= f.date_field :birth_lteq, oninput: "this.form.requestSubmit();" %>
+    <%= f.label :gender_in %>
+    <% Person.genders.each do |key, value| %>
+      <div>
+        <%= f.check_box :gender_in, { multiple: true, onclick: "this.form.requestSubmit();" }, value, nil %>
+        <%= key %>
+      </div>
+    <% end %>
 
-  <%= f.label :gender_eq %>
-  <%= f.select :gender_eq, Person.genders.to_a, { include_blank: true }, onchange: "this.form.requestSubmit();" %>
+    <%= f.label :alive_eq %>
+    <%= f.label :alive_eq, "All" %>
+    <%= f.radio_button :alive_eq, nil, onchange: "this.form.requestSubmit();" %>
+    <%= f.label :alive_eq, "True" %>
+    <%= f.radio_button :alive_eq, true, onchange: "this.form.requestSubmit();" %>
+    <%= f.label :alive_eq, "False" %>
+    <%= f.radio_button :alive_eq, false, onchange: "this.form.requestSubmit();" %>
 
-  <%= f.label :alive_eq %>
-  <%= f.select :alive_eq, [true, false], { include_blank: true }, onchange: "this.form.requestSubmit();" %>
-
-  <%= f.label :description_cont %>
-  <%= f.search_field :description_cont, oninput: "this.form.requestSubmit();" %>
+    <%= f.label :description_cont %>
+    <%= f.search_field :description_cont, oninput: "this.form.requestSubmit();" %>
 
   <%= f.submit class: "is-hidden" %>
 <% end %>
