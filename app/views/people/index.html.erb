@@ -11,61 +11,164 @@
   %>
 </div>
 
-<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search do |f| %>
+<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search, class: "mb-4" do |f| %>
+  <div class="field">
+    <%= f.label :name_cont, t('.search_by_name'), class: "label" %>
+    <div class="control has-icons-left">
+      <%= f.search_field :name_cont, oninput: "this.form.requestSubmit();", class: "input" %>
+      <span class="icon is-small is-left">
+        <i class="fas fa-magnifying-glass"></i>
+      </span>
+    </div>
+  </div>
+<%# <div class="field">
+  <label class="label">Name</label>
+  <div class="control">
+    <input class="input" type="text" placeholder="Text input">
+  </div>
+</div>
 
-  <%= f.label :name_cont %>
-  <%= f.search_field :name_cont, oninput: "this.form.requestSubmit();" %>
+<div class="field">
+  <label class="label">Username</label>
+  <div class="control has-icons-left has-icons-right">
+    <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+    <span class="icon is-small is-left">
+      <i class="fas fa-user"></i>
+    </span>
+    <span class="icon is-small is-right">
+      <i class="fas fa-check"></i>
+    </span>
+  </div>
+  <p class="help is-success">This username is available</p>
+</div>
 
-  <%#= f.submit class: "is-hidden" %>
+<div class="field">
+  <label class="label">Email</label>
+  <div class="control has-icons-left has-icons-right">
+    <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
+    <span class="icon is-small is-left">
+      <i class="fas fa-envelope"></i>
+    </span>
+    <span class="icon is-small is-right">
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+  </div>
+  <p class="help is-danger">This email is invalid</p>
+</div>
+
+<div class="field">
+  <label class="label">Subject</label>
+  <div class="control">
+    <div class="select">
+      <select>
+        <option>Select dropdown</option>
+        <option>With options</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Message</label>
+  <div class="control">
+    <textarea class="textarea" placeholder="Textarea"></textarea>
+  </div>
+</div>
+
+<div class="field">
+  <div class="control">
+    <label class="checkbox">
+      <input type="checkbox">
+      I agree to the <a href="#">terms and conditions</a>
+    </label>
+  </div>
+</div>
+
+<div class="field">
+  <div class="control">
+    <label class="radio">
+      <input type="radio" name="question">
+      Yes
+    </label>
+    <label class="radio">
+      <input type="radio" name="question">
+      No
+    </label>
+  </div>
+</div>
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button is-link">Submit</button>
+  </div>
+  <div class="control">
+    <button class="button is-link is-light">Cancel</button>
+  </div>
+</div> %>
 <% end %>
 
 <div class="columns">
-  <div class="column">
-    <%= label :q, :birth_gteq %>
-    <%= date_field :q, :birth_gteq, oninput: "this.form.requestSubmit();", form: :form_search %>
-
-    <%= label :q, :birth_lteq %>
-    <%= date_field :q, :birth_lteq, oninput: "this.form.requestSubmit();", form: :form_search %>
-
-    <%= label :q, :gender_in %>
-    <% Person.genders.each do |key, value| %>
-      <div>
-        <%= check_box :q, :gender_in, { multiple: true, onclick: "this.form.requestSubmit();", form: :form_search }, value, nil %>
-        <%= key %>
+  <div class="column is-narrow">
+    <div class="field">
+      <%= label :q, :birth_gteq, "#{t('people.birthday')} #{t('.gteq')}", class: "label" %>
+      <div class="control">
+        <%= date_field :q, :birth_gteq, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
       </div>
-    <% end %>
+      <%= label :q, :birth_lteq, t('.lteq'), class: "label" %>
+      <div class="control">
+        <%= date_field :q, :birth_lteq, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+      </div>
+    </div>
 
-    <%= label :q, :alive_eq %>
-    <%= label :q, :alive_eq, "All" %>
-    <%= radio_button :q, :alive_eq, nil, onchange: "this.form.requestSubmit();", form: :form_search %>
-    <%= label :q, :alive_eq, "True" %>
-    <%= radio_button :q, :alive_eq, true, onchange: "this.form.requestSubmit();", form: :form_search %>
-    <%= label :q, :alive_eq, "False" %>
-    <%= radio_button :q, :alive_eq, false, onchange: "this.form.requestSubmit();", form: :form_search %>
+    <div class="field">
+      <%= label :q, :gender_in, t('people.form.gender'), class: "label" %>
+      <% Person.genders.each do |key, value| %>
+        <div class="control">
+          <%= check_box :q, :gender_in, { multiple: true, onclick: "this.form.requestSubmit();", form: :form_search }, value, nil %>
+          <%= t(".#{key}") %>
+        </div>
+      <% end %>
+    </div>
 
-    <%= label :q, :description_cont %>
-    <%= search_field :q, :description_cont, oninput: "this.form.requestSubmit();", form: :form_search %>
+    <div class="field">
+      <%= label :q, :alive_eq, t('people.form.alive'), class: "label" %>
+      <div class="control">
+        <%= radio_button :q, :alive_eq, nil, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= label :q, :alive_eq, t('.all') %><br>
+        <%= radio_button :q, :alive_eq, true, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= label :q, :alive_eq, t('.true') %><br>
+        <%= radio_button :q, :alive_eq, false, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= label :q, :alive_eq, t('.false') %>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= label :q, :description_cont, t('people.form.remark'), class: "label" %>
+      <div class="control">
+        <%= search_field :q, :description_cont, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+      </div>
+    </div>
 
   </div>
   <div class="column">
     <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
 
-      <%== pagy_bulma_nav(@pagy) %>
       <table class="table">
         <thead>
           <tr>
-            <th><%= sort_link(@q, :name, 'Name', default_order: :asc) %></th>
-            <th><%= sort_link(@q, :gender, 'Gender') %></th>
-            <th><%= sort_link(@q, :birth, 'Birth') %></th>
-            <th><%= sort_link(@q, :death, 'Death') %></th>
-            <th><%= sort_link(@q, :alive, 'Alive') %></th>
-            <th>Description</th>
+            <th><%= sort_link(@q, :name, t('people.form.name'), default_order: :asc) %></th>
+            <th><%= sort_link(@q, :gender, t('people.form.gender')) %></th>
+            <th><%= sort_link(@q, :birth, t('people.birthday')) %></th>
+            <th><%= sort_link(@q, :death, t('people.form.death')) %></th>
+            <th><%= sort_link(@q, :alive, t('people.form.alive')) %></th>
+            <th><%= t('people.form.remark') %></th>
           </tr>
         </thead>
         <tbody id="people">
           <%= render "people/table", people: @people %>
         </tbody>
       </table>
+      <%== pagy_bulma_nav(@pagy) %>
 
     <% end %>
   </div>
