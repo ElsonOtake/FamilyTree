@@ -23,4 +23,12 @@ class Person < ApplicationRecord
   def should_generate_new_friendly_id?
     name_changed?
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["alive", "birth", "created_at", "death", "description", "gender", "id", "name", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["avatar_attachment", "avatar_blob"]
+  end
 end
