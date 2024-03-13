@@ -17,8 +17,15 @@ en:
     index:
       family_tree: "Family tree"
       search_by_name: "Search by name"
-      search: "Search"
-      first_char: "First char"
+      gteq: "from"
+      lteq: "to"
+      all: "All"
+      'true': "True"
+      'false': "False"
+      M: "Male"
+      F: "Female"
+      P: "Pet"
+      X: "Other"
     edit:
       edit_person: "Edit person"
     form:

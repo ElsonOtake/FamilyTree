@@ -89,3 +89,5 @@ group :test do
 end
 
 gem "cssbundling-rails", "~> 1.4"
+gem 'ransack'
+gem 'pagy', '~> 7.0' # omit patch digit

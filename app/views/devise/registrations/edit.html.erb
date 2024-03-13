@@ -54,9 +54,9 @@
   </div>
 
   <div class="actions">
-    <div class="buttons">
-      <%= f.submit t('.update'), class: "button is-link" %>
-      <%= link_to t('people.show.back_to_people'), root_path, class: "button is-link" %>
+    <div class="buttons is-flex is-justify-content-space-between">
+      <%= f.submit t('.update'), class: "button is-info is-rounded" %>
+      <%= link_to t('people.show.back_to_people'), root_path, class: "button is-info is-rounded" %>
     </div>
   </div>
 <% end %>
@@ -65,7 +65,7 @@
 
 <%= button_to t('.cancel_my_account'),
   registration_path(resource_name),
-  class: "button is-danger",
+  class: "button is-danger is-rounded",
   data: { confirm: t(:are_you_sure), turbo_confirm: t(:are_you_sure) },
   method: :delete
 %>

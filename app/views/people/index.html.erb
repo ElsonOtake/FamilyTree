@@ -11,59 +11,82 @@
   %>
 </div>
 
-<p class="has-text-link has-text-weight-semibold"><%= t('.search') %></p>
-<div class="box">
-  <div class="columns">
-    <div class="column">
-      <p class="has-text-link has-text-weight-semibold"><%= t('people.form.name') %></p>
-      <div class="box">
-        <%= form_with url: search_people_name_path, method: :post do |form| %>
-          <div class="field has-addons">
-            <div class="control">
-              <%= form.text_field :name, class: "input is-info is-rounded", placeholder: t('.search_by_name') %>
-            </div>
-
-            <div class="control">
-              <%= form.submit t('.search'), class: "button is-info is-rounded" %>
-            </div>
-          </div>
-        <% end  %>
-      </div>
-    </div>
-    <div class="column">
-      <p class="has-text-link has-text-weight-semibold"><%= t('.first_char') %></p>
-      <div class="buttons are-small box">
-        <% first_one = true %>
-        <% @first.each do |letter| %>
-          <%= form_with url: search_people_first_letter_path, method: :post do |form| %>
-            <%= form.hidden_field :letter, value: letter.initial %>
-            <% if first_one %>
-              <%= form.submit letter.initial,
-                data: {
-                  controller: "stimulus",
-                  action: "stimulus#select"
-                },
-                class: "first-letter-button button is-rounded is-info"
-              %>
-              <% first_one = false %>
-            <% else %>
-              <%= form.submit letter.initial,
-                data: {
-                  controller: "stimulus",
-                  action: "stimulus#select"
-                },
-                class: "first-letter-button button is-rounded"
-              %>
-            <% end %>
-          <% end  %>
-        <% end %>
-      </div>
+<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search, class: "mb-4" do |f| %>
+  <div class="field">
+    <%= f.label :name_cont, t('.search_by_name'), class: "label" %>
+    <div class="control has-icons-left">
+      <%= f.search_field :name_cont, oninput: "this.form.requestSubmit();", class: "input" %>
+      <span class="icon is-small is-left">
+        <i class="fas fa-magnifying-glass"></i>
+      </span>
     </div>
   </div>
-</div>
+<% end %>
 
-<ul id="people" class="box">
-  <%= render "people/list", people: @people %>
-</ul>
+<div class="columns">
+  <div class="column is-narrow">
+    <div class="field">
+      <%= label :q, :birth_gteq, "#{t('people.birthday')} #{t('.gteq')}", class: "label" %>
+      <div class="control">
+        <%= date_field :q, :birth_gteq, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+      </div>
+      <%= label :q, :birth_lteq, t('.lteq'), class: "label" %>
+      <div class="control">
+        <%= date_field :q, :birth_lteq, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= label :q, :gender_in, t('people.form.gender'), class: "label" %>
+      <% Person.genders.each do |key, value| %>
+        <div class="control">
+          <%= check_box :q, :gender_in, { multiple: true, onclick: "this.form.requestSubmit();", form: :form_search }, value, nil %>
+          <%= t(".#{key}") %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= label :q, :alive_eq, t('people.form.alive'), class: "label" %>
+      <div class="control">
+        <%= radio_button :q, :alive_eq, nil, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= label :q, :alive_eq, t('.all') %><br>
+        <%= radio_button :q, :alive_eq, true, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= label :q, :alive_eq, t('.true') %><br>
+        <%= radio_button :q, :alive_eq, false, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= label :q, :alive_eq, t('.false') %>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= label :q, :description_cont, t('people.form.remark'), class: "label" %>
+      <div class="control">
+        <%= search_field :q, :description_cont, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+      </div>
+    </div>
+
+  </div>
+  <div class="column">
+    <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th><%= sort_link(@q, :name, t('people.form.name'), default_order: :asc) %></th>
+            <th class="is-hidden-touch"><%= sort_link(@q, :birth, t('people.birthday')) %></th>
+            <th class="is-hidden-touch"><%= sort_link(@q, :death, t('people.form.death')) %></th>
+            <th class="is-hidden-touch"><%= sort_link(@q, :alive, t('people.form.alive')) %></th>
+            <th class="is-hidden-touch"><%= t('people.form.remark') %></th>
+          </tr>
+        </thead>
+        <tbody id="people">
+          <%= render "people/table", people: @people %>
+        </tbody>
+      </table>
+      <%== pagy_bulma_nav(@pagy) %>
+
+    <% end %>
+  </div>
+</div>
 
 <%= render "shared/modal", tag_name: "new_person", modal_id: "person_new" %>

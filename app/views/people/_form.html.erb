@@ -85,12 +85,21 @@
     </div>
   </div>
 
-  <div class="control">
-    <%= form.submit class: "button is-link",
+  <div class="control is-flex is-justify-content-space-between">
+    <%= form.submit class: "button is-info is-rounded",
       data: {
         controller: "stimulus",
         action: "stimulus#closeAllModals"
       }
     %>
+    <%= link_to t('people.show.back_to_people'),
+      root_path,
+      data: {
+        controller: "stimulus",
+        stimulus_id_value: "person_new",
+        action: "stimulus#close"
+      },
+      class: "button is-primary is-rounded" %>
+
   </div>
 <% end %>
