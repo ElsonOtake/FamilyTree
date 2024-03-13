@@ -11,25 +11,25 @@
   %>
 </div>
 
-<%= search_form_for @q do |f| %>
+<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance } do |f| %>
 
   <%= f.label :name_or_description_cont %>
-  <%= f.search_field :name_or_description_cont %>
+  <%= f.search_field :name_or_description_cont, oninput: "this.form.requestSubmit();" %>
 
   <%= f.label :birth_eq %>
-  <%= f.date_field :birth_eq %>
+  <%= f.date_field :birth_eq, oninput: "this.form.requestSubmit();" %>
 
   <%= f.label :birth_gteq %>
-  <%= f.date_field :birth_gteq %>
+  <%= f.date_field :birth_gteq, oninput: "this.form.requestSubmit();" %>
 
   <%= f.label :birth_lteq %>
-  <%= f.date_field :birth_lteq %>
+  <%= f.date_field :birth_lteq, oninput: "this.form.requestSubmit();" %>
 
   <%= f.label :gender_eq %>
-  <%= f.select :gender_eq, Person.genders.to_a, { include_blank: true } %>
+  <%= f.select :gender_eq, Person.genders.to_a, { include_blank: true }, onchange: "this.form.requestSubmit();" %>
 
   <%= f.label :alive_eq %>
-  <%= f.select :alive_eq, [true, false], { include_blank: true } %>
+  <%= f.select :alive_eq, [true, false], { include_blank: true }, onchange: "this.form.requestSubmit();" %>
 
   <%= f.submit %>
 <% end %>
@@ -94,22 +94,24 @@
 <%# <ul id="people" class="box"> %>
   <%#= render "people/list", people: @people %>
 <%# </ul> %>
-<%== pagy_bulma_nav(@pagy) %>
+<%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
+  <%== pagy_bulma_nav(@pagy) %>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th><%= sort_link(@q, :name, 'Name', default_order: :asc) %></th>
-      <th><%= sort_link(@q, :gender, 'Gender') %></th>
-      <th><%= sort_link(@q, :birth, 'Birth') %></th>
-      <th><%= sort_link(@q, :death, 'Death') %></th>
-      <th><%= sort_link(@q, :alive, 'Alive') %></th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody id="people">
-    <%= render "people/table", people: @people %>
-  </tbody>
-</table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= sort_link(@q, :name, 'Name', default_order: :asc) %></th>
+        <th><%= sort_link(@q, :gender, 'Gender') %></th>
+        <th><%= sort_link(@q, :birth, 'Birth') %></th>
+        <th><%= sort_link(@q, :death, 'Death') %></th>
+        <th><%= sort_link(@q, :alive, 'Alive') %></th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody id="people">
+      <%= render "people/table", people: @people %>
+    </tbody>
+  </table>
+<% end %>
 
 <%= render "shared/modal", tag_name: "new_person", modal_id: "person_new" %>
