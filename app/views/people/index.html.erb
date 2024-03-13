@@ -11,58 +11,64 @@
   %>
 </div>
 
-<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance } do |f| %>
+<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search do |f| %>
 
   <%= f.label :name_cont %>
   <%= f.search_field :name_cont, oninput: "this.form.requestSubmit();" %>
 
-    <%= f.label :birth_gteq %>
-    <%= f.date_field :birth_gteq, oninput: "this.form.requestSubmit();" %>
+  <%#= f.submit class: "is-hidden" %>
+<% end %>
 
-    <%= f.label :birth_lteq %>
-    <%= f.date_field :birth_lteq, oninput: "this.form.requestSubmit();" %>
+<div class="columns">
+  <div class="column">
+    <%= label :q, :birth_gteq %>
+    <%= date_field :q, :birth_gteq, oninput: "this.form.requestSubmit();", form: :form_search %>
 
-    <%= f.label :gender_in %>
+    <%= label :q, :birth_lteq %>
+    <%= date_field :q, :birth_lteq, oninput: "this.form.requestSubmit();", form: :form_search %>
+
+    <%= label :q, :gender_in %>
     <% Person.genders.each do |key, value| %>
       <div>
-        <%= f.check_box :gender_in, { multiple: true, onclick: "this.form.requestSubmit();" }, value, nil %>
+        <%= check_box :q, :gender_in, { multiple: true, onclick: "this.form.requestSubmit();", form: :form_search }, value, nil %>
         <%= key %>
       </div>
     <% end %>
 
-    <%= f.label :alive_eq %>
-    <%= f.label :alive_eq, "All" %>
-    <%= f.radio_button :alive_eq, nil, onchange: "this.form.requestSubmit();" %>
-    <%= f.label :alive_eq, "True" %>
-    <%= f.radio_button :alive_eq, true, onchange: "this.form.requestSubmit();" %>
-    <%= f.label :alive_eq, "False" %>
-    <%= f.radio_button :alive_eq, false, onchange: "this.form.requestSubmit();" %>
+    <%= label :q, :alive_eq %>
+    <%= label :q, :alive_eq, "All" %>
+    <%= radio_button :q, :alive_eq, nil, onchange: "this.form.requestSubmit();", form: :form_search %>
+    <%= label :q, :alive_eq, "True" %>
+    <%= radio_button :q, :alive_eq, true, onchange: "this.form.requestSubmit();", form: :form_search %>
+    <%= label :q, :alive_eq, "False" %>
+    <%= radio_button :q, :alive_eq, false, onchange: "this.form.requestSubmit();", form: :form_search %>
 
-    <%= f.label :description_cont %>
-    <%= f.search_field :description_cont, oninput: "this.form.requestSubmit();" %>
+    <%= label :q, :description_cont %>
+    <%= search_field :q, :description_cont, oninput: "this.form.requestSubmit();", form: :form_search %>
 
-  <%= f.submit class: "is-hidden" %>
-<% end %>
+  </div>
+  <div class="column">
+    <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
 
-<%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
+      <%== pagy_bulma_nav(@pagy) %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th><%= sort_link(@q, :name, 'Name', default_order: :asc) %></th>
+            <th><%= sort_link(@q, :gender, 'Gender') %></th>
+            <th><%= sort_link(@q, :birth, 'Birth') %></th>
+            <th><%= sort_link(@q, :death, 'Death') %></th>
+            <th><%= sort_link(@q, :alive, 'Alive') %></th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody id="people">
+          <%= render "people/table", people: @people %>
+        </tbody>
+      </table>
 
-  <%== pagy_bulma_nav(@pagy) %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th><%= sort_link(@q, :name, 'Name', default_order: :asc) %></th>
-        <th><%= sort_link(@q, :gender, 'Gender') %></th>
-        <th><%= sort_link(@q, :birth, 'Birth') %></th>
-        <th><%= sort_link(@q, :death, 'Death') %></th>
-        <th><%= sort_link(@q, :alive, 'Alive') %></th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody id="people">
-      <%= render "people/table", people: @people %>
-    </tbody>
-  </table>
-
-<% end %>
+    <% end %>
+  </div>
+</div>
 
 <%= render "shared/modal", tag_name: "new_person", modal_id: "person_new" %>
