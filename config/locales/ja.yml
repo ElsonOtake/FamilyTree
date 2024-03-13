@@ -17,9 +17,18 @@ ja:
   people:
     index:
       family_tree: "家系図"
-      # search_by_name: "名前で検索"
+      search_by_name: "名前で検索"
       # search: "検索"
       # first_char: "最初の文字"
+      gteq: "から"
+      lteq: "まで"
+      all: "すべて"
+      'true': "真"
+      'false': "偽"
+      M: "男"
+      F: "女性"
+      P: "ペット"
+      X: "他の"
     edit:
       edit_person: "人物の編集"
     form:
