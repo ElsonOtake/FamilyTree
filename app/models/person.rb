@@ -25,10 +25,10 @@ class Person < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["alive", "birth", "created_at", "death", "description", "gender", "id", "name", "updated_at"]
+    ["alive", "birth", "death", "description", "gender", "name"]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["avatar_attachment", "avatar_blob"]
+    []
   end
 end
