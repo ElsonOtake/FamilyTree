@@ -45,7 +45,6 @@ en:
       other: "Other"
       mm_dd_yyyy: "mm/dd/yyyy"
     person:
-      years_old: "years old"
       passed_away_on: "Passed away on %{date}"
       passed_away_on_years_of_age: "Passed away on %{date} at the age of %{age}"
     show:
@@ -200,6 +199,9 @@ en:
       x_years:
         one: "%{count} year"
         other: "%{count} years"
+      x_years_old:
+        one: "%{count} year old"
+        other: "%{count} years old"
     prompts:
       second: Second
       minute: Minute

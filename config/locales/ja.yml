@@ -45,9 +45,8 @@ ja:
       pet: "ペット"
       other: "他の"
     person:
-      years_old: "歳"
       passed_away_on: "%{date}に逝去"
-      passed_away_on_years_of_age: "%{date}、%{age}歳で逝去"
+      passed_away_on_years_of_age: "%{date}、生後%{age}歳で逝去"
     show:
       parents: "両親"
       siblings: "兄弟"
@@ -176,6 +175,7 @@ ja:
       x_days: "%{count}日"
       x_months: "%{count}ヶ月"
       x_years: "%{count}年"
+      x_years_old: "%{count}歳"
     prompts:
       second: 秒
       minute: 分
