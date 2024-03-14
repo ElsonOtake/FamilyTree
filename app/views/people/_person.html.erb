@@ -34,11 +34,11 @@
     <div class="content">
       
       <% if !person.birth.nil? && !person.death.nil? %>
-        <%= t('.passed_away_on_years_of_age', date: l(person.death, format: :long), age: ((person.death - person.birth)/365.25).to_i) %><br>
+        <%= t('.passed_away_on_years_of_age', date: l(person.death, format: :long), age: age(person.birth, person.death)) %><br>
       <% elsif person.birth.nil? && !person.death.nil? %>
         <%= t('.passed_away_on', date: l(person.death, format: :long)) %>
       <% elsif !person.birth.nil? %>
-        <%= "#{((Date.today - person.birth)/365.25).to_i} #{t('.years_old')}" %><br>
+        <%= age(person.birth, Date.today) %><br>
       <% end %>
       <% if !person.birth.nil? %>
         <%= "#{t('people.birthday')}: #{l person.birth, format: :short}" %>

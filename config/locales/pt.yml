@@ -12,7 +12,6 @@ pt:
       select_mate: "Selecione cônjuge"
       marriage: "Casamento"
       separation: "Separação"
-
       local: "Local"
   people:
     index:
@@ -46,9 +45,8 @@ pt:
       pet: "Pet"
       other: "Outro"
     person:
-      years_old: "anos de idade"
       passed_away_on: "Faleceu em %{date}"
-      passed_away_on_years_of_age: "Faleceu em %{date} aos %{age} anos de idade"
+      passed_away_on_years_of_age: "Faleceu em %{date} aos %{age}"
     show:
       parents: "Pais"
       siblings: "Irmãos"
@@ -199,6 +197,9 @@ pt:
         one: "%{count} mês"
         other: "%{count} meses"
       x_years:
+        one: "%{count} ano"
+        other: "%{count} anos"
+      x_years_old:
         one: "%{count} ano"
         other: "%{count} anos"
     prompts:
