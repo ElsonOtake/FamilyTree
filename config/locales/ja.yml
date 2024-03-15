@@ -5,11 +5,11 @@ ja:
       log_out: "ログアウト"
   children:
     form:
-      child: "息子娘"
-      select_child: "息子娘を選択"
+      child: "族柄"
+      select_child: "族柄名"
   couples:
     form:
-      select_mate: "配偶者を選択してください"
+      select_mate: "配偶者を選択"
       marriage: "結婚"
       separation: "分離"
       local: "地元"
@@ -19,24 +19,24 @@ ja:
       search_by_name: "名前で検索"
       gteq: "から"
       lteq: "まで"
-      all: "すべて"
-      'true': "真"
-      'false': "偽"
+      all: "全て"
+      'true': "有"
+      'false': "無"
       M: "男"
       F: "女性"
       P: "ペット"
       X: "他の"
     edit:
-      edit_person: "人物の編集"
+      edit_person: "人物編集"
     form:
       person: "人物"
-      name: "名前"
-      avatar: "写真撮影"
+      name: "氏名"
+      avatar: "写真"
       kanji: "漢字"
       gender: "性別"
-      alive: "生きている"
+      alive: "生"
       death: "死"
-      remark: "述べる"
+      remark: "その他"
       mm_dd_yyyy: "月/日/年"
       'yes': "はい"
       'no': "いいえ"
@@ -53,7 +53,7 @@ ja:
       mate: "配偶者"
       children: "子供たち"
       back_to_people: "人々に戻る"
-    birthday: "誕生日"
+    birthday: "誕生"
   devise:
     confirmations:
       new:
