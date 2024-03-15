@@ -54,6 +54,12 @@ export default class extends Controller {
       this.closeModal(target);
     }
   }
+
+  submitEnd = (event) => {
+    if (event.detail.success) {
+      this.closeAllModals();
+    }
+  }
   
   closeNotification = () => {
     const notification = document.querySelectorAll("#flash div");
