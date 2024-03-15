@@ -1,4 +1,5 @@
 en:
+  back: "Back"
   layouts:
     navbar:
       edit_profile: "Edit profile"

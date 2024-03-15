@@ -1,4 +1,5 @@
 ja:
+  back: "戻る"
   layouts:
     navbar:
       edit_profile: "プロファイル編集"

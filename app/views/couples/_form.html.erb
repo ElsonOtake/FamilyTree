@@ -49,12 +49,18 @@
     </div>
   </div>
 
-  <div class="control">
+  <div class="control is-flex is-justify-content-space-between">
     <%= form.submit class: "button is-info is-rounded",
       data: {
         controller: "stimulus",
         action: "stimulus#closeAllModals"
       }
     %>
+    <button
+      data-controller="stimulus"
+      data-action="stimulus#closeAllModals"
+      class="button is-info is-rounded">
+      <%= t(:back) %>
+    </button>
   </div>
 <% end %>

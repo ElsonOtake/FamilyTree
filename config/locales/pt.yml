@@ -1,4 +1,5 @@
 pt:
+  back: "Voltar"
   layouts:
     navbar:
       edit_profile: "Editar perfil"
