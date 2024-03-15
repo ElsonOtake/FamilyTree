@@ -92,14 +92,11 @@
         action: "stimulus#closeAllModals"
       }
     %>
-    <%= link_to t('people.show.back_to_people'),
-      root_path,
-      data: {
-        controller: "stimulus",
-        stimulus_id_value: "person_new",
-        action: "stimulus#close"
-      },
-      class: "button is-primary is-rounded" %>
-
+    <button
+      data-controller="stimulus"
+      data-action="stimulus#closeAllModals"
+      class="button is-info is-rounded">
+      <%= t(:back) %>
+    </button>
   </div>
 <% end %>
