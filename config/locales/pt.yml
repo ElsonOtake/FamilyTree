@@ -53,7 +53,7 @@ pt:
       mate: "Cônjuge"
       children: "Filhos"
       back_to_people: "Voltar para pessoas"
-    birthday: "Aniversário"
+    birthday: "Nascimento"
   devise:
     confirmations:
       new:
