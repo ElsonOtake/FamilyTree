@@ -1,1 +1,2 @@
+<%= turbo_stream.append "mate", partial: "people/mate", locals: { partner: @partner, person: @person, couple: @couple } %>
 <%= render_turbo_stream_flash_messages %>

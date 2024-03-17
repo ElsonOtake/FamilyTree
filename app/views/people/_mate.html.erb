@@ -1,0 +1,28 @@
+<tr>
+  <td>
+    <%= render "people/icon", person: partner %>
+    <%= link_to partner.name, person_path(partner) %>
+  </td>
+  <td>
+    <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary'),
+      new_person_couple_child_path(person, couple),
+      data: {
+        turbo_frame: "new_child",
+        controller: "stimulus",
+        stimulus_id_value: "child_new",
+        action: "stimulus#open"
+      }
+    %>
+  </td>
+  <td>
+    <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
+      edit_person_couple_path(person, couple),
+      data: {
+        turbo_frame: "edit_couple",
+        controller: "stimulus",
+        stimulus_id_value: "couple_edit",
+        action: "stimulus#open"
+      }
+    %>
+  </td>
+</tr>
