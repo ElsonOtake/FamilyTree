@@ -105,14 +105,9 @@
       <div class="box">
       <% unless @children.empty? %>
         <table class="table">
-          <tbody>
+          <tbody id="children">
             <% @children.each do |child| %>
-              <tr>
-                <td>
-                  <%= render "icon", person: child %>
-                  <%= link_to child.name, person_path(child) %>
-                </td>
-              </tr>
+              <%= render "child", child: child %>
             <% end %>
           </tbody>
         </table>

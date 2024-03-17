@@ -21,7 +21,6 @@ class ChildrenController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         flash.now[:notice] = @couple.errors.full_messages[0]
         format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
-
       end
     end
   end
