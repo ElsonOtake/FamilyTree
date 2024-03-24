@@ -1,6 +1,12 @@
 <tr>
-  <td>
-    <%= render "people/icon", person: child %>
-    <%= link_to child.name, person_path(child) %>
+  <td class="is-flex is-justify-content-space-between">
+    <div>
+      <%= render "people/icon", person: child %>&nbsp;
+      <%= link_to child.name, person_path(child) %>
+    </div>
+    <%= link_to icon('fa-solid', 'minus-circle', class: 'has-text-danger'),
+        nil,
+        title: "Remove child"
+    %>
   </td>
 </tr>
