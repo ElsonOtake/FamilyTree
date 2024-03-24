@@ -12,16 +12,17 @@
       </div>
       <div class="column">
         <div class="title">
-          <%= render "icon", person: person %> <%= person.name %>
+          <%= render "icon", person: person %>&nbsp;<%= person.name %>
           <span class="is-size-6">
-            <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
+            <%= link_to icon('fa-solid', 'pen', class: 'has-text-info'),
               edit_person_path(person),
               data: {
                 turbo_frame: "edit_person",
                 controller: "stimulus",
                 stimulus_id_value: "person_edit",
                 action: "stimulus#open"
-              }
+              },
+              title: "Edit person"
             %>
           </span>
         </div>
