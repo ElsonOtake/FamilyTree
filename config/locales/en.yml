@@ -7,7 +7,6 @@ en:
   children:
     form:
       child: "Child"
-      select_child: "Select child"
   couples:
     form:
       select_mate: "Select mate"
