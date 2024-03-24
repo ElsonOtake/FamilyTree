@@ -1,7 +1,9 @@
 <%= render "people/search_mate_name" unless couple.persisted? %>
-
-<% mate_name = couple.person1_id == @person.id ? Person.find(couple.person2_id).name : Person.find(couple.person1_id).name %>
-
+<% if couple.persisted? %>
+  <% mate_name = couple.person1_id == @person.id ? Person.find(couple.person2_id).name : Person.find(couple.person1_id).name %>
+<% else %>
+  <% mate_name = "" %>
+<% end %>
 <%= form_with model: couple, url: url, data: { controller: "stimulus", action: "turbo:submit-end->stimulus#submitEnd" } do |form| %>
   <% if couple.errors.any? %>
     <div style="color: red">
@@ -25,7 +27,7 @@
       <div class="control">
         <%= form.number_field :person1_id, class: 'input is-hidden' if couple.person2_id == @person.id %>
         <%= form.number_field :person2_id, class: 'input is-hidden' if couple.person1_id == @person.id %>
-        <%= form.text_field :name, class: "input", readonly: true, required: true, value: couple.persisted? ? mate_name : "" %>
+        <%= form.text_field :name, class: "input", readonly: true, required: true, value: mate_name %>
       </div>
     </div>
 
