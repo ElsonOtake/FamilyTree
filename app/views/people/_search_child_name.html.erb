@@ -12,7 +12,7 @@
 <%= turbo_frame_tag "results" do %>
   <ul class="has-background-warning" id="results-list">
   <% @people.each do |person| %>
-    <li class=<%= dom_id person %> data-controller="stimulus" data-action="click->stimulus#select" style="width:360px;">
+    <li class=<%= dom_id person %> data-controller="stimulus" data-action="click->stimulus#select_child" style="width:360px;">
       <%= person.name %>
     </li>
   <% end %>
