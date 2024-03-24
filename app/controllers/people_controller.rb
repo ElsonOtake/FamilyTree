@@ -102,7 +102,7 @@ class PeopleController < ApplicationController
     redirect_to request.referer
   end
 
-  def search
+  def search_child
     @q = Person.without_recorded_parents.ransack(params[:q])
     if params[:q].nil?
       @people = []
