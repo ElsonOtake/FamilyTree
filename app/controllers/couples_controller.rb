@@ -68,8 +68,8 @@ class CouplesController < ApplicationController
     @couple.destroy
 
     respond_to do |format|
-      format.html { redirect_to couples_url, notice: "Couple was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to person_url(@person), notice: "Couple was successfully destroyed." }
+      format.turbo_stream { flash.now[:notice] = "Couple was successfully destroyed." }
     end
   end
 
