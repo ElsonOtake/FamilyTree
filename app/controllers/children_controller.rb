@@ -6,12 +6,9 @@ class ChildrenController < ApplicationController
   end
 
   def new
-    @q = Person.without_recorded_parents.ransack(params[:q])
-    if params[:q].nil?
-      @people = []
-    else
-      @people = @q.result(distinct: true)
-    end
+    @q = Person.ransack(params[:q])
+    session[:id] = @person.id
+    @people = []
   end
 
   def create

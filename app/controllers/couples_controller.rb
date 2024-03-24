@@ -68,8 +68,8 @@ class CouplesController < ApplicationController
     @couple.destroy
 
     respond_to do |format|
-      format.html { redirect_to person_url(@person), notice: "Couple was successfully destroyed." }
-      format.turbo_stream { flash.now[:notice] = "Couple was successfully destroyed." }
+      format.html { redirect_to person_url(@person), notice: "Couple was successfully erased." }
+      format.turbo_stream { flash.now[:notice] = "Couple was successfully erased." }
     end
   end
 
@@ -84,7 +84,10 @@ class CouplesController < ApplicationController
     end
     
     def set_people
-      @people = Person.where.not(gender: ['P', @person.gender]).order(:name)
+      session[:gender] = @person.gender
+      session[:id] = @person.id
+      @q = Person.ransack(params[:q])
+      @people = []
     end
 
     # Only allow a list of trusted parameters through.

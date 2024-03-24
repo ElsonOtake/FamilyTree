@@ -9,7 +9,6 @@ en:
       child: "Child"
   couples:
     form:
-      select_mate: "Select mate"
       marriage: "Marriage"
       separation: "Separation"
       local: "Local"
