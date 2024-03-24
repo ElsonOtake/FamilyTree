@@ -9,7 +9,6 @@ pt:
       child: "Filho(a)"
   couples:
     form:
-      select_mate: "Selecione cônjuge"
       marriage: "Casamento"
       separation: "Separação"
       local: "Local"

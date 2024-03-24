@@ -9,7 +9,6 @@ ja:
       child: "族柄"
   couples:
     form:
-      select_mate: "配偶者を選択"
       marriage: "結婚"
       separation: "分離"
       local: "地元"

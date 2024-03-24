@@ -103,7 +103,19 @@ class PeopleController < ApplicationController
   end
 
   def search_child
-    @q = Person.without_recorded_parents.ransack(params[:q])
+    @q = Person.without_recorded_parents.where.not(id: session[:id]).ransack(params[:q])
+    if params[:q].nil?
+      @people = []
+    else
+      @people = @q.result(distinct: true)
+    end
+  end
+
+  def search_mate
+    @q = Person.P.where.not(id: session[:id]).ransack(params[:q]) if session[:gender] == "P"
+    @q = Person.not_P.not_M.ransack(params[:q]) if session[:gender] == "M"
+    @q = Person.not_P.not_F.ransack(params[:q]) if session[:gender] == "F"
+    @q = Person.not_P.where.not(id: session[:id]).ransack(params[:q]) if session[:gender] == "X"
     if params[:q].nil?
       @people = []
     else
