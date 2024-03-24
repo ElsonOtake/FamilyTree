@@ -7,7 +7,6 @@ pt:
   children:
     form:
       child: "Filho(a)"
-      select_child: "Selecione filho(a)"
   couples:
     form:
       select_mate: "Selecione cônjuge"

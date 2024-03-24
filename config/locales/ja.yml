@@ -7,7 +7,6 @@ ja:
   children:
     form:
       child: "族柄"
-      select_child: "族柄名"
   couples:
     form:
       select_mate: "配偶者を選択"
