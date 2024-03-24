@@ -37,6 +37,13 @@ class ChildrenController < ApplicationController
   end
 
   def destroy
+    @child = Person.find(params[:id])
+    @child.couple_ids = nil
+
+    respond_to do |format|
+      format.html { redirect_to person_url(@person), notice: "Child was successfully erased." }
+      format.turbo_stream { flash.now[:notice] = "Child was successfully erased." }
+    end
   end
 
   def show
