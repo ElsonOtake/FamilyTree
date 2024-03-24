@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "edit_person" do %>
-  <h1 class="title has-text-info"><%= t('.edit_person') %></h1>
+  <h1 class="title has-text-info"><%= t('helpers.submit.edit', model: t('people.form.person')) %></h1>
 
   <%= render "form", person: @person %>
 

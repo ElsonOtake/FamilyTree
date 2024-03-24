@@ -28,14 +28,16 @@ class CouplesController < ApplicationController
     @couple = Couple.new(couple_params)
 
     if @couple.person1_id > @couple.person2_id
-      aux = @couple.person1_id
-      @couple.person1_id = @couple.person2_id
-      @couple.person2_id = aux
+      @couple.person1_id, @couple.person2_id = @couple.person2_id, @couple.person1_id
+      # aux = @couple.person1_id
+      # @couple.person1_id = @couple.person2_id
+      # @couple.person2_id = aux
     end
 
     respond_to do |format|
       if @couple.save
         FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
+        @partner = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
         format.html { redirect_to person_url(@person), notice: "Couple was successfully created." }
         format.turbo_stream { flash.now[:notice] = "Couple was successfully created." }
       else
@@ -66,8 +68,8 @@ class CouplesController < ApplicationController
     @couple.destroy
 
     respond_to do |format|
-      format.html { redirect_to couples_url, notice: "Couple was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to person_url(@person), notice: "Couple was successfully erased." }
+      format.turbo_stream { flash.now[:notice] = "Couple was successfully erased." }
     end
   end
 
@@ -82,7 +84,10 @@ class CouplesController < ApplicationController
     end
     
     def set_people
-      @people = Person.where.not(gender: ['P', @person.gender]).order(:name)
+      session[:gender] = @person.gender
+      session[:id] = @person.id
+      @q = Person.ransack(params[:q])
+      @people = []
     end
 
     # Only allow a list of trusted parameters through.

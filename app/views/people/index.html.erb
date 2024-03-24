@@ -1,13 +1,14 @@
 <div class="is-flex is-align-items-center mb-4">
   <h1 class="title has-text-info m-0"><%= t('.family_tree') %></h1>
-  <%= link_to icon('fa-solid fa-xl', 'user-plus', class: 'has-text-primary ml-4'),
+  <%= link_to icon('fa-solid fa-xl', 'user-plus', class: 'has-text-success ml-4'),
     new_person_path,
     data: {
       turbo_frame: "new_person",
       controller: "stimulus",
       stimulus_id_value: "person_new",
       action: "stimulus#open"
-    }
+    },
+    title: t('helpers.submit.create', model: t('people.form.person'))
   %>
 </div>
 
@@ -69,6 +70,7 @@
   <div class="column">
     <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
 
+      <%== pagy_bulma_nav(@pagy) %>
       <table class="table">
         <thead>
           <tr>
@@ -83,7 +85,6 @@
           <%= render "people/table", people: @people %>
         </tbody>
       </table>
-      <%== pagy_bulma_nav(@pagy) %>
 
     <% end %>
   </div>

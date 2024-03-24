@@ -1,4 +1,4 @@
-<%= form_with(model: person) do |form| %>
+<%= form_with model: person, data: { controller: "stimulus", action: "turbo:submit-end->stimulus#submitEnd" } do |form| %>
   <% if person.errors.any? %>
     <div style="color: red">
       <h2><%= t('errors.template.header', count: errors.count, model: t('.person')) %></h2>
@@ -86,20 +86,12 @@
   </div>
 
   <div class="control is-flex is-justify-content-space-between">
-    <%= form.submit class: "button is-info is-rounded",
-      data: {
-        controller: "stimulus",
-        action: "stimulus#closeAllModals"
-      }
-    %>
-    <%= link_to t('people.show.back_to_people'),
-      root_path,
-      data: {
-        controller: "stimulus",
-        stimulus_id_value: "person_new",
-        action: "stimulus#close"
-      },
-      class: "button is-primary is-rounded" %>
-
+    <%= form.submit class: "button is-info is-rounded" %>
+    <button
+      data-controller="stimulus"
+      data-action="stimulus#closeAllModals"
+      class="button is-info is-rounded">
+      <%= t(:back) %>
+    </button>
   </div>
 <% end %>

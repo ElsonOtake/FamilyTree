@@ -2,13 +2,13 @@
   <% people.each do |person| %>
     <tr>
       <td>
-        <%= render "people/icon", person: person %>
+        <%= render "people/icon", person: person %>&nbsp;
         <%= link_to person_path(person), data: { turbo_frame: "_top" } do %>
           <%= highlight person.name, params.dig(:q, :name_cont) %>
         <% end %>
       </td>
-      <td class="is-hidden-touch"><%= person.birth %></td>
-      <td class="is-hidden-touch"><%= person.death %></td>
+      <td class="is-hidden-touch"><%= person.birth.strftime("%m/%d/%Y") unless person.birth.nil? %></td>
+      <td class="is-hidden-touch"><%= person.death.strftime("%m/%d/%Y") unless person.death.nil? %></td>
       <td class="is-hidden-touch"><%= person.alive %></td>
       <td class="is-hidden-touch"><%= highlight person.description, params.dig(:q, :description_cont) %></td>
     </tr>

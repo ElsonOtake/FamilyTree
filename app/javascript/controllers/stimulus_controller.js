@@ -54,9 +54,41 @@ export default class extends Controller {
       this.closeModal(target);
     }
   }
+
+  submitEnd = (event) => {
+    if (event.detail.success) {
+      this.closeAllModals();
+    }
+  }
   
   closeNotification = () => {
     const notification = document.querySelectorAll("#flash div");
     notification[0].parentNode.removeChild(notification[0]);
+  }
+
+  select_child = () => {
+    const resultsList = document.getElementById("results-list");
+    const childId = document.getElementById("child_id");
+    const name = document.getElementById("name");
+    const qNameCont = document.getElementById("q_name_cont");
+    const submitButton = document.getElementById("submit-button");
+    qNameCont.value = "";
+    name.value = this.element.innerText;
+    childId.value = this.element.className.split('_')[1];
+    submitButton.disabled = false;
+    resultsList.replaceChildren();
+  }
+
+  select_mate = () => {
+    const resultsList = document.getElementById("results-list");
+    const personId = document.getElementById("couple_person2_id");
+    const name = document.getElementById("couple_name");
+    const qNameCont = document.getElementById("q_name_cont");
+    const submitButton = document.getElementById("submit-button");
+    qNameCont.value = "";
+    name.value = this.element.innerText;
+    personId.value = this.element.className.split('_')[1];
+    submitButton.disabled = false;
+    resultsList.replaceChildren();
   }
 }

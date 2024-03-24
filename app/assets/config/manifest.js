@@ -7,3 +7,4 @@
 //= link controllers/index.js
 //= link EAO.png
 //= link_tree ../builds
+//= link_tree ../images

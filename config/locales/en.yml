@@ -1,4 +1,5 @@
 en:
+  back: "Back"
   layouts:
     navbar:
       edit_profile: "Edit profile"
@@ -6,10 +7,8 @@ en:
   children:
     form:
       child: "Child"
-      select_child: "Select child"
   couples:
     form:
-      select_mate: "Select mate"
       marriage: "Marriage"
       separation: "Separation"
       local: "Local"
@@ -26,10 +25,8 @@ en:
       F: "Female"
       P: "Pet"
       X: "Other"
-    edit:
-      edit_person: "Edit person"
     form:
-      person: "person"
+      person: "Person"
       name: "Name"
       avatar: "Photo"
       kanji: "Kanji"
@@ -45,7 +42,6 @@ en:
       other: "Other"
       mm_dd_yyyy: "mm/dd/yyyy"
     person:
-      years_old: "years old"
       passed_away_on: "Passed away on %{date}"
       passed_away_on_years_of_age: "Passed away on %{date} at the age of %{age}"
     show:
@@ -200,6 +196,9 @@ en:
       x_years:
         one: "%{count} year"
         other: "%{count} years"
+      x_years_old:
+        one: "%{count} year old"
+        other: "%{count} years old"
     prompts:
       second: Second
       minute: Minute
@@ -253,6 +252,8 @@ en:
       create: Create %{model}
       submit: Save %{model}
       update: Update %{model}
+      edit: Edit %{model}
+      delete: Delete %{model}
   number:
     currency:
       format:

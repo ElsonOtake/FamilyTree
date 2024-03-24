@@ -1,4 +1,5 @@
 pt:
+  back: "Voltar"
   layouts:
     navbar:
       edit_profile: "Editar perfil"
@@ -6,13 +7,10 @@ pt:
   children:
     form:
       child: "Filho(a)"
-      select_child: "Selecione filho(a)"
   couples:
     form:
-      select_mate: "Selecione cônjuge"
       marriage: "Casamento"
       separation: "Separação"
-      mm_dd_yyyy: "mm/dd/aaaa"
       local: "Local"
   people:
     index:
@@ -27,10 +25,8 @@ pt:
       F: "Fem"
       P: "Pet"
       X: "Outro"
-    edit:
-      edit_person: "Editar pessoa"
     form:
-      person: "pessoa"
+      person: "Pessoa"
       name: "Nome"
       avatar: "Fotografia"
       kanji: "Kanji"
@@ -38,6 +34,7 @@ pt:
       alive: "Vivo"
       death: "Falecimento"
       remark: "Observação"
+      mm_dd_yyyy: "mm/dd/aaaa"
       'yes': "Sim"
       'no': "Não"
       male: "Masc"
@@ -45,16 +42,15 @@ pt:
       pet: "Pet"
       other: "Outro"
     person:
-      years_old: "anos de idade"
       passed_away_on: "Faleceu em %{date}"
-      passed_away_on_years_of_age: "Faleceu em %{date} aos %{age} anos de idade"
+      passed_away_on_years_of_age: "Faleceu em %{date} aos %{age}"
     show:
       parents: "Pais"
       siblings: "Irmãos"
       mate: "Cônjuge"
       children: "Filhos"
       back_to_people: "Voltar para pessoas"
-    birthday: "Aniversário"
+    birthday: "Nascimento"
   devise:
     confirmations:
       new:
@@ -200,6 +196,9 @@ pt:
       x_years:
         one: "%{count} ano"
         other: "%{count} anos"
+      x_years_old:
+        one: "%{count} ano"
+        other: "%{count} anos"
     prompts:
       second: Segundo
       minute: Minuto
@@ -253,6 +252,8 @@ pt:
       create: Criar %{model}
       submit: Salvar %{model}
       update: Atualizar %{model}
+      edit: Editar %{model}
+      delete: Excluir %{model}
   number:
     currency:
       format:

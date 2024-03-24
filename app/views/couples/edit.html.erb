@@ -2,11 +2,4 @@
   <h1 class="title has-text-info">Editing mate <%= @person.name %></h1>
 
   <%= render "form", couple: @couple, url: person_couple_path(@person, @couple) %>
-
-  <br>
-
-  <div>
-    <%#= link_to "Show this couple", @couple %>
-    <%#= link_to "Back to couples", couples_path %>
-  </div>
 <% end %>

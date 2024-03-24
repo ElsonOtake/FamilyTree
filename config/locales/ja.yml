@@ -1,18 +1,16 @@
 ja:
+  back: "戻る"
   layouts:
     navbar:
       edit_profile: "プロファイル編集"
       log_out: "ログアウト"
   children:
     form:
-      child: "息子娘"
-      select_child: "息子娘を選択"
+      child: "族柄"
   couples:
     form:
-      select_mate: "配偶者を選択してください"
       marriage: "結婚"
       separation: "分離"
-      mm_dd_yyyy: "月/日/年"
       local: "地元"
   people:
     index:
@@ -20,24 +18,23 @@ ja:
       search_by_name: "名前で検索"
       gteq: "から"
       lteq: "まで"
-      all: "すべて"
-      'true': "真"
-      'false': "偽"
+      all: "全て"
+      'true': "有"
+      'false': "無"
       M: "男"
       F: "女性"
       P: "ペット"
       X: "他の"
-    edit:
-      edit_person: "人物の編集"
     form:
       person: "人物"
-      name: "名前"
-      avatar: "写真撮影"
+      name: "氏名"
+      avatar: "写真"
       kanji: "漢字"
       gender: "性別"
-      alive: "生きている"
+      alive: "生"
       death: "死"
-      remark: "述べる"
+      remark: "その他"
+      mm_dd_yyyy: "月/日/年"
       'yes': "はい"
       'no': "いいえ"
       male: "男"
@@ -45,16 +42,15 @@ ja:
       pet: "ペット"
       other: "他の"
     person:
-      years_old: "歳"
       passed_away_on: "%{date}に逝去"
-      passed_away_on_years_of_age: "%{date}、%{age}歳で逝去"
+      passed_away_on_years_of_age: "%{date}、生後%{age}歳で逝去"
     show:
       parents: "両親"
       siblings: "兄弟"
       mate: "配偶者"
       children: "子供たち"
       back_to_people: "人々に戻る"
-    birthday: "誕生日"
+    birthday: "誕生"
   devise:
     confirmations:
       new:
@@ -176,6 +172,7 @@ ja:
       x_days: "%{count}日"
       x_months: "%{count}ヶ月"
       x_years: "%{count}年"
+      x_years_old: "%{count}歳"
     prompts:
       second: 秒
       minute: 分
@@ -221,6 +218,8 @@ ja:
       create: 登録する
       submit: 保存する
       update: 更新する
+      edit: Edit
+      delete: Delete
   number:
     currency:
       format:

@@ -6,7 +6,9 @@ class ChildrenController < ApplicationController
   end
 
   def new
-    @people = Person.where.not(id: Person.find_by_sql("Select person_id from couples_people").pluck(:person_id)).order(:name)
+    @q = Person.ransack(params[:q])
+    session[:id] = @person.id
+    @people = []
   end
 
   def create
@@ -21,7 +23,6 @@ class ChildrenController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         flash.now[:notice] = @couple.errors.full_messages[0]
         format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
-
       end
     end
   end
@@ -33,6 +34,13 @@ class ChildrenController < ApplicationController
   end
 
   def destroy
+    @child = Person.find(params[:id])
+    @child.couple_ids = nil
+
+    respond_to do |format|
+      format.html { redirect_to person_url(@person), notice: "Child was successfully erased." }
+      format.turbo_stream { flash.now[:notice] = "Child was successfully erased." }
+    end
   end
 
   def show

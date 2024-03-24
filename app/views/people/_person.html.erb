@@ -6,22 +6,23 @@
           <%= link_to image_tag(person.avatar.variant(:thumb)), person.avatar %>
         <% else %>
           <figure class="image is-48x48">
-            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+            <img src=<%= image_path '96x96.png' %> alt="Placeholder image">
           </figure>
         <% end %>
       </div>
       <div class="column">
         <div class="title">
-          <%= render "icon", person: person %><%= person.name %>
+          <%= render "icon", person: person %>&nbsp;<%= person.name %>
           <span class="is-size-6">
-            <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
+            <%= link_to icon('fa-solid', 'pen', class: 'has-text-info'),
               edit_person_path(person),
               data: {
                 turbo_frame: "edit_person",
                 controller: "stimulus",
                 stimulus_id_value: "person_edit",
                 action: "stimulus#open"
-              }
+              },
+              title: t('helpers.submit.edit', model: t('people.form.person'))
             %>
           </span>
         </div>
@@ -34,11 +35,11 @@
     <div class="content">
       
       <% if !person.birth.nil? && !person.death.nil? %>
-        <%= t('.passed_away_on_years_of_age', date: l(person.death, format: :long), age: ((person.death - person.birth)/365.25).to_i) %><br>
+        <%= t('.passed_away_on_years_of_age', date: l(person.death, format: :long), age: age(person.birth, person.death)) %><br>
       <% elsif person.birth.nil? && !person.death.nil? %>
         <%= t('.passed_away_on', date: l(person.death, format: :long)) %>
       <% elsif !person.birth.nil? %>
-        <%= "#{((Date.today - person.birth)/365.25).to_i} #{t('.years_old')}" %><br>
+        <%= age(person.birth, Date.today) %><br>
       <% end %>
       <% if !person.birth.nil? %>
         <%= "#{t('people.birthday')}: #{l person.birth, format: :short}" %>

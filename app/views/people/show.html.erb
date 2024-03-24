@@ -9,13 +9,13 @@
           <tbody>
             <tr>
               <td>
-                <%= render "icon", person: @father %>
+                <%= render "icon", person: @father %>&nbsp;
                 <%= link_to @father.name, person_path(@father) %><br>
               </td>
             </tr>
             <tr>
               <td>
-                <%= render "icon", person: @mother %>
+                <%= render "icon", person: @mother %>&nbsp;
                 <%= link_to @mother.name, person_path(@mother) %><br>
               </td>
             </tr>
@@ -35,7 +35,7 @@
               <% if sibling.id != @person.id %>
                 <tr>
                   <td>
-                    <%= render "icon", person: sibling %>
+                    <%= render "icon", person: sibling %>&nbsp;
                     <%= link_to sibling.name, person_path(sibling) %>
                   </td>
                 </tr>
@@ -50,80 +50,44 @@
   <div class="column is-full-tablet is-half-desktop">
     <div class="is-flex">
       <h4 class="subtitle has-text-grey"><%= t('.mate') %></h4>
-      <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary ml-2'),
+      <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
         new_person_couple_path(@person),
         data: {
           turbo_frame: "new_couple",
           controller: "stimulus",
           stimulus_id_value: "couple_new",
           action: "stimulus#open"
-        }
+        },
+        title: t('helpers.submit.create', model: t('people.show.mate'))
       %>
     </div>
     <div class="box">
-      <% unless @mate.empty? %>
-        <table class="table">
-          <tbody>
-            <% @mate.each_with_index do |partner, index| %>
-              <tr>
-                <td>
-                  <%= render "icon", person: partner %>
-                  <%= link_to partner.name, person_path(partner) %>
-                </td>
-                <td>
-                  <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-primary'),
-                    new_person_couple_child_path(@person, @couple[index]),
-                    data: {
-                      turbo_frame: "new_child",
-                      controller: "stimulus",
-                      stimulus_id_value: "child_new",
-                      action: "stimulus#open"
-                    }
-                  %>
-                </td>
-                <td>
-                  <%= link_to icon('fa-solid', 'pen', class: 'has-text-cyan'),
-                    edit_person_couple_path(@person, @couple[index]),
-                    data: {
-                      turbo_frame: "edit_couple",
-                      controller: "stimulus",
-                      stimulus_id_value: "couple_edit",
-                      action: "stimulus#open"
-                    }
-                  %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% end %>
+      <table class="table" style="width:100%;">
+        <tbody id="mate">
+          <% @mate.each_with_index do |partner, index| %>
+            <%= render "mate", partner: partner, person: @person, couple: @couple[index] %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 
   <div class="column is-full-tablet is-half-desktop">
     <h4 class="subtitle has-text-grey"><%= t('.children') %></h4>
-      <div class="box">
-      <% unless @children.empty? %>
-        <table class="table">
-          <tbody>
-            <% @children.each do |child| %>
-              <tr>
-                <td>
-                  <%= render "icon", person: child %>
-                  <%= link_to child.name, person_path(child) %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% end %>
+    <div class="box">
+      <table class="table" style="width:100%;">
+        <tbody id="children">
+          <% @children.each do |child| %>
+            <%= render "child", person: @person, couple: child.couples.first, child: child %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
 <br>
 
 <div>
-  <%= link_to t('.back_to_people'), people_path, class: 'button is-info is-rounded' %>
+  <%= link_to t('.back_to_people'), people_path, class: 'button is-info is-rounded mt-5' %>
 </div>
 
 <%= render "shared/modal", tag_name: "new_couple", modal_id: "couple_new" %>
