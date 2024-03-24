@@ -66,7 +66,20 @@ export default class extends Controller {
     notification[0].parentNode.removeChild(notification[0]);
   }
 
-  select = () => {
+  select_child = () => {
+    const resultsList = document.getElementById("results-list");
+    const childId = document.getElementById("child_id");
+    const name = document.getElementById("name");
+    const qNameCont = document.getElementById("q_name_cont");
+    const submitButton = document.getElementById("submit-button");
+    qNameCont.value = "";
+    name.value = this.element.innerText;
+    childId.value = this.element.className.split('_')[1];
+    submitButton.disabled = false;
+    resultsList.replaceChildren();
+  }
+
+  select_mate = () => {
     const resultsList = document.getElementById("results-list");
     const childId = document.getElementById("child_id");
     const name = document.getElementById("name");
