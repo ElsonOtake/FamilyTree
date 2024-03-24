@@ -6,7 +6,7 @@
           <%= link_to image_tag(person.avatar.variant(:thumb)), person.avatar %>
         <% else %>
           <figure class="image is-48x48">
-            <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+            <img src=<%= image_path '96x96.png' %> alt="Placeholder image">
           </figure>
         <% end %>
       </div>
