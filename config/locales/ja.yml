@@ -26,8 +26,6 @@ ja:
       F: "女性"
       P: "ペット"
       X: "他の"
-    edit:
-      edit_person: "人物編集"
     form:
       person: "人物"
       name: "氏名"
@@ -221,6 +219,8 @@ ja:
       create: 登録する
       submit: 保存する
       update: 更新する
+      edit: Edit
+      delete: Delete
   number:
     currency:
       format:

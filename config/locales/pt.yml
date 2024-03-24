@@ -26,10 +26,8 @@ pt:
       F: "Fem"
       P: "Pet"
       X: "Outro"
-    edit:
-      edit_person: "Editar pessoa"
     form:
-      person: "pessoa"
+      person: "Pessoa"
       name: "Nome"
       avatar: "Fotografia"
       kanji: "Kanji"
@@ -255,6 +253,8 @@ pt:
       create: Criar %{model}
       submit: Salvar %{model}
       update: Atualizar %{model}
+      edit: Editar %{model}
+      delete: Excluir %{model}
   number:
     currency:
       format:

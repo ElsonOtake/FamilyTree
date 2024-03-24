@@ -1,4 +1,4 @@
-<tr>
+<tr id=<%= dom_id child %>>
   <td class="is-flex is-justify-content-space-between">
     <div>
       <%= render "people/icon", person: child %>&nbsp;
@@ -6,7 +6,7 @@
     </div>
     <%= link_to icon('fa-solid', 'minus-circle', class: 'has-text-danger'),
         nil,
-        title: "Remove child"
+        title: t('helpers.submit.delete', model: t('children.form.child')
     %>
   </td>
 </tr>

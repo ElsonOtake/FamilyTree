@@ -10,7 +10,7 @@
           data: {
             turbo_method: :delete
           },
-          title: "Remove mate"
+          title: t('helpers.submit.delete', model: t('people.show.mate'))
       %>
       <%= link_to icon('fa-solid', 'plus-circle', class: 'has-text-success ml-2'),
         new_person_couple_child_path(person, couple),
@@ -20,7 +20,7 @@
           stimulus_id_value: "child_new",
           action: "stimulus#open"
         },
-        title: "Add child"
+        title: t('helpers.submit.create', model: t('children.form.child'))
       %>
       <%= link_to icon('fa-solid', 'pen', class: 'has-text-info ml-2'),
         edit_person_couple_path(person, couple),
@@ -30,7 +30,7 @@
           stimulus_id_value: "couple_edit",
           action: "stimulus#open"
         },
-        title: "Edit mate"
+        title: t('helpers.form.edit', model: t('people.show.mate'))
       %>
     </div>
   </td>
