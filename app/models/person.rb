@@ -13,6 +13,8 @@ class Person < ApplicationRecord
 
   enum gender: [:M, :F, :P, :X]
 
+  scope :without_recorded_parents, -> { where.missing(:couples) }
+
   def slug_candidates
     [
       :name,
