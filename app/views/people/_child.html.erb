@@ -1,11 +1,14 @@
-<tr id=<%= dom_id child %>>
+<tr id=<%= "child_#{child.id}" %>>
   <td class="is-flex is-justify-content-space-between">
     <div>
       <%= render "people/icon", person: child %>&nbsp;
       <%= link_to child.name, person_path(child) %>
     </div>
     <%= link_to icon('fa-solid', 'minus-circle', class: 'has-text-danger'),
-        nil,
+        person_couple_child_path(person, couple, child),
+        data: {
+          turbo_method: :delete
+        },
         title: t('helpers.submit.delete', model: t('children.form.child'))
     %>
   </td>

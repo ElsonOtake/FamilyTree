@@ -74,23 +74,20 @@
 
   <div class="column is-full-tablet is-half-desktop">
     <h4 class="subtitle has-text-grey"><%= t('.children') %></h4>
-      <div class="box">
-      <% unless @children.empty? %>
-        <table class="table" style="width:100%;">
-          <tbody id="children">
-            <% @children.each do |child| %>
-              <%= render "child", child: child %>
-            <% end %>
-          </tbody>
-        </table>
-      <% end %>
+    <div class="box">
+      <table class="table" style="width:100%;">
+        <tbody id="children">
+          <% @children.each do |child| %>
+            <%= render "child", person: @person, couple: child.couples.first, child: child %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
 <br>
 
 <div>
-  <%= link_to t('.back_to_people'), people_path, class: 'button is-info is-rounded' %>
+  <%= link_to t('.back_to_people'), people_path, class: 'button is-info is-rounded mt-5' %>
 </div>
 
 <%= render "shared/modal", tag_name: "new_couple", modal_id: "couple_new" %>
