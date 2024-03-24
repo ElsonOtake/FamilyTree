@@ -6,7 +6,12 @@ class ChildrenController < ApplicationController
   end
 
   def new
-    @people = Person.where.not(id: Person.find_by_sql("Select person_id from couples_people").pluck(:person_id)).order(:name)
+    @q = Person.without_recorded_parents.ransack(params[:q])
+    if params[:q].nil?
+      @people = []
+    else
+      @people = @q.result(distinct: true)
+    end
   end
 
   def create

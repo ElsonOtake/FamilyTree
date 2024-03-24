@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :couples, only: [:new, :edit, :create, :update] do
       resources :children
     end
+    get 'search', on: :collection
     patch 'change/:locale', to: 'people#change', as: 'locale_change'
     patch 'change_unidentified/:locale', on: :collection, to: 'people#change_unidentified', as: 'locale_change_unidentified'
   end
