@@ -1,4 +1,10 @@
-<%= form_with(model: couple, url: url) do |form| %>
+<%= render "people/search_mate_name" unless couple.persisted? %>
+<% if couple.persisted? %>
+  <% mate_name = couple.person1_id == @person.id ? Person.find(couple.person2_id).name : Person.find(couple.person1_id).name %>
+<% else %>
+  <% mate_name = "" %>
+<% end %>
+<%= form_with model: couple, url: url, data: { controller: "stimulus", action: "turbo:submit-end->stimulus#submitEnd" } do |form| %>
   <% if couple.errors.any? %>
     <div style="color: red">
       <h2><%= t('errors.template.header', count: errors.count, model: t('people.show.mate')) %></h2>
@@ -19,8 +25,9 @@
     <div class="field column">
       <%= form.label :mate, t('people.show.mate'), style: "display: block", class: "label" %>
       <div class="control">
-        <%= form.select :person1_id, @people&.collect { |c| [c.name, c.id] }, { prompt: t('.select_mate') }, { class: 'input' } if couple.person2_id == @person.id %>
-        <%= form.select :person2_id, @people&.collect { |c| [c.name, c.id] }, { prompt: t('.select_mate') }, { class: 'input' } if couple.person1_id == @person.id %>
+        <%= form.number_field :person1_id, class: 'input is-hidden' if couple.person2_id == @person.id %>
+        <%= form.number_field :person2_id, class: 'input is-hidden' if couple.person1_id == @person.id %>
+        <%= form.text_field :name, class: "input", readonly: true, required: true, value: mate_name %>
       </div>
     </div>
 
@@ -49,12 +56,15 @@
     </div>
   </div>
 
-  <div class="control">
-    <%= form.submit class: "button is-info is-rounded",
+  <div class="control is-flex is-justify-content-space-between">
+    <%= form.submit class: "button is-info is-rounded", disabled: couple.persisted? ? false : true, id: "submit-button" %>
+    <%= link_to t(:back),
+      nil,
       data: {
         controller: "stimulus",
         action: "stimulus#closeAllModals"
-      }
+      },
+      class: "button is-info is-rounded"
     %>
   </div>
 <% end %>
