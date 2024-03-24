@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { confirmations: 'users/confirmations' }
   resources :people do
-    resources :couples, only: [:new, :edit, :create, :update] do
+    resources :couples do
       resources :children
     end
     get 'search', on: :collection
