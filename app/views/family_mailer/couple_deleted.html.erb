@@ -1,0 +1,30 @@
+<h1>Couple deleted by <%= @user.name %> (<%= @user.email %>)</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <td><%= @id %></td>
+  </tr>
+  <tr>
+    <th>Couple</th>
+    <td><%= @person_1_name %> (<%= @person_1_id %>) & <%= @person_2_name %> (<%= @person_2_id %>)</td>
+  </tr>
+  <% if @marriage.respond_to?(:strftime) || !(@marriage.nil? || @marriage.empty?) %>
+    <tr>
+      <th>Marriage</th>
+      <td><%= @marriage %></td>
+    </tr>
+  <% end %>
+  <% if @separation.respond_to?(:strftime) || !(@separation.nil? || @separation.empty?) %>
+    <tr>
+      <th>Separation</th>
+      <td><%= @separation %></td>
+    </tr>
+  <% end %>
+  <% if !(@local.nil? || @local.empty?) %>
+    <tr>
+      <th>Local</th>
+      <td><%= @local %></td>
+    </tr>
+  <% end %>
+</table>

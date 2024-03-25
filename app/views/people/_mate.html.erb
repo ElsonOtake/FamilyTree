@@ -8,7 +8,8 @@
       <%= link_to icon('fa-solid', 'minus-circle', class: 'has-text-danger'),
           couple,
           data: {
-            turbo_method: :delete
+            turbo_method: :delete,
+            turbo_confirm: "Are you sure you want to undo the connection between #{person.name} and #{partner.name}?"
           },
           title: t('helpers.submit.delete', model: t('people.show.mate'))
       %>
