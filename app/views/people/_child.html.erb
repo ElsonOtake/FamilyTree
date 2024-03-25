@@ -7,7 +7,8 @@
     <%= link_to icon('fa-solid', 'minus-circle', class: 'has-text-danger'),
         person_couple_child_path(person, couple, child),
         data: {
-          turbo_method: :delete
+          turbo_method: :delete,
+          turbo_confirm: "Are you sure to remove #{child.name} from the list of children?"
         },
         title: t('helpers.submit.delete', model: t('children.form.child'))
     %>
