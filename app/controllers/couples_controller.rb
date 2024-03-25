@@ -65,9 +65,16 @@ class CouplesController < ApplicationController
 
   # DELETE /couples/1 or /couples/1.json
   def destroy
+    id = @couple.id
+    person_1 = @couple.person1_id
+    person_2 = @couple.person2_id
+    marriage = @couple.marriage
+    separation = @couple.separation
+    local = @couple.local
     @couple.destroy
 
     respond_to do |format|
+      FamilyMailer.with(user: current_user, id: , person_1: , person_2: , marriage: , separation: , local: ).couple_deleted.deliver_later
       format.html { redirect_to person_url(@person), notice: "Couple was successfully erased." }
       format.turbo_stream { flash.now[:notice] = "Couple was successfully erased." }
     end
