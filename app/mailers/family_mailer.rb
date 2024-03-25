@@ -65,4 +65,14 @@ class FamilyMailer < ApplicationMailer
 
     mail to: "eaorigami@gmail.com", subject: "Child created: #{@child.name} (#{@child.id}) by #{@user.name}"
   end
+
+  def child_deleted
+    @user = params[:user]
+    @child = params[:child]
+    @couple = params[:couple]
+    @person_1_name = Person.find(@couple.person1_id).name
+    @person_2_name = Person.find(@couple.person2_id).name
+
+    mail to: "eaorigami@gmail.com", subject: "Child deleted: #{@child.name} (#{@child.id}) by #{@user.name}"
+  end
 end

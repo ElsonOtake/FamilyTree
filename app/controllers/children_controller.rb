@@ -38,6 +38,7 @@ class ChildrenController < ApplicationController
     @child.couple_ids = nil
 
     respond_to do |format|
+      FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_deleted.deliver_later
       format.html { redirect_to person_url(@person), notice: "Child was successfully erased." }
       format.turbo_stream { flash.now[:notice] = "Child was successfully erased." }
     end
