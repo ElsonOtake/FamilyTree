@@ -6,8 +6,12 @@ Rails.application.routes.draw do
     end
     get 'search_child', on: :collection
     get 'search_mate', on: :collection
-    patch 'change/:locale', to: 'people#change', as: 'locale_change'
-    patch 'change_unidentified/:locale', on: :collection, to: 'people#change_unidentified', as: 'locale_change_unidentified'
+  end
+  resources :users do
+    get 'roles', on: :collection
+    patch 'role_update', on: :member
+    patch 'change/:locale', to: 'users#change', as: 'locale_change'
+    patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified', as: 'locale_change_unidentified'
   end
   resources :couples, only: [:index, :show, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

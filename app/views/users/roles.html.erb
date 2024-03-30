@@ -1,0 +1,17 @@
+<p class="title has-text-info">Roles</p>
+<%== pagy_bulma_nav(@pagy) if @pagy.pages > 1 %>
+<table class="table is-striped is-hoverable is-narrow">
+  <thead>
+    <tr>
+      <th class="has-text-info">Name</th>
+      <th class="has-text-info">Role</th>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= render "form_role", user: user %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

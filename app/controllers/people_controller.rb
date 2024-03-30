@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   include Pagy::Backend
-  before_action :authenticate_user!, except: :change_unidentified
+  before_action :authenticate_user!
   before_action :set_person, only: %i[ show edit update destroy ]
 
   # GET /people or /people.json
@@ -90,16 +90,6 @@ class PeopleController < ApplicationController
       format.html { redirect_to people_url, notice: "Person was successfully destroyed." }
       format.json { head :no_content }
     end
-  end
-
-  def change
-    current_user.send("#{params[:locale]}!")
-    redirect_to request.referer
-  end
-
-  def change_unidentified
-    session[:locale] = params[:locale]
-    redirect_to request.referer
   end
 
   def search_child
