@@ -41,9 +41,9 @@
         <div class="navbar-dropdown">
           <% locales.each do |key, value| %>
             <% if user_signed_in? %>
-              <%= link_to value, person_locale_change_path(current_user, key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == current_user.locale %>
+              <%= link_to value, user_locale_change_path(current_user, key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == current_user.locale %>
             <% else %>
-              <%= link_to value, locale_change_unidentified_people_path(key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == session[:locale] %>
+              <%= link_to value, locale_change_unidentified_users_path(key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == session[:locale] %>
             <% end %>
           <% end %>
         </div>
