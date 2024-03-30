@@ -11,7 +11,7 @@ export default class extends Controller {
     if (window.innerWidth < 1024) {
       const dropdownItems = document.querySelectorAll('.navigation .has-dropdown');
       dropdownItems.forEach(function(item) {
-        item.addEventListener('click', function(e) {
+        item.addEventListener('click', function() {
           const dropdown = this.querySelector('.navbar-dropdown');
             if (dropdown) {
               dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
