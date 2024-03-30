@@ -1,4 +1,4 @@
-<nav class="navigation navbar" role="navigation" aria-label="main navigation">
+<nav class="navigation navbar" role="navigation" aria-label="main navigation" data-controller="stimulus">
   <div class="navbar-brand m-4">
     <a class="navbar-item" href="<%= root_path %>">
       <img src="<%= image_path "EAO.png" %>" width="90" height="45">
@@ -9,9 +9,7 @@
       role="button"
       class="navbar-burger"
       aria-label="menu"
-      aria-expanded="false"
-      data-target="navMenu"
-      data-controller="stimulus"
+      data-stimulus-target="burger"
       data-action="stimulus#burger"
     >
       <span aria-hidden="true"></span>
@@ -20,7 +18,7 @@
     </a>
   </div>
 
-  <div id="navMenu" class="navbar-menu m-4">
+  <div id="navMenu" class="navbar-menu m-4" data-stimulus-target="menu">
     <div class="navbar-end">
       <% locales = {
             pt: "Português",
