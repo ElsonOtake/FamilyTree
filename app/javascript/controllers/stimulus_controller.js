@@ -9,6 +9,17 @@ export default class extends Controller {
     const nav = document.querySelector("#"+burger.dataset.target);
     burger.classList.toggle("is-active");
     nav.classList.toggle("is-active");
+    if (window.innerWidth < 1024) {
+      const dropdownItems = document.querySelectorAll('.navigation .has-dropdown');
+      dropdownItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+          const dropdown = this.querySelector('.navbar-dropdown');
+            if (dropdown) {
+                dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
+            }
+        });
+      })
+    }
   }
 
   openModal = (el) => {

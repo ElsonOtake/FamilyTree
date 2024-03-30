@@ -40,3 +40,9 @@ $input-shadow: none;
 @import 'bulma/bulma';
 @import "components/flash";
 @import "config/animations";
+
+@media (max-width: 1023px) {
+  .navbar-item.has-dropdown .navbar-dropdown {
+    display: none;
+  }
+}
