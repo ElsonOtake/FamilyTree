@@ -3,19 +3,18 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="stimulus"
 export default class extends Controller {
   static values = { id: { type: String, default: "" } };
+  static targets = [ "burger", "menu" ]
 
   burger = () => {
-    const burger = document.querySelector(".navbar-burger");
-    const nav = document.querySelector("#"+burger.dataset.target);
-    burger.classList.toggle("is-active");
-    nav.classList.toggle("is-active");
+    this.burgerTarget.classList.toggle("is-active");
+    this.menuTarget.classList.toggle("is-active");
     if (window.innerWidth < 1024) {
       const dropdownItems = document.querySelectorAll('.navigation .has-dropdown');
       dropdownItems.forEach(function(item) {
         item.addEventListener('click', function(e) {
           const dropdown = this.querySelector('.navbar-dropdown');
             if (dropdown) {
-                dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
+              dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
             }
         });
       })
