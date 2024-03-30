@@ -1,7 +1,10 @@
 class UsersController < ApplicationController
+  include Pagy::Backend
+  before_action :authenticate_user!
+
   def roles
     @roles = Role.order(:id).pluck(:name)
-    @users = User.where.not(id: 1).includes(:roles).order(:name)
+    @pagy, @users = pagy(User.where.not(id: 1).includes(:roles).order(:name), items: 10)
   end
 
   def role_update
