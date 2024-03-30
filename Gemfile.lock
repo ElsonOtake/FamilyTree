@@ -230,6 +230,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.2.5)
+    rolify (6.0.1)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     rubyzip (2.3.2)
@@ -302,6 +303,7 @@ DEPENDENCIES
   rails (~> 7.0.4, >= 7.0.4.3)
   ransack
   redis (~> 4.0)
+  rolify
   selenium-webdriver
   sprockets-rails
   stimulus-rails
