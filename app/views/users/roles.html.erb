@@ -1,0 +1,16 @@
+<p class="title has-text-info">Roles</p>
+<table class="table is-striped is-hoverable">
+  <thead>
+    <tr>
+      <th class="has-text-info">Name</th>
+      <th class="has-text-info">Role</th>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= render "form_role", user: user %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
