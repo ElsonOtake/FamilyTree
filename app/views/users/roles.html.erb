@@ -1,10 +1,10 @@
-<p class="title has-text-info">Roles</p>
+<p class="title has-text-info"><%= t('.role') %></p>
 <%== pagy_bulma_nav(@pagy) if @pagy.pages > 1 %>
 <table class="table is-striped is-hoverable is-narrow">
   <thead>
     <tr>
-      <th class="has-text-info">Name</th>
-      <th class="has-text-info">Role</th>
+      <th class="has-text-info"><%= t('people.form.name') %></th>
+      <th class="has-text-info"><%= t('.level') %></th>
   </thead>
   <tbody>
     <% @users.each do |user| %>
