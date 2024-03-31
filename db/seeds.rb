@@ -2568,8 +2568,6 @@ unless Couple.any?
   couple = Couple.create!(person1_id: Person.find_by_name('Anderson Masao Todaki').id, person2_id: Person.find_by_name('Marina Todaki').id)
 end
 
-User.first.add_role :admin
-
 # photos = [
 #   "f1.jpg",
 #   "f10.jpg",
