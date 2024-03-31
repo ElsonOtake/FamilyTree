@@ -4,6 +4,8 @@ pt:
     navbar:
       edit_profile: "Editar perfil"
       log_out: "Sair"
+      more: "Mais"
+      roles: "Funções"
   children:
     form:
       child: "Filho(a)"
@@ -51,6 +53,11 @@ pt:
       children: "Filhos"
       back_to_people: "Voltar para pessoas"
     birthday: "Nascimento"
+  users:
+    form:
+    roles:
+      role: "Função"
+      level: "Nível"
   devise:
     confirmations:
       new:
