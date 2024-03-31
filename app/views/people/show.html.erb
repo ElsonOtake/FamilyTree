@@ -48,19 +48,23 @@
   </div>
 
   <div class="column is-full-tablet is-half-desktop">
-    <div class="is-flex">
+    <% if policy(@couple).new? %>
+      <div class="is-flex">
+        <h4 class="subtitle has-text-grey"><%= t('.mate') %></h4>
+        <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
+          new_person_couple_path(@person),
+          data: {
+            turbo_frame: "new_couple",
+            controller: "stimulus",
+            stimulus_id_value: "couple_new",
+            action: "stimulus#open"
+          },
+          title: t('helpers.submit.create', model: t('people.show.mate'))
+        %>
+      </div>
+    <% else %>
       <h4 class="subtitle has-text-grey"><%= t('.mate') %></h4>
-      <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
-        new_person_couple_path(@person),
-        data: {
-          turbo_frame: "new_couple",
-          controller: "stimulus",
-          stimulus_id_value: "couple_new",
-          action: "stimulus#open"
-        },
-        title: t('helpers.submit.create', model: t('people.show.mate'))
-      %>
-    </div>
+    <% end %>
     <div class="box">
       <table class="table" style="width:100%;">
         <tbody id="mate">
