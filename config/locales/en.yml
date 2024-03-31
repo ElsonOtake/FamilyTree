@@ -4,6 +4,8 @@ en:
     navbar:
       edit_profile: "Edit profile"
       log_out: "Log out"
+      more: "More"
+      roles: "Roles"
   children:
     form:
       child: "Child"
@@ -51,6 +53,11 @@ en:
       children: "Children"
       back_to_people: "Back to people"
     birthday: "Birthday"
+  users:
+    form:
+    roles:
+      role: "Role"
+      level: "Level"
   devise:
     confirmations:
       new:
