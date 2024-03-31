@@ -2,10 +2,12 @@ class ChildrenController < ApplicationController
   before_action :authenticate_user!
   before_action :set_person
   before_action :set_couple
+
   def index
   end
 
   def new
+    authorize @person
     @q = Person.ransack(params[:q])
     session[:id] = @person.id
     @people = []
@@ -13,7 +15,7 @@ class ChildrenController < ApplicationController
 
   def create
     @child = Person.find(params[:child_id])
-    
+    authorize @child
     respond_to do |format|
       if @couple.people << @child
         FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_created.deliver_later
@@ -35,6 +37,7 @@ class ChildrenController < ApplicationController
 
   def destroy
     @child = Person.find(params[:id])
+    authorize @child
     @child.couple_ids = nil
 
     respond_to do |format|

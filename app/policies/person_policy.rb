@@ -19,15 +19,15 @@ class PersonPolicy < ApplicationPolicy
   end
   
   def edit?
-    user.has_any_role? :silver, :gold, :admin
+    new?
   end
   
   def create?
-    user.has_any_role? :silver, :gold, :admin
+    new?
   end
   
   def update?
-    user.has_any_role? :silver, :gold, :admin
+    new?
   end
   
   def destroy?
@@ -35,10 +35,10 @@ class PersonPolicy < ApplicationPolicy
   end
   
   def search_child?
-    user.has_any_role? :silver, :gold, :admin
+    new?
   end
   
   def search_mate?
-    user.has_any_role? :silver, :gold, :admin
+    new?
   end
 end
