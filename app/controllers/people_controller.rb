@@ -45,15 +45,15 @@ class PeopleController < ApplicationController
   def new
     @person = Person.new
   end
-
+  
   # GET /people/1/edit
   def edit
   end
-
+  
   # POST /people or /people.json
   def create
     @person = Person.new(person_params)
-
+    
     respond_to do |format|
       if @person.save
         FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
@@ -66,7 +66,7 @@ class PeopleController < ApplicationController
       end
     end
   end
-
+  
   # PATCH/PUT /people/1 or /people/1.json
   def update
     respond_to do |format|
@@ -81,7 +81,7 @@ class PeopleController < ApplicationController
       end
     end
   end
-
+  
   # DELETE /people/1 or /people/1.json
   def destroy
     @person.destroy

@@ -13,18 +13,20 @@
       <div class="column">
         <div class="title">
           <%= render "icon", person: person %>&nbsp;<%= person.name %>
-          <span class="is-size-6">
-            <%= link_to icon('fa-solid', 'pen', class: 'has-text-info'),
-              edit_person_path(person),
-              data: {
-                turbo_frame: "edit_person",
-                controller: "stimulus",
-                stimulus_id_value: "person_edit",
-                action: "stimulus#open"
-              },
-              title: t('helpers.submit.edit', model: t('people.form.person'))
-            %>
-          </span>
+          <% if policy(person).edit? %>
+            <span class="is-size-6">
+              <%= link_to icon('fa-solid', 'pen', class: 'has-text-info'),
+                edit_person_path(person),
+                data: {
+                  turbo_frame: "edit_person",
+                  controller: "stimulus",
+                  stimulus_id_value: "person_edit",
+                  action: "stimulus#open"
+                },
+                title: t('helpers.submit.edit', model: t('people.form.person'))
+              %>
+            </span>
+          <% end %>
         </div>
         <% unless person.kanji.nil? %>
           <p class="subtitle mt-4"><%= person.kanji %></p>
