@@ -5,10 +5,12 @@ class UsersController < ApplicationController
   def roles
     @roles = Role.order(:id).pluck(:name)
     @pagy, @users = pagy(User.where.not(id: 1).includes(:roles).order(:name), items: 10)
+    authorize @users
   end
 
   def role_update
     @user = User.find(params[:id])
+    authorize @user
     @user.roles = []
     @user.add_role(user_params[:role])
     redirect_to roles_users_path
