@@ -16,24 +16,27 @@ class CouplesController < ApplicationController
   # GET /couples/new
   def new
     @couple = Couple.new
+    authorize @couple
     @couple.person1_id = @person.id
   end
-
+  
   # GET /couples/1/edit
   def edit
+    authorize @couple
   end
-
+  
   # POST /couples or /couples.json
   def create
     @couple = Couple.new(couple_params)
-
+    authorize @couple
+    
     if @couple.person1_id > @couple.person2_id
       @couple.person1_id, @couple.person2_id = @couple.person2_id, @couple.person1_id
       # aux = @couple.person1_id
       # @couple.person1_id = @couple.person2_id
       # @couple.person2_id = aux
     end
-
+    
     respond_to do |format|
       if @couple.save
         FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
@@ -47,9 +50,10 @@ class CouplesController < ApplicationController
       end
     end
   end
-
+  
   # PATCH/PUT /couples/1 or /couples/1.json
   def update
+    authorize @couple
     respond_to do |format|
       if @couple.update(couple_params)
         FamilyMailer.with(user: current_user, couple: @couple).couple_updated.deliver_later
@@ -62,9 +66,10 @@ class CouplesController < ApplicationController
       end
     end
   end
-
+  
   # DELETE /couples/1 or /couples/1.json
   def destroy
+    authorize @couple
     id = @couple.id
     person_1 = @couple.person1_id
     person_2 = @couple.person2_id

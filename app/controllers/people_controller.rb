@@ -44,15 +44,18 @@ class PeopleController < ApplicationController
   # GET /people/new
   def new
     @person = Person.new
+    authorize @person
   end
   
   # GET /people/1/edit
   def edit
+    authorize @person
   end
   
   # POST /people or /people.json
   def create
     @person = Person.new(person_params)
+    authorize @person
     
     respond_to do |format|
       if @person.save
@@ -69,6 +72,7 @@ class PeopleController < ApplicationController
   
   # PATCH/PUT /people/1 or /people/1.json
   def update
+    authorize @person
     respond_to do |format|
       if @person.update(person_params)
         FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later
@@ -84,14 +88,15 @@ class PeopleController < ApplicationController
   
   # DELETE /people/1 or /people/1.json
   def destroy
+    authorize @person
     @person.destroy
-
+    
     respond_to do |format|
       format.html { redirect_to people_url, notice: "Person was successfully destroyed." }
       format.json { head :no_content }
     end
   end
-
+  
   def search_child
     @q = Person.without_recorded_parents.where.not(id: session[:id]).ransack(params[:q])
     if params[:q].nil?
@@ -99,8 +104,9 @@ class PeopleController < ApplicationController
     else
       @people = @q.result(distinct: true)
     end
+    authorize @people
   end
-
+  
   def search_mate
     @q = Person.P.where.not(id: session[:id]).ransack(params[:q]) if session[:gender] == "P"
     @q = Person.not_P.not_M.ransack(params[:q]) if session[:gender] == "M"
@@ -111,6 +117,7 @@ class PeopleController < ApplicationController
     else
       @people = @q.result(distinct: true)
     end
+    authorize @people
   end
 
   private
