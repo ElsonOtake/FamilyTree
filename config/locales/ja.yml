@@ -4,6 +4,8 @@ ja:
     navbar:
       edit_profile: "プロファイル編集"
       log_out: "ログアウト"
+      more: "もっと"
+      roles: "役割"
   children:
     form:
       child: "族柄"
@@ -51,6 +53,11 @@ ja:
       children: "子供たち"
       back_to_people: "人々に戻る"
     birthday: "誕生"
+  users:
+    form:
+    roles:
+      role: "役割"
+      level: "レベル"
   devise:
     confirmations:
       new:
