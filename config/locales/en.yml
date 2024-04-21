@@ -8,6 +8,7 @@ en:
       roles: "Roles"
       download_users_csv: "Download users as CSV"
       download_roles_csv: "Download roles as CSV"
+      download_people_csv: "Download people as CSV"
   children:
     form:
       child: "Child"

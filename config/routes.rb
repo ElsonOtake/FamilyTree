@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :couples do
       resources :children
     end
+    get 'download', on: :collection
     get 'search_child', on: :collection
     get 'search_mate', on: :collection
   end

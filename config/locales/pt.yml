@@ -8,6 +8,7 @@ pt:
       roles: "Funções"
       download_users_csv: "Baixar usuários como CSV"
       download_roles_csv: "Baixar funções como CSV"
+      download_people_csv: "Baixar pessoas como CSV"
   children:
     form:
       child: "Filho(a)"

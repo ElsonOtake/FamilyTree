@@ -62,6 +62,7 @@
             <% if policy(User).roles? %>
               <%= link_to t('.download_users_csv'), users_path(format: :csv), class: "navbar-item" %>
               <%= link_to t('.download_roles_csv'), roles_path(format: :csv), class: "navbar-item" %>
+              <%= link_to t('.download_people_csv'), download_people_path(format: :csv), class: "navbar-item" %>
               <%= link_to t('.roles'), roles_users_path, class: "navbar-item" %>
             <% end %>
             <%# <hr class="navbar-divider"> %>
