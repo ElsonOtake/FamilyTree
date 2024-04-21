@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :couples, only: [:index, :show, :destroy] do
     get 'download', on: :collection
   end
+  get 'children/download', to: 'children#download', as: 'download_children'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

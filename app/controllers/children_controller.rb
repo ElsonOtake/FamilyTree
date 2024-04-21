@@ -1,9 +1,20 @@
 class ChildrenController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_person
-  before_action :set_couple
+  before_action :set_person, except: %i[ download ]
+  before_action :set_couple, except: %i[ download ]
 
   def index
+  end
+
+  def download
+    # @children = Person.joins(:couples).select('person_id, couple_id')
+    @children = Child.all
+    respond_to do |format|
+      format.csv do
+        authorize Child
+        send_data Child.to_csv(@children), filename: "children-#{Date.today}.csv"
+      end
+    end
   end
 
   def new

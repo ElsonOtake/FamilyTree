@@ -10,6 +10,7 @@ ja:
       download_roles_csv: "役割をCSV形式でダウンロード"
       download_people_csv: "人々をCSV形式でダウンロード"
       download_couples_csv: "カップルをCSV形式でダウンロード"
+      download_children_csv: "子供をCSV形式でダウンロード"
   children:
     form:
       child: "族柄"
