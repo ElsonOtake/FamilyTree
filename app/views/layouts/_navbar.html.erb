@@ -60,7 +60,7 @@
             <%#= link_to "Backup", nil, class: "navbar-item" %>
             <%#= link_to "Contato", nil, class: "navbar-item" %>
             <% if policy(User).roles? %>
-              <%= link_to t('.download_csv'), users_path(format: :csv), class: "navbar-item" %>
+              <%= link_to t('.download_users_csv'), users_path(format: :csv), class: "navbar-item" %>
               <%= link_to t('.roles'), roles_users_path, class: "navbar-item" %>
             <% end %>
             <%# <hr class="navbar-divider"> %>
