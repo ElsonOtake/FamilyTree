@@ -6,6 +6,7 @@ ja:
       log_out: "ログアウト"
       more: "もっと"
       roles: "役割"
+      download_csv: "CSVとしてダウンロード"
   children:
     form:
       child: "族柄"
