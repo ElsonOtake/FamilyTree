@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified', as: 'locale_change_unidentified'
   end
   resources :roles, only: [:index]
-  resources :couples, only: [:index, :show, :destroy]
+  resources :couples, only: [:index, :show, :destroy] do
+    get 'download', on: :collection
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

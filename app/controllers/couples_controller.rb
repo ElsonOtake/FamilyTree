@@ -9,6 +9,16 @@ class CouplesController < ApplicationController
     @couples = Couple.all
   end
 
+  def download
+    @couples = Couple.all
+    respond_to do |format|
+      format.csv do
+        authorize Couple
+        send_data Couple.to_csv(@couples), filename: "couples-#{Date.today}.csv"
+      end
+    end
+  end
+
   # GET /couples/1 or /couples/1.json
   def show
   end
