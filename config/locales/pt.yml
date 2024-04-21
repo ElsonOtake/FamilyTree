@@ -6,6 +6,7 @@ pt:
       log_out: "Sair"
       more: "Mais"
       roles: "Funções"
+      download_csv: "Baixar como CSV"
   children:
     form:
       child: "Filho(a)"
