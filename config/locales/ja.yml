@@ -8,6 +8,7 @@ ja:
       roles: "役割"
       download_users_csv: "ユーザーをCSV形式でダウンロード"
       download_roles_csv: "役割をCSV形式でダウンロード"
+      download_people_csv: "人々をCSV形式でダウンロード"
   children:
     form:
       child: "族柄"
