@@ -6,7 +6,7 @@ en:
       log_out: "Log out"
       more: "More"
       roles: "Roles"
-      download_csv: "Download as CSV"
+      download_users_csv: "Download users as CSV"
   children:
     form:
       child: "Child"
