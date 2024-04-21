@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     patch 'change/:locale', to: 'users#change', as: 'locale_change'
     patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified', as: 'locale_change_unidentified'
   end
+  resources :roles, only: [:index]
   resources :couples, only: [:index, :show, :destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
