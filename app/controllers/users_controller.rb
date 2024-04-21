@@ -2,6 +2,17 @@ class UsersController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!, except: :change_unidentified
 
+  def index
+    @users = User.all
+    respond_to do |format|
+      format.html
+      format.csv do
+        authorize User
+        send_data User.to_csv(@users), filename: "users-#{Date.today}.csv"
+      end
+    end
+  end
+
   def roles
     @roles = Role.order(:id).pluck(:name)
     @pagy, @users = pagy(User.where.not(id: 1).includes(:roles).order(:name), items: 10)
