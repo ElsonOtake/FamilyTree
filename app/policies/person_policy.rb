@@ -10,6 +10,10 @@ class PersonPolicy < ApplicationPolicy
     true
   end
   
+  def download?
+    user.has_role? :admin
+  end
+  
   def show?
     true
   end

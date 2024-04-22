@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :couples do
       resources :children
     end
+    get 'download', on: :collection
     get 'search_child', on: :collection
     get 'search_mate', on: :collection
   end
@@ -13,7 +14,11 @@ Rails.application.routes.draw do
     patch 'change/:locale', to: 'users#change', as: 'locale_change'
     patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified', as: 'locale_change_unidentified'
   end
-  resources :couples, only: [:index, :show, :destroy]
+  resources :roles, only: [:index]
+  resources :couples, only: [:index, :show, :destroy] do
+    get 'download', on: :collection
+  end
+  get 'children/download', to: 'children#download', as: 'download_children'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

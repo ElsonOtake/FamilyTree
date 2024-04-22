@@ -1,0 +1,14 @@
+class RolesController < ApplicationController
+  before_action :authenticate_user!
+
+  def index
+    @roles = Role.all
+    respond_to do |format|
+      format.html
+      format.csv do
+        authorize Role
+        send_data Role.to_csv(@roles), filename: "roles-#{Date.today}.csv"
+      end
+    end
+  end
+end

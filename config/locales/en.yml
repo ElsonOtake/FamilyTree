@@ -6,6 +6,11 @@ en:
       log_out: "Log out"
       more: "More"
       roles: "Roles"
+      download_users_csv: "Download users as CSV"
+      download_roles_csv: "Download roles as CSV"
+      download_people_csv: "Download people as CSV"
+      download_couples_csv: "Download couples as CSV"
+      download_children_csv: "Download children as CSV"
   children:
     form:
       child: "Child"

@@ -1,4 +1,6 @@
 class Person < ApplicationRecord
+  include GenerateCsv
+  
   has_and_belongs_to_many :couples
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [240, 240]
