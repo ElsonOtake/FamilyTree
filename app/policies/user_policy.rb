@@ -1,4 +1,8 @@
 class UserPolicy < ApplicationPolicy
+  def index?
+    user.has_role? :admin
+  end
+  
   def roles?
     user.has_role? :admin
   end

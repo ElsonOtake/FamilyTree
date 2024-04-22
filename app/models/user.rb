@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+
+  include GenerateCsv
+
   rolify
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable, :trackable and :omniauthable

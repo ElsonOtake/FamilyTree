@@ -8,6 +8,10 @@ class ChildPolicy < ApplicationPolicy
   def index?
     true
   end
+
+  def download?
+    user.has_role? :admin
+  end
   
   def show?
     true

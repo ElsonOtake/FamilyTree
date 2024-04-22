@@ -9,6 +9,16 @@ class PeopleController < ApplicationController
     @pagy, @people = pagy(@q.result(distinct: true), items: 10)
   end
 
+  def download
+    @people = Person.all
+    respond_to do |format|
+      format.csv do
+        authorize Person
+        send_data Person.to_csv(@people), filename: "people-#{Date.today}.csv"
+      end
+    end
+  end
+
   # GET /people/1 or /people/1.json
   def show
     @parents = @person.couples
