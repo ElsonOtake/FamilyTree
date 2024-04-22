@@ -48,7 +48,7 @@
   </div>
 
   <div class="column is-full-tablet is-half-desktop">
-    <% if policy(@couple).new? %>
+    <% if policy(@person).new? %>
       <div class="is-flex">
         <h4 class="subtitle has-text-grey"><%= t('.mate') %></h4>
         <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
