@@ -1,0 +1,3 @@
+id;email;encrypted_password;reset_password_token;reset_password_sent_at;remember_created_at;created_at;updated_at;name;phone;locale;confirmation_token;confirmed_at;confirmation_sent_at;unconfirmed_email
+1;elsonotake@gmail.com;$2a$12$Pi3gFtV7O11DlhSmgcLoAuboVepOTlhwpwOPxoZC92JcUKfilGnSO;1f6ee9c7f2a7145a71895693c79e838cbb2a70acf41dcb4a510942f3ecc6244e;2024-03-10 16:34:52 UTC;;2023-05-15 01:42:13 UTC;2025-01-01 14:01:30 UTC;Elson Akio Otake;11-99749-6626;pt;;2024-03-13 21:41:45 UTC;;
+2;lilianhiromijob@hotmail.com;$2a$12$xljAGw/GF6c3afAk3hhu3eK10QeOvcTfV9ZO6sZdiTSkojw/oJVTS;;;;2023-05-16 23:46:03 UTC;2023-06-04 00:54:28 UTC;Lilian Hiromi Job;11-99882-6727;pt;;2024-03-13 21:41:45 UTC;;
