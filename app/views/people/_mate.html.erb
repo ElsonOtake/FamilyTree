@@ -6,17 +6,17 @@
     </div>
     <div>
       <% if policy(couple).destroy? %>
-        <%= link_to icon('fa-solid', 'minus-circle', class: 'has-text-danger'),
+        <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
             couple,
             data: {
               turbo_method: :delete,
               turbo_confirm: "Are you sure you want to undo the connection between #{person.name} and #{partner.name}?"
             },
-            title: t('helpers.submit.delete', model: t('people.show.mate'))
+            title: t('helpers.submit.unlink', model: t('people.show.mate'))
         %>
       <% end %>
       <% if policy(person).new? %>
-        <%= link_to icon('fa-solid', 'plus-circle', class: 'has-text-success ml-2'),
+        <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
           new_person_couple_child_path(person, couple),
           data: {
             turbo_frame: "new_child",

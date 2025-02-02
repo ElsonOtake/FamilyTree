@@ -232,6 +232,7 @@ ja:
       update: 更新する
       edit: Edit
       delete: Delete
+      unlink: Unlink
   number:
     currency:
       format:

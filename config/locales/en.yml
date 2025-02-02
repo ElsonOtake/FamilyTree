@@ -266,6 +266,7 @@ en:
       update: Update %{model}
       edit: Edit %{model}
       delete: Delete %{model}
+      unlink: Unlink %{model}
   number:
     currency:
       format:

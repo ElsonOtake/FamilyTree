@@ -261,11 +261,12 @@ pt:
     select:
       prompt: Por favor selecione
     submit:
-      create: Criar %{model}
+      create: Adicionar %{model}
       submit: Salvar %{model}
       update: Atualizar %{model}
-      edit: Editar %{model}
+      edit: Alterar %{model}
       delete: Excluir %{model}
+      unlink: Desvincular %{model}
   number:
     currency:
       format:
