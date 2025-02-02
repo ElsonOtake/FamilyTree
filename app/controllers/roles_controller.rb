@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This controller manages the roles in the family tree.
 class RolesController < ApplicationController
   before_action :authenticate_user!
 

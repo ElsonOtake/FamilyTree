@@ -16,6 +16,7 @@ en:
       child: "Child"
   couples:
     form:
+      couple: "Couple"
       marriage: "Marriage"
       separation: "Separation"
       local: "Local"
@@ -110,6 +111,12 @@ en:
     characters_minimum: "%{count} characters minimum"
     password_confirmation: "Password confirmation"
   activerecord:
+    success:
+      messages:
+        created: "%{model} was successfully created."
+        updated: "%{model} was successfully updated."
+        deleted: "%{model} was successfully deleted."
+        unlinked: "%{model} was successfully unlinked."
     errors:
       messages:
         record_invalid: 'Validation failed: %{errors}'
