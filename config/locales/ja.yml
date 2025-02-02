@@ -16,6 +16,7 @@ ja:
       child: "族柄"
   couples:
     form:
+      couple: "カップル"
       marriage: "結婚"
       separation: "分離"
       local: "地元"
@@ -110,6 +111,12 @@ ja:
     characters_minimum: "%{count}文字以上"
     password_confirmation: "パスワードの確認"
   activerecord:
+    success:
+      messages:
+        created: "%{model}が作成されました"
+        updated: "%{model}が更新されました" 
+        deleted: "%{model}が削除されました"
+        unlinked: "%{model}が正常にリンク解除されました"
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

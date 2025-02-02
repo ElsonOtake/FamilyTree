@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# This is the main controller for the application.
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
   before_action :configure_permitted_parameters, if: :devise_controller?
   around_action :switch_locale
-  
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def switch_locale(&action)
@@ -20,7 +23,7 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:alert] = "You are not authorized to perform this action."
+    flash[:alert] = 'You are not authorized to perform this action.'
     redirect_back(fallback_location: root_path)
   end
 end

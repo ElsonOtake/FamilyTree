@@ -16,6 +16,7 @@ pt:
       child: "Filho(a)"
   couples:
     form:
+      couple: "Casal"
       marriage: "Casamento"
       separation: "Separação"
       local: "Local"
@@ -33,7 +34,7 @@ pt:
       P: "Pet"
       X: "Outro"
     form:
-      person: "Pessoa"
+      person: "Indivíduo"
       name: "Nome"
       avatar: "Fotografia"
       kanji: "Kanji"
@@ -110,6 +111,12 @@ pt:
     characters_minimum: "Mínimo de %{count} caracteres"
     password_confirmation: "Confirmação da senha"
   activerecord:
+    success:
+      messages:
+        created: "%{model} foi criado com sucesso."
+        updated: "%{model} foi atualizado com sucesso."
+        deleted: "%{model} foi excluido com sucesso."
+        unlinked: "%{model} foi desvinculado com sucesso."
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'

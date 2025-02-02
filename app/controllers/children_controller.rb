@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
+# This controller manages the children in the family tree.
 class ChildrenController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_person, except: %i[ download ]
-  before_action :set_couple, except: %i[ download ]
-
-  def index
-  end
+  before_action :set_person, except: %i[download]
+  before_action :set_couple, except: %i[download]
 
   def download
     # @children = Person.joins(:couples).select('person_id, couple_id')
@@ -30,20 +30,14 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if @couple.people << @child
         FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_created.deliver_later
-        format.html { redirect_to person_path(@person), notice: "Child was successfully created." }
-        format.turbo_stream { flash.now[:notice] = "Child was successfully created." }
+        format.html { redirect_to person_path(@person) }
+        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
       else
         format.html { render :new, status: :unprocessable_entity }
         flash.now[:notice] = @couple.errors.full_messages[0]
         format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
       end
     end
-  end
-
-  def edit
-  end
-
-  def update
   end
 
   def destroy
@@ -53,12 +47,9 @@ class ChildrenController < ApplicationController
 
     respond_to do |format|
       FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_deleted.deliver_later
-      format.html { redirect_to person_url(@person), notice: "Child was successfully erased." }
-      format.turbo_stream { flash.now[:notice] = "Child was successfully erased." }
+      format.html { redirect_to person_url(@person) }
+      format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('children.form.child')) }
     end
-  end
-
-  def show
   end
 
   private

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# This controller manages the users in the family tree.
 class UsersController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!, except: :change_unidentified

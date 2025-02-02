@@ -80,8 +80,8 @@ class PeopleController < ApplicationController
           if @couple.save
             FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
             @partner = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
-            format.html { redirect_to person_url(@person), notice: 'Couple was successfully created.' }
-            format.turbo_stream { flash.now[:notice] = 'Couple was successfully created.' }
+            format.html { redirect_to person_url(@person) }
+            format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
           else
             format.html { render :new, status: :unprocessable_entity }
             flash.now[:notice] = @couple.errors.full_messages[0]
@@ -93,8 +93,8 @@ class PeopleController < ApplicationController
 
           if @couple.people << @person
             FamilyMailer.with(user: current_user, child: @person, couple: @couple).child_created.deliver_later
-            format.html { redirect_to person_path(@person), notice: 'Child was successfully created.' }
-            format.turbo_stream { flash.now[:notice] = 'Child was successfully created.' }
+            format.html { redirect_to person_path(@person) }
+            format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
           else
             format.html { render 'children/new', status: :unprocessable_entity }
             flash.now[:notice] = @couple.errors.full_messages[0]
@@ -102,8 +102,8 @@ class PeopleController < ApplicationController
           end
         else
           FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
-          format.html { redirect_to person_url(@person), notice: 'Person was successfully created.' }
-          format.turbo_stream { flash.now[:notice] = 'Person was successfully created.' }
+          format.html { redirect_to person_url(@person) }
+          format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
         end
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -119,8 +119,8 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.update(person_params)
         FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later
-        format.html { redirect_to person_url(@person), notice: 'Person was successfully updated.' }
-        format.turbo_stream { flash.now[:notice] = 'Person was successfully updated.' }
+        format.html { redirect_to person_url(@person) }
+        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
       else
         format.html { render :edit, status: :unprocessable_entity }
         flash.now[:notice] = @person.errors.full_messages[0]
@@ -135,7 +135,8 @@ class PeopleController < ApplicationController
     @person.destroy
 
     respond_to do |format|
-      format.html { redirect_to people_url, notice: 'Person was successfully destroyed.' }
+      format.html { redirect_to people_url }
+      format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person')) }
       format.json { head :no_content }
     end
   end
