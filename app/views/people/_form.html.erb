@@ -11,12 +11,17 @@
     </div>
   <% end %>
 
+  <%= form.hidden_field :couple, value: couple %>
+  <%= form.hidden_field :mate, value: mate %>
+
   <div class="field">
     <%= form.label :avatar, t('.avatar'), style: "display: block", class: "label" %>
     <div class="control">
       <%= form.file_field :avatar %>
     </div>
   </div>
+
+  <br>
 
   <div class="columns">
     <div class="field column">
@@ -85,8 +90,41 @@
     </div>
   </div>
 
+  <% unless mate.nil? %>
+
+    <br>
+
+    <div class="columns">
+      <div class="field column">
+        <%= form.label :marriage, t('.marriage'), style: "display: block", class: "label" %>
+        <div class="control">
+          <%= form.date_field :marriage, class: "input" %>
+        </div>
+        <p class="help is-info"><%= t('.mm_dd_yyyy') %></p>
+      </div>
+
+      <div class="field column">
+        <%= form.label :separation, t('.separation'), style: "display: block", class: "label" %>
+        <div class="control">
+          <%= form.date_field :separation, class: "input" %>
+        </div>
+        <p class="help is-info"><%= t('.mm_dd_yyyy') %></p>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= form.label :local, t('.local'), style: "display: block", class: "label" %>
+      <div class="control">
+        <%= form.text_area :local, class: "input" %>
+      </div>
+    </div>
+
+  <% end %>
+
+  <% button_text = person.persisted? ? t('people.form.update_person') : t('people.form.create_person') %>
+
   <div class="control is-flex is-justify-content-space-between">
-    <%= form.submit class: "button is-info is-rounded" %>
+    <%= form.submit button_text, class: "button is-info is-rounded" %>
     <button
       data-controller="stimulus"
       data-action="stimulus#closeAllModals"

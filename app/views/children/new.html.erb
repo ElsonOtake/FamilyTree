@@ -1,5 +1,31 @@
 <%= turbo_frame_tag "new_child" do %>
-  <h1 class="title has-text-info"><%= t('helpers.submit.create', model: t('children.form.child')) %></h1>
-
-  <%= render "form", person: @person, couple: @couple, people: @people %>
+  <h1 class="title has-text-info"><%= t('helpers.submit.create', model: t('children.form.child')) %> <%= @person.name %></h1>
+  <div class="tabs is-boxed">
+    <ul>
+      <li class="is-active" data-controller="tabs" data-target="new-child" data-action="click->tabs#selectTab">
+        <a>
+          <span class="icon is-small"
+            ><i class="fas fa-user-plus" aria-hidden="true"></i
+          ></span>
+          <span>Novo indivíduo</span>
+        </a>
+      </li>
+      <li data-target="existing-child" data-controller="tabs" data-action="click->tabs#selectTab">
+        <a>
+          <span class="icon is-small"
+            ><i class="fas fa-user" aria-hidden="true"></i
+          ></span>
+          <span>Indivíduo existente</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="px-2" id="tab-content">
+    <div id="new-child">
+      <%= render "people/form", person: Person.new, couple: @couple.id, mate: nil %>
+    </div>
+    <div id="existing-child" class="is-hidden">
+      <%= render "form", person: @person, couple: @couple, people: @people %>
+    </div>
+  </div>
 <% end %>

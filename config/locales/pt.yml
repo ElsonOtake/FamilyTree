@@ -13,9 +13,13 @@ pt:
       download_children_csv: "Baixar filhos como CSV"
   children:
     form:
+      create_child: "Criar Filho(a)"
       child: "Filho(a)"
   couples:
     form:
+      create_couple: "Criar Casal"
+      update_couple: "Atualizar Casal"
+      couple: "Casal"
       marriage: "Casamento"
       separation: "Separação"
       local: "Local"
@@ -33,7 +37,9 @@ pt:
       P: "Pet"
       X: "Outro"
     form:
-      person: "Pessoa"
+      create_person: "Criar Indivíduo"
+      update_person: "Atualizar Indivíduo"
+      person: "Indivíduo"
       name: "Nome"
       avatar: "Fotografia"
       kanji: "Kanji"
@@ -110,6 +116,12 @@ pt:
     characters_minimum: "Mínimo de %{count} caracteres"
     password_confirmation: "Confirmação da senha"
   activerecord:
+    success:
+      messages:
+        created: "%{model} foi criado com sucesso."
+        updated: "%{model} foi atualizado com sucesso."
+        deleted: "%{model} foi excluido com sucesso."
+        unlinked: "%{model} foi desvinculado com sucesso."
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'
@@ -261,11 +273,12 @@ pt:
     select:
       prompt: Por favor selecione
     submit:
-      create: Criar %{model}
+      create: Adicionar %{model}
       submit: Salvar %{model}
       update: Atualizar %{model}
-      edit: Editar %{model}
+      edit: Alterar %{model}
       delete: Excluir %{model}
+      unlink: Desvincular %{model}
   number:
     currency:
       format:

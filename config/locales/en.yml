@@ -13,9 +13,13 @@ en:
       download_children_csv: "Download children as CSV"
   children:
     form:
+      create_child: "Create child"
       child: "Child"
   couples:
     form:
+      create_couple: "Create couple"
+      update_couple: "Update couple"
+      couple: "Couple"
       marriage: "Marriage"
       separation: "Separation"
       local: "Local"
@@ -33,6 +37,8 @@ en:
       P: "Pet"
       X: "Other"
     form:
+      create_person: "Create person"
+      update_person: "Update person"
       person: "Person"
       name: "Name"
       avatar: "Photo"
@@ -110,6 +116,12 @@ en:
     characters_minimum: "%{count} characters minimum"
     password_confirmation: "Password confirmation"
   activerecord:
+    success:
+      messages:
+        created: "%{model} was successfully created."
+        updated: "%{model} was successfully updated."
+        deleted: "%{model} was successfully deleted."
+        unlinked: "%{model} was successfully unlinked."
     errors:
       messages:
         record_invalid: 'Validation failed: %{errors}'
@@ -266,6 +278,7 @@ en:
       update: Update %{model}
       edit: Edit %{model}
       delete: Delete %{model}
+      unlink: Unlink %{model}
   number:
     currency:
       format:
