@@ -13,9 +13,12 @@ ja:
       download_children_csv: "子供をCSV形式でダウンロード"
   children:
     form:
+      create_child: "子供を作成"
       child: "族柄"
   couples:
     form:
+      create_couple: "カップルを作成"
+      update_couple: "カップルを更新"
       couple: "カップル"
       marriage: "結婚"
       separation: "分離"
@@ -34,6 +37,8 @@ ja:
       P: "ペット"
       X: "他の"
     form:
+      create_person: "人物を作成"
+      update_person: "人物を更新"
       person: "人物"
       name: "氏名"
       avatar: "写真"
