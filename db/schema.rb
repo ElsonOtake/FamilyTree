@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_30_163302) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_02_010448) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -71,6 +71,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_30_163302) do
     t.text "local"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "previous_id"
+    t.index ["previous_id"], name: "index_couples_on_previous_id"
   end
 
   create_table "couples_people", id: false, force: :cascade do |t|
@@ -102,7 +104,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_30_163302) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.index ["slug"], name: "index_people_on_slug", unique: true
+    t.bigint "previous_id"
+    t.index ["previous_id"], name: "index_people_on_previous_id"
+    t.index ["slug"], name: "index_people_on_slug"
   end
 
   create_table "roles", force: :cascade do |t|
