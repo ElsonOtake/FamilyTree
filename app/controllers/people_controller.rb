@@ -69,17 +69,19 @@ class PeopleController < ApplicationController
   def create
     @person = Person.new(person_params)
     authorize @person
+    @partner = nil
+    @child = nil
 
     respond_to do |format|
       if @person.save!
         if couple_params[:mate].present?
           @couple = Couple.new(person1_id: couple_params[:mate], person2_id: @person.id, marriage: couple_params[:marriage],
                                separation: couple_params[:separation], local: couple_params[:local])
-          authorize @person
+          authorize @couple
 
           if @couple.save
             FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
-            @partner = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
+            @partner = Person.find(@couple.person1_id)
             format.html { redirect_to person_url(@person) }
             format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
           else
@@ -89,10 +91,12 @@ class PeopleController < ApplicationController
           end
         elsif couple_params[:couple].present?
           @couple = Couple.find(couple_params[:couple])
-          authorize @person
+          authorize @couple
 
           if @couple.people << @person
             FamilyMailer.with(user: current_user, child: @person, couple: @couple).child_created.deliver_later
+            @child = @person
+            @person = Person.find(@couple.person1_id)
             format.html { redirect_to person_path(@person) }
             format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
           else
