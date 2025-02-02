@@ -46,3 +46,7 @@ $input-shadow: none;
     display: none;
   }
 }
+
+li.is-active a {
+  color: $info !important;
+}
