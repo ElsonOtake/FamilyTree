@@ -13,9 +13,12 @@ pt:
       download_children_csv: "Baixar filhos como CSV"
   children:
     form:
+      create_child: "Criar Filho(a)"
       child: "Filho(a)"
   couples:
     form:
+      create_couple: "Criar Casal"
+      update_couple: "Atualizar Casal"
       couple: "Casal"
       marriage: "Casamento"
       separation: "Separação"
@@ -34,6 +37,8 @@ pt:
       P: "Pet"
       X: "Outro"
     form:
+      create_person: "Criar Indivíduo"
+      update_person: "Atualizar Indivíduo"
       person: "Indivíduo"
       name: "Nome"
       avatar: "Fotografia"

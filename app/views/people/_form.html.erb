@@ -121,8 +121,10 @@
 
   <% end %>
 
+  <% button_text = person.persisted? ? t('people.form.update_person') : t('people.form.create_person') %>
+
   <div class="control is-flex is-justify-content-space-between">
-    <%= form.submit class: "button is-info is-rounded" %>
+    <%= form.submit button_text, class: "button is-info is-rounded" %>
     <button
       data-controller="stimulus"
       data-action="stimulus#closeAllModals"
