@@ -89,6 +89,8 @@ group :test do
 end
 
 gem 'cssbundling-rails', '~> 1.4'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 gem 'pagy', '~> 7.0' # omit patch digit
 gem 'pry-rails'
 gem 'pundit', '~> 2.3'
