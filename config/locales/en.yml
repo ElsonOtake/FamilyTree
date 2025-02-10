@@ -1,5 +1,7 @@
 en:
   back: "Back"
+  or: "or"
+  sign_in_with: "Sign in with"
   layouts:
     navbar:
       edit_profile: "Edit profile"

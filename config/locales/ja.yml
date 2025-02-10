@@ -1,5 +1,7 @@
 ja:
   back: "戻る"
+  or: "または"
+  sign_in_with: "サインイン"
   layouts:
     navbar:
       edit_profile: "プロファイル編集"

@@ -1,5 +1,7 @@
 pt:
   back: "Voltar"
+  or: "ou"
+  sign_in_with: "Entrar com"
   layouts:
     navbar:
       edit_profile: "Editar perfil"

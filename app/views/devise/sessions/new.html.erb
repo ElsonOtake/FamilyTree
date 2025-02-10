@@ -1,4 +1,4 @@
-<h2 class="title has-text-info"><%= t('.log_in') %></h2>
+<h2 class="title has-text-info has-text-centered"><%= t('.log_in') %></h2>
 
 <div class="columns">
   <div class="column">
@@ -36,7 +36,7 @@
       <% end %>
     </div>
   </div>
-  <div class="is-divider-vertical" data-content="OR"></div>
+  <div class="is-divider-vertical" data-content=<%= t('or') %>></div>
   <div class="column">
     <%- if devise_mapping.omniauthable? %>
       <%- resource_class.omniauth_providers.each do |provider| %>
@@ -44,7 +44,7 @@
         <%= button_to omniauth_authorize_path(resource_name, provider),
           data: { turbo: false },
           class: 'button is-primary is-large' do %>
-          <span>Sign in with</span>
+          <span><%= t('sign_in_with') %></span>
           <span class="icon is-small">
             <i class="fab fa-<%= provider.to_s.delete_suffix('_oauth2') %>"></i>
           </span>
