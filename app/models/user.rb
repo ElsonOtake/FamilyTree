@@ -4,9 +4,11 @@
 class User < ApplicationRecord
   include GenerateCsv
 
+  acts_as_paranoid
+
   rolify
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable and :trackable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:google_oauth2]
   after_create :assign_default_role

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_02_010448) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_22_142831) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -72,6 +72,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_02_010448) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "previous_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_couples_on_deleted_at"
     t.index ["previous_id"], name: "index_couples_on_previous_id"
   end
 
@@ -105,6 +107,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_02_010448) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.bigint "previous_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_people_on_deleted_at"
     t.index ["previous_id"], name: "index_people_on_previous_id"
     t.index ["slug"], name: "index_people_on_slug"
   end
@@ -115,6 +119,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_02_010448) do
     t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_roles_on_deleted_at"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
@@ -134,7 +140,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_02_010448) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.datetime "deleted_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -1,31 +1,31 @@
-<%= turbo_frame_tag "new_couple" do %>
-  <h1 class="title has-text-info"><%= t('helpers.submit.create', model: t('people.show.mate')) %> <%= @person.name %></h1>
-  <div class="tabs is-boxed">
+<%= turbo_frame_tag 'new_couple' do %>
+  <h1 class='title has-text-info'><%= t('helpers.submit.create', model: t('people.show.mate')) %> <%= @person.name %></h1>
+  <div class='tabs is-boxed'>
     <ul>
-      <li class="is-active" data-controller="tabs" data-target="new-mate" data-action="click->tabs#selectTab">
-        <a class="conditional-blue-text">
-          <span class="icon is-small"
-            ><i class="fas fa-user-plus" aria-hidden="true"></i
+      <li class='is-active' data-controller='tabs' data-target='new-mate' data-action='click->tabs#selectTab'>
+        <a class='conditional-blue-text'>
+          <span class='icon is-small'
+            ><i class='fas fa-user-plus' aria-hidden='true'></i
           ></span>
           <span>Novo parceiro(a)</span>
         </a>
       </li>
-      <li data-target="existing-mate" data-controller="tabs" data-action="click->tabs#selectTab">
-        <a class="conditional-blue-text">
-          <span class="icon is-small"
-            ><i class="fas fa-user" aria-hidden="true"></i
+      <li data-target='existing-mate' data-controller='tabs' data-action='click->tabs#selectTab'>
+        <a class='conditional-blue-text'>
+          <span class='icon is-small'
+            ><i class='fas fa-user' aria-hidden='true'></i
           ></span>
           <span>Parceiro(a) existente</span>
         </a>
       </li>
     </ul>
   </div>
-  <div class="px-2" id="tab-content">
-    <div id="new-mate">
-      <%= render "people/form", person: Person.new, couple: nil, mate: @couple.person1_id %>
+  <div class='px-2' id='tab-content'>
+    <div id='new-mate'>
+      <%= render 'people/form', person: Person.new, couple: nil, mate: @couple.person1_id %>
     </div>
-    <div id="existing-mate" class="is-hidden">
-      <%= render "form", couple: @couple, url: person_couples_path(@person) %>
+    <div id='existing-mate' class='is-hidden'>
+      <%= render 'form', couple: @couple, url: person_couples_path(@person) %>
     </div>
   </div>
 <% end %>

@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
+# Policy for the couple model
 class CouplePolicy < ApplicationPolicy
   attr_reader :user
 
   def initialize(user, couple)
+    super
     @user = user
     @couple = couple
   end

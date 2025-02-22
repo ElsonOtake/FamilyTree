@@ -1,21 +1,21 @@
 <%= render @person %>
 
-<div class="columns is-multiline">
-  <div class="column is-full-tablet is-half-desktop">
-    <h4 class="subtitle has-text-grey"><%= t('.parents') %></h4>
-    <div class="box">
+<div class='columns is-multiline'>
+  <div class='column is-full-tablet is-half-desktop'>
+    <h4 class='subtitle has-text-grey'><%= t('.parents') %></h4>
+    <div class='box'>
       <% unless @father.nil? %>
-        <table class="table">
+        <table class='table'>
           <tbody>
             <tr>
               <td>
-                <%= render "icon", person: @father %>&nbsp;
+                <%= render 'icon', person: @father %>&nbsp;
                 <%= link_to @father.name, person_path(@father) %><br>
               </td>
             </tr>
             <tr>
               <td>
-                <%= render "icon", person: @mother %>&nbsp;
+                <%= render 'icon', person: @mother %>&nbsp;
                 <%= link_to @mother.name, person_path(@mother) %><br>
               </td>
             </tr>
@@ -25,17 +25,17 @@
     </div>
   </div>
 
-  <div class="column is-full-tablet is-half-desktop">
-    <h4 class="subtitle has-text-grey"><%= t('.siblings') %></h4>
-    <div class="box">
+  <div class='column is-full-tablet is-half-desktop'>
+    <h4 class='subtitle has-text-grey'><%= t('.siblings') %></h4>
+    <div class='box'>
       <% unless @parents.empty? %>
-        <table class="table">
+        <table class='table'>
           <tbody>
             <% @parents[0].people.each do |sibling| %>
               <% if sibling.id != @person.id %>
                 <tr>
                   <td>
-                    <%= render "icon", person: sibling %>&nbsp;
+                    <%= render 'icon', person: sibling %>&nbsp;
                     <%= link_to sibling.name, person_path(sibling) %>
                   </td>
                 </tr>
@@ -47,42 +47,42 @@
     </div>
   </div>
 
-  <div class="column is-full-tablet is-half-desktop">
+  <div class='column is-full-tablet is-half-desktop'>
     <% if policy(@person).new? %>
-      <div class="is-flex">
-        <h4 class="subtitle has-text-grey"><%= t('.mate') %></h4>
+      <div class='is-flex'>
+        <h4 class='subtitle has-text-grey'><%= t('.mate') %></h4>
         <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
           new_person_couple_path(@person),
           data: {
-            turbo_frame: "new_couple",
-            controller: "stimulus",
-            stimulus_id_value: "couple_new",
-            action: "stimulus#open"
+            turbo_frame: 'new_couple',
+            controller: 'stimulus',
+            stimulus_id_value: 'couple_new',
+            action: 'stimulus#open'
           },
           title: t('helpers.submit.create', model: t('people.show.mate'))
         %>
       </div>
     <% else %>
-      <h4 class="subtitle has-text-grey"><%= t('.mate') %></h4>
+      <h4 class='subtitle has-text-grey'><%= t('.mate') %></h4>
     <% end %>
-    <div class="box">
-      <table class="table" style="width:100%;">
-        <tbody id="mate">
+    <div class='box'>
+      <table class='table' style='width:100%;'>
+        <tbody id='mate'>
           <% @mate.each_with_index do |partner, index| %>
-            <%= render "mate", partner: partner, person: @person, couple: @couple[index] %>
+            <%= render 'mate', partner: partner, person: @person, couple: @couple[index] %>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
 
-  <div class="column is-full-tablet is-half-desktop">
-    <h4 class="subtitle has-text-grey"><%= t('.children') %></h4>
-    <div class="box">
-      <table class="table" style="width:100%;">
-        <tbody id="children">
+  <div class='column is-full-tablet is-half-desktop'>
+    <h4 class='subtitle has-text-grey'><%= t('.children') %></h4>
+    <div class='box'>
+      <table class='table' style='width:100%;'>
+        <tbody id='children'>
           <% @children.each do |child| %>
-            <%= render "child", person: @person, couple: child.couples.first, child: child %>
+            <%= render 'child', person: @person, couple: child.couples.first, child: child %>
           <% end %>
         </tbody>
       </table>
@@ -94,7 +94,7 @@
   <%= link_to t('.back_to_people'), people_path, class: 'button is-info is-rounded mt-5' %>
 </div>
 
-<%= render "shared/modal", tag_name: "new_couple", modal_id: "couple_new" %>
-<%= render "shared/modal", tag_name: "new_child", modal_id: "child_new" %>
-<%= render "shared/modal", tag_name: "edit_person", modal_id: "person_edit" %>
-<%= render "shared/modal", tag_name: "edit_couple", modal_id: "couple_edit" %>
+<%= render 'shared/modal', tag_name: 'new_couple', modal_id: 'couple_new' %>
+<%= render 'shared/modal', tag_name: 'new_child', modal_id: 'child_new' %>
+<%= render 'shared/modal', tag_name: 'edit_person', modal_id: 'person_edit' %>
+<%= render 'shared/modal', tag_name: 'edit_couple', modal_id: 'couple_edit' %>

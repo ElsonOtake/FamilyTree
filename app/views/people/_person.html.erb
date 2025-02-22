@@ -1,27 +1,27 @@
-<div id="<%= dom_id person %>" class="box">
-  <div class="card-content">
-    <div class="block columns">
-      <div class="column is-narrow">
+<div id=<%= dom_id person %> class='box'>
+  <div class='card-content'>
+    <div class='block columns'>
+      <div class='column is-narrow'>
         <% if person.avatar.attached? %>
           <%= link_to image_tag(person.avatar.variant(:thumb)), person.avatar %>
         <% else %>
-          <figure class="image is-48x48">
-            <img src=<%= image_path '96x96.png' %> alt="Placeholder image">
+          <figure class='image is-48x48'>
+            <img src=<%= image_path '96x96.png' %> alt='Placeholder image'>
           </figure>
         <% end %>
       </div>
-      <div class="column">
-        <div class="title">
-          <%= render "icon", person: person %>&nbsp;<%= person.name %>
+      <div class='column'>
+        <div class='title'>
+          <%= render 'icon', person: person %>&nbsp;<%= person.name %>
           <% if policy(person).edit? %>
-            <span class="is-size-6">
+            <span class='is-size-6'>
               <%= link_to icon('fa-solid', 'pen', class: 'has-text-info'),
                 edit_person_path(person),
                 data: {
-                  turbo_frame: "edit_person",
-                  controller: "stimulus",
-                  stimulus_id_value: "person_edit",
-                  action: "stimulus#open"
+                  turbo_frame: 'edit_person',
+                  controller: 'stimulus',
+                  stimulus_id_value: 'person_edit',
+                  action: 'stimulus#open'
                 },
                 title: t('helpers.submit.edit', model: t('people.form.person'))
               %>
@@ -29,12 +29,12 @@
           <% end %>
         </div>
         <% unless person.kanji.nil? %>
-          <p class="subtitle mt-4"><%= person.kanji %></p>
+          <p class='subtitle mt-4'><%= person.kanji %></p>
         <% end %>
       </div>
     </div>
 
-    <div class="content">
+    <div class='content'>
       
       <% if !person.birth.nil? && !person.death.nil? %>
         <%= t('.passed_away_on_years_of_age', date: l(person.death, format: :long), age: age(person.birth, person.death)) %><br>

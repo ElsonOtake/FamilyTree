@@ -3,10 +3,10 @@
 require 'csv'
 
 unless Person.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'people-2025-01-01.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'people-2025-02-22.csv'))
   csv = CSV.parse(csv_text, headers: true, col_sep: ';')
   csv.each do |row|
-    puts row['name']
+    # puts row['name']
     person = Person.new
     person.previous_id = row['id']
     person.name = row['name']
@@ -18,6 +18,7 @@ unless Person.any?
     person.description = row['description']
     person.created_at = row['created_at']
     person.updated_at = row['updated_at']
+    person.deleted_at = row['deleted_at']
     person.slug = row['slug']
     person.save!
   end
@@ -337,11 +338,11 @@ unless Person.any?
 end
 
 unless Couple.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'couples-2025-01-01.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'couples-2025-02-22.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
     couple = Couple.new
-    puts row['id']
+    # puts row['id']
     couple.previous_id = row['id']
     couple.person1_id = Person.find_by(previous_id: row['person1_id']).id
     couple.person2_id = Person.find_by(previous_id: row['person2_id']).id
@@ -350,9 +351,10 @@ unless Couple.any?
     couple.local = row['local']
     couple.created_at = row['created_at']
     couple.updated_at = row['updated_at']
+    couple.deleted_at = row['deleted_at']
     couple.save
   end
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'children-2025-01-01.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'children-2025-02-22.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
     couple = Couple.find_by(previous_id: row['couple_id'])
@@ -361,11 +363,27 @@ unless Couple.any?
   end
 end
 
-unless User.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'users-2025-01-01.csv'))
+unless Role.any?
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'roles-2025-02-22.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
-    puts row['email']
+    # puts row['name']
+    role = Role.new
+    role.name = row['name']
+    role.resource_type = row['resource_type']
+    role.resource_id = row['resource_id']
+    role.created_at = row['created_at']
+    role.updated_at = row['updated_at']
+    role.deleted_at = row['deleted_at']
+    role.save
+  end
+end
+
+unless User.any?
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'users-2025-02-22.csv'))
+  csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
+  csv.each do |row|
+    # puts row['email']
     user = User.new
     user.email = row['email']
     user.remember_created_at = row['remember_created_at']
@@ -377,22 +395,10 @@ unless User.any?
     user.confirmed_at = row['confirmed_at']
     user.confirmation_sent_at = row['confirmation_sent_at']
     user.unconfirmed_email = row['unconfirmed_email']
+    user.created_at = row['created_at']
+    user.updated_at = row['updated_at']
+    user.deleted_at = row['deleted_at']
     user.save!
-  end
-end
-
-unless Role.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'roles-2025-01-01.csv'))
-  csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
-  csv.each do |row|
-    puts row['name']
-    role = Role.new
-    role.name = row['name']
-    role.resource_type = row['resource_type']
-    role.resource_id = row['resource_id']
-    role.created_at = row['created_at']
-    role.updated_at = row['updated_at']
-    role.save
   end
 end
 
