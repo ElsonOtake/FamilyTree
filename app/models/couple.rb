@@ -4,6 +4,8 @@
 class Couple < ApplicationRecord
   include GenerateCsv
 
+  acts_as_paranoid
+
   has_and_belongs_to_many :people
 
   before_save :order_people
