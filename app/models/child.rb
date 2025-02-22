@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # A child is a person who is a member of a couple.
-# The order of the people is important, person_id must be less than couple_id.
 # The person_id is the child and the couple_id is the couple.
 class Child < ApplicationRecord
   include GenerateCsv

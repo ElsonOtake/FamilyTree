@@ -13,7 +13,7 @@ class Person < ApplicationRecord
 
   validates :name, presence: true
   validates :avatar, content_type: ['image/png', 'image/jpeg'],
-                     size: { less_than: 1.megabytes, message: 'image is greater than 1 Megabyte' }
+                     size: { less_than: 1.megabytes, message: t('errors.messages.image_size') }
 
   extend FriendlyId
   friendly_id :slug_candidates, use: %i[slugged finders history]

@@ -222,6 +222,7 @@ ja:
       exclusion: は予約されています
       greater_than: は%{count}より大きい値にしてください
       greater_than_or_equal_to: は%{count}以上の値にしてください
+      image_size: は1メガバイトより大きい画像です
       in: は%{count}の範囲に含めてください
       inclusion: は一覧にありません
       invalid: は不正な値です

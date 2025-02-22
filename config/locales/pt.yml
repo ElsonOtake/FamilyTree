@@ -248,6 +248,7 @@ pt:
       exclusion: não está disponível
       greater_than: deve ser maior que %{count}
       greater_than_or_equal_to: deve ser maior ou igual a %{count}
+      image_size: imagem é maior que 1 Megabyte
       in: deve estar em %{count}
       inclusion: não está incluído na lista
       invalid: não é válido
