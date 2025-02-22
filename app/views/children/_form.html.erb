@@ -1,23 +1,23 @@
-<%= render "people/search_child_name" %>
+<%= render 'people/search_child_name' %>
 
-<%= form_with url: person_couple_children_path(person, couple), data: { controller: "stimulus", action: "turbo:submit-end->stimulus#submitEnd" } do |form| %>
-  <div class="field column">
-    <%= form.label :child, t('.child'), style: "display: block", class: "label" %>
-    <div class="control">
+<%= form_with url: person_couple_children_path(person, couple), data: { controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
+  <div class='field column'>
+    <%= form.label :child, t('.child'), style: 'display: block', class: 'label' %>
+    <div class='control'>
       <%= form.number_field :child_id, class: 'input is-hidden' %>
-      <%= form.text_field :name, class: "input", readonly: true, required: true %>
+      <%= form.text_field :name, class: 'input', readonly: true, required: true %>
     </div>
   </div>
 
-  <div class="control is-flex is-justify-content-space-between">
-    <%= form.submit t('children.form.create_child'), class: "button is-info is-rounded", disabled: true, id: "submit-button" %>
+  <div class='control is-flex is-justify-content-space-between'>
+    <%= form.submit t('children.form.create_child'), class: 'button is-info is-rounded', disabled: true, id: 'submit-button' %>
     <%= link_to t(:back),
       nil,
       data: {
-        controller: "stimulus",
-        action: "stimulus#closeAllModals"
+        controller: 'stimulus',
+        action: 'stimulus#closeAllModals'
       },
-      class: "button is-info is-rounded"
+      class: 'button is-info is-rounded'
     %>
   </div>
 <% end %>

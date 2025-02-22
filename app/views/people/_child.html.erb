@@ -1,7 +1,7 @@
 <tr id=<%= "child_#{child.id}" %>>
-  <td class="is-flex is-justify-content-space-between">
+  <td class='is-flex is-justify-content-space-between'>
     <div>
-      <%= render "people/icon", person: child %>&nbsp;
+      <%= render 'people/icon', person: child %>&nbsp;
       <%= link_to child.name, person_path(child) %>
     </div>
     <% if policy(child).destroy? %>

@@ -1,3 +1,3 @@
 <%= form_with model: user, url: role_update_user_url(user) do |form| %>
-  <%= form.select :role, @roles, { selected: user.roles.first.name }, oninput: "this.form.requestSubmit();" %>
+  <%= form.select :role, @roles, { selected: user.roles.first.name }, oninput: 'this.form.requestSubmit();' %>
 <% end %>

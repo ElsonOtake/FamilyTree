@@ -1,6 +1,6 @@
-<%= form_with model: person, data: { controller: "stimulus", action: "turbo:submit-end->stimulus#submitEnd" } do |form| %>
+<%= form_with model: person, data: { controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
   <% if person.errors.any? %>
-    <div style="color: red">
+    <div style='color: red'>
       <h2><%= t('errors.template.header', count: errors.count, model: t('.person')) %></h2>
 
       <ul>
@@ -14,79 +14,79 @@
   <%= form.hidden_field :couple, value: couple %>
   <%= form.hidden_field :mate, value: mate %>
 
-  <div class="field">
-    <%= form.label :avatar, t('.avatar'), style: "display: block", class: "label" %>
-    <div class="control">
+  <div class='field'>
+    <%= form.label :avatar, t('.avatar'), style: 'display: block', class: 'label' %>
+    <div class='control'>
       <%= form.file_field :avatar %>
     </div>
   </div>
 
   <br>
 
-  <div class="columns">
-    <div class="field column">
-      <%= form.label :name, t('.name'), style: "display: block", class: "label" %>
-      <div class="control">
-        <%= form.text_field :name, class: "input" %>
+  <div class='columns'>
+    <div class='field column'>
+      <%= form.label :name, t('.name'), style: 'display: block', class: 'label' %>
+      <div class='control'>
+        <%= form.text_field :name, class: 'input' %>
       </div>
     </div>
 
-    <div class="field column">
-      <%= form.label :kanji, t('.kanji'), style: "display: block", class: "label" %>
-      <div class="control">
-        <%= form.text_field :kanji, class: "input" %>
+    <div class='field column'>
+      <%= form.label :kanji, t('.kanji'), style: 'display: block', class: 'label' %>
+      <div class='control'>
+        <%= form.text_field :kanji, class: 'input' %>
       </div>
     </div>
   </div>
 
-  <div class="columns">
-    <div class="field column">
-      <%= form.label :gender, t('.gender'), style: "display: block", class: "label" %>
-      <div class="control">
-        <%= form.radio_button :gender, "M" %>
+  <div class='columns'>
+    <div class='field column'>
+      <%= form.label :gender, t('.gender'), style: 'display: block', class: 'label' %>
+      <div class='control'>
+        <%= form.radio_button :gender, 'M' %>
         <%= form.label t('.male') %>
-        <%= form.radio_button :gender, "F", class: "ml-2" %>
+        <%= form.radio_button :gender, 'F', class: 'ml-2' %>
         <%= form.label t('.female') %>
-        <%= form.radio_button :gender, "P", class: "ml-2" %>
+        <%= form.radio_button :gender, 'P', class: 'ml-2' %>
         <%= form.label t('.pet') %>
-        <%= form.radio_button :gender, "X", class: "ml-2" %>
+        <%= form.radio_button :gender, 'X', class: 'ml-2' %>
         <%= form.label t('.other') %>
       </div>
     </div>
 
-    <div class="field column">
-      <%= form.label :alive, t('.alive'), style: "display: block", class: "label" %>
-      <div class="control">
+    <div class='field column'>
+      <%= form.label :alive, t('.alive'), style: 'display: block', class: 'label' %>
+      <div class='control'>
         <%= form.radio_button :alive, true %>
         <%= form.label t('.yes') %>
-        <%= form.radio_button :alive, false, class: "ml-2" %>
+        <%= form.radio_button :alive, false, class: 'ml-2' %>
         <%= form.label t('.no') %>
       </div>
     </div>
   </div>
 
-  <div class="columns">
-    <div class="field column">
-      <%= form.label :birth, t('people.birthday'), style: "display: block", class: "label" %>
-      <div class="control">
-        <%= form.date_field :birth, class: "input" %>
+  <div class='columns'>
+    <div class='field column'>
+      <%= form.label :birth, t('people.birthday'), style: 'display: block', class: 'label' %>
+      <div class='control'>
+        <%= form.date_field :birth, class: 'input' %>
       </div>
-      <p class="help is-info"><%= t('.mm_dd_yyyy') %></p>
+      <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
     </div>
 
-    <div class="field column">
-      <%= form.label :death, t('.death'), style: "display: block", class: "label" %>
-      <div class="control">
-        <%= form.date_field :death, class: "input" %>
+    <div class='field column'>
+      <%= form.label :death, t('.death'), style: 'display: block', class: 'label' %>
+      <div class='control'>
+        <%= form.date_field :death, class: 'input' %>
       </div>
-      <p class="help is-info"><%= t('.mm_dd_yyyy') %></p>
+      <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
     </div>
   </div>
 
-  <div class="field">
-    <%= form.label :description, t('.remark'), style: "display: block", class: "label" %>
-    <div class="control">
-      <%= form.text_area :description, class: "input" %>
+  <div class='field'>
+    <%= form.label :description, t('.remark'), style: 'display: block', class: 'label' %>
+    <div class='control'>
+      <%= form.text_area :description, class: 'input' %>
     </div>
   </div>
 
@@ -94,28 +94,28 @@
 
     <br>
 
-    <div class="columns">
-      <div class="field column">
-        <%= form.label :marriage, t('.marriage'), style: "display: block", class: "label" %>
-        <div class="control">
-          <%= form.date_field :marriage, class: "input" %>
+    <div class='columns'>
+      <div class='field column'>
+        <%= form.label :marriage, t('.marriage'), style: 'display: block', class: 'label' %>
+        <div class='control'>
+          <%= form.date_field :marriage, class: 'input' %>
         </div>
-        <p class="help is-info"><%= t('.mm_dd_yyyy') %></p>
+        <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
       </div>
 
-      <div class="field column">
-        <%= form.label :separation, t('.separation'), style: "display: block", class: "label" %>
-        <div class="control">
-          <%= form.date_field :separation, class: "input" %>
+      <div class='field column'>
+        <%= form.label :separation, t('.separation'), style: 'display: block', class: 'label' %>
+        <div class='control'>
+          <%= form.date_field :separation, class: 'input' %>
         </div>
-        <p class="help is-info"><%= t('.mm_dd_yyyy') %></p>
+        <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
       </div>
     </div>
 
-    <div class="field">
-      <%= form.label :local, t('.local'), style: "display: block", class: "label" %>
-      <div class="control">
-        <%= form.text_area :local, class: "input" %>
+    <div class='field'>
+      <%= form.label :local, t('.local'), style: 'display: block', class: 'label' %>
+      <div class='control'>
+        <%= form.text_area :local, class: 'input' %>
       </div>
     </div>
 
@@ -123,12 +123,12 @@
 
   <% button_text = person.persisted? ? t('people.form.update_person') : t('people.form.create_person') %>
 
-  <div class="control is-flex is-justify-content-space-between">
-    <%= form.submit button_text, class: "button is-info is-rounded" %>
+  <div class='control is-flex is-justify-content-space-between'>
+    <%= form.submit button_text, class: 'button is-info is-rounded' %>
     <button
-      data-controller="stimulus"
-      data-action="stimulus#closeAllModals"
-      class="button is-info is-rounded">
+      data-controller='stimulus'
+      data-action='stimulus#closeAllModals'
+      class='button is-info is-rounded'>
       <%= t(:back) %>
     </button>
   </div>
