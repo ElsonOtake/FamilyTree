@@ -10,7 +10,7 @@
             couple,
             data: {
               turbo_method: :delete,
-              turbo_confirm: "Are you sure you want to undo the connection between #{person.name} and #{partner.name}?"
+              turbo_confirm: t('confirm.messages.unlink_mate', person_name: person.name, partner_name: partner.name)
             },
             title: t('helpers.submit.unlink', model: t('people.show.mate'))
         %>

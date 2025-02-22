@@ -206,6 +206,10 @@ ja:
       day: 日
       month: 月
       year: 年
+  confirm:
+    messages:
+      unlink_mate: "%{person_name} と %{partner_name} 間の接続を解除してもよろしいですか?"
+      unlink_child: "%{name} を子供リストから削除してもよろしいですか?"
   errors:
     format: "%{attribute}%{message}"
     messages:

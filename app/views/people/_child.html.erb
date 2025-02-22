@@ -9,7 +9,7 @@
           person_couple_child_path(person, couple, child),
           data: {
             turbo_method: :delete,
-            turbo_confirm: "Are you sure to remove #{child.name} from the list of children?"
+            turbo_confirm: t('confirm.messages.unlink_child', name: child.name)
           },
           title: t('helpers.submit.unlink', model: t('children.form.child'))
       %>
