@@ -5,20 +5,18 @@ class ChildrenController < ApplicationController
   before_action :authenticate_user!
   before_action :set_person, except: %i[download]
   before_action :set_couple, except: %i[download]
+  before_action -> { authorize Child }
 
   def download
-    # @children = Person.joins(:couples).select('person_id, couple_id')
     @children = Child.all
     respond_to do |format|
       format.csv do
-        authorize Child
-        send_data Child.to_csv(@children), filename: "children-#{Date.today}.csv"
+        send_data Child.to_csv(Person.with_deleted.joins(:couples).select('person_id, couple_id')), filename: "children-#{Date.today}.csv"
       end
     end
   end
 
   def new
-    authorize @person
     @q = Person.ransack(params[:q])
     session[:id] = @person.id
     @people = []
@@ -26,7 +24,6 @@ class ChildrenController < ApplicationController
 
   def create
     @child = Person.find(params[:child_id])
-    authorize @child
     respond_to do |format|
       if @couple.people << @child
         FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_created.deliver_later
@@ -42,7 +39,6 @@ class ChildrenController < ApplicationController
 
   def destroy
     @child = Person.find(params[:id])
-    authorize @child
     @child.couple_ids = nil
 
     respond_to do |format|

@@ -206,6 +206,10 @@ ja:
       day: 日
       month: 月
       year: 年
+  confirm:
+    messages:
+      unlink_mate: "%{person_name} と %{partner_name} 間の接続を解除してもよろしいですか?"
+      unlink_child: "%{name} を子供リストから削除してもよろしいですか?"
   errors:
     format: "%{attribute}%{message}"
     messages:
@@ -218,6 +222,7 @@ ja:
       exclusion: は予約されています
       greater_than: は%{count}より大きい値にしてください
       greater_than_or_equal_to: は%{count}以上の値にしてください
+      image_size: は1メガバイトより大きい画像です
       in: は%{count}の範囲に含めてください
       inclusion: は一覧にありません
       invalid: は不正な値です
@@ -226,6 +231,7 @@ ja:
       model_invalid: 'バリデーションに失敗しました: %{errors}'
       not_a_number: は数値で入力してください
       not_an_integer: は整数で入力してください
+      unauthorized: は許可されていません
       odd: は奇数にしてください
       other_than: は%{count}以外の値にしてください
       present: は入力しないでください

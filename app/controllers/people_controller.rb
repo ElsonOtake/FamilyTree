@@ -5,6 +5,7 @@ class PeopleController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!
   before_action :set_person, only: %i[show edit update destroy]
+  before_action -> { authorize Person }
 
   # GET /people or /people.json
   def index
@@ -16,8 +17,7 @@ class PeopleController < ApplicationController
     @people = Person.all
     respond_to do |format|
       format.csv do
-        authorize Person
-        send_data Person.to_csv(@people), filename: "people-#{Date.today}.csv"
+        send_data Person.to_csv(Person.with_deleted), filename: "people-#{Date.today}.csv"
       end
     end
   end
@@ -57,18 +57,14 @@ class PeopleController < ApplicationController
   # GET /people/new
   def new
     @person = Person.new
-    authorize @person
   end
 
   # GET /people/1/edit
-  def edit
-    authorize @person
-  end
+  def edit; end
 
   # POST /people or /people.json
   def create
     @person = Person.new(person_params)
-    authorize @person
     @partner = nil
     @child = nil
 
@@ -77,7 +73,6 @@ class PeopleController < ApplicationController
         if couple_params[:mate].present?
           @couple = Couple.new(person1_id: couple_params[:mate], person2_id: @person.id, marriage: couple_params[:marriage],
                                separation: couple_params[:separation], local: couple_params[:local])
-          authorize @couple
 
           if @couple.save
             FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
@@ -91,7 +86,6 @@ class PeopleController < ApplicationController
           end
         elsif couple_params[:couple].present?
           @couple = Couple.find(couple_params[:couple])
-          authorize @couple
 
           if @couple.people << @person
             FamilyMailer.with(user: current_user, child: @person, couple: @couple).child_created.deliver_later
@@ -119,12 +113,11 @@ class PeopleController < ApplicationController
 
   # PATCH/PUT /people/1 or /people/1.json
   def update
-    authorize @person
     respond_to do |format|
       if @person.update(person_params)
-        FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later
+        FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later if @person.changed?
         format.html { redirect_to person_url(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) } if @person.changed?
       else
         format.html { render :edit, status: :unprocessable_entity }
         flash.now[:notice] = @person.errors.full_messages[0]
@@ -135,7 +128,6 @@ class PeopleController < ApplicationController
 
   # DELETE /people/1 or /people/1.json
   def destroy
-    authorize @person
     @person.destroy
 
     respond_to do |format|
@@ -154,7 +146,6 @@ class PeopleController < ApplicationController
     # else
     #   @people = @q.result(distinct: true)
     # end
-    authorize @people
   end
 
   def search_mate
@@ -168,7 +159,6 @@ class PeopleController < ApplicationController
     # else
     #   @people = @q.result(distinct: true)
     # end
-    authorize @people
   end
 
   private

@@ -1,16 +1,16 @@
-<%= turbo_frame_tag "table" do %>
+<%= turbo_frame_tag 'table' do %>
   <% people.each do |person| %>
     <tr>
       <td>
-        <%= render "people/icon", person: person %>&nbsp;
-        <%= link_to person_path(person), data: { turbo_frame: "_top" } do %>
+        <%= render 'people/icon', person: person %>&nbsp;
+        <%= link_to person_path(person), data: { turbo_frame: '_top' } do %>
           <%= highlight person.name, params.dig(:q, :name_cont) %>
         <% end %>
       </td>
-      <td class="is-hidden-touch"><%= l(person.birth, format: :default) unless person.birth.nil? %></td>
-      <td class="is-hidden-touch"><%= l(person.death, format: :default) unless person.death.nil? %></td>
-      <td class="is-hidden-touch"><%= t("people.index.#{person.alive}") %></td>
-      <td class="is-hidden-touch"><%= highlight person.description, params.dig(:q, :description_cont) %></td>
+      <td class='is-hidden-touch'><%= l(person.birth, format: :default) unless person.birth.nil? %></td>
+      <td class='is-hidden-touch'><%= l(person.death, format: :default) unless person.death.nil? %></td>
+      <td class='is-hidden-touch'><%= t("people.index.#{person.alive}") %></td>
+      <td class='is-hidden-touch'><%= highlight person.description, params.dig(:q, :description_cont) %></td>
     </tr>
   <% end %>
 <% end %>

@@ -232,6 +232,10 @@ pt:
       day: Dia
       month: Mês
       year: Ano
+  confirm:
+    messages:
+      unlink_mate: Você tem certeza que quer desvincular %{person_name} de %{partner_name}?
+      unlink_child: Você tem certeza que quer remover %{name} da lista de filhos?
   errors:
     format: "%{attribute} %{message}"
     messages:
@@ -244,6 +248,7 @@ pt:
       exclusion: não está disponível
       greater_than: deve ser maior que %{count}
       greater_than_or_equal_to: deve ser maior ou igual a %{count}
+      image_size: imagem é maior que 1 Megabyte
       in: deve estar em %{count}
       inclusion: não está incluído na lista
       invalid: não é válido
@@ -252,6 +257,7 @@ pt:
       model_invalid: 'A validação falhou: %{errors}'
       not_a_number: não é um número
       not_an_integer: não é um número inteiro
+      unauthorized: Você não está autorizado a executar essa ação
       odd: deve ser ímpar
       other_than: deve ser diferente de %{count}
       present: deve ficar em branco

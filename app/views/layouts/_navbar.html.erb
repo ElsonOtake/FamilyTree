@@ -1,33 +1,33 @@
-<nav class="navigation navbar" role="navigation" aria-label="main navigation" data-controller="stimulus">
-  <div class="navbar-brand m-4">
-    <a class="navbar-item" href="<%= root_path %>">
-      <img src="<%= image_path "EAO.png" %>" width="90" height="45">
+<nav class='navigation navbar' role='navigation' aria-label='main navigation' data-controller='stimulus'>
+  <div class='navbar-brand m-4'>
+    <a class='navbar-item' href=<%= root_path %>>
+      <img src=<%= image_path 'EAO.png' %> width='90' height='45'>
     </a>
-    <p class="subtitle my-auto has-text-info"><%= current_user.name if user_signed_in? %></p>
+    <p class='subtitle my-auto has-text-info'><%= current_user.name if user_signed_in? %></p>
 
     <a
-      role="button"
-      class="navbar-burger"
-      aria-label="menu"
-      data-stimulus-target="burger"
-      data-action="stimulus#burger"
+      role='button'
+      class='navbar-burger'
+      aria-label='menu'
+      data-stimulus-target='burger'
+      data-action='stimulus#burger'
     >
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
+      <span aria-hidden='true'></span>
+      <span aria-hidden='true'></span>
+      <span aria-hidden='true'></span>
     </a>
   </div>
 
-  <div id="navMenu" class="navbar-menu m-4" data-stimulus-target="menu">
-    <div class="navbar-end">
+  <div id='navMenu' class='navbar-menu m-4' data-stimulus-target='menu'>
+    <div class='navbar-end'>
       <% locales = {
-            pt: "Português",
-            en: "English",
-            ja: "日本語"
+            pt: 'Português',
+            en: 'English',
+            ja: '日本語'
           }.with_indifferent_access
       %>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
+      <div class='navbar-item has-dropdown is-hoverable'>
+        <a class='navbar-link'>
           <% if user_signed_in? %>
             <%= locales[current_user.locale] %>
           <% else %>
@@ -36,48 +36,48 @@
           <% end %>
         </a>
 
-        <div class="navbar-dropdown">
+        <div class='navbar-dropdown'>
           <% locales.each do |key, value| %>
             <% if user_signed_in? %>
-              <%= link_to value, user_locale_change_path(current_user, key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == current_user.locale %>
+              <%= link_to value, user_locale_change_path(current_user, key), data: { turbo_method: :patch }, class: 'navbar-item' unless key.to_s == current_user.locale %>
             <% else %>
-              <%= link_to value, locale_change_unidentified_users_path(key), data: { turbo_method: :patch }, class: "navbar-item" unless key.to_s == session[:locale] %>
+              <%= link_to value, locale_change_unidentified_users_path(key), data: { turbo_method: :patch }, class: 'navbar-item' unless key.to_s == session[:locale] %>
             <% end %>
           <% end %>
         </div>
       </div>
       
       <% if user_signed_in? %>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
+        <div class='navbar-item has-dropdown is-hoverable'>
+          <a class='navbar-link'>
             <%= t('.more')%>
           </a>
-          <div class="navbar-dropdown">
-            <%#= link_to "Sobre", nil, class: "navbar-item" %>
-            <%#= link_to "Log", nil, class: "navbar-item" %>
-            <%#= link_to "Aniversários", nil, class: "navbar-item" %>
-            <%#= link_to "Estatísticas", nil, class: "navbar-item" %>
-            <%#= link_to "Backup", nil, class: "navbar-item" %>
-            <%#= link_to "Contato", nil, class: "navbar-item" %>
+          <div class='navbar-dropdown'>
+            <%#= link_to 'Sobre', nil, class: 'navbar-item' %>
+            <%#= link_to 'Log', nil, class: 'navbar-item' %>
+            <%#= link_to 'Aniversários', nil, class: 'navbar-item' %>
+            <%#= link_to 'Estatísticas', nil, class: 'navbar-item' %>
+            <%#= link_to 'Backup', nil, class: 'navbar-item' %>
+            <%#= link_to 'Contato', nil, class: 'navbar-item' %>
             <% if policy(User).roles? %>
-              <%= link_to t('.download_users_csv'), users_path(format: :csv), class: "navbar-item" %>
-              <%= link_to t('.download_roles_csv'), roles_path(format: :csv), class: "navbar-item" %>
-              <%= link_to t('.download_people_csv'), download_people_path(format: :csv), class: "navbar-item" %>
-              <%= link_to t('.download_couples_csv'), download_couples_path(format: :csv), class: "navbar-item" %>
-              <%= link_to t('.download_children_csv'), download_children_path(format: :csv), class: "navbar-item" %>
-              <%= link_to t('.roles'), roles_users_path, class: "navbar-item" %>
+              <%= link_to t('.download_users_csv'), users_path(format: :csv), class: 'navbar-item' %>
+              <%= link_to t('.download_roles_csv'), roles_path(format: :csv), class: 'navbar-item' %>
+              <%= link_to t('.download_people_csv'), download_people_path(format: :csv), class: 'navbar-item' %>
+              <%= link_to t('.download_couples_csv'), download_couples_path(format: :csv), class: 'navbar-item' %>
+              <%= link_to t('.download_children_csv'), download_children_path(format: :csv), class: 'navbar-item' %>
+              <%= link_to t('.roles'), roles_users_path, class: 'navbar-item' %>
             <% end %>
-            <%# <hr class="navbar-divider"> %>
-            <%= link_to t('.edit_profile'), edit_user_registration_path, class: "navbar-item" %>
-            <%#= link_to "Informe um erro", nil, class: "navbar-item" %>
+            <%# <hr class='navbar-divider'> %>
+            <%= link_to t('.edit_profile'), edit_user_registration_path, class: 'navbar-item' %>
+            <%#= link_to 'Informe um erro', nil, class: 'navbar-item' %>
           </div>
         </div>
 
-        <%= link_to t('.log_out'), destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-item" %>
+        <%= link_to t('.log_out'), destroy_user_session_path, data: { turbo_method: :delete }, class: 'navbar-item' %>
       <% else %>
-        <%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path, class: "navbar-item" %>
-        <%= link_to t('devise.sessions.new.log_in'), new_user_session_path, class: "navbar-item" %>
+        <%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path, class: 'navbar-item' %>
+        <%= link_to t('devise.sessions.new.log_in'), new_user_session_path, class: 'navbar-item' %>
       <% end %>
     </div>
   </div>
-</nav>  
+</nav>

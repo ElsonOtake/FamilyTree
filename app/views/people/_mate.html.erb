@@ -1,7 +1,7 @@
 <tr id=<%= dom_id couple %>>
-  <td class="is-flex is-justify-content-space-between">
+  <td class='is-flex is-justify-content-space-between'>
     <div>
-      <%= render "people/icon", person: partner %>&nbsp;
+      <%= render 'people/icon', person: partner %>&nbsp;
       <%= link_to partner.name, person_path(partner) %>
     </div>
     <div>
@@ -10,7 +10,7 @@
             couple,
             data: {
               turbo_method: :delete,
-              turbo_confirm: "Are you sure you want to undo the connection between #{person.name} and #{partner.name}?"
+              turbo_confirm: t('confirm.messages.unlink_mate', person_name: person.name, partner_name: partner.name)
             },
             title: t('helpers.submit.unlink', model: t('people.show.mate'))
         %>
@@ -19,10 +19,10 @@
         <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
           new_person_couple_child_path(person, couple),
           data: {
-            turbo_frame: "new_child",
-            controller: "stimulus",
-            stimulus_id_value: "child_new",
-            action: "stimulus#open"
+            turbo_frame: 'new_child',
+            controller: 'stimulus',
+            stimulus_id_value: 'child_new',
+            action: 'stimulus#open'
           },
           title: t('helpers.submit.create', model: t('children.form.child'))
         %>
@@ -31,10 +31,10 @@
         <%= link_to icon('fa-solid', 'pen', class: 'has-text-info ml-2'),
           edit_person_couple_path(person, couple),
           data: {
-            turbo_frame: "edit_couple",
-            controller: "stimulus",
-            stimulus_id_value: "couple_edit",
-            action: "stimulus#open"
+            turbo_frame: 'edit_couple',
+            controller: 'stimulus',
+            stimulus_id_value: 'couple_edit',
+            action: 'stimulus#open'
           },
           title: t('helpers.submit.edit', model: t('people.show.mate'))
         %>
