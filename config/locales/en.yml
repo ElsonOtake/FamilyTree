@@ -232,6 +232,10 @@ en:
       day: Day
       month: Month
       year: Year
+  confirm:
+    messages:
+      unlink_mate: Are you sure you want to undo the connection between %{person_name} and %{partner_name}?
+      unlink_child: Are you sure to remove %{name} from the list of children?
   errors:
     format: "%{attribute} %{message}"
     messages:

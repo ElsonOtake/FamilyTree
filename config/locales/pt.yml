@@ -232,6 +232,10 @@ pt:
       day: Dia
       month: Mês
       year: Ano
+  confirm:
+    messages:
+      unlink_mate: Você tem certeza que quer desvincular %{person_name} de %{partner_name}?
+      unlink_child: Você tem certeza que quer remover %{name} da lista de filhos?
   errors:
     format: "%{attribute} %{message}"
     messages:
