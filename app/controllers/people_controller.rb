@@ -122,9 +122,9 @@ class PeopleController < ApplicationController
     authorize @person
     respond_to do |format|
       if @person.update(person_params)
-        FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later
+        FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later if @person.changed?
         format.html { redirect_to person_url(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) } if @person.changed?
       else
         format.html { render :edit, status: :unprocessable_entity }
         flash.now[:notice] = @person.errors.full_messages[0]
