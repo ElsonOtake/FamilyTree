@@ -252,6 +252,7 @@ pt:
       model_invalid: 'A validação falhou: %{errors}'
       not_a_number: não é um número
       not_an_integer: não é um número inteiro
+      unauthorized: Você não está autorizado a executar essa ação
       odd: deve ser ímpar
       other_than: deve ser diferente de %{count}
       present: deve ficar em branco
