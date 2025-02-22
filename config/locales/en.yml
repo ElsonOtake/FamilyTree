@@ -252,6 +252,7 @@ en:
       model_invalid: 'Validation failed: %{errors}'
       not_a_number: is not a number
       not_an_integer: must be an integer
+      unauthorized: You are not authorized to perform this action.
       odd: must be odd
       other_than: must be other than %{count}
       present: must be blank
