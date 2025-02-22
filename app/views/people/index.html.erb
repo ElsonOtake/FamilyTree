@@ -1,90 +1,90 @@
-<div class="is-flex is-align-items-center mb-4">
-  <h1 class="title has-text-info m-0"><%= t('.family_tree') %></h1>
+<div class='is-flex is-align-items-center mb-4'>
+  <h1 class='title has-text-info m-0'><%= t('.family_tree') %></h1>
   <% if policy(@people).new? %>
     <%= link_to icon('fa-solid fa-xl', 'user-plus', class: 'has-text-success ml-4'),
       new_person_path,
       data: {
-        turbo_frame: "new_person",
-        controller: "stimulus",
-        stimulus_id_value: "person_new",
-        action: "stimulus#open"
+        turbo_frame: 'new_person',
+        controller: 'stimulus',
+        stimulus_id_value: 'person_new',
+        action: 'stimulus#open'
       },
       title: t('helpers.submit.create', model: t('people.form.person'))
     %>
   <% end %>
 </div>
 
-<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search, class: "mb-4" do |f| %>
-  <div class="field">
-    <%= f.label :name_cont, t('.search_by_name'), class: "label" %>
-    <div class="control has-icons-left">
-      <%= f.search_field :name_cont, oninput: "this.form.requestSubmit();", class: "input" %>
-      <span class="icon is-small is-left">
-        <i class="fas fa-magnifying-glass"></i>
+<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search, class: 'mb-4' do |f| %>
+  <div class='field'>
+    <%= f.label :name_cont, t('.search_by_name'), class: 'label' %>
+    <div class='control has-icons-left'>
+      <%= f.search_field :name_cont, oninput: 'this.form.requestSubmit();', class: 'input' %>
+      <span class='icon is-small is-left'>
+        <i class='fas fa-magnifying-glass'></i>
       </span>
     </div>
   </div>
 <% end %>
 
-<div class="columns">
-  <div class="column is-narrow">
-    <div class="field">
-      <%= label :q, :birth_gteq, "#{t('people.birthday')} #{t('.gteq')}", class: "label" %>
-      <div class="control">
-        <%= date_field :q, :birth_gteq, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+<div class='columns'>
+  <div class='column is-narrow'>
+    <div class='field'>
+      <%= label :q, :birth_gteq, "#{t('people.birthday')} #{t('.gteq')}", class: 'label' %>
+      <div class='control'>
+        <%= date_field :q, :birth_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input' %>
       </div>
-      <%= label :q, :birth_lteq, t('.lteq'), class: "label" %>
-      <div class="control">
-        <%= date_field :q, :birth_lteq, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+      <%= label :q, :birth_lteq, t('.lteq'), class: 'label' %>
+      <div class='control'>
+        <%= date_field :q, :birth_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input' %>
       </div>
     </div>
 
-    <div class="field">
-      <%= label :q, :gender_in, t('people.form.gender'), class: "label" %>
+    <div class='field'>
+      <%= label :q, :gender_in, t('people.form.gender'), class: 'label' %>
       <% Person.genders.each do |key, value| %>
-        <div class="control">
-          <%= check_box :q, :gender_in, { multiple: true, onclick: "this.form.requestSubmit();", form: :form_search }, value, nil %>
+        <div class='control'>
+          <%= check_box :q, :gender_in, { multiple: true, onclick: 'this.form.requestSubmit();', form: :form_search }, value, nil %>
           <%= t(".#{key}") %>
         </div>
       <% end %>
     </div>
 
-    <div class="field">
-      <%= label :q, :alive_eq, t('people.form.alive'), class: "label" %>
-      <div class="control">
-        <%= radio_button :q, :alive_eq, nil, onchange: "this.form.requestSubmit();", form: :form_search %>
+    <div class='field'>
+      <%= label :q, :alive_eq, t('people.form.alive'), class: 'label' %>
+      <div class='control'>
+        <%= radio_button :q, :alive_eq, nil, onchange: 'this.form.requestSubmit();', form: :form_search %>
         <%= label :q, :alive_eq, t('.all') %><br>
-        <%= radio_button :q, :alive_eq, true, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= radio_button :q, :alive_eq, true, onchange: 'this.form.requestSubmit();', form: :form_search %>
         <%= label :q, :alive_eq, t('.true') %><br>
-        <%= radio_button :q, :alive_eq, false, onchange: "this.form.requestSubmit();", form: :form_search %>
+        <%= radio_button :q, :alive_eq, false, onchange: 'this.form.requestSubmit();', form: :form_search %>
         <%= label :q, :alive_eq, t('.false') %>
       </div>
     </div>
 
-    <div class="field">
-      <%= label :q, :description_cont, t('people.form.remark'), class: "label" %>
-      <div class="control">
-        <%= search_field :q, :description_cont, oninput: "this.form.requestSubmit();", form: :form_search, class: "input" %>
+    <div class='field'>
+      <%= label :q, :description_cont, t('people.form.remark'), class: 'label' %>
+      <div class='control'>
+        <%= search_field :q, :description_cont, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input' %>
       </div>
     </div>
 
   </div>
-  <div class="column">
-    <%= turbo_frame_tag "results", data: { turbo_action: :advance } do %>
+  <div class='column'>
+    <%= turbo_frame_tag 'results', data: { turbo_action: :advance } do %>
 
       <%== pagy_bulma_nav(@pagy) %>
-      <table class="table">
+      <table class='table'>
         <thead>
           <tr>
             <th><%= sort_link(@q, :name, t('people.form.name'), default_order: :asc) %></th>
-            <th class="is-hidden-touch"><%= sort_link(@q, :birth, t('people.birthday')) %></th>
-            <th class="is-hidden-touch"><%= sort_link(@q, :death, t('people.form.death')) %></th>
-            <th class="is-hidden-touch"><%= sort_link(@q, :alive, t('people.form.alive')) %></th>
-            <th class="is-hidden-touch"><%= t('people.form.remark') %></th>
+            <th class='is-hidden-touch'><%= sort_link(@q, :birth, t('people.birthday')) %></th>
+            <th class='is-hidden-touch'><%= sort_link(@q, :death, t('people.form.death')) %></th>
+            <th class='is-hidden-touch'><%= sort_link(@q, :alive, t('people.form.alive')) %></th>
+            <th class='is-hidden-touch'><%= t('people.form.remark') %></th>
           </tr>
         </thead>
-        <tbody id="people">
-          <%= render "people/table", people: @people %>
+        <tbody id='people'>
+          <%= render 'people/table', people: @people %>
         </tbody>
       </table>
 
@@ -92,4 +92,4 @@
   </div>
 </div>
 
-<%= render "shared/modal", tag_name: "new_person", modal_id: "person_new" %>
+<%= render 'shared/modal', tag_name: 'new_person', modal_id: 'person_new' %>

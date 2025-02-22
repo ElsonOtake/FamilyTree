@@ -1,12 +1,5 @@
-<%= turbo_frame_tag "edit_person" do %>
-  <h1 class="title has-text-info"><%= t('helpers.submit.edit', model: t('people.form.person')) %></h1>
+<%= turbo_frame_tag 'edit_person' do %>
+  <h1 class='title has-text-info'><%= t('helpers.submit.edit', model: t('people.form.person')) %></h1>
 
-  <%= render "form", person: @person, couple: nil, mate: nil %>
-
-  <br>
-
-  <div>
-    <%#= link_to "Show this person", @person %>
-    <%#= link_to "Back to people", people_path %>
-  </div>
+  <%= render 'form', person: @person, couple: nil, mate: nil %>
 <% end %>

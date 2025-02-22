@@ -3,20 +3,20 @@
   <head>
     <title>FamilyTree</title>
     <%= favicon_link_tag asset_path('EAO.png') %>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <script src="https://kit.fontawesome.com/064189fe66.js" crossorigin="anonymous"></script>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <script src='https://kit.fontawesome.com/064189fe66.js' crossorigin='anonymous'></script>
+    <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
   </head>
 
   <body>
     <%= render 'layouts/navbar' %>
-    <section class="section">
-      <div class="container is-fluid">
-        <div id="flash">
-          <%= render "shared/flash" %>
+    <section class='section'>
+      <div class='container is-fluid'>
+        <div id='flash'>
+          <%= render 'shared/flash' %>
         </div>
         <%= yield %>
       </div>
