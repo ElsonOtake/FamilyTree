@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
     @people = Person.all
     respond_to do |format|
       format.csv do
-        send_data Person.to_csv(@people), filename: "people-#{Date.today}.csv"
+        send_data Person.to_csv(Person.with_deleted), filename: "people-#{Date.today}.csv"
       end
     end
   end

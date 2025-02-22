@@ -17,8 +17,7 @@ class CouplesController < ApplicationController
     @couples = Couple.all
     respond_to do |format|
       format.csv do
-        # authorize Couple
-        send_data Couple.to_csv(@couples), filename: "couples-#{Date.today}.csv"
+        send_data Couple.to_csv(Couple.with_deleted), filename: "couples-#{Date.today}.csv"
       end
     end
   end
@@ -26,19 +25,15 @@ class CouplesController < ApplicationController
   # GET /couples/new
   def new
     @couple = Couple.new
-    # authorize @couple
     @couple.person1_id = @person.id
   end
 
   # GET /couples/1/edit
-  def edit
-    # authorize @couple
-  end
+  def edit; end
 
   # POST /couples or /couples.json
   def create
     @couple = Couple.new(couple_params)
-    # authorize @couple
 
     respond_to do |format|
       if @couple.save
@@ -56,7 +51,6 @@ class CouplesController < ApplicationController
 
   # PATCH/PUT /couples/1 or /couples/1.json
   def update
-    # authorize @couple
     respond_to do |format|
       if @couple.update(couple_params)
         FamilyMailer.with(user: current_user, couple: @couple).couple_updated.deliver_later
@@ -72,7 +66,6 @@ class CouplesController < ApplicationController
 
   # DELETE /couples/1 or /couples/1.json
   def destroy
-    # authorize @couple
     id = @couple.id
     person_1 = @couple.person1_id
     person_2 = @couple.person2_id

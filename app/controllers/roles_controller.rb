@@ -10,8 +10,7 @@ class RolesController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        # authorize Role
-        send_data Role.to_csv(@roles), filename: "roles-#{Date.today}.csv"
+        send_data Role.to_csv(Role.with_deleted), filename: "roles-#{Date.today}.csv"
       end
     end
   end
