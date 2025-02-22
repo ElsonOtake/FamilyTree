@@ -4,13 +4,14 @@
 class UsersController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!, except: :change_unidentified
+  before_action -> { authorize User }
 
   def index
     @users = User.all
     respond_to do |format|
       format.html
       format.csv do
-        authorize User
+        # authorize User
         send_data User.to_csv(@users), filename: "users-#{Date.today}.csv"
       end
     end
@@ -19,12 +20,12 @@ class UsersController < ApplicationController
   def roles
     @roles = Role.order(:id).pluck(:name)
     @pagy, @users = pagy(User.where.not(id: 1).includes(:roles).order(:name), items: 10)
-    authorize @users
+    # authorize @users
   end
 
   def role_update
     @user = User.find(params[:id])
-    authorize @user
+    # authorize @user
     @user.roles = []
     @user.add_role(user_params[:role])
     redirect_to roles_users_path
