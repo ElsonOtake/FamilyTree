@@ -13,7 +13,7 @@ class Person < ApplicationRecord
 
   validates :name, presence: true
   validates :avatar, content_type: ['image/png', 'image/jpeg'],
-                     size: { less_than: 1.megabytes, message: t('errors.messages.image_size') }
+                     size: { less_than: 1.megabytes, message: I18n.t('errors.messages.image_size') }
 
   extend FriendlyId
   friendly_id :slug_candidates, use: %i[slugged finders history]
@@ -33,11 +33,11 @@ class Person < ApplicationRecord
     name_changed?
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[alive birth death description gender name]
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     []
   end
 end
