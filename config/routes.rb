@@ -10,11 +10,14 @@ Rails.application.routes.draw do
   end
   resources :users, path: :usuarios do
     get 'roles', on: :collection
+    get 'download', on: :collection
     patch 'role_update', on: :member
     patch 'change/:locale', to: 'users#change', as: 'locale_change'
     patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified', as: 'locale_change_unidentified'
   end
-  resources :roles, only: [:index]
+  resources :roles, only: [:index] do
+    get 'download', on: :collection
+  end
   resources :couples, path: :casais, only: %i[index show destroy] do
     get 'download', on: :collection
   end

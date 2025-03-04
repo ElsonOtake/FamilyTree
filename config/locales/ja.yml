@@ -31,7 +31,7 @@ ja:
       search_by_name: "名前で検索"
       gteq: "から"
       lteq: "まで"
-      all: "全て"
+      'nil': "全て"
       'true': "有"
       'false': "無"
       M: "男"
@@ -208,7 +208,7 @@ ja:
       year: 年
   confirm:
     messages:
-      unlink_mate: "%{person_name} と %{partner_name} 間の接続を解除してもよろしいですか?"
+      unlink_mate: "%{person_name} と %{mate_name} 間の接続を解除してもよろしいですか?"
       unlink_child: "%{name} を子供リストから削除してもよろしいですか?"
   errors:
     format: "%{attribute}%{message}"

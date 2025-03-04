@@ -22,6 +22,43 @@ class Person < ApplicationRecord
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
 
+  def siblings
+    return [] if couples.empty?
+
+    couples.map(&:people).flatten
+  end
+
+  def father
+    return nil if couples.empty?
+
+    person = Person.find(couples.first.person1_id)
+    person.gender == 'M' ? person : Person.find(couples.first.person2_id)
+  end
+
+  def mother
+    return nil if couples.empty?
+
+    person = Person.find(couples.first.person1_id)
+    person.gender != 'M' ? person : Person.find(couples.first.person2_id)
+  end
+
+  def mate(couple_id)
+    return nil if couple_id.nil?
+
+    couple = Couple.find(couple_id)
+    return nil if couple.nil?
+
+    couple.person1_id == id ? Person.find(couple.person2_id) : Person.find(couple.person1_id)
+  end
+
+  def mates
+    Couple.mates(id)
+  end
+
+  def children
+    Couple.children(id)
+  end
+
   def slug_candidates
     [
       :name,

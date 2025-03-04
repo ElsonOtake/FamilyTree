@@ -4,19 +4,19 @@
   <div class='column is-full-tablet is-half-desktop'>
     <h4 class='subtitle has-text-grey'><%= t('.parents') %></h4>
     <div class='box'>
-      <% unless @father.nil? %>
+      <% unless @person.father.nil? %>
         <table class='table'>
           <tbody>
             <tr>
               <td>
-                <%= render 'icon', person: @father %>&nbsp;
-                <%= link_to @father.name, person_path(@father) %><br>
+                <%= render 'icon', person: @person.father %>&nbsp;
+                <%= link_to @person.father.name, person_path(@person.father) %><br>
               </td>
             </tr>
             <tr>
               <td>
-                <%= render 'icon', person: @mother %>&nbsp;
-                <%= link_to @mother.name, person_path(@mother) %><br>
+                <%= render 'icon', person: @person.mother %>&nbsp;
+                <%= link_to @person.mother.name, person_path(@person.mother) %><br>
               </td>
             </tr>
           </tbody>
@@ -28,10 +28,10 @@
   <div class='column is-full-tablet is-half-desktop'>
     <h4 class='subtitle has-text-grey'><%= t('.siblings') %></h4>
     <div class='box'>
-      <% unless @parents.empty? %>
+      <% unless @person.father.nil? %>
         <table class='table'>
           <tbody>
-            <% @parents[0].people.each do |sibling| %>
+            <% @person.siblings.each do |sibling| %>
               <% if sibling.id != @person.id %>
                 <tr>
                   <td>
@@ -68,8 +68,8 @@
     <div class='box'>
       <table class='table' style='width:100%;'>
         <tbody id='mate'>
-          <% @mate.each_with_index do |partner, index| %>
-            <%= render 'mate', partner: partner, person: @person, couple: @couple[index] %>
+          <% @person.mates.each do |mate| %>
+            <%= render 'mate', person: @person, mate: %>
           <% end %>
         </tbody>
       </table>
@@ -81,8 +81,8 @@
     <div class='box'>
       <table class='table' style='width:100%;'>
         <tbody id='children'>
-          <% @children.each do |child| %>
-            <%= render 'child', person: @person, couple: child.couples.first, child: child %>
+          <% @person.children.each do |child| %>
+            <%= render 'child', person: @person, child: child %>
           <% end %>
         </tbody>
       </table>

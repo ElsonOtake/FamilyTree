@@ -52,12 +52,10 @@
     <div class='field'>
       <%= label :q, :alive_eq, t('people.form.alive'), class: 'label' %>
       <div class='control'>
-        <%= radio_button :q, :alive_eq, nil, onchange: 'this.form.requestSubmit();', form: :form_search %>
-        <%= label :q, :alive_eq, t('.all') %><br>
-        <%= radio_button :q, :alive_eq, true, onchange: 'this.form.requestSubmit();', form: :form_search %>
-        <%= label :q, :alive_eq, t('.true') %><br>
-        <%= radio_button :q, :alive_eq, false, onchange: 'this.form.requestSubmit();', form: :form_search %>
-        <%= label :q, :alive_eq, t('.false') %>
+        <% %w[nil true false].each do |value| %>
+          <%= radio_button :q, :alive_eq, eval(value), onchange: 'this.form.requestSubmit();', form: :form_search %>
+          <%= label :q, :alive_eq, t(".#{value}") %><br>
+        <% end %>
       </div>
     </div>
 
