@@ -14,45 +14,16 @@ class PeopleController < ApplicationController
   end
 
   def download
-    @people = Person.all
+    people = Person.with_deleted.order(:id)
     respond_to do |format|
       format.csv do
-        send_data Person.to_csv(Person.with_deleted), filename: "people-#{Date.today}.csv"
+        send_data Person.to_csv(people), filename: "people-#{Date.today}.csv"
       end
     end
   end
 
   # GET /people/1 or /people/1.json
-  def show
-    @parents = @person.couples
-    if @parents.empty?
-      @father = nil
-      @mother = nil
-    else
-      if Person.find(@parents[0].person1_id).gender == 'M'
-        @father = Person.find(@parents[0].person1_id)
-        @mother = Person.find(@parents[0].person2_id)
-      else
-        @father = Person.find(@parents[0].person2_id)
-        @mother = Person.find(@parents[0].person1_id)
-      end
-    end
-
-    @mate = []
-    @couple = []
-    @children = []
-    couple = Couple.where(person1_id: @person).or(Couple.where(person2_id: @person))
-    return if couple.empty?
-
-    couple.each do |mate|
-      @mate << Person.find(mate.person1_id) unless mate.person1_id == @person.id
-      @mate << Person.find(mate.person2_id) unless mate.person2_id == @person.id
-      @couple << mate
-      mate.people.each do |child|
-        @children << child
-      end
-    end
-  end
+  def show; end
 
   # GET /people/new
   def new
@@ -65,7 +36,7 @@ class PeopleController < ApplicationController
   # POST /people or /people.json
   def create
     @person = Person.new(person_params)
-    @partner = nil
+    @mate = nil
     @child = nil
 
     respond_to do |format|
@@ -76,8 +47,8 @@ class PeopleController < ApplicationController
 
           if @couple.save
             FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
-            @partner = Person.find(@couple.person1_id)
-            format.html { redirect_to person_url(@person) }
+            @mate = Person.find(@couple.person1_id)
+            format.html { redirect_to person_path(@person) }
             format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
           else
             format.html { render :new, status: :unprocessable_entity }
@@ -100,7 +71,7 @@ class PeopleController < ApplicationController
           end
         else
           FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
-          format.html { redirect_to person_url(@person) }
+          format.html { redirect_to person_path(@person) }
           format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
         end
       else
@@ -116,7 +87,7 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.update(person_params)
         FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later if @person.changed?
-        format.html { redirect_to person_url(@person) }
+        format.html { redirect_to person_path(@person) }
         format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) } if @person.changed?
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -140,12 +111,6 @@ class PeopleController < ApplicationController
   def search_child
     @q = Person.without_recorded_parents.where.not(id: session[:id]).ransack(params[:q])
     @people = params[:q].nil? ? [] : @q.result(distinct: true)
-
-    # if params[:q].nil?
-    #   @people = []
-    # else
-    #   @people = @q.result(distinct: true)
-    # end
   end
 
   def search_mate
@@ -154,11 +119,6 @@ class PeopleController < ApplicationController
     @q = Person.not_P.not_F.ransack(params[:q]) if session[:gender] == 'F'
     @q = Person.not_P.where.not(id: session[:id]).ransack(params[:q]) if session[:gender] == 'X'
     @people = params[:q].nil? ? [] : @q.result(distinct: true)
-    # if params[:q].nil?
-    #   @people = []
-    # else
-    #   @people = @q.result(distinct: true)
-    # end
   end
 
   private

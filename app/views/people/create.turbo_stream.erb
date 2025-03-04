@@ -1,3 +1,3 @@
-<%= turbo_stream.append 'mate', partial: 'people/mate', locals: { partner: @partner, person: @person, couple: @couple } unless @partner.nil? %>
-<%= turbo_stream.append 'children', partial: 'people/child', locals: { person: @person, couple: @couple, child: @child } unless @child.nil? %>
+<%= turbo_stream.append 'mate', partial: 'people/mate', locals: { mate: @mate, person: @person } unless @partner.nil? %>
+<%= turbo_stream.append 'children', partial: 'people/child', locals: { person: @person, child: @child } unless @child.nil? %>
 <%= render_turbo_stream_flash_messages %>

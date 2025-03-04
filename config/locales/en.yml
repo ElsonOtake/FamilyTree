@@ -31,7 +31,7 @@ en:
       search_by_name: "Search by name"
       gteq: "from"
       lteq: "to"
-      all: "All"
+      'nil': "All"
       'true': "True"
       'false': "False"
       M: "Male"
@@ -234,7 +234,7 @@ en:
       year: Year
   confirm:
     messages:
-      unlink_mate: Are you sure you want to undo the connection between %{person_name} and %{partner_name}?
+      unlink_mate: Are you sure you want to undo the connection between %{person_name} and %{mate_name}?
       unlink_child: Are you sure to remove %{name} from the list of children?
   errors:
     format: "%{attribute} %{message}"

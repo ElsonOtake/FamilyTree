@@ -6,7 +6,7 @@ unless Person.any?
   csv_text = File.read(Rails.root.join('lib', 'seeds', 'people-2025-02-22.csv'))
   csv = CSV.parse(csv_text, headers: true, col_sep: ';')
   csv.each do |row|
-    # puts row['name']
+    puts row['name'] if Rails.env.development?
     person = Person.new
     person.previous_id = row['id']
     person.name = row['name']
@@ -342,7 +342,7 @@ unless Couple.any?
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
     couple = Couple.new
-    # puts row['id']
+    puts row['id'] if Rails.env.development?
     couple.previous_id = row['id']
     couple.person1_id = Person.find_by(previous_id: row['person1_id']).id
     couple.person2_id = Person.find_by(previous_id: row['person2_id']).id
@@ -367,7 +367,7 @@ unless Role.any?
   csv_text = File.read(Rails.root.join('lib', 'seeds', 'roles-2025-02-22.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
-    # puts row['name']
+    puts row['name'] if Rails.env.development?
     role = Role.new
     role.name = row['name']
     role.resource_type = row['resource_type']
@@ -383,7 +383,7 @@ unless User.any?
   csv_text = File.read(Rails.root.join('lib', 'seeds', 'users-2025-02-22.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
-    # puts row['email']
+    puts row['email'] if Rails.env.development?
     user = User.new
     user.email = row['email']
     user.remember_created_at = row['remember_created_at']

@@ -8,10 +8,10 @@ class ChildrenController < ApplicationController
   before_action -> { authorize Child }
 
   def download
-    @children = Child.all
+    children = Person.with_deleted.joins(:couples).select('person_id, couple_id')
     respond_to do |format|
       format.csv do
-        send_data Child.to_csv(Person.with_deleted.joins(:couples).select('person_id, couple_id')), filename: "children-#{Date.today}.csv"
+        send_data Child.to_csv(children), filename: "children-#{Date.today}.csv"
       end
     end
   end
