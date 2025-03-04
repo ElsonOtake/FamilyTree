@@ -17,27 +17,13 @@ class PeopleController < ApplicationController
     @people = Person.all
     respond_to do |format|
       format.csv do
-        send_data Person.to_csv(Person.with_deleted), filename: "people-#{Date.today}.csv"
+        send_data Person.to_csv(Person.with_deleted.order(:id)), filename: "people-#{Date.today}.csv"
       end
     end
   end
 
   # GET /people/1 or /people/1.json
   def show
-    @parents = @person.couples
-    if @parents.empty?
-      @father = nil
-      @mother = nil
-    else
-      if Person.find(@parents[0].person1_id).gender == 'M'
-        @father = Person.find(@parents[0].person1_id)
-        @mother = Person.find(@parents[0].person2_id)
-      else
-        @father = Person.find(@parents[0].person2_id)
-        @mother = Person.find(@parents[0].person1_id)
-      end
-    end
-
     @mate = []
     @couple = []
     @children = []

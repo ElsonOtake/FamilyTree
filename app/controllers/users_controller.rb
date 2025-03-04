@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        send_data User.to_csv(User.with_deleted), filename: "users-#{Date.today}.csv"
+        send_data User.to_csv(User.with_deleted.order(:id)), filename: "users-#{Date.today}.csv"
       end
     end
   end
