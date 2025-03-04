@@ -15,4 +15,18 @@ class Couple < ApplicationRecord
   def order_people
     self.person1_id, self.person2_id = person2_id, person1_id if person1_id > person2_id
   end
+
+  def self.mates(person_id)
+    couple = Couple.where(person1_id: person_id).or(Couple.where(person2_id: person_id))
+    return [] if couple.empty?
+
+    couple.map { |mate| Person.find(mate.person1_id != person_id ? mate.person1_id : mate.person2_id) }
+  end
+
+  def self.children(person_id)
+    couple = Couple.where(person1_id: person_id).or(Couple.where(person2_id: person_id))
+    return [] if couple.empty?
+
+    couple.map { |mate| mate.people }.flatten
+  end
 end
