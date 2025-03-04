@@ -31,7 +31,7 @@ ja:
       search_by_name: "名前で検索"
       gteq: "から"
       lteq: "まで"
-      all: "全て"
+      'nil': "全て"
       'true': "有"
       'false': "無"
       M: "男"
