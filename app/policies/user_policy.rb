@@ -21,4 +21,8 @@ class UserPolicy < ApplicationPolicy
   def change_unidentified?
     true
   end
+
+  def download?
+    user.has_role? :admin
+  end
 end

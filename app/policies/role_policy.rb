@@ -2,7 +2,7 @@
 
 # Policy for the role model
 class RolePolicy < ApplicationPolicy
-  def index?
+  def download?
     user.has_role? :admin
   end
 end

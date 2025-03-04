@@ -8,10 +8,13 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+  end
+
+  def download
+    users = User.with_deleted.order(:id)
     respond_to do |format|
-      format.html
       format.csv do
-        send_data User.to_csv(User.with_deleted.order(:id)), filename: "users-#{Date.today}.csv"
+        send_data User.to_csv(users), filename: "users-#{Date.today}.csv"
       end
     end
   end
