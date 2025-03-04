@@ -10,7 +10,7 @@ class RolesController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        send_data Role.to_csv(Role.with_deleted), filename: "roles-#{Date.today}.csv"
+        send_data Role.to_csv(Role.with_deleted.order(:id)), filename: "roles-#{Date.today}.csv"
       end
     end
   end

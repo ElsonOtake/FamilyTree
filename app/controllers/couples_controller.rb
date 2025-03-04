@@ -17,7 +17,7 @@ class CouplesController < ApplicationController
     @couples = Couple.all
     respond_to do |format|
       format.csv do
-        send_data Couple.to_csv(Couple.with_deleted), filename: "couples-#{Date.today}.csv"
+        send_data Couple.to_csv(Couple.with_deleted.order(:id)), filename: "couples-#{Date.today}.csv"
       end
     end
   end
