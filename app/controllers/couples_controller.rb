@@ -38,7 +38,7 @@ class CouplesController < ApplicationController
     respond_to do |format|
       if @couple.save
         FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
-        @partner = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
+        @mate = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
         format.html { redirect_to person_url(@person) }
         format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
       else

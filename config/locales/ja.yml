@@ -208,7 +208,7 @@ ja:
       year: 年
   confirm:
     messages:
-      unlink_mate: "%{person_name} と %{partner_name} 間の接続を解除してもよろしいですか?"
+      unlink_mate: "%{person_name} と %{mate_name} 間の接続を解除してもよろしいですか?"
       unlink_child: "%{name} を子供リストから削除してもよろしいですか?"
   errors:
     format: "%{attribute}%{message}"

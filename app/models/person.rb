@@ -42,6 +42,15 @@ class Person < ApplicationRecord
     person.gender != 'M' ? person : Person.find(couples.first.person2_id)
   end
 
+  def mate(couple_id)
+    return nil if couple_id.nil?
+
+    couple = Couple.find(couple_id)
+    return nil if couple.nil?
+
+    couple.person1_id == id ? Person.find(couple.person2_id) : Person.find(couple.person1_id)
+  end
+
   def mates
     Couple.mates(id)
   end

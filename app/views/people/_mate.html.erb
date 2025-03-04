@@ -1,8 +1,9 @@
+<% couple = Couple.couple(person, mate) %>
 <tr id=<%= dom_id couple %>>
   <td class='is-flex is-justify-content-space-between'>
     <div>
-      <%= render 'people/icon', person: partner %>&nbsp;
-      <%= link_to partner.name, person_path(partner) %>
+      <%= render 'people/icon', person: mate %>&nbsp;
+      <%= link_to mate.name, person_path(mate) %>
     </div>
     <div>
       <% if policy(couple).destroy? %>
@@ -10,7 +11,7 @@
             couple,
             data: {
               turbo_method: :delete,
-              turbo_confirm: t('confirm.messages.unlink_mate', person_name: person.name, partner_name: partner.name)
+              turbo_confirm: t('confirm.messages.unlink_mate', person_name: person.name, mate_name: mate.name)
             },
             title: t('helpers.submit.unlink', model: t('people.show.mate'))
         %>

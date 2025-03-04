@@ -23,22 +23,7 @@ class PeopleController < ApplicationController
   end
 
   # GET /people/1 or /people/1.json
-  def show
-    @mate = []
-    @couple = []
-    @children = []
-    couple = Couple.where(person1_id: @person).or(Couple.where(person2_id: @person))
-    return if couple.empty?
-
-    couple.each do |mate|
-      @mate << Person.find(mate.person1_id) unless mate.person1_id == @person.id
-      @mate << Person.find(mate.person2_id) unless mate.person2_id == @person.id
-      @couple << mate
-      mate.people.each do |child|
-        @children << child
-      end
-    end
-  end
+  def show; end
 
   # GET /people/new
   def new
@@ -51,7 +36,7 @@ class PeopleController < ApplicationController
   # POST /people or /people.json
   def create
     @person = Person.new(person_params)
-    @partner = nil
+    @mate = nil
     @child = nil
 
     respond_to do |format|
@@ -62,8 +47,8 @@ class PeopleController < ApplicationController
 
           if @couple.save
             FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
-            @partner = Person.find(@couple.person1_id)
-            format.html { redirect_to person_url(@person) }
+            @mate = Person.find(@couple.person1_id)
+            format.html { redirect_to person_path(@person) }
             format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
           else
             format.html { render :new, status: :unprocessable_entity }
@@ -86,7 +71,7 @@ class PeopleController < ApplicationController
           end
         else
           FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
-          format.html { redirect_to person_url(@person) }
+          format.html { redirect_to person_path(@person) }
           format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
         end
       else
@@ -102,7 +87,7 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if @person.update(person_params)
         FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later if @person.changed?
-        format.html { redirect_to person_url(@person) }
+        format.html { redirect_to person_path(@person) }
         format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) } if @person.changed?
       else
         format.html { render :edit, status: :unprocessable_entity }
