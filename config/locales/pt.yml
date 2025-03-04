@@ -31,7 +31,7 @@ pt:
       search_by_name: "Busca por nome"
       gteq: "de"
       lteq: "até"
-      all: "Tudo"
+      'nil': "Tudo"
       'true': "Verdadeiro"
       'false': "Falso"
       M: "Masc"

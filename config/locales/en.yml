@@ -31,7 +31,7 @@ en:
       search_by_name: "Search by name"
       gteq: "from"
       lteq: "to"
-      all: "All"
+      'nil': "All"
       'true': "True"
       'false': "False"
       M: "Male"
