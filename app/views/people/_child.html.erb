@@ -6,7 +6,7 @@
     </div>
     <% if policy(child).destroy? %>
       <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
-          person_couple_child_path(person, couple, child),
+          person_couple_child_path(person, child.couples.first, child),
           data: {
             turbo_method: :delete,
             turbo_confirm: t('confirm.messages.unlink_child', name: child.name)
