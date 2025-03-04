@@ -5,12 +5,11 @@ class RolesController < ApplicationController
   before_action :authenticate_user!
   before_action -> { authorize Role }
 
-  def index
-    @roles = Role.all
+  def download
+    roles = Role.with_deleted.order(:id)
     respond_to do |format|
-      format.html
       format.csv do
-        send_data Role.to_csv(Role.with_deleted.order(:id)), filename: "roles-#{Date.today}.csv"
+        send_data Role.to_csv(roles), filename: "roles-#{Date.today}.csv"
       end
     end
   end

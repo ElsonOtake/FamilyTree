@@ -14,10 +14,10 @@ class CouplesController < ApplicationController
   end
 
   def download
-    @couples = Couple.all
+    couples = Couple.with_deleted.order(:id)
     respond_to do |format|
       format.csv do
-        send_data Couple.to_csv(Couple.with_deleted.order(:id)), filename: "couples-#{Date.today}.csv"
+        send_data Couple.to_csv(couples), filename: "couples-#{Date.today}.csv"
       end
     end
   end
@@ -67,15 +67,15 @@ class CouplesController < ApplicationController
   # DELETE /couples/1 or /couples/1.json
   def destroy
     id = @couple.id
-    person_1 = @couple.person1_id
-    person_2 = @couple.person2_id
+    person1 = @couple.person1_id
+    person2 = @couple.person2_id
     marriage = @couple.marriage
     separation = @couple.separation
     local = @couple.local
     @couple.destroy
 
     respond_to do |format|
-      FamilyMailer.with(user: current_user, id:, person_1:, person_2:, marriage:, separation:, local:).couple_deleted.deliver_later
+      FamilyMailer.with(user: current_user, id:, person1:, person2:, marriage:, separation:, local:).couple_deleted.deliver_later
       format.html { redirect_to person_url(@person) }
       format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('couples.form.couple')) }
     end
