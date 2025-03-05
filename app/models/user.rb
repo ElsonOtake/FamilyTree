@@ -4,7 +4,7 @@
 class User < ApplicationRecord
   include GenerateCsv
 
-  acts_as_paranoid
+  # acts_as_paranoid
 
   rolify
   # Include default devise modules. Others available are:
