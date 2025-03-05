@@ -11,7 +11,8 @@ class UsersController < ApplicationController
   end
 
   def download
-    users = User.with_deleted.order(:id)
+    users = User.all.order(:id)
+    # users = User.with_deleted.order(:id)
     respond_to do |format|
       format.csv do
         send_data User.to_csv(users), filename: "users-#{Date.today}.csv"
