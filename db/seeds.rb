@@ -397,7 +397,7 @@ unless User.any?
     user.unconfirmed_email = row['unconfirmed_email']
     user.created_at = row['created_at']
     user.updated_at = row['updated_at']
-    user.deleted_at = row['deleted_at']
+    # user.deleted_at = row['deleted_at']
     user.save!
   end
 end
