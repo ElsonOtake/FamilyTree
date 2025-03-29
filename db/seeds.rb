@@ -3,7 +3,7 @@
 require 'csv'
 
 unless Person.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'people-2025-02-22.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'people-2025-03-29.csv'))
   csv = CSV.parse(csv_text, headers: true, col_sep: ';')
   csv.each do |row|
     puts row['name'] if Rails.env.development?
@@ -338,7 +338,7 @@ unless Person.any?
 end
 
 unless Couple.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'couples-2025-02-22.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'couples-2025-03-29.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
     couple = Couple.new
@@ -354,7 +354,7 @@ unless Couple.any?
     couple.deleted_at = row['deleted_at']
     couple.save
   end
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'children-2025-02-22.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'children-2025-03-29.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
     couple = Couple.find_by(previous_id: row['couple_id'])
@@ -380,7 +380,7 @@ unless Role.any?
 end
 
 unless User.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'users-2025-02-22.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'users-2025-03-29.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
     puts row['email'] if Rails.env.development?
