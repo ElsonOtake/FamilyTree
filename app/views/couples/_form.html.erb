@@ -26,7 +26,7 @@
       <div class='control'>
         <%= form.number_field :person1_id, class: 'input is-hidden' if couple.person2_id == @person.id %>
         <%= form.number_field :person2_id, class: 'input is-hidden' if couple.person1_id == @person.id %>
-        <%= form.text_field :name, class: 'input', readonly: true, required: true, value: mate_name %>
+        <%= form.text_field :name, class: 'input', disabled: true, value: mate_name %>
       </div>
     </div>
 
