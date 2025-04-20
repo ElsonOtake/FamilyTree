@@ -18,4 +18,11 @@ class Child < ApplicationRecord
   def self.column_names
     attribute_names
   end
+
+  def register_event(child, couple, user, action)
+    puts "**************************************** record_event model: Child action: #{action} person: #{child.id} couple_id: #{couple.id} user_id: #{user.id}"
+
+    # Aqui você pode criar o evento no banco de dados
+    # Event.create(model: 'Child', action: action, child_id: child.id, couple_id: couple.id, user_id: user.id)
+  end
 end
