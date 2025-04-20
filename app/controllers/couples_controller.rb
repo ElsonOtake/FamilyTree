@@ -36,6 +36,7 @@ class CouplesController < ApplicationController
     @couple = Couple.new(couple_params)
 
     respond_to do |format|
+      @couple.current_user = current_user
       if @couple.save
         FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
         @mate = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
@@ -52,6 +53,7 @@ class CouplesController < ApplicationController
   # PATCH/PUT /couples/1 or /couples/1.json
   def update
     respond_to do |format|
+      @couple.current_user = current_user
       if @couple.update(couple_params)
         FamilyMailer.with(user: current_user, couple: @couple).couple_updated.deliver_later
         format.html { redirect_to person_url(@person) }
@@ -72,6 +74,7 @@ class CouplesController < ApplicationController
     marriage = @couple.marriage
     separation = @couple.separation
     local = @couple.local
+    @couple.current_user = current_user
     @couple.destroy
 
     respond_to do |format|
