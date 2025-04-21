@@ -27,13 +27,22 @@ class UsersController < ApplicationController
 
   def role_update
     @user = User.find(params[:id])
+    old_roles = @user.roles.pluck(:name)
     @user.roles = []
     @user.add_role(user_params[:role])
+    current_user.events.create(
+      name: 'role.update',
+      data: { user_id: @user.id, old_roles: , new_roles: @user.roles.pluck(:name) }
+    )
     redirect_to roles_users_path
   end
 
   def change
     current_user.send("#{params[:locale]}!")
+    current_user.events.create(
+      name: 'locale.update',
+      data: { locale: params[:locale] }
+    )
     redirect_to request.referer
   end
 

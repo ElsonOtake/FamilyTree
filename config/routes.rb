@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { confirmations: 'users/confirmations', omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: { confirmations: 'users/confirmations',
+                                    omniauth_callbacks: 'users/omniauth_callbacks',
+                                    sessions: 'users/sessions',
+                                    registrations: 'users/registrations' }
   resources :people, path: :individuos do
     resources :couples, path: :casais do
       resources :children, path: :filhos
@@ -18,12 +21,12 @@ Rails.application.routes.draw do
   resources :roles, only: [:index] do
     get 'download', on: :collection
   end
+  resources :events, only: [:index] do
+    get 'download', on: :collection
+  end
   resources :couples, path: :casais, only: %i[index show destroy] do
     get 'download', on: :collection
   end
   get 'children/download', to: 'children#download', as: 'download_children'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
   root 'people#index'
 end
