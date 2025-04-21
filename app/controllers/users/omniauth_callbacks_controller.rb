@@ -11,7 +11,10 @@ module Users
       @user = User.from_omniauth(request.env['omniauth.auth'])
 
       if @user.persisted?
-        puts "**************************************** SessionsController create user_id: #{@user.id} ip_address: #{request.remote_ip} user_agent: #{request.user_agent}"
+        @user.events.create(
+          name: 'user.omniauth',
+          data: { ip_address: request.remote_ip, user_agent: request.user_agent }
+        )
 
         flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: auth
         sign_in_and_redirect @user, event: :authentication

@@ -49,7 +49,8 @@ class PeopleController < ApplicationController
 
           if @couple.save
             FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
-            @mate = Person.find(@couple.person1_id)
+            @mate = @person
+            @person = Person.find(couple_params[:mate])
             format.html { redirect_to person_path(@person) }
             format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
           else
@@ -59,9 +60,9 @@ class PeopleController < ApplicationController
           end
         elsif couple_params[:couple].present?
           @couple = Couple.find(couple_params[:couple])
-          @couple.current_user = current_user
 
           if @couple.people << @person
+            Child.new(person_id: @person.id, couple_id: @couple.id).register_event(@person, @couple, current_user, 'child.create')
             FamilyMailer.with(user: current_user, child: @person, couple: @couple).child_created.deliver_later
             @child = @person
             @person = Person.find(@couple.person1_id)
@@ -75,7 +76,7 @@ class PeopleController < ApplicationController
         else
           FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
           format.html { redirect_to person_path(@person) }
-          format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
+          # format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
         end
       else
         format.html { render :new, status: :unprocessable_entity }
