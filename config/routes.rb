@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   resources :roles, only: [:index] do
     get 'download', on: :collection
   end
+  resources :events, only: [:index] do
+    get 'download', on: :collection
+  end
   resources :couples, path: :casais, only: %i[index show destroy] do
     get 'download', on: :collection
   end

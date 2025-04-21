@@ -13,6 +13,7 @@ en:
       download_people_csv: "Download people as CSV"
       download_couples_csv: "Download couples as CSV"
       download_children_csv: "Download children as CSV"
+      download_events_csv: "Download events as CSV"
   children:
     form:
       create_child: "Create child"
