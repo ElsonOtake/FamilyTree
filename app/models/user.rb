@@ -3,8 +3,11 @@
 # User model
 class User < ApplicationRecord
   include GenerateCsv
+  include ActiveModel::Dirty
 
   # acts_as_paranoid
+
+  has_many :events
 
   rolify
   # Include default devise modules. Others available are:

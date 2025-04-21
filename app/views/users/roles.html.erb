@@ -4,12 +4,14 @@
   <thead>
     <tr>
       <th class='has-text-info'><%= t('people.form.name') %></th>
+      <th class='has-text-info'>E-mail</th>
       <th class='has-text-info'><%= t('.level') %></th>
   </thead>
   <tbody>
     <% @users.each do |user| %>
       <tr>
         <td><%= user.name %></td>
+        <td><%= user.email %></td>
         <td><%= render 'form_role', user: user %></td>
       </tr>
     <% end %>

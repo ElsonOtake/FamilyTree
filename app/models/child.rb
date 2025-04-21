@@ -18,4 +18,14 @@ class Child < ApplicationRecord
   def self.column_names
     attribute_names
   end
+
+  def register_event(person, couple, user, action)
+    user.events.create(
+      name: action,
+      data: {
+        person_id: person.id,
+        couple_id: couple.id
+      }
+    )
+  end
 end

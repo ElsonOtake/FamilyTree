@@ -76,7 +76,7 @@ export default class extends Controller {
     notification[0].parentNode.removeChild(notification[0]);
   }
 
-  select_child = () => {
+  select_child = ({ params }) => {
     const resultsList = document.getElementById("results-list");
     const childId = document.getElementById("child_id");
     const name = document.getElementById("name");
@@ -84,12 +84,12 @@ export default class extends Controller {
     const submitButton = document.getElementById("submit-button");
     qNameCont.value = "";
     name.value = this.element.innerText;
-    childId.value = this.element.className.split('_')[1];
+    childId.value = params.childId;
     submitButton.disabled = false;
     resultsList.replaceChildren();
   }
 
-  select_mate = () => {
+  select_mate = ({ params }) => {
     const resultsList = document.getElementById("results-list");
     const personId = document.getElementById("couple_person2_id");
     const name = document.getElementById("couple_name");
@@ -97,7 +97,7 @@ export default class extends Controller {
     const submitButton = document.getElementById("submit-button");
     qNameCont.value = "";
     name.value = this.element.innerText;
-    personId.value = this.element.className.split('_')[1];
+    personId.value = params.personId;
     submitButton.disabled = false;
     resultsList.replaceChildren();
   }

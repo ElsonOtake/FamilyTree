@@ -26,6 +26,8 @@ class ChildrenController < ApplicationController
     @child = Person.find(params[:child_id])
     respond_to do |format|
       if @couple.people << @child
+        Child.new(person_id: @child.id, couple_id: @couple.id).register_event(@child, @couple, current_user, 'child.create')
+
         FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_created.deliver_later
         format.html { redirect_to person_path(@person) }
         format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
@@ -40,6 +42,8 @@ class ChildrenController < ApplicationController
   def destroy
     @child = Person.find(params[:id])
     @child.couple_ids = nil
+
+    Child.new(person_id: @child.id, couple_id: @couple.id).register_event(@child, @couple, current_user, 'child.unlink')
 
     respond_to do |format|
       FamilyMailer.with(user: current_user, child: @child, couple: @couple).child_deleted.deliver_later
