@@ -10,7 +10,7 @@ module Users
     def create
       super do |user|
         # Registrar evento de login
-        puts "**************************************** SessionsController create user_id: #{user.id} ip_address: #{request.remote_ip} user_agent: #{request.user_agent}"
+        puts "**************************************** SessionsController name: 'user.login' user_id: #{user.id} data: { ip_address: #{request.remote_ip}, user_agent: #{request.user_agent} }"
         # Event.create(
         #   user_id: user.id,
         #   action: 'login',
@@ -28,7 +28,7 @@ module Users
       #   ip_address: request.remote_ip,
       #   user_agent: request.user_agent
       # )
-      puts "**************************************** SessionsController destroy user_id: #{current_user.id} ip_address: #{request.remote_ip} user_agent: #{request.user_agent}"
+      puts "**************************************** SessionsController name: 'user.logout' user_id: #{current_user.id} data: { ip_address: #{request.remote_ip}, user_agent: #{request.user_agent} }"
 
       super
     end
