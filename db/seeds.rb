@@ -6,7 +6,7 @@ unless Person.any?
   csv_text = File.read(Rails.root.join('lib', 'seeds', 'people-2025-03-29.csv'))
   csv = CSV.parse(csv_text, headers: true, col_sep: ';')
   csv.each do |row|
-    puts row['name'] if Rails.env.development?
+    puts "Indivíduo #{row['name']}" if Rails.env.development?
     person = Person.new
     person.previous_id = row['id']
     person.name = row['name']
@@ -342,7 +342,7 @@ unless Couple.any?
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
     couple = Couple.new
-    puts row['id'] if Rails.env.development?
+    puts "Casal #{row['id']}" if Rails.env.development?
     couple.previous_id = row['id']
     couple.person1_id = Person.find_by(previous_id: row['person1_id']).id
     couple.person2_id = Person.find_by(previous_id: row['person2_id']).id
@@ -364,10 +364,10 @@ unless Couple.any?
 end
 
 unless Role.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'roles-2025-02-22.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'roles-2025-01-01.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
-    puts row['name'] if Rails.env.development?
+    puts "Função #{row['name']}" if Rails.env.development?
     role = Role.new
     role.name = row['name']
     role.resource_type = row['resource_type']
@@ -380,10 +380,10 @@ unless Role.any?
 end
 
 unless User.any?
-  csv_text = File.read(Rails.root.join('lib', 'seeds', 'users-2025-03-29.csv'))
+  csv_text = File.read(Rails.root.join('lib', 'seeds', 'users-2025-04-21.csv'))
   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
   csv.each do |row|
-    puts row['email'] if Rails.env.development?
+    puts "Usuário #{row['email']}" if Rails.env.development?
     user = User.new
     user.email = row['email']
     user.remember_created_at = row['remember_created_at']
@@ -404,3 +404,17 @@ end
 
 user = User.find_by(email: 'elsonotake@gmail.com')
 user.add_role :admin
+
+# unless Event.any?
+#   csv_text = File.read(Rails.root.join('lib', 'seeds', 'events-2025-04-21.csv'))
+#   csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1', col_sep: ';')
+#   csv.each do |row|
+#     puts "Evento #{row['id']}" if Rails.env.development?
+#     event = Event.new
+#     event.name = row['name']
+#     event.user_id = row['user_id']
+#     event.data = row['data']
+#     event.created_at = row['created_at']
+#     event.save
+#   end
+# end

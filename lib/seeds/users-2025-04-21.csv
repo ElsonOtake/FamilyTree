@@ -1,0 +1,5 @@
+id;email;encrypted_password;reset_password_token;reset_password_sent_at;remember_created_at;name;phone;locale;created_at;updated_at;confirmation_token;confirmed_at;confirmation_sent_at;unconfirmed_email
+1;elsonotake@gmail.com;$2a$12$/UCvkmsvbmu6LTfF4UfJ0etDaG5dtwQpaC7PS.kfcBYxdrDwZeIcy;;;;Elson Akio Otake;11-99749-6626;pt;2025-02-22 14:00:50 UTC;2025-02-22 14:00:50 UTC;;2024-03-13 21:41:45 UTC;;
+2;lilianhiromijob@hotmail.com;$2a$12$lrsvfWEgdgFExSbhzP8FbuQutgD5VHTX1p0TSpumPhJu2VJf3izBi;;;;Lilian Hiromi Job;11-99882-6727;pt;2025-02-22 14:00:50 UTC;2025-03-08 14:52:48 UTC;;2024-03-13 21:41:45 UTC;;
+3;lilianhir@gmail.com;$2a$12$.ME1UWVNNbs4bCdnqphSheke3rc.3yx/BePt7oU9YAvXglfdWnaOO;;;;Lilian Hiromi;;pt;2025-03-08 14:49:39 UTC;2025-03-08 14:49:39 UTC;G5QyCVu1yketshDvs9cp;;2025-03-08 14:49:39 UTC;
+4;sanmeosami@gmail.com;$2a$12$lRWnu0l37gv3JdL1LHkYieCEYWKZahrIhmtEbItcNHOFVGvgHM8s6;4ee242d75db1c14681363df9be0edada278e62bdb4e408790dbd7855bf907c98;2025-03-31 22:41:26 UTC;;Sandra Otake;;pt;2025-03-31 22:34:55 UTC;2025-03-31 22:41:51 UTC;8zZSA9otnxaLUsD7Rdfc;2025-03-31 22:41:51 UTC;2025-03-31 22:34:55 UTC;
