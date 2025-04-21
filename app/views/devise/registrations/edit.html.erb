@@ -66,7 +66,7 @@
 <%= button_to t('.cancel_my_account'),
   registration_path(resource_name),
   class: 'button is-danger is-rounded',
-  data: { confirm: t(:are_you_sure), turbo_confirm: t(:are_you_sure) },
+  data: { turbo_confirm: t('.are_you_sure') },
   method: :delete
 %>
 
