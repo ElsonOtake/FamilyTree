@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_22_142831) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_21_131736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -82,6 +82,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_22_142831) do
     t.bigint "couple_id", null: false
     t.index ["couple_id"], name: "index_couples_people_on_couple_id"
     t.index ["person_id"], name: "index_couples_people_on_person_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "user_id", null: false
+    t.jsonb "data", default: {}, null: false
+    t.datetime "created_at"
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -157,4 +165,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_22_142831) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "events", "users"
 end
