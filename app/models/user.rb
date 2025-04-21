@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   # acts_as_paranoid
 
+  has_many :events
+
   rolify
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :trackable

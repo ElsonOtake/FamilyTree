@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 #
 # This module is used to record events in the database.
-# 
 module RecordEvent
   extend ActiveSupport::Concern
   include ActiveModel::Dirty
@@ -9,67 +8,47 @@ module RecordEvent
   included do
     attr_accessor :current_user
 
-    # before_save :record_event
     after_create :record_create
     after_update :record_update
     after_destroy :record_destroy
   end
 
-  def record_event
-    
-    # binding.pry
-    
-    return unless changed? || destroyed_logically?
-    # Check if the current_user is present
-    return unless current_user
-
-    if destroyed_logically?
-      puts "**************************************** record_event name: #{self.class.name.underscore}.unlink user_id: #{current_user.id} data: { id: #{id}, deleted_at: #{deleted_at} }"
-    else
-      puts "**************************************** record_event name: #{self.class.name.underscore} user_id: #{current_user.id} data: { id: #{id}, changes: #{changes}, saved_changes: #{saved_changes} }"
-    end
-
-    # Event.create(class: , id: , changes: , user_id:)
-  end
-
   def record_create
-    
-    # binding.pry
-    
-    # return unless changed? || destroyed_logically?
-    # Check if the current_user is present
     return unless current_user
 
-    puts "**************************************** record_event name: #{self.class.name.underscore}.create user_id: #{current_user.id} data: { id: #{id}, saved_changes: #{saved_changes} }"
+    changes_with_id = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
+    changes_with_id["#{self.class.name.underscore}_id"] = id
 
-    # Event.create(class: , id: , changes: , user_id:)
+    current_user.events.create(
+      name: "#{self.class.name.underscore}.create",
+      data: changes_with_id
+    )
   end
 
   def record_update
-    
-    # binding.pry
-    
-    # return unless changed? || destroyed_logically?
-    # Check if the current_user is present
     return unless current_user
 
-    puts "**************************************** record_event name: #{self.class.name.underscore}.update user_id: #{current_user.id} data: { id: #{id}, saved_changes: #{saved_changes} }"
+    changes_with_id = saved_changes
+    changes_with_id["#{self.class.name.underscore}_id"] = id
 
-    # Event.create(class: , id: , changes: , user_id:)
+    current_user.events.create(
+      name: "#{self.class.name.underscore}.update",
+      data: changes_with_id
+    )
   end
 
-
   def record_destroy
-    
-    # binding.pry
-    
-    return unless destroyed_logically?
-    # Check if the current_user is present
-    return unless current_user
+    return unless destroyed_logically? && current_user
 
-    puts "**************************************** record_event name: #{self.class.name.underscore}.unlink user_id: #{current_user.id} data: { id: #{id}, deleted_at: #{deleted_at} }"
+    key = "#{self.class.name.underscore}_id".to_sym
 
-    # Event.create(class: , id: , changes: , user_id:)
+    current_user.events.create(
+      name: "#{self.class.name.underscore}.unlink",
+      data: {
+        key => id,
+        deleted_at: deleted_at
+      }
+    )
   end
 
   private
