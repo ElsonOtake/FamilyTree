@@ -3,6 +3,7 @@
 # User model
 class User < ApplicationRecord
   include GenerateCsv
+  include ActiveModel::Dirty
 
   # acts_as_paranoid
 

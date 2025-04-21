@@ -9,8 +9,10 @@ module RecordEvent
   included do
     attr_accessor :current_user
 
-    before_save :record_event
-    after_destroy :record_event
+    # before_save :record_event
+    after_create :record_create
+    after_update :record_update
+    after_destroy :record_destroy
   end
 
   def record_event
@@ -21,7 +23,51 @@ module RecordEvent
     # Check if the current_user is present
     return unless current_user
 
-    puts "**************************************** record_event class: #{self.class.name.underscore} id: #{id} changes: #{changes} deleted_at: #{deleted_at} user_id: #{current_user.id}"
+    if destroyed_logically?
+      puts "**************************************** record_event name: #{self.class.name.underscore}.unlink user_id: #{current_user.id} data: { id: #{id}, deleted_at: #{deleted_at} }"
+    else
+      puts "**************************************** record_event name: #{self.class.name.underscore} user_id: #{current_user.id} data: { id: #{id}, changes: #{changes}, saved_changes: #{saved_changes} }"
+    end
+
+    # Event.create(class: , id: , changes: , user_id:)
+  end
+
+  def record_create
+    
+    # binding.pry
+    
+    # return unless changed? || destroyed_logically?
+    # Check if the current_user is present
+    return unless current_user
+
+    puts "**************************************** record_event name: #{self.class.name.underscore}.create user_id: #{current_user.id} data: { id: #{id}, saved_changes: #{saved_changes} }"
+
+    # Event.create(class: , id: , changes: , user_id:)
+  end
+
+  def record_update
+    
+    # binding.pry
+    
+    # return unless changed? || destroyed_logically?
+    # Check if the current_user is present
+    return unless current_user
+
+    puts "**************************************** record_event name: #{self.class.name.underscore}.update user_id: #{current_user.id} data: { id: #{id}, saved_changes: #{saved_changes} }"
+
+    # Event.create(class: , id: , changes: , user_id:)
+  end
+
+
+  def record_destroy
+    
+    # binding.pry
+    
+    return unless destroyed_logically?
+    # Check if the current_user is present
+    return unless current_user
+
+    puts "**************************************** record_event name: #{self.class.name.underscore}.unlink user_id: #{current_user.id} data: { id: #{id}, deleted_at: #{deleted_at} }"
 
     # Event.create(class: , id: , changes: , user_id:)
   end
