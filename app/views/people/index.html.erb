@@ -26,8 +26,8 @@
   </div>
 <% end %>
 
-<div class='columns'>
-  <div class='column is-narrow'>
+<div class='columns is-mobile custom-columns'>
+  <div class='column is-narrow first-column'>
     <div class='field'>
       <%= label :q, :birth_gteq, "#{t('people.birthday')} #{t('.gteq')}", class: 'label' %>
       <div class='control'>
@@ -67,10 +67,9 @@
     </div>
 
   </div>
-  <div class='column'>
+  <div class='column second-column'>
     <%= turbo_frame_tag 'results', data: { turbo_action: :advance } do %>
 
-      <%== pagy_bulma_nav(@pagy) %>
       <table class='table'>
         <thead>
           <tr>
@@ -85,6 +84,8 @@
           <%= render 'people/table', people: @people %>
         </tbody>
       </table>
+
+      <%== pagy_bulma_nav(@pagy) %>
 
     <% end %>
   </div>
