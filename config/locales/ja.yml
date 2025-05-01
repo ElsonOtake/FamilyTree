@@ -4,6 +4,7 @@ ja:
   sign_in_with: "サインイン"
   layouts:
     navbar:
+      about: "アプリについて"
       edit_profile: "プロファイル編集"
       log_out: "ログアウト"
       more: "もっと"
@@ -72,6 +73,17 @@ ja:
     roles:
       role: "役割"
       level: "レベル"
+  pages:
+    about:
+      title: "アプリケーションについて"
+      description: "このアプリケーションは家系図を管理するためのプロジェクトです。個人、夫婦、子供に関する情報を作成、編集、閲覧できます。"
+      features: "特徴"
+      feature_1: "家族メンバーの情報を保存します。"
+      feature_2: "関係を参照します。"
+      feature_3: "家族メンバーのデータを変更します。"
+      contact: "ご連絡ください"
+      contact_description: "ご質問やご提案がございましたら、お問い合わせください。"
+      contact_link: "ご連絡ください"
   devise:
     confirmations:
       new:
