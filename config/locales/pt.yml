@@ -4,6 +4,7 @@ pt:
   sign_in_with: "Entrar com"
   layouts:
     navbar:
+      about: "Sobre"
       edit_profile: "Editar perfil"
       log_out: "Sair"
       more: "Mais"
@@ -72,6 +73,17 @@ pt:
     roles:
       role: "Função"
       level: "Nível"
+  pages:
+    about:
+      title: "Sobre a aplicação"
+      description: "Esta aplicação é um projeto para gerenciar árvores genealógicas. Você pode criar, editar e visualizar informações sobre pessoas, casais e filhos."
+      features: "Recursos"
+      feature_1: "Armazene informações de membros da família."
+      feature_2: "Navegue pelos relacionamentos."
+      feature_3: "Altere dados de membros da família."
+      contact: "Entre em contato"
+      contact_description: "Se você tiver alguma dúvida ou sugestão, entre em contato conosco."
+      contact_link: "Entre em contato"
   devise:
     confirmations:
       new:
