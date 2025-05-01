@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_21_131736) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_01_185831) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -149,6 +149,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_21_131736) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.datetime "deleted_at"
+    t.string "provider"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true

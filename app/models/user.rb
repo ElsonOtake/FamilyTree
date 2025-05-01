@@ -28,9 +28,15 @@ class User < ApplicationRecord
     add_role(:bronze) if roles.blank?
   end
 
+  def omniauth_login?
+    provider.present?
+  end
+
   def self.from_omniauth(access_token)
     User.where(email: access_token.info.email).first || User.create(name: access_token.info.name,
                                                                     email: access_token.info.email,
-                                                                    password: Devise.friendly_token[0, 20])
+                                                                    password: Devise.friendly_token[0, 20],
+                                                                    provider: access_token.provider,
+                                                                    confirmed_at: Time.current)
   end
 end

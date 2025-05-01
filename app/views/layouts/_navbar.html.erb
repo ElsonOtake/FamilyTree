@@ -69,7 +69,7 @@
               <%= link_to t('.roles'), roles_users_path, class: 'navbar-item' %>
             <% end %>
             <%# <hr class='navbar-divider'> %>
-            <%= link_to t('.edit_profile'), edit_user_registration_path, class: 'navbar-item' %>
+            <%= link_to t('.edit_profile'), edit_user_registration_path, class: 'navbar-item' unless current_user.omniauth_login? %>
             <%#= link_to 'Informe um erro', nil, class: 'navbar-item' %>
           </div>
         </div>
