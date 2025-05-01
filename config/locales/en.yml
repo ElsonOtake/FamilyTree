@@ -4,6 +4,7 @@ en:
   sign_in_with: "Sign in with"
   layouts:
     navbar:
+      about: "About"
       edit_profile: "Edit profile"
       log_out: "Log out"
       more: "More"
@@ -72,6 +73,17 @@ en:
     roles:
       role: "Role"
       level: "Level"
+  pages:
+    about:
+      title: "About the Application"
+      description: "This application is a project for managing family trees. You can create, edit and view information about individuals, couples and children."
+      features: "Features"
+      feature_1: "Store family member information."
+      feature_2: "Browse relationships."
+      feature_3: "Change family member data."
+      contact: "Contact Us"
+      contact_description: "If you have any questions or suggestions, please contact us."
+      contact_link: "Contact Us"
   devise:
     confirmations:
       new:
