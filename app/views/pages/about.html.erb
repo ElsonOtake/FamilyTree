@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="columns is-centered">
+    <div class="column is-8">
+      <div class="has-text-centered">
+        <figure class="image is-128x128 is-inline-block">
+          <img src="<%= asset_path('EAO.png') %>" alt="Family Tree">
+        </figure>
+      </div>
+
+      <h1 class="title has-text-info has-text-centered mt-5"><%= t('.title') %></h1>
+
+      <p class="content has-text-justified"><%= t('.description') %></p>
+
+      <h2 class="subtitle has-text-weight-semibold mt-5"><%= t('.features') %></h2>
+      <ul class="content">
+        <li><span class="icon has-text-success"><i class="fas fa-user"></i></span> <%= t('.feature_1') %></li>
+        <li><span class="icon has-text-primary"><i class="fas fa-link"></i></span> <%= t('.feature_2') %></li>
+        <li><span class="icon has-text-info"><i class="fas fa-pen"></i></span> <%= t('.feature_3') %></li>
+      </ul>
+
+      <h2 class="subtitle has-text-weight-semibold mt-5"><%= t('.contact') %></h2>
+      <p class="content has-text-justified"><%= t('.contact_description') %></p>
+      <div class="has-text-centered">
+        <%= link_to nil, class: 'button is-link is-medium' do %>
+          <span class="icon">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span><%= t('.contact_link') %></span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

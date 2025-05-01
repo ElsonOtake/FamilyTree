@@ -51,3 +51,18 @@ $input-shadow: none;
 li.is-active a {
   color: $info !important;
 }
+
+@media (max-width: 768px) {
+  .custom-columns {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .custom-columns .first-column {
+    order: 2; /* Move a primeira coluna para baixo */
+  }
+
+  .custom-columns .second-column {
+    order: 1; /* Move a segunda coluna para cima */
+  }
+}

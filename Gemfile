@@ -97,3 +97,5 @@ gem 'pry-rails'
 gem 'pundit', '~> 2.3'
 gem 'ransack'
 gem 'rolify'
+
+gem "dockerfile-rails", ">= 1.7", :group => :development
