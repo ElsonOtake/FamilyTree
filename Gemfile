@@ -88,6 +88,7 @@ group :test do
   gem 'webdrivers'
 end
 
+gem 'activeadmin'
 gem 'cssbundling-rails', '~> 1.4'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
