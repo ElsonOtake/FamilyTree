@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
     I18n.with_locale(locale, &action)
   end
 
+  def authenticate_admin_user!
+    unless user_signed_in? && current_user.has_role?(:admin)
+      flash[:alert] = I18n.t('active_admin.access_denied')
+      redirect_to root_path # Redireciona para a página inicial ou outra página
+    end
+  end
+
   protected
 
   def configure_permitted_parameters
