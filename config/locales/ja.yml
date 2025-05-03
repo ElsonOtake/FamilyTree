@@ -327,3 +327,61 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
+  active_admin:
+    view: "閲覧"
+    edit: "編集"
+    delete: "削除"
+    delete_confirmation: "本当に削除しますか？"
+    create_another: "%{model} を続けて作成する"
+    new_model: "%{model} を作成する"
+    edit_model: "%{model} を編集する"
+    delete_model: "%{model} を削除する"
+    details: "%{model} の詳細"
+    cancel: "取り消す"
+    empty: "空"
+    previous: "前"
+    next: "次"
+    download: "ダウンロード:"
+    has_many_new: "%{model} を追加する"
+    has_many_delete: "削除する"
+    has_many_remove: "削除する"
+    filters:
+      buttons:
+        filter: "絞り込む"
+        clear: "条件を削除する"
+      predicates:
+        from: "開始"
+        to: "終了"
+    search_status:
+      no_current_filters: "なし"
+    status_tag:
+      "yes": "はい"
+      "no": "いいえ"
+      "unset": "いいえ"
+    toggle_dark_mode: "ダークモードを切り替える"
+    toggle_main_navigation_menu: "メインナビゲーションメニューを切り替える"
+    toggle_section: "セクションを切り替える"
+    toggle_user_menu: "ユーザーメニューを切り替える"
+    logout: "ログアウト"
+    powered_by: "Powered by %{active_admin} %{version}"
+    sidebars:
+      filters: "検索条件"
+      search_status: "検索状態"
+    pagination:
+      empty: "%{model} は見つかりませんでした"
+      one: "<b>1</b> 件の %{model} を表示しています"
+      one_page: "<b>全 %{n}</b> 件の %{model} を表示しています"
+      multiple: "全 <b>%{total}</b> 件中 <b>%{from}&nbsp;-&nbsp;%{to}</b> 件の %{model} を表示しています"
+      multiple_without_total: "<b>%{from}&nbsp;-&nbsp;%{to}</b> 件の %{model} を表示しています"
+      per_page: "表示件数: "
+      entry:
+        one: "レコード"
+        other: "レコード"
+    any: "任意"
+    blank_slate:
+      content: "%{resource_name} はまだありません。"
+      link: "作成する"
+    access_denied:
+      message: "アクションを実行する権限がありません"
+    index_list:
+      table: "テーブル"

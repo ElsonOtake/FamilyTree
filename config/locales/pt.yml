@@ -371,3 +371,69 @@ pt:
       long: "%d de %B de %Y, %H:%M"
       short: "%d de %B, %H:%M"
     pm: pm
+  active_admin:
+    view: "Visualizar"
+    edit: "Editar"
+    delete: "Remover"
+    delete_confirmation: "Você tem certeza que deseja remover este item?"
+    create_another: "Criar outro %{model}"
+    new_model: "Novo(a) %{model}"
+    edit_model: "Editar %{model}"
+    delete_model: "Remover %{model}"
+    details: "Detalhes do(a) %{model}"
+    cancel: "Cancelar"
+    empty: "Vazio"
+    previous: "Anterior"
+    next: "Próximo"
+    download: "Baixar:"
+    has_many_new: "Adicionar Novo(a) %{model}"
+    has_many_delete: "Remover"
+    has_many_remove: "Remover"
+    move: "Mover"
+    filters:
+      buttons:
+        filter: "Filtrar"
+        clear: "Limpar Filtros"
+      predicates:
+        from: "A partir de"
+        to: "Até"
+    scopes:
+      all: "Todos"
+    search_status:
+      title: "Active Search"
+      title_with_scope: "Active Search de %{name}"
+      no_current_filters: "Nenhum filtro aplicado"
+    status_tag:
+      "yes": "Sim"
+      "no": "Não"
+      "unset": "Não"
+    toggle_dark_mode: Ativar modo escuro
+    toggle_main_navigation_menu: Ativar menu de navegação principal
+    toggle_section: Ativar seção
+    toggle_user_menu: Ativar menu de usuário
+    logout: "Sair"
+    powered_by: "Powered by %{active_admin} %{version}"
+    sidebars:
+      filters: "Filtros"
+      search_status: "Buscou"
+    pagination:
+      empty: "Nenhum(a) %{model} encontrado(a)"
+      one: "Exibindo <b>1</b> %{model}"
+      one_page: "Exibindo <b>todos(as) os(as) %{n}</b> %{model}"
+      multiple: "Exibindo %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> de um total de <b>%{total}</b>"
+      multiple_without_total: "Exibindo %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>"
+      per_page: "Por página: "
+      previous: "Anterior"
+      next: "Próximo"
+      entry:
+        one: "registro"
+        other: "registros"
+      truncate: "&hellip;"
+    any: "Qualquer"
+    blank_slate:
+      content: "Não existem %{resource_name} ainda."
+      link: "Novo"
+    access_denied:
+      message: "Você não tem permissão para realizar o solicitado"
+    index_list:
+      table: "Tabela"
