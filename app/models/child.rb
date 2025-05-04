@@ -23,9 +23,9 @@ class Child < ApplicationRecord
     user.events.create(
       name: action,
       data: {
-        person_id: person.id,
         couple_id: couple.id
-      }
+      },
+      resource: Person.find(person.id)
     )
   end
 end

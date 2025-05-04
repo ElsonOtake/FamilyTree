@@ -5,7 +5,7 @@ class Event < ApplicationRecord
   include GenerateCsv
 
   belongs_to :user
-  belongs_to :resource, polymorphic: true
+  belongs_to :resource, polymorphic: true, optional: true
 
   validates :name, :data, presence: true
 
