@@ -8,6 +8,7 @@ ActiveAdmin.register Person do
   filter :name
   filter :kanji
   filter :gender_eq, as: :select, collection: Person.genders
+  filter :alive
   filter :birth
   filter :death
   filter :description
