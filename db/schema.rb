@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_01_185831) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_04_154906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -89,6 +89,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_01_185831) do
     t.bigint "user_id", null: false
     t.jsonb "data", default: {}, null: false
     t.datetime "created_at"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_events_on_resource"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
