@@ -5,8 +5,7 @@ ActiveAdmin.register Couple do
 
   actions :index
 
-  filter :person1_name_cont, as: :string, label: 'Person 1 Name'
-  filter :person2_name_cont, as: :string, label: 'Person 2 Name'
+  filter :person1_name_or_person2_name_cont, as: :string, label: 'Person Name'
   filter :marriage
   filter :separation
   filter :local

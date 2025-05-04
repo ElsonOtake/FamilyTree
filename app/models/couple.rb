@@ -49,6 +49,6 @@ class Couple < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[created_at local marriage separation updated_at couple_person1_name couple_person2_name]
+    %w[created_at local marriage separation updated_at couple_person1_name_or_couple_person2_name]
   end
 end
