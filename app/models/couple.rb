@@ -41,4 +41,12 @@ class Couple < ApplicationRecord
 
     couple.map { |mate| mate.people }.flatten
   end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["people"]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[created_at deleted_at id local marriage person1_id person2_id previous_id separation updated_at people_id]
+  end
 end

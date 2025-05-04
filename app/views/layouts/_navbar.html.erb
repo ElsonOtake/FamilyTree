@@ -60,13 +60,14 @@
             <%#= link_to 'Backup', nil, class: 'navbar-item' %>
             <%#= link_to 'Contato', nil, class: 'navbar-item' %>
             <% if policy(User).roles? %>
-              <%= link_to t('.download_users_csv'), download_users_path(format: :csv), class: 'navbar-item' %>
-              <%= link_to t('.download_roles_csv'), download_roles_path(format: :csv), class: 'navbar-item' %>
-              <%= link_to t('.download_people_csv'), download_people_path(format: :csv), class: 'navbar-item' %>
-              <%= link_to t('.download_couples_csv'), download_couples_path(format: :csv), class: 'navbar-item' %>
-              <%= link_to t('.download_children_csv'), download_children_path(format: :csv), class: 'navbar-item' %>
-              <%= link_to t('.download_events_csv'), download_events_path(format: :csv), class: 'navbar-item' %>
+              <%#= link_to t('.download_users_csv'), download_users_path(format: :csv), class: 'navbar-item' %>
+              <%#= link_to t('.download_roles_csv'), download_roles_path(format: :csv), class: 'navbar-item' %>
+              <%#= link_to t('.download_people_csv'), download_people_path(format: :csv), class: 'navbar-item' %>
+              <%#= link_to t('.download_couples_csv'), download_couples_path(format: :csv), class: 'navbar-item' %>
+              <%#= link_to t('.download_children_csv'), download_children_path(format: :csv), class: 'navbar-item' %>
+              <%#= link_to t('.download_events_csv'), download_events_path(format: :csv), class: 'navbar-item' %>
               <%= link_to t('.roles'), roles_users_path, class: 'navbar-item' %>
+              <%= link_to t('.dashboard'), admin_users_path, class: 'navbar-item' %>
             <% end %>
             <%# <hr class='navbar-divider'> %>
             <%= link_to t('.edit_profile'), edit_user_registration_path, class: 'navbar-item' unless current_user.omniauth_login? %>
