@@ -11,4 +11,12 @@ class Role < ApplicationRecord
   validates :resource_type, inclusion: { in: Rolify.resource_types }, allow_nil: true
 
   scopify
+
+  def self.ransackable_associations(auth_object = nil)
+    ["resource", "users"]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "deleted_at", "id", "name", "resource_id", "resource_type", "updated_at"]
+  end
 end

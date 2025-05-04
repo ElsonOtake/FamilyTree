@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A couple is a pair of people. The order of the people is important, person1_id must be less than person2_id.
+# A couple is a pair of people. The order of the people is important, person1_id must be less than person2_id. This way is possible to avoid duplicates.
 class Couple < ApplicationRecord
   include GenerateCsv
   include RecordEvent
@@ -8,6 +8,8 @@ class Couple < ApplicationRecord
   acts_as_paranoid
 
   has_and_belongs_to_many :people
+  belongs_to :person1, class_name: 'Person', foreign_key: 'person1_id'
+  belongs_to :person2, class_name: 'Person', foreign_key: 'person2_id'
 
   before_save :order_people
 
@@ -40,5 +42,13 @@ class Couple < ApplicationRecord
     return [] if couple.empty?
 
     couple.map { |mate| mate.people }.flatten
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[person1 person2]
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[created_at local marriage separation updated_at couple_person1_name_or_couple_person2_name]
   end
 end
