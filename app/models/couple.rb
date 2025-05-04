@@ -8,6 +8,8 @@ class Couple < ApplicationRecord
   acts_as_paranoid
 
   has_and_belongs_to_many :people
+  belongs_to :person1, class_name: 'Person', foreign_key: 'person1_id'
+  belongs_to :person2, class_name: 'Person', foreign_key: 'person2_id'
 
   before_save :order_people
 
@@ -43,10 +45,10 @@ class Couple < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["people"]
+    %w[person1 person2]
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[created_at deleted_at id local marriage person1_id person2_id previous_id separation updated_at people_id]
+    %w[created_at local marriage separation updated_at couple_person1_name couple_person2_name]
   end
 end

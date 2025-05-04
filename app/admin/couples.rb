@@ -1,10 +1,12 @@
 ActiveAdmin.register Couple do
   menu priority: 4
 
-  includes :people
+  includes :person1, :person2
 
   actions :index
 
+  filter :person1_name_cont, as: :string, label: 'Person 1 Name'
+  filter :person2_name_cont, as: :string, label: 'Person 2 Name'
   filter :marriage
   filter :separation
   filter :local
