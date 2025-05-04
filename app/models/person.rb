@@ -24,6 +24,8 @@ class Person < ApplicationRecord
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
 
+  before_validation :set_default_gender, on: :create
+
   def siblings
     return [] if couples.empty?
 
@@ -78,5 +80,11 @@ class Person < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     []
+  end
+
+  private
+
+  def set_default_gender
+    self.gender ||= "M"
   end
 end

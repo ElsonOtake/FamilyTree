@@ -8,22 +8,23 @@ module RecordEvent
   included do
     attr_accessor :current_user
 
-    after_create { record_create(self) }
-    after_update { record_update(self) }
-    after_destroy { record_destroy(self) }
+    after_create :record_create
+    after_update :record_update
+    after_destroy :record_destroy
   end
 
-  def record_create(resource = self)
+  def record_create
     return unless current_user
 
     changes = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
 
-    current_user.events.create(
-      name: "#{self.class.name.underscore}.create",
-      data: changes,
-      resource:
-    )
-    if self.class == Couple
+    if self.class == Person
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.create",
+        data: changes,
+        resource: self
+      )
+    else
       current_user.events.create(
         name: "#{self.class.name.underscore}.create",
         data: changes,
@@ -37,17 +38,18 @@ module RecordEvent
     end
   end
 
-  def record_update(resource = self)
+  def record_update
     return unless current_user
 
     changes = saved_changes
 
-    current_user.events.create(
-      name: "#{self.class.name.underscore}.update",
-      data: changes,
-      resource:
-    )
-    if self.class == Couple
+    if self.class == Person
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.update",
+        data: changes,
+        resource: self
+      )
+    else
       current_user.events.create(
         name: "#{self.class.name.underscore}.update",
         data: changes,
@@ -61,8 +63,7 @@ module RecordEvent
     end
   end
 
-  # Unlink just for Couple
-  def record_destroy(resource = self)
+  def record_destroy
     return unless destroyed_logically? && current_user
 
     current_user.events.create(
@@ -70,7 +71,14 @@ module RecordEvent
       data: {
         deleted_at: deleted_at
       },
-      resource:
+      resource: Person.find(self.person1_id)
+    )
+    current_user.events.create(
+      name: "#{self.class.name.underscore}.unlink",
+      data: {
+        deleted_at: deleted_at
+      },
+      resource: Person.find(self.person2_id)
     )
   end
 

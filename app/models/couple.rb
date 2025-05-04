@@ -10,7 +10,6 @@ class Couple < ApplicationRecord
   has_and_belongs_to_many :people
   belongs_to :person1, class_name: 'Person', foreign_key: 'person1_id'
   belongs_to :person2, class_name: 'Person', foreign_key: 'person2_id'
-  has_many :events, as: :resource
 
   before_save :order_people
 
