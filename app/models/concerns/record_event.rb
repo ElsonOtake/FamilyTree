@@ -16,38 +16,69 @@ module RecordEvent
   def record_create
     return unless current_user
 
-    changes_with_id = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
-    changes_with_id["#{self.class.name.underscore}_id"] = id
+    changes = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
 
-    current_user.events.create(
-      name: "#{self.class.name.underscore}.create",
-      data: changes_with_id
-    )
+    if self.class == Person
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.create",
+        data: changes,
+        resource: self
+      )
+    else
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.create",
+        data: changes,
+        resource: Person.find(self.person1_id)
+      )
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.create",
+        data: changes,
+        resource: Person.find(self.person2_id)
+      )
+    end
   end
 
   def record_update
     return unless current_user
 
-    changes_with_id = saved_changes
-    changes_with_id["#{self.class.name.underscore}_id"] = id
+    changes = saved_changes
 
-    current_user.events.create(
-      name: "#{self.class.name.underscore}.update",
-      data: changes_with_id
-    )
+    if self.class == Person
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.update",
+        data: changes,
+        resource: self
+      )
+    else
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.update",
+        data: changes,
+        resource: Person.find(self.person1_id)
+      )
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.update",
+        data: changes,
+        resource: Person.find(self.person2_id)
+      )
+    end
   end
 
   def record_destroy
     return unless destroyed_logically? && current_user
 
-    key = "#{self.class.name.underscore}_id".to_sym
-
     current_user.events.create(
       name: "#{self.class.name.underscore}.unlink",
       data: {
-        key => id,
         deleted_at: deleted_at
-      }
+      },
+      resource: Person.find(self.person1_id)
+    )
+    current_user.events.create(
+      name: "#{self.class.name.underscore}.unlink",
+      data: {
+        deleted_at: deleted_at
+      },
+      resource: Person.find(self.person2_id)
     )
   end
 

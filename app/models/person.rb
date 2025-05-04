@@ -11,6 +11,7 @@ class Person < ApplicationRecord
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [240, 240]
   end
+  has_many :events, as: :resource
 
   validates :name, presence: true
   validates :avatar, content_type: ['image/png', 'image/jpeg'],
@@ -22,6 +23,8 @@ class Person < ApplicationRecord
   enum gender: %i[M F P X]
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
+
+  before_validation :set_default_gender, on: :create
 
   def siblings
     return [] if couples.empty?
@@ -72,10 +75,16 @@ class Person < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[alive birth death description gender name]
+    %w[alive birth death description gender name kanji]
   end
 
   def self.ransackable_associations(_auth_object = nil)
     []
+  end
+
+  private
+
+  def set_default_gender
+    self.gender ||= "M"
   end
 end

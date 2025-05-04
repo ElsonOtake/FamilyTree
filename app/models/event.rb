@@ -5,13 +5,14 @@ class Event < ApplicationRecord
   include GenerateCsv
 
   belongs_to :user
+  belongs_to :resource, polymorphic: true, optional: true
 
   validates :name, :data, presence: true
 
   scope :user_created, -> { where(name: 'user.create') }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[name]
+    %w[name user_id resource_type resource_id]
   end
 
   def self.ransackable_associations(_auth_object = nil)
