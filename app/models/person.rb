@@ -72,7 +72,7 @@ class Person < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[alive birth death description gender name]
+    %w[alive birth death description gender name couples_id avatar_attachment_id avatar_blob_id slugs_id kanji slug previous_id]
   end
 
   def self.ransackable_associations(_auth_object = nil)

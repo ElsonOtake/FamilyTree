@@ -1,0 +1,28 @@
+ActiveAdmin.register Couple do
+  menu priority: 4
+
+  includes :people
+
+  actions :index
+
+  filter :marriage
+  filter :separation
+  filter :local
+  filter :created_at
+  filter :updated_at
+
+  index pagination_total: false, download_links: [:csv] do
+    id_column
+    column 'Person 1', :person1_id, sortable: false do |couple|
+      Person.find(couple.person1_id).name
+    end
+    column 'Person 2', :person2_id, sortable: false do |couple|
+      Person.find(couple.person2_id).name
+    end
+    column :marriage
+    column :separation
+    column :local
+    column :created_at
+    column :updated_at
+  end
+end
