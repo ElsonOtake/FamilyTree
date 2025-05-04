@@ -8,46 +8,69 @@ module RecordEvent
   included do
     attr_accessor :current_user
 
-    after_create :record_create
-    after_update :record_update
-    after_destroy :record_destroy
+    after_create { record_create(self) }
+    after_update { record_update(self) }
+    after_destroy { record_destroy(self) }
   end
 
-  def record_create
+  def record_create(resource = self)
     return unless current_user
 
-    changes_with_id = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
-    changes_with_id["#{self.class.name.underscore}_id"] = id
+    changes = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
 
     current_user.events.create(
       name: "#{self.class.name.underscore}.create",
-      data: changes_with_id
+      data: changes,
+      resource:
     )
+    if self.class == Couple
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.create",
+        data: changes,
+        resource: Person.find(self.person1_id)
+      )
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.create",
+        data: changes,
+        resource: Person.find(self.person2_id)
+      )
+    end
   end
 
-  def record_update
+  def record_update(resource = self)
     return unless current_user
 
-    changes_with_id = saved_changes
-    changes_with_id["#{self.class.name.underscore}_id"] = id
+    changes = saved_changes
 
     current_user.events.create(
       name: "#{self.class.name.underscore}.update",
-      data: changes_with_id
+      data: changes,
+      resource:
     )
+    if self.class == Couple
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.update",
+        data: changes,
+        resource: Person.find(self.person1_id)
+      )
+      current_user.events.create(
+        name: "#{self.class.name.underscore}.update",
+        data: changes,
+        resource: Person.find(self.person2_id)
+      )
+    end
   end
 
-  def record_destroy
+  # Unlink just for Couple
+  def record_destroy(resource = self)
     return unless destroyed_logically? && current_user
-
-    key = "#{self.class.name.underscore}_id".to_sym
 
     current_user.events.create(
       name: "#{self.class.name.underscore}.unlink",
       data: {
-        key => id,
         deleted_at: deleted_at
-      }
+      },
+      resource:
     )
   end
 

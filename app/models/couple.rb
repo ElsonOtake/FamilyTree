@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A couple is a pair of people. The order of the people is important, person1_id must be less than person2_id.
+# A couple is a pair of people. The order of the people is important, person1_id must be less than person2_id. This way is possible to avoid duplicates.
 class Couple < ApplicationRecord
   include GenerateCsv
   include RecordEvent
@@ -10,6 +10,7 @@ class Couple < ApplicationRecord
   has_and_belongs_to_many :people
   belongs_to :person1, class_name: 'Person', foreign_key: 'person1_id'
   belongs_to :person2, class_name: 'Person', foreign_key: 'person2_id'
+  has_many :events, as: :resource
 
   before_save :order_people
 
