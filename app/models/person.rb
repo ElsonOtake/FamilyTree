@@ -63,6 +63,14 @@ class Person < ApplicationRecord
     Couple.children(id)
   end
 
+  def birth_date_formatted
+    format_partial_date(birth_day, birth_month, birth_year)
+  end
+
+  def death_date_formatted
+    format_partial_date(death_day, death_month, death_year)
+  end
+
   def slug_candidates
     [
       :name,
@@ -85,6 +93,20 @@ class Person < ApplicationRecord
   private
 
   def set_default_gender
-    self.gender ||= "M"
+    self.gender ||= 'M'
+  end
+
+  def format_partial_date(day, month, year)
+    if day && month && year
+      I18n.l(Date.new(year, month, day), format: :day_month_year)
+    elsif month && year
+      I18n.l(Date.new(year, month, Date.today.day), format: :month_year)
+    elsif day && month
+      I18n.l(Date.new(Date.today.year, month, day), format: :day_month)
+    elsif year
+      I18n.l(Date.new(year, Date.today.month, Date.today.day), format: :year)
+    else
+      ''
+    end
   end
 end
