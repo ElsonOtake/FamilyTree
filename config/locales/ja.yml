@@ -179,6 +179,10 @@ ja:
       default: "%Y/%m/%d"
       long: "%Y年%m月%d日(%a)"
       short: "%m月/%d日"
+      year: "%Y年"
+      month_year: "%Y年%m月"
+      day_month: "%m月%d日"
+      day_month_year: "%Y年%m月%d日"
     month_names:
     - 
     - 1月

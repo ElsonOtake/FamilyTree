@@ -179,6 +179,10 @@ pt:
       default: "%d/%m/%Y"
       long: "%d de %B de %Y"
       short: "%d de %B"
+      year: "%Y"
+      month_year: "%b %Y"
+      day_month: "%d %b"
+      day_month_year: "%d %b %Y"
     month_names:
     -
     - janeiro
