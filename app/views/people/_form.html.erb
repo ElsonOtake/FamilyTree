@@ -68,18 +68,32 @@
   <div class='columns'>
     <div class='field column'>
       <%= form.label :birth, t('people.birthday'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.date_field :birth, class: 'input' %>
+      <div class="columns">
+        <div class='control column'>
+          <%= form.text_field :birth_year, class: 'input', placeholder: t('.yyyy') %>
+        </div>
+        <div class='control column'>
+          <%= form.text_field :birth_month, class: 'input', placeholder: t('.mm') %>
+        </div>
+        <div class='control column'>
+          <%= form.text_field :birth_day, class: 'input', placeholder: t('.dd') %>
+        </div>
       </div>
-      <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
     </div>
 
     <div class='field column'>
       <%= form.label :death, t('.death'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.date_field :death, class: 'input' %>
+      <div class='columns'>
+        <div class='control column'>
+          <%= form.text_field :death_year, class: 'input', placeholder: t('.yyyy') %>
+        </div>
+        <div class='control column'>
+          <%= form.text_field :death_month, class: 'input', placeholder: t('.mm') %>
+        </div>
+        <div class='control column'>
+          <%= form.text_field :death_day, class: 'input', placeholder: t('.dd') %>
+        </div>
       </div>
-      <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
     </div>
   </div>
 
