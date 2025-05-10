@@ -59,6 +59,9 @@ en:
       pet: "Pet"
       other: "Other"
       mm_dd_yyyy: "mm/dd/yyyy"
+      dd: "dd"
+      mm: "mm"
+      yyyy: "yyyy"
     person:
       passed_away_on: "Passed away on %{date}"
       passed_away_on_years_of_age: "Passed away on %{date} at the age of %{age}"
