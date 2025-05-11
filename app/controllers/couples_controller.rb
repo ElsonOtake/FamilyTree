@@ -38,7 +38,6 @@ class CouplesController < ApplicationController
     respond_to do |format|
       @couple.current_user = current_user
       if @couple.save
-        FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
         @mate = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
         format.html { redirect_to person_url(@person) }
         format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
@@ -55,7 +54,6 @@ class CouplesController < ApplicationController
     respond_to do |format|
       @couple.current_user = current_user
       if @couple.update(couple_params)
-        FamilyMailer.with(user: current_user, couple: @couple).couple_updated.deliver_later
         format.html { redirect_to person_url(@person) }
         format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('couples.form.couple')) }
       else
@@ -78,7 +76,6 @@ class CouplesController < ApplicationController
     @couple.destroy
 
     respond_to do |format|
-      FamilyMailer.with(user: current_user, id:, person1:, person2:, marriage:, separation:, local:).couple_deleted.deliver_later
       format.html { redirect_to person_url(@person) }
       format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('couples.form.couple')) }
     end
