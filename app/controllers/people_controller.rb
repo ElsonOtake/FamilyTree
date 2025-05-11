@@ -48,7 +48,6 @@ class PeopleController < ApplicationController
           @couple.current_user = current_user
 
           if @couple.save
-            FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
             @mate = @person
             @person = Person.find(couple_params[:mate])
             format.html { redirect_to person_path(@person) }
@@ -63,7 +62,6 @@ class PeopleController < ApplicationController
 
           if @couple.people << @person
             Child.new(person_id: @person.id, couple_id: @couple.id).register_event(@person, @couple, current_user, 'child.create')
-            FamilyMailer.with(user: current_user, child: @person, couple: @couple).child_created.deliver_later
             @child = @person
             @person = Person.find(@couple.person1_id)
             format.html { redirect_to person_path(@person) }
@@ -74,7 +72,6 @@ class PeopleController < ApplicationController
             format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
           end
         else
-          FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
           format.html { redirect_to person_path(@person) }
           # format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
         end
@@ -91,9 +88,12 @@ class PeopleController < ApplicationController
     respond_to do |format|
       @person.current_user = current_user
       if @person.update(person_params)
-        FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later if @person.changed?
-        format.html { redirect_to person_path(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) } if @person.changed?
+        if @person.saved_changes?
+          format.html { redirect_to person_path(@person) }
+          format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+        else
+          format.html { redirect_to person_path(@person) }
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         flash.now[:notice] = @person.errors.full_messages[0]
