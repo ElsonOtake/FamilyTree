@@ -1,4 +1,4 @@
-<%= form_with model: person, data: { controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
+<%= form_with model: person, data: { turbo: false, controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
   <% if person.errors.any? %>
     <div style='color: red'>
       <h2><%= t('errors.template.header', count: errors.count, model: t('.person')) %></h2>
