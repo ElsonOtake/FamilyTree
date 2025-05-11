@@ -93,7 +93,7 @@ class PeopleController < ApplicationController
       if @person.update(person_params)
         FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later if @person.changed?
         format.html { redirect_to person_path(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) } if @person.changed?
       else
         format.html { render :edit, status: :unprocessable_entity }
         flash.now[:notice] = @person.errors.full_messages[0]
@@ -141,7 +141,7 @@ class PeopleController < ApplicationController
   end
 
   def permitted_params
-    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth, :death, :description,
+    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth_year, :birth_month, :birth_day, :death_year, :death_month, :death_day, :description,
                                    :avatar, :couple, :mate, :marriage, :separation, :local)
   end
 end
