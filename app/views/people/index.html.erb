@@ -28,14 +28,33 @@
 
 <div class='columns is-mobile custom-columns'>
   <div class='column is-narrow first-column'>
-    <div class='field'>
-      <%= label :q, :birth_gteq, "#{t('people.birthday')} #{t('.gteq')}", class: 'label' %>
-      <div class='control'>
-        <%= date_field :q, :birth_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input' %>
+    <%= label :q, :birth_year_gteq, "#{t('.birth_year')}", class: 'label' %>
+    <div class='field columns'>
+      <div class='control column is-one-fifth'>
+        <%= search_field :q, :birth_year_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.gteq') %>
       </div>
-      <%= label :q, :birth_lteq, t('.lteq'), class: 'label' %>
-      <div class='control'>
-        <%= date_field :q, :birth_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input' %>
+      <div class='control column is-one-fifth'>
+        <%= search_field :q, :birth_year_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.lteq') %>
+      </div>
+    </div>
+
+    <%= label :q, :birth_month_gteq, "#{t('.birth_month')}", class: 'label' %>
+    <div class='field columns'>
+      <div class='control column is-one-fifth'>
+        <%= search_field :q, :birth_month_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.gteq') %>
+      </div>
+      <div class='control column is-one-fifth'>
+        <%= search_field :q, :birth_month_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.lteq') %>
+      </div>
+    </div>
+
+    <%= label :q, :birth_day_gteq, "#{t('.birth_day')}", class: 'label' %>
+    <div class='field columns'>
+      <div class='control column is-one-fifth'>
+        <%= search_field :q, :birth_day_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.gteq') %>
+      </div>
+      <div class='control column is-one-fifth'>
+        <%= search_field :q, :birth_day_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.lteq') %>
       </div>
     </div>
 
