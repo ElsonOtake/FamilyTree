@@ -35,17 +35,8 @@
     </div>
 
     <div class='content'>
-      
-      <% if !person.birth.nil? && !person.death.nil? %>
-        <%= t('.passed_away_on_years_of_age', date: l(person.death, format: :long), age: age(person.birth, person.death)) %><br>
-      <% elsif person.birth.nil? && !person.death.nil? %>
-        <%= t('.passed_away_on', date: l(person.death, format: :long)) %>
-      <% elsif !person.birth.nil? %>
-        <%= age(person.birth, Date.today) %><br>
-      <% end %>
-      <% if !person.birth.nil? %>
-        <%= "#{t('people.birthday')}: #{l person.birth, format: :short}" %>
-      <% end %>
+      <%= person.date_text %><br>
+      <%= person.birth_text %>
 
       <% unless person.description.nil? %>
         <br><br>

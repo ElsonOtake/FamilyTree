@@ -32,11 +32,14 @@ pt:
     index:
       family_tree: "Árvore genealógica"
       search_by_name: "Busca por nome"
+      birth_year: "Ano de nascimento"
+      birth_month: "Mês de nascimento"
+      birth_day: "Dia de nascimento"
       gteq: "de"
       lteq: "até"
-      'nil': "Tudo"
-      'true': "Verdadeiro"
-      'false': "Falso"
+      'nil': "Todos"
+      'true': "Sim"
+      'false': "Não"
       M: "Masc"
       F: "Fem"
       P: "Pet"
@@ -184,7 +187,9 @@ pt:
       short: "%d de %B"
       year: "%Y"
       month_year: "%b %Y"
+      month_year_long: "%B de %Y"
       day_month: "%d %b"
+      day_month_long: "%d de %B"
       day_month_year: "%d %b %Y"
     month_names:
     -
