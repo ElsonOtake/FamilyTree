@@ -32,11 +32,14 @@ en:
     index:
       family_tree: "Family tree"
       search_by_name: "Search by name"
+      birth_year: "Birth year"
+      birth_month: "Birth month"
+      birth_day: "Birth day"
       gteq: "from"
       lteq: "to"
       'nil': "All"
-      'true': "True"
-      'false': "False"
+      'true': "Yes"
+      'false': "No"
       M: "Male"
       F: "Female"
       P: "Pet"
@@ -184,7 +187,9 @@ en:
       short: "%B %d"
       year: "%Y"
       month_year: "%b %Y"
+      month_year_long: "%B %Y"
       day_month: "%b %d"
+      day_month_long: "%B %d"
       day_month_year: "%b %d, %Y"
     month_names:
     - 
