@@ -278,6 +278,7 @@ pt:
       in: deve estar em %{count}
       inclusion: não está incluído na lista
       invalid: não é válido
+      invalid_partial_date: 'A data fornecida é inválida ou incompleta.'
       less_than: deve ser menor que %{count}
       less_than_or_equal_to: deve ser menor ou igual a %{count}
       model_invalid: 'A validação falhou: %{errors}'

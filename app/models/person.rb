@@ -16,6 +16,8 @@ class Person < ApplicationRecord
   validates :name, presence: true
   validates :avatar, content_type: ['image/png', 'image/jpeg'],
                      size: { less_than: 1.megabytes, message: I18n.t('errors.messages.image_size') }
+  validate :validate_birth_date
+  validate :validate_death_date
 
   extend FriendlyId
   friendly_id :slug_candidates, use: %i[slugged finders history]
@@ -120,6 +122,22 @@ class Person < ApplicationRecord
     self.gender ||= 'M'
   end
 
+  def validate_birth_date
+    if birth_year.present? || birth_month.present? || birth_day.present?
+      unless valid_partial_date?(birth_year, birth_month, birth_day)
+        errors.add(:birth_date, I18n.t('errors.messages.invalid_partial_date'))
+      end
+    end
+  end
+
+  def validate_death_date
+    if death_year.present? || death_month.present? || death_day.present?
+      unless valid_partial_date?(death_year, death_month, death_day)
+        errors.add(:death_date, I18n.t('errors.messages.invalid_partial_date'))
+      end
+    end
+  end
+
   def format_partial_date(day, month, year)
     if day && month && year
       I18n.l(Date.new(year, month, day), format: :day_month_year)
@@ -168,5 +186,23 @@ class Person < ApplicationRecord
     else
       I18n.t('datetime.distance_in_words.x_days', count: days)
     end
+  end
+
+  def valid_partial_date?(year, month, day)
+    # Verifica se o ano é válido
+    return false if year.present? && year.to_i > Date.today.year
+
+    # Verifica se o mês é válido
+    return false if month.present? && (month.to_i < 1 || month.to_i > 12)
+
+    # Verifica se o dia é válido
+    if day.present?
+      return true if year.present? && month.present? && Date.valid_date?(year.to_i, month.to_i, day.to_i)
+      return false if day.to_i < 1 || day.to_i > 31
+      return false if month.present? && day.to_i == 31 && [2, 4, 6, 9, 11].include?(month.to_i)
+      return false if month.present? && day.to_i > 28 && month.to_i == 2
+    end
+
+    true
   end
 end
