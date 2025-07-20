@@ -31,30 +31,36 @@ class Person < ApplicationRecord
   def siblings
     return [] if couples.empty?
 
-    couples.map(&:people).flatten
+    # Use flat_map to avoid N+1 and filter out self
+    couples.flat_map(&:people).uniq - [self]
   end
 
   def father
     return nil if couples.empty?
 
-    person = Person.find(couples.first.person1_id)
-    person.gender == 'M' ? person : Person.find(couples.first.person2_id)
+    couple = couples.first
+    # Use already loaded associations instead of find
+    person1 = couple.person1
+    person1.gender == 'M' ? person1 : couple.person2
   end
 
   def mother
     return nil if couples.empty?
 
-    person = Person.find(couples.first.person1_id)
-    person.gender != 'M' ? person : Person.find(couples.first.person2_id)
+    couple = couples.first
+    # Use already loaded associations instead of find
+    person1 = couple.person1
+    person1.gender != 'M' ? person1 : couple.person2
   end
 
   def mate(couple_id)
     return nil if couple_id.nil?
 
-    couple = Couple.find(couple_id)
+    couple = Couple.includes(:person1, :person2).find_by(id: couple_id)
     return nil if couple.nil?
 
-    couple.person1_id == id ? Person.find(couple.person2_id) : Person.find(couple.person1_id)
+    # Use already loaded associations
+    couple.person1_id == id ? couple.person2 : couple.person1
   end
 
   def mates

@@ -129,7 +129,10 @@ class PeopleController < ApplicationController
   private
 
   def set_person
-    @person = Person.find(params[:id])
+    @person = Person.includes(
+      :couples,
+      couples: [:person1, :person2, :people]
+    ).find(params[:id])
   end
 
   def person_params
