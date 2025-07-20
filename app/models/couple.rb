@@ -29,19 +29,25 @@ class Couple < ApplicationRecord
   def self.mates(person_id)
     return [] if person_id.nil?
 
-    couple = Couple.where(person1_id: person_id).or(Couple.where(person2_id: person_id))
-    return [] if couple.empty?
+    couples = Couple.includes(:person1, :person2)
+                   .where(person1_id: person_id)
+                   .or(Couple.includes(:person1, :person2).where(person2_id: person_id))
+    return [] if couples.empty?
 
-    couple.map { |mate| Person.find(mate.person1_id != person_id ? mate.person1_id : mate.person2_id) }
+    # Use already loaded associations
+    couples.map { |couple| couple.person1_id != person_id ? couple.person1 : couple.person2 }
   end
 
   def self.children(person_id)
     return [] if person_id.nil?
 
-    couple = Couple.where(person1_id: person_id).or(Couple.where(person2_id: person_id))
-    return [] if couple.empty?
+    couples = Couple.includes(:people)
+                   .where(person1_id: person_id)
+                   .or(Couple.includes(:people).where(person2_id: person_id))
+    return [] if couples.empty?
 
-    couple.map { |mate| mate.people }.flatten
+    # Use flat_map to avoid nested arrays and get unique children
+    couples.flat_map(&:people).uniq
   end
 
   def self.ransackable_associations(auth_object = nil)
