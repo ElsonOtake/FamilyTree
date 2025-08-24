@@ -38,12 +38,19 @@ class UsersController < ApplicationController
   end
 
   def change
-    current_user.send("#{params[:locale]}!")
-    current_user.events.create(
-      name: 'locale.update',
-      data: { locale: params[:locale] }
-    )
-    redirect_to request.referer
+    locale = params[:locale]
+    
+    # Validate locale against allowed values
+    if User.locales.keys.include?(locale)
+      current_user.update!(locale: locale)
+      current_user.events.create(
+        name: 'locale.update',
+        data: { locale: locale }
+      )
+      redirect_to request.referer
+    else
+      redirect_to request.referer, alert: I18n.t('errors.invalid_locale')
+    end
   end
 
   def change_unidentified

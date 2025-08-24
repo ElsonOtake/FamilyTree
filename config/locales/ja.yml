@@ -32,6 +32,9 @@ ja:
     index:
       family_tree: "家系図"
       search_by_name: "名前で検索"
+      birth_year: "誕生年"
+      birth_month: "誕生月"
+      birth_day: "誕生日"
       gteq: "から"
       lteq: "まで"
       'nil': "全て"
@@ -53,6 +56,9 @@ ja:
       death: "死"
       remark: "その他"
       mm_dd_yyyy: "月/日/年"
+      dd: "日"
+      mm: "月"
+      yyyy: "年"
       'yes': "はい"
       'no': "いいえ"
       male: "男"
@@ -179,6 +185,12 @@ ja:
       default: "%Y/%m/%d"
       long: "%Y年%m月%d日(%a)"
       short: "%m月/%d日"
+      year: "%Y年"
+      month_year: "%Y年%m月"
+      month_year_long: "%Y年%m月"
+      day_month: "%m月%d日"
+      day_month_long: "%m月%d日"
+      day_month_year: "%Y年%m月%d日"
     month_names:
     - 
     - 1月
@@ -240,6 +252,8 @@ ja:
       in: は%{count}の範囲に含めてください
       inclusion: は一覧にありません
       invalid: は不正な値です
+      invalid_locale: '無効な言語が選択されました'
+      invalid_partial_date: '入力された日付は無効または不完全です。'
       less_than: は%{count}より小さい値にしてください
       less_than_or_equal_to: は%{count}以下の値にしてください
       model_invalid: 'バリデーションに失敗しました: %{errors}'

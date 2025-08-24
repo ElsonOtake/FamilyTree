@@ -48,10 +48,9 @@ class PeopleController < ApplicationController
           @couple.current_user = current_user
 
           if @couple.save
-            FamilyMailer.with(user: current_user, couple: @couple).couple_created.deliver_later
             @mate = @person
             @person = Person.find(couple_params[:mate])
-            format.html { redirect_to person_path(@person) }
+            format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
             format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
           else
             format.html { render :new, status: :unprocessable_entity }
@@ -63,10 +62,9 @@ class PeopleController < ApplicationController
 
           if @couple.people << @person
             Child.new(person_id: @person.id, couple_id: @couple.id).register_event(@person, @couple, current_user, 'child.create')
-            FamilyMailer.with(user: current_user, child: @person, couple: @couple).child_created.deliver_later
             @child = @person
             @person = Person.find(@couple.person1_id)
-            format.html { redirect_to person_path(@person) }
+            format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
             format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
           else
             format.html { render 'children/new', status: :unprocessable_entity }
@@ -74,9 +72,8 @@ class PeopleController < ApplicationController
             format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
           end
         else
-          FamilyMailer.with(user: current_user, person: @person).person_created.deliver_later
-          format.html { redirect_to person_path(@person) }
-          # format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
+          format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
+          format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
         end
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -91,9 +88,12 @@ class PeopleController < ApplicationController
     respond_to do |format|
       @person.current_user = current_user
       if @person.update(person_params)
-        FamilyMailer.with(user: current_user, person: @person).person_updated.deliver_later if @person.changed?
-        format.html { redirect_to person_path(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+        if @person.saved_changes?
+          format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+          format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+        else
+          format.html { redirect_to person_path(@person) }
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         flash.now[:notice] = @person.errors.full_messages[0]
@@ -107,7 +107,7 @@ class PeopleController < ApplicationController
     @person.destroy
 
     respond_to do |format|
-      format.html { redirect_to people_url }
+      format.html { redirect_to people_url, notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person')) }
       format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person')) }
       format.json { head :no_content }
     end
@@ -129,7 +129,10 @@ class PeopleController < ApplicationController
   private
 
   def set_person
-    @person = Person.find(params[:id])
+    @person = Person.includes(
+      :couples,
+      couples: [:person1, :person2, :people]
+    ).find(params[:id])
   end
 
   def person_params
@@ -141,7 +144,7 @@ class PeopleController < ApplicationController
   end
 
   def permitted_params
-    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth, :death, :description,
+    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth_year, :birth_month, :birth_day, :death_year, :death_month, :death_day, :description,
                                    :avatar, :couple, :mate, :marriage, :separation, :local)
   end
 end
