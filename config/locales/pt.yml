@@ -32,11 +32,14 @@ pt:
     index:
       family_tree: "Árvore genealógica"
       search_by_name: "Busca por nome"
+      birth_year: "Ano de nascimento"
+      birth_month: "Mês de nascimento"
+      birth_day: "Dia de nascimento"
       gteq: "de"
       lteq: "até"
-      'nil': "Tudo"
-      'true': "Verdadeiro"
-      'false': "Falso"
+      'nil': "Todos"
+      'true': "Sim"
+      'false': "Não"
       M: "Masc"
       F: "Fem"
       P: "Pet"
@@ -53,6 +56,9 @@ pt:
       death: "Falecimento"
       remark: "Observação"
       mm_dd_yyyy: "mm/dd/aaaa"
+      dd: "dd"
+      mm: "mm"
+      yyyy: "aaaa"
       'yes': "Sim"
       'no': "Não"
       male: "Masc"
@@ -179,6 +185,12 @@ pt:
       default: "%d/%m/%Y"
       long: "%d de %B de %Y"
       short: "%d de %B"
+      year: "%Y"
+      month_year: "%b %Y"
+      month_year_long: "%B de %Y"
+      day_month: "%d %b"
+      day_month_long: "%d de %B"
+      day_month_year: "%d %b %Y"
     month_names:
     -
     - janeiro
@@ -266,6 +278,8 @@ pt:
       in: deve estar em %{count}
       inclusion: não está incluído na lista
       invalid: não é válido
+      invalid_locale: 'Idioma selecionado inválido'
+      invalid_partial_date: 'A data fornecida é inválida ou incompleta.'
       less_than: deve ser menor que %{count}
       less_than_or_equal_to: deve ser menor ou igual a %{count}
       model_invalid: 'A validação falhou: %{errors}'

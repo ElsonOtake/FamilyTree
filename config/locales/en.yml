@@ -32,11 +32,14 @@ en:
     index:
       family_tree: "Family tree"
       search_by_name: "Search by name"
+      birth_year: "Birth year"
+      birth_month: "Birth month"
+      birth_day: "Birth day"
       gteq: "from"
       lteq: "to"
       'nil': "All"
-      'true': "True"
-      'false': "False"
+      'true': "Yes"
+      'false': "No"
       M: "Male"
       F: "Female"
       P: "Pet"
@@ -59,6 +62,9 @@ en:
       pet: "Pet"
       other: "Other"
       mm_dd_yyyy: "mm/dd/yyyy"
+      dd: "dd"
+      mm: "mm"
+      yyyy: "yyyy"
     person:
       passed_away_on: "Passed away on %{date}"
       passed_away_on_years_of_age: "Passed away on %{date} at the age of %{age}"
@@ -179,6 +185,12 @@ en:
       default: "%Y-%m-%d"
       long: "%B %d, %Y"
       short: "%B %d"
+      year: "%Y"
+      month_year: "%b %Y"
+      month_year_long: "%B %Y"
+      day_month: "%b %d"
+      day_month_long: "%B %d"
+      day_month_year: "%b %d, %Y"
     month_names:
     - 
     - January
@@ -266,6 +278,8 @@ en:
       in: must be in %{count}
       inclusion: is not included in the list
       invalid: is invalid
+      invalid_locale: 'Invalid locale selected'
+      invalid_partial_date: 'The provided date is invalid or incomplete.'
       less_than: must be less than %{count}
       less_than_or_equal_to: must be less than or equal to %{count}
       model_invalid: 'Validation failed: %{errors}'
