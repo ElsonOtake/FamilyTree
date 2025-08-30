@@ -132,7 +132,7 @@ en:
       new:
         log_in: "Log in"
         remember_me: "Remember me"
-        didnt_receive_confirmation_instructions: "Didn't_receive_confirmation_instructions?"
+        didnt_receive_confirmation_instructions: "Didn't receive confirmation instructions?"
     email: "Email"
     password: "Password"
     characters_minimum: "%{count} characters minimum"
