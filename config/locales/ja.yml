@@ -19,7 +19,7 @@ ja:
   children:
     form:
       create_child: "子供を作成"
-      child: "族柄"
+      child: "子供"
   couples:
     form:
       create_couple: "カップルを作成"
@@ -278,9 +278,9 @@ ja:
       create: 登録する
       submit: 保存する
       update: 更新する
-      edit: Edit
-      delete: Delete
-      unlink: Unlink
+      edit: 編集
+      delete: 削除
+      unlink: リンク解除
   number:
     currency:
       format:
@@ -361,6 +361,7 @@ ja:
     has_many_new: "%{model} を追加する"
     has_many_delete: "削除する"
     has_many_remove: "削除する"
+    move: "移動"
     filters:
       buttons:
         filter: "絞り込む"
@@ -370,6 +371,8 @@ ja:
         to: "終了"
     search_status:
       headline: "検索状態"
+      title: "アクティブ検索"
+      title_with_scope: "%{name}のアクティブ検索"
       no_current_filters: "なし"
       current_filters: "現在のフィルター"
     status_tag:
@@ -447,7 +450,7 @@ ja:
       in_all: "は以下の全ての範囲内である"
       not_in: "は以下の範囲内でない"
       not_in_any: "は以下のいずれかの範囲内でない"
-      not_in_all: "は以下の全ての範囲内"
+      not_in_all: "は以下の全ての範囲内でない"
       cont: "は以下を含む"
       cont_any: "はいずれかを含む"
       cont_all: "は以下の全てを含む"
