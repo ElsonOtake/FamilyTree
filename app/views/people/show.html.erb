@@ -81,7 +81,7 @@
         </p>
       </header>
       <div class='card-content'>
-        <% siblings = @person ? (@person.siblings.where.not(id: @person.id) rescue []) : [] %>
+        <% siblings = @person ? @person.siblings : [] %>
         <% if siblings.any? %>
           <div class='content'>
             <% siblings.each do |sibling| %>
