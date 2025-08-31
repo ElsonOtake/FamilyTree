@@ -20,6 +20,17 @@ pt:
     form:
       create_child: "Criar Filho(a)"
       child: "Filho(a)"
+      search_existing_person: "Buscar Pessoa Existente"
+      search_help_text: "Digite um nome para buscar uma pessoa existente na árvore genealógica"
+      selected_person: "Pessoa Selecionada"
+      no_person_selected: "Nenhuma pessoa selecionada ainda"
+      selected_person_help: "Clique em uma pessoa dos resultados da busca para selecioná-la"
+      type_to_search: "Digite um nome para buscar..."
+      search_results:
+        one: "1 pessoa encontrada"
+        other: "%{count} pessoas encontradas"
+      no_results_found: "Nenhuma pessoa encontrada com sua busca"
+      start_typing_to_search: "Comece a digitar para buscar pessoas"
   couples:
     form:
       create_couple: "Criar Casal"

@@ -20,6 +20,17 @@ en:
     form:
       create_child: "Create child"
       child: "Child"
+      search_existing_person: "Search for Existing Person"
+      search_help_text: "Start typing a name to search for an existing person in the family tree"
+      selected_person: "Selected Person"
+      no_person_selected: "No person selected yet"
+      selected_person_help: "Click on a person from the search results to select them"
+      type_to_search: "Type a name to search..."
+      search_results:
+        one: "1 person found"
+        other: "%{count} people found"
+      no_results_found: "No people found matching your search"
+      start_typing_to_search: "Start typing to search for people"
   couples:
     form:
       create_couple: "Create couple"
