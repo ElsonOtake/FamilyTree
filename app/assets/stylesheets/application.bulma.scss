@@ -40,6 +40,7 @@ $input-shadow: none;
 @import 'bulma/bulma';
 @import "components/flash";
 @import "config/animations";
+@import "config/dark_mode";
 @import 'bulma-divider/dist/css/bulma-divider.sass';
 
 @media (max-width: 1023px) {
