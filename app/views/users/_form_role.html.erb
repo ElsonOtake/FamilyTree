@@ -1,3 +1,22 @@
-<%= form_with model: user, url: role_update_user_url(user) do |form| %>
-  <%= form.select :role, @roles, { selected: user.roles.first.name }, oninput: 'this.form.requestSubmit();' %>
+<%= form_with model: user, url: role_update_user_url(user), class: 'is-flex is-align-items-center' do |form| %>
+  <div class='field has-addons mb-0'>
+    <div class='control has-icons-left'>
+      <div class='select is-small 
+        <% if user.roles.first.name == 'admin' %>
+          is-danger
+        <% elsif user.roles.first.name == 'editor' %>
+          is-info
+        <% else %>
+          is-light
+        <% end %>'>
+        <%= form.select :role, @roles, 
+            { selected: user.roles.first.name }, 
+            { oninput: 'this.form.requestSubmit();',
+              class: 'has-text-weight-semibold' } %>
+      </div>
+      <div class='icon is-small is-left'>
+        <i class='fas fa-shield-alt'></i>
+      </div>
+    </div>
+  </div>
 <% end %>

@@ -1,19 +1,228 @@
-<p class='title has-text-info'><%= t('.role') %></p>
-<%== pagy_bulma_nav(@pagy) if @pagy.pages > 1 %>
-<table class='table is-striped is-hoverable is-narrow'>
-  <thead>
-    <tr>
-      <th class='has-text-info'><%= t('people.form.name') %></th>
-      <th class='has-text-info'>E-mail</th>
-      <th class='has-text-info'><%= t('.level') %></th>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= render 'form_role', user: user %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<!-- Hero Section -->
+<section class='hero is-info is-small mb-5'>
+  <div class='hero-body'>
+    <div class='container'>
+      <h1 class='title'>
+        <span class='icon-text'>
+          <span class='icon'>
+            <i class='fas fa-user-shield'></i>
+          </span>
+          <span><%= t('.role') %></span>
+        </span>
+      </h1>
+      <p class='subtitle'>
+        <%= t('.manage_user_permissions') %>
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class='container'>
+  <!-- Stats Cards -->
+  <div class='columns mb-5'>
+    <div class='column is-4'>
+      <div class='box has-background-primary-light'>
+        <div class='level'>
+          <div class='level-left'>
+            <div>
+              <p class='heading'><%= t('.total_users') %></p>
+              <p class='title is-3'><%= @users.count %></p>
+            </div>
+          </div>
+          <div class='level-right'>
+            <span class='icon is-large has-text-primary'>
+              <i class='fas fa-users fa-3x'></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class='column is-4'>
+      <div class='box has-background-success-light'>
+        <div class='level'>
+          <div class='level-left'>
+            <div>
+              <p class='heading'><%= t('.administrators') %></p>
+              <p class='title is-3'><%= @users.select { |u| u.roles.first.name == 'admin' }.count %></p>
+            </div>
+          </div>
+          <div class='level-right'>
+            <span class='icon is-large has-text-success'>
+              <i class='fas fa-user-cog fa-3x'></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class='column is-4'>
+      <div class='box has-background-info-light'>
+        <div class='level'>
+          <div class='level-left'>
+            <div>
+              <p class='heading'><%= t('.editors') %></p>
+              <p class='title is-3'><%= @users.select { |u| u.roles.first.name == 'editor' }.count %></p>
+            </div>
+          </div>
+          <div class='level-right'>
+            <span class='icon is-large has-text-info'>
+              <i class='fas fa-user-edit fa-3x'></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <% if @pagy.pages > 1 %>
+    <div class='mb-4'>
+      <%== pagy_bulma_nav(@pagy) %>
+    </div>
+  <% end %>
+
+  <!-- Users Table -->
+  <div class='box'>
+    <div class='table-container'>
+      <table class='table is-fullwidth is-striped is-hoverable'>
+        <thead>
+          <tr>
+            <th>
+              <span class='icon-text'>
+                <span class='icon has-text-info'>
+                  <i class='fas fa-user'></i>
+                </span>
+                <span><%= t('people.form.name') %></span>
+              </span>
+            </th>
+            <th>
+              <span class='icon-text'>
+                <span class='icon has-text-info'>
+                  <i class='fas fa-envelope'></i>
+                </span>
+                <span>E-mail</span>
+              </span>
+            </th>
+            <th>
+              <span class='icon-text'>
+                <span class='icon has-text-info'>
+                  <i class='fas fa-shield-alt'></i>
+                </span>
+                <span><%= t('.level') %></span>
+              </span>
+            </th>
+            <th>
+              <span class='icon-text'>
+                <span class='icon has-text-info'>
+                  <i class='fas fa-clock'></i>
+                </span>
+                <span><%= t('.last_access') %></span>
+              </span>
+            </th>
+            <th>
+              <span class='icon-text'>
+                <span class='icon has-text-info'>
+                  <i class='fas fa-check-circle'></i>
+                </span>
+                <span><%= t('.status') %></span>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td>
+                <div class='is-flex is-align-items-center'>
+                  <span class='icon mr-2'>
+                    <% if user.roles.first.name == 'admin' %>
+                      <i class='fas fa-user-cog has-text-danger'></i>
+                    <% elsif user.roles.first.name == 'editor' %>
+                      <i class='fas fa-user-edit has-text-info'></i>
+                    <% else %>
+                      <i class='fas fa-user has-text-grey'></i>
+                    <% end %>
+                  </span>
+                  <div>
+                    <p class='has-text-weight-semibold'><%= user.name || t('.unnamed_user') %></p>
+                    <% if user.locale.present? %>
+                      <p class='is-size-7 has-text-grey'>
+                        <span class='icon-text'>
+                          <span class='icon is-small'>
+                            <i class='fas fa-globe'></i>
+                          </span>
+                          <span><%= t("locales.#{user.locale}") %></span>
+                        </span>
+                      </p>
+                    <% end %>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <p><%= user.email %></p>
+                  <% if user.provider.present? %>
+                    <span class='tag is-light is-small mt-1'>
+                      <span class='icon-text'>
+                        <span class='icon'>
+                          <i class='fab fa-<%= user.provider %>'></i>
+                        </span>
+                        <span><%= user.provider.capitalize %></span>
+                      </span>
+                    </span>
+                  <% end %>
+                </div>
+              </td>
+              <td>
+                <%= render 'form_role', user: user %>
+              </td>
+              <td>
+                <% if user.current_sign_in_at.present? %>
+                  <p class='is-size-7'>
+                    <%= l(user.current_sign_in_at, format: :short) %>
+                  </p>
+                  <p class='is-size-7 has-text-grey'>
+                    <%= t('.sign_in_count', count: user.sign_in_count) %>
+                  </p>
+                <% else %>
+                  <span class='has-text-grey'>
+                    <%= t('.never_signed_in') %>
+                  </span>
+                <% end %>
+              </td>
+              <td>
+                <% if user.confirmed_at.present? %>
+                  <span class='tag is-success is-light'>
+                    <span class='icon-text'>
+                      <span class='icon'>
+                        <i class='fas fa-check'></i>
+                      </span>
+                      <span><%= t('.confirmed') %></span>
+                    </span>
+                  </span>
+                <% else %>
+                  <span class='tag is-warning is-light'>
+                    <span class='icon-text'>
+                      <span class='icon'>
+                        <i class='fas fa-clock'></i>
+                      </span>
+                      <span><%= t('.pending') %></span>
+                    </span>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination Bottom -->
+  <% if @pagy.pages > 1 %>
+    <div class='mt-4'>
+      <%== pagy_bulma_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>
