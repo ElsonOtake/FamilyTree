@@ -238,6 +238,12 @@ pt:
         didnt_receive_confirmation_instructions: "Não recebeu as instruções de confirmação?"
     email: "Email"
     password: "Senha"
+    shared:
+      links:
+        sign_in: "Entrar"
+        sign_up: "Registrar"
+        forgot_your_password: "Esqueceu sua senha?"
+        didn_t_receive_confirmation_instructions: "Não recebeu as instruções de confirmação?"
     characters_minimum: "Mínimo de %{count} caracteres"
     password_confirmation: "Confirmação da senha"
   activerecord:
