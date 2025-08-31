@@ -113,6 +113,13 @@ pt:
         new_password_confirmation: "Confirmação da nova senha"
       new:
         forgot_your_password: "Esqueceu sua senha?"
+        reset_password_description: "Digite seu endereço de email e enviaremos instruções para redefinir sua senha"
+        email_placeholder: "Digite seu endereço de email"
+        email_help_text: "Enviaremos instruções de redefinição de senha para este email"
+        remember_password: "Lembrou sua senha?"
+        back_to_sign_in: "Voltar para Entrar"
+        dont_have_account: "Não tem uma conta?"
+        sign_up_link: "Registre-se"
         send_me_reset_password_instructions: "Envie-me instruções de redefinição de senha"
     registrations:
       edit:

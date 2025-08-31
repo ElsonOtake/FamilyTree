@@ -113,6 +113,13 @@ en:
         new_password_confirmation: "Confirm new password"
       new:
         forgot_your_password: "Forgot your password?"
+        reset_password_description: "Enter your email address and we'll send you instructions to reset your password"
+        email_placeholder: "Enter your email address"
+        email_help_text: "We'll send password reset instructions to this email"
+        remember_password: "Remember your password?"
+        back_to_sign_in: "Back to Sign In"
+        dont_have_account: "Don't have an account?"
+        sign_up_link: "Sign up"
         send_me_reset_password_instructions: "Send me reset password instructions"
     registrations:
       edit:

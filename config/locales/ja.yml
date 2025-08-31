@@ -113,7 +113,14 @@ ja:
         new_password_confirmation: "新しいパスワードを確認"
       new:
         forgot_your_password: "パスワードをお忘れですか？"
-        send_me_reset_password_instructions: "パスワードのリセット手順を送信してください"
+        reset_password_description: "メールアドレスを入力してください。パスワードリセットの手順をお送りします"
+        email_placeholder: "メールアドレスを入力"
+        email_help_text: "このメールアドレスにパスワードリセットの手順を送信します"
+        remember_password: "パスワードを思い出しましたか？"
+        back_to_sign_in: "ログインに戻る"
+        dont_have_account: "アカウントをお持ちでない方"
+        sign_up_link: "新規登録"
+        send_me_reset_password_instructions: "パスワードのリセット手順を送信"
     registrations:
       edit:
         edit_user: "ユーザーの編集"
