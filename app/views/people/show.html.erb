@@ -1,99 +1,187 @@
+<!-- Person Details Card -->
 <%= render @person %>
 
+<!-- Family Relationships -->
 <div class='columns is-multiline'>
-  <div class='column is-full-tablet is-half-desktop'>
-    <h4 class='subtitle has-text-grey'><%= t('.parents') %></h4>
-    <div class='box'>
-      <% unless @person.father.nil? %>
-        <table class='table'>
-          <tbody>
-            <tr>
-              <td>
-                <%= render 'icon', person: @person.father %>&nbsp;
-                <%= link_to @person.father.name, person_path(@person.father) %><br>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <%= render 'icon', person: @person.mother %>&nbsp;
-                <%= link_to @person.mother.name, person_path(@person.mother) %><br>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      <% end %>
-    </div>
-  </div>
-
-  <div class='column is-full-tablet is-half-desktop'>
-    <h4 class='subtitle has-text-grey'><%= t('.siblings') %></h4>
-    <div class='box'>
-      <% unless @person.father.nil? %>
-        <table class='table'>
-          <tbody>
-            <% @person.siblings.each do |sibling| %>
-              <% if sibling.id != @person.id %>
-                <tr>
-                  <td>
-                    <%= render 'icon', person: sibling %>&nbsp;
-                    <%= link_to sibling.name, person_path(sibling) %>
-                  </td>
-                </tr>
-              <% end %>
+  <!-- Parents Section -->
+  <div class='column is-half'>
+    <div class='card'>
+      <header class='card-header'>
+        <p class='card-header-title'>
+          <span class='icon-text'>
+            <span class='icon has-text-primary'>
+              <i class='fas fa-users'></i>
+            </span>
+            <span><%= t('.parents') %></span>
+          </span>
+        </p>
+      </header>
+      <div class='card-content'>
+        <% if @person.father.present? || @person.mother.present? %>
+          <div class='content'>
+            <% if @person.father.present? %>
+              <div class='media'>
+                <div class='media-left'>
+                  <span class='icon has-text-info'>
+                    <i class='fas fa-male fa-2x'></i>
+                  </span>
+                </div>
+                <div class='media-content'>
+                  <p class='title is-5'>
+                    <%= link_to @person.father.name, person_path(@person.father), 
+                      class: 'has-text-dark' %>
+                  </p>
+                  <p class='subtitle is-6 has-text-grey'><%= t('people.show.father') %></p>
+                </div>
+              </div>
             <% end %>
-          </tbody>
-        </table>
-      <% end %>
-    </div>
-  </div>
-
-  <div class='column is-full-tablet is-half-desktop'>
-    <% if policy(@person).new? %>
-      <div class='is-flex'>
-        <h4 class='subtitle has-text-grey'><%= t('.mate') %></h4>
-        <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
-          new_person_couple_path(@person),
-          data: {
-            turbo_frame: 'new_couple',
-            controller: 'stimulus',
-            stimulus_id_value: 'couple_new',
-            action: 'stimulus#open'
-          },
-          title: t('helpers.submit.create', model: t('people.show.mate'))
-        %>
+            
+            <% if @person.mother.present? %>
+              <div class='media'>
+                <div class='media-left'>
+                  <span class='icon has-text-danger'>
+                    <i class='fas fa-female fa-2x'></i>
+                  </span>
+                </div>
+                <div class='media-content'>
+                  <p class='title is-5'>
+                    <%= link_to @person.mother.name, person_path(@person.mother), 
+                      class: 'has-text-dark' %>
+                  </p>
+                  <p class='subtitle is-6 has-text-grey'><%= t('people.show.mother') %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class='has-text-grey'><%= t('people.show.no_parents') %></p>
+        <% end %>
       </div>
-    <% else %>
-      <h4 class='subtitle has-text-grey'><%= t('.mate') %></h4>
-    <% end %>
-    <div class='box'>
-      <table class='table' style='width:100%;'>
-        <tbody id='mate'>
-          <% @person.mates.each do |mate| %>
-            <%= render 'mate', person: @person, mate: %>
-          <% end %>
-        </tbody>
-      </table>
     </div>
   </div>
 
-  <div class='column is-full-tablet is-half-desktop'>
-    <h4 class='subtitle has-text-grey'><%= t('.children') %></h4>
-    <div class='box'>
-      <table class='table' style='width:100%;'>
-        <tbody id='children'>
-          <% @person.children.each do |child| %>
-            <%= render 'child', person: @person, child: child %>
-          <% end %>
-        </tbody>
-      </table>
+  <!-- Siblings Section -->
+  <div class='column is-half'>
+    <div class='card'>
+      <header class='card-header'>
+        <p class='card-header-title'>
+          <span class='icon-text'>
+            <span class='icon has-text-success'>
+              <i class='fas fa-user-friends'></i>
+            </span>
+            <span><%= t('.siblings') %></span>
+          </span>
+        </p>
+      </header>
+      <div class='card-content'>
+        <% siblings = @person.siblings.where.not(id: @person.id) %>
+        <% if siblings.any? %>
+          <div class='content'>
+            <% siblings.each do |sibling| %>
+              <div class='media'>
+                <div class='media-left'>
+                  <%= render 'icon', person: sibling %>
+                </div>
+                <div class='media-content'>
+                  <p class='title is-6'>
+                    <%= link_to sibling.name, person_path(sibling), 
+                      class: 'has-text-dark' %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class='has-text-grey'><%= t('people.show.no_siblings') %></p>
+        <% end %>
+      </div>
     </div>
   </div>
-<br>
 
-<div>
-  <%= link_to t('.back_to_people'), people_path, class: 'button is-info is-rounded mt-5' %>
+  <!-- Spouse/Partner Section -->
+  <div class='column is-half'>
+    <div class='card'>
+      <header class='card-header'>
+        <p class='card-header-title'>
+          <span class='icon-text'>
+            <span class='icon has-text-danger'>
+              <i class='fas fa-heart'></i>
+            </span>
+            <span><%= t('.mate') %></span>
+          </span>
+        </p>
+        <% if policy(@person).new? %>
+          <div class='card-header-icon'>
+            <%= link_to new_person_couple_path(@person),
+              class: 'button is-small is-success',
+              data: {
+                turbo_frame: 'new_couple',
+                controller: 'stimulus',
+                stimulus_id_value: 'couple_new',
+                action: 'stimulus#open'
+              },
+              title: t('helpers.submit.create', model: t('people.show.mate')) do %>
+              <span class='icon'>
+                <i class='fas fa-plus'></i>
+              </span>
+              <span><%= t('people.show.add') %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </header>
+      <div class='card-content'>
+        <% if @person.mates.any? %>
+          <div class='content' id='mate'>
+            <% @person.mates.each do |mate| %>
+              <%= render 'mate', person: @person, mate: mate %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class='has-text-grey'><%= t('people.show.no_spouse') %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Children Section -->
+  <div class='column is-half'>
+    <div class='card'>
+      <header class='card-header'>
+        <p class='card-header-title'>
+          <span class='icon-text'>
+            <span class='icon has-text-warning'>
+              <i class='fas fa-baby'></i>
+            </span>
+            <span><%= t('.children') %></span>
+          </span>
+        </p>
+      </header>
+      <div class='card-content'>
+        <% if @person.children.any? %>
+          <div class='content' id='children'>
+            <% @person.children.each do |child| %>
+              <%= render 'child', person: @person, child: child %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class='has-text-grey'><%= t('people.show.no_children') %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- Navigation -->
+<div class='has-text-centered mt-6 mb-6'>
+  <%= link_to people_path, class: 'button is-info is-medium' do %>
+    <span class='icon'>
+      <i class='fas fa-arrow-left'></i>
+    </span>
+    <span><%= t('.back_to_people') %></span>
+  <% end %>
+</div>
+
+<!-- Modals -->
 <%= render 'shared/modal', tag_name: 'new_couple', modal_id: 'couple_new' %>
 <%= render 'shared/modal', tag_name: 'new_child', modal_id: 'child_new' %>
 <%= render 'shared/modal', tag_name: 'edit_person', modal_id: 'person_edit' %>

@@ -71,9 +71,21 @@ pt:
     show:
       parents: "Pais"
       siblings: "Irmãos"
-      mate: "Cônjuge"
+      mate: "Cônjuge/Parceiro"
       children: "Filhos"
       back_to_people: "Voltar para pessoas"
+      life_events: "Eventos da Vida"
+      notes: "Notas"
+      born: "Nascido"
+      died: "Falecido"
+      father: "Pai"
+      mother: "Mãe"
+      no_parents: "Nenhum pai registrado"
+      no_siblings: "Nenhum irmão registrado"
+      no_spouse: "Nenhum cônjuge/parceiro registrado"
+      no_children: "Nenhum filho registrado"
+      add: "Adicionar"
+      edit: "Editar"
     birthday: "Nascimento"
   users:
     form:

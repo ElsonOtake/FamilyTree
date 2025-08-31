@@ -71,9 +71,21 @@ ja:
     show:
       parents: "両親"
       siblings: "兄弟"
-      mate: "配偶者"
+      mate: "配偶者/パートナー"
       children: "子供たち"
       back_to_people: "人々に戻る"
+      life_events: "人生の出来事"
+      notes: "メモ"
+      born: "生まれ"
+      died: "死亡"
+      father: "父"
+      mother: "母"
+      no_parents: "両親の記録なし"
+      no_siblings: "兄弟の記録なし"
+      no_spouse: "配偶者/パートナーの記録なし"
+      no_children: "子供の記録なし"
+      add: "追加"
+      edit: "編集"
     birthday: "誕生"
   users:
     form:
