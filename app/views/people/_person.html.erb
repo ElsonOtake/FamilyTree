@@ -25,7 +25,9 @@
               <div>
                 <h1 class='title is-2 has-text-white mb-3'>
                   <span class='icon-text'>
-                    <%= render 'icon', person: person %>
+                    <span class='icon'>
+                      <%= render 'icon', person: person, theme: 'dark' %>
+                    </span>
                     <span><%= person&.name || '' %></span>
                   </span>
                 </h1>

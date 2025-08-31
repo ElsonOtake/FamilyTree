@@ -1,6 +1,9 @@
 <% flash.each do |msg_type, message| %>
-  <div class='notification flash__message' data-controller='stimulus' data-action='animationend->stimulus#closeNotification'>
-    <button class='delete' data-action='stimulus#closeNotification'></button>
-    <%= message %>
+  <div class='notification flash__message is-<%= msg_type == "notice" ? "info" : msg_type %>' 
+       data-controller='stimulus' 
+       data-action='animationend->stimulus#closeNotification'
+       style='background-color: #2d2d2d !important; color: #ffffff !important; border: 2px solid #ff0000;'>
+    <button class='delete' data-action='stimulus#closeNotification' style='border-color: #ffffff !important;'></button>
+    <span style='color: #ffffff !important;'><%= message %></span>
   </div>
 <% end %>

@@ -9,10 +9,139 @@
     <script src='https://kit.fontawesome.com/064189fe66.js' crossorigin='anonymous'></script>
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
+    
+    <!-- Temporary debug script for dark mode -->
+    <script>
+      console.log('Page loaded - checking dark mode');
+      
+      // Force dark mode for testing AND fix mobile menu
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded - applying dark mode for testing');
+        document.documentElement.setAttribute('data-theme', 'dark');
+        console.log('HTML data-theme attribute:', document.documentElement.getAttribute('data-theme'));
+        
+        // Also add a debug class for testing
+        document.body.classList.add('debug-dark-mode');
+        
+        // Fix mobile menu styling dynamically
+        function updateMobileMenuTheme() {
+          const theme = document.documentElement.getAttribute('data-theme') || 'light';
+          const navbarMenu = document.querySelector('.navbar-menu');
+          const navbarItems = document.querySelectorAll('.navbar-menu .navbar-item, .navbar-menu .navbar-link, .navbar-menu a, .navbar-menu span');
+          
+          if (navbarMenu) {
+            if (theme === 'dark' || document.body.classList.contains('debug-dark-mode')) {
+              // Dark mode
+              navbarMenu.style.backgroundColor = '#2d2d2d';
+              navbarItems.forEach(item => {
+                item.style.color = '#ffffff';
+                item.style.fontWeight = '700';
+              });
+              console.log('Applied dark mode mobile menu styling');
+            } else {
+              // Light mode
+              navbarMenu.style.backgroundColor = '#ffffff';
+              navbarItems.forEach(item => {
+                item.style.color = '#000000';
+                item.style.fontWeight = '700';
+              });
+              console.log('Applied light mode mobile menu styling');
+            }
+          }
+        }
+        
+        // Apply immediately and also on any theme changes
+        updateMobileMenuTheme();
+        
+        // Watch for theme changes
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'data-theme') {
+              updateMobileMenuTheme();
+            }
+          });
+        });
+        
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['data-theme']
+        });
+      });
+    </script>
+    
+    <!-- Emergency mobile menu visibility fix for both themes -->
+    <style>
+      @media screen and (max-width: 1023px) {
+        /* Light mode (default) */
+        .navbar-menu {
+          background-color: #ffffff !important;
+        }
+        
+        .navbar-menu .navbar-item,
+        .navbar-menu .navbar-item *,
+        .navbar-menu .navbar-link,
+        .navbar-menu .navbar-link *,
+        .navbar-menu a,
+        .navbar-menu a *,
+        .navbar-menu span {
+          color: #000000 !important;
+          font-weight: 700 !important;
+          text-shadow: none !important;
+          opacity: 1 !important;
+        }
+        
+        /* Dark mode */
+        [data-theme="dark"] .navbar-menu {
+          background-color: #2d2d2d !important;
+        }
+        
+        [data-theme="dark"] .navbar-menu .navbar-item,
+        [data-theme="dark"] .navbar-menu .navbar-item *,
+        [data-theme="dark"] .navbar-menu .navbar-link,
+        [data-theme="dark"] .navbar-menu .navbar-link *,
+        [data-theme="dark"] .navbar-menu a,
+        [data-theme="dark"] .navbar-menu a *,
+        [data-theme="dark"] .navbar-menu span {
+          color: #ffffff !important;
+          font-weight: 700 !important;
+          text-shadow: none !important;
+          opacity: 1 !important;
+        }
+        
+        /* Debug class for testing */
+        .debug-dark-mode .navbar-menu {
+          background-color: #2d2d2d !important;
+        }
+        
+        .debug-dark-mode .navbar-menu .navbar-item,
+        .debug-dark-mode .navbar-menu .navbar-item *,
+        .debug-dark-mode .navbar-menu .navbar-link,
+        .debug-dark-mode .navbar-menu .navbar-link *,
+        .debug-dark-mode .navbar-menu a,
+        .debug-dark-mode .navbar-menu a *,
+        .debug-dark-mode .navbar-menu span {
+          color: #ffffff !important;
+          font-weight: 700 !important;
+          text-shadow: none !important;
+          opacity: 1 !important;
+        }
+      }
+    </style>
   </head>
 
   <body>
     <%= render 'layouts/navbar' %>
+    
+    <!-- Dark Mode Toggle -->
+    <div data-controller="dark-mode" class="dark-mode-toggle">
+      <button class="button is-info is-small" data-action="click->dark-mode#toggle">
+        <span class="icon" data-dark-mode-target="icon">
+          <i class="fas fa-moon"></i>
+        </span>
+        <span data-dark-mode-target="text">Dark Mode</span>
+      </button>
+    </div>
+    
     <section class='section'>
       <div class='container is-fluid'>
         <div id='flash'>

@@ -8,7 +8,7 @@
     </p>
   </div>
   <div class='media-right'>
-    <div class='buttons'>
+    <div class='buttons' style='gap: 0.125rem;'>
       <% if policy(child).destroy? %>
         <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
             person_couple_child_path(person, child.couples.first, child),
