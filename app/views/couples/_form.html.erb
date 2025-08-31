@@ -4,11 +4,11 @@
 <% else %>
   <% mate_name = '' %>
 <% end %>
+
 <%= form_with model: couple, url: url, data: { controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
   <% if couple.errors.any? %>
-    <div style='color: red'>
-      <h2><%= t('errors.template.header', count: errors.count, model: t('people.show.mate')) %></h2>
-
+    <div class='notification is-danger'>
+      <h2 class='title is-5'><%= t('errors.template.header', count: couple.errors.count, model: t('people.show.mate')) %></h2>
       <ul>
         <% couple.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -20,54 +20,121 @@
   <%= form.hidden_field :person1_id, class: 'input' if couple.person1_id == @person.id %>
   <%= form.hidden_field :person2_id, class: 'input' if couple.person2_id == @person.id %>
 
-  <div class='columns'>
-    <div class='field column'>
-      <%= form.label :mate, t('people.show.mate'), style: 'display: block', class: 'label' %>
-      <div class='control'>
+  <!-- Partner Information Section -->
+  <div class='box'>
+    <h3 class='title is-5 mb-4'>
+      <span class='icon-text'>
+        <span class='icon has-text-danger'>
+          <i class='fas fa-heart'></i>
+        </span>
+        <span><%= t('couples.form.partner_information') %></span>
+      </span>
+    </h3>
+
+    <div class='field'>
+      <%= form.label :mate, t('people.show.mate'), class: 'label' %>
+      <div class='control has-icons-left'>
         <%= form.number_field :person1_id, class: 'input is-hidden' if couple.person2_id == @person.id %>
         <%= form.number_field :person2_id, class: 'input is-hidden' if couple.person1_id == @person.id %>
-        <%= form.text_field :name, class: 'input', disabled: true, value: mate_name %>
+        <%= form.text_field :name, 
+            class: 'input is-medium', 
+            disabled: true, 
+            value: mate_name,
+            placeholder: couple.persisted? ? '' : t('couples.form.select_partner') %>
+        <span class='icon is-small is-left'>
+          <i class='fas fa-user-heart'></i>
+        </span>
       </div>
-    </div>
-
-    <div class='field column'>
-      <%= form.label :local, t('.local'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.text_area :local, class: 'input' %>
-      </div>
+      <% unless couple.persisted? %>
+        <p class='help'>
+          <span class='icon-text'>
+            <span class='icon'>
+              <i class='fas fa-info-circle'></i>
+            </span>
+            <span><%= t('couples.form.search_partner_help') %></span>
+          </span>
+        </p>
+      <% end %>
     </div>
   </div>
 
-  <div class='columns'>
-    <div class='field column'>
-      <%= form.label :marriage, t('.marriage'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.date_field :marriage, class: 'input' %>
+  <!-- Relationship Details Section -->
+  <div class='box'>
+    <h3 class='title is-5 mb-4'>
+      <span class='icon-text'>
+        <span class='icon has-text-info'>
+          <i class='fas fa-calendar-heart'></i>
+        </span>
+        <span><%= t('couples.form.relationship_details') %></span>
+      </span>
+    </h3>
+
+    <div class='columns'>
+      <div class='field column'>
+        <%= form.label :marriage, t('.marriage'), class: 'label' %>
+        <div class='control has-icons-left'>
+          <%= form.date_field :marriage, class: 'input' %>
+          <span class='icon is-small is-left'>
+            <i class='fas fa-ring'></i>
+          </span>
+        </div>
+        <p class='help'><%= t('people.form.mm_dd_yyyy') %></p>
       </div>
-      <p class='help is-info'><%= t('people.form.mm_dd_yyyy') %></p>
+
+      <div class='field column'>
+        <%= form.label :separation, t('.separation'), class: 'label' %>
+        <div class='control has-icons-left'>
+          <%= form.date_field :separation, class: 'input' %>
+          <span class='icon is-small is-left'>
+            <i class='fas fa-heart-broken'></i>
+          </span>
+        </div>
+        <p class='help'><%= t('people.form.mm_dd_yyyy') %></p>
+      </div>
     </div>
 
-    <div class='field column'>
-      <%= form.label :separation, t('.separation'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.date_field :separation, class: 'input' %>
+    <div class='field'>
+      <%= form.label :local, t('.local'), class: 'label' %>
+      <div class='control has-icons-left'>
+        <span class='icon is-left' style='height: auto; top: 10px;'>
+          <i class='fas fa-map-marker-alt'></i>
+        </span>
+        <%= form.text_area :local, 
+            class: 'textarea', 
+            rows: 3,
+            placeholder: t('couples.form.location_placeholder'),
+            style: 'padding-left: 2.5em;' %>
       </div>
-      <p class='help is-info'><%= t('people.form.mm_dd_yyyy') %></p>
+      <p class='help'>
+        <span class='icon-text'>
+          <span class='icon'>
+            <i class='fas fa-info-circle'></i>
+          </span>
+          <span><%= t('couples.form.location_help') %></span>
+        </span>
+      </p>
     </div>
   </div>
 
   <% button_text = couple.persisted? ? t('couples.form.update_couple') : t('couples.form.create_couple') %>
 
-
-  <div class='control is-flex is-justify-content-space-between'>
-    <%= form.submit button_text, class: 'button is-info is-rounded', disabled: couple.persisted? ? false : true, id: 'submit-button' %>
-    <%= link_to t(:back),
-      nil,
-      data: {
-        controller: 'stimulus',
-        action: 'stimulus#closeAllModals'
-      },
-      class: 'button is-info is-rounded'
-    %>
+  <!-- Form Actions -->
+  <div class='field is-grouped is-grouped-centered mt-5'>
+    <div class='control'>
+      <%= form.submit button_text, 
+          class: 'button is-info is-medium', 
+          disabled: couple.persisted? ? false : true, 
+          id: 'submit-button' %>
+    </div>
+    <div class='control'>
+      <%= link_to t(:back),
+        nil,
+        data: {
+          controller: 'stimulus',
+          action: 'stimulus#closeAllModals'
+        },
+        class: 'button is-light is-medium'
+      %>
+    </div>
   </div>
 <% end %>

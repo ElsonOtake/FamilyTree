@@ -1,16 +1,75 @@
-<h2 class='title has-text-info'><%= t('.forgot_your_password') %></h2>
+<div class='columns is-centered'>
+  <div class='column is-5'>
+    <!-- Password Reset Card -->
+    <div class='box'>
+      <!-- Icon and Title -->
+      <div class='has-text-centered mb-5'>
+        <div class='icon is-large has-text-info mb-4'>
+          <i class='fas fa-key fa-3x'></i>
+        </div>
+        <h2 class='title is-3 has-text-info'>
+          <%= t('.forgot_your_password') %>
+        </h2>
+        <p class='subtitle is-6 has-text-grey'>
+          <%= t('.reset_password_description') %>
+        </p>
+      </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render 'devise/shared/error_messages', resource: resource %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render 'devise/shared/error_messages', resource: resource %>
 
-  <div class='field'>
-    <%= f.label :email, t('devise.email'), class: 'label' %>
-    <div class='control'>
-      <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'input' %>
+        <!-- Email Field -->
+        <div class='field'>
+          <%= f.label :email, t('devise.email'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.email_field :email, 
+              autofocus: true, 
+              autocomplete: 'email', 
+              class: 'input is-medium', 
+              placeholder: t('.email_placeholder') %>
+            <span class='icon is-left'>
+              <i class='fas fa-envelope'></i>
+            </span>
+          </div>
+          <p class='help'>
+            <%= t('.email_help_text') %>
+          </p>
+        </div>
+
+        <!-- Submit Button -->
+        <div class='field mt-5'>
+          <%= f.submit t('.send_me_reset_password_instructions'), 
+            class: 'button is-info is-fullwidth is-medium' %>
+        </div>
+      <% end %>
+
+      <!-- Divider -->
+      <hr class='my-5'>
+
+      <!-- Back to Sign In -->
+      <div class='has-text-centered'>
+        <p class='mb-3'>
+          <%= t('.remember_password') %>
+        </p>
+        <%= link_to new_session_path(resource_name), 
+          class: 'button is-light is-medium' do %>
+          <span class='icon'>
+            <i class='fas fa-arrow-left'></i>
+          </span>
+          <span><%= t('.back_to_sign_in') %></span>
+        <% end %>
+      </div>
+
+      <!-- Sign Up Link -->
+      <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+        <div class='has-text-centered mt-4'>
+          <p>
+            <%= t('.dont_have_account') %> 
+            <%= link_to t('.sign_up_link'), new_registration_path(resource_name), 
+              class: 'has-text-info has-text-weight-bold' %>
+          </p>
+        </div>
+      <% end %>
     </div>
   </div>
-
-  <div class='actions'>
-    <%= f.submit t('.send_me_reset_password_instructions'), class: 'button is-info is-rounded' %>
-  </div>
-<% end %>
+</div>

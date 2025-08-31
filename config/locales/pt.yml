@@ -1,5 +1,9 @@
 pt:
   back: "Voltar"
+  locales:
+    en: "Inglês"
+    ja: "Japonês"
+    pt: "Português"
   or: "ou"
   sign_in_with: "Entrar com"
   layouts:
@@ -20,6 +24,19 @@ pt:
     form:
       create_child: "Criar Filho(a)"
       child: "Filho(a)"
+      search_existing_person: "Buscar Pessoa Existente"
+      search_help_text: "Digite um nome para buscar uma pessoa existente na árvore genealógica"
+      selected_person: "Pessoa Selecionada"
+      no_person_selected: "Nenhuma pessoa selecionada ainda"
+      selected_person_help: "Clique em uma pessoa dos resultados da busca para selecioná-la"
+      type_to_search: "Digite um nome para buscar..."
+      search_results:
+        one: "1 pessoa encontrada"
+        other: "%{count} pessoas encontradas"
+      no_results_found: "Nenhuma pessoa encontrada com sua busca"
+      start_typing_to_search: "Comece a digitar para buscar pessoas"
+      new_person: "Novo indivíduo"
+      existing_person: "Indivíduo existente"
   couples:
     form:
       create_couple: "Criar Casal"
@@ -28,6 +45,14 @@ pt:
       marriage: "Casamento"
       separation: "Separação"
       local: "Local"
+      partner_information: "Informações do Parceiro"
+      relationship_details: "Detalhes do Relacionamento"
+      select_partner: "Selecione um parceiro"
+      search_partner_help: "Busque e selecione uma pessoa para criar um relacionamento"
+      location_placeholder: "Digite o local ou detalhes sobre este relacionamento"
+      location_help: "Você pode adicionar qualquer informação relevante sobre este relacionamento"
+      new_partner: "Novo parceiro(a)"
+      existing_partner: "Parceiro(a) existente"
   people:
     index:
       family_tree: "Árvore genealógica"
@@ -65,21 +90,53 @@ pt:
       female: "Fem"
       pet: "Pet"
       other: "Outro"
+      basic_information: "Informações Básicas"
+      life_events: "Eventos da Vida"
+      additional_info: "Informações Adicionais"
+      relationship_info: "Informações de Relacionamento"
+      choose_file: "Escolher arquivo"
+      no_file_selected: "Nenhum arquivo selecionado"
     person:
       passed_away_on: "Faleceu em %{date}"
       passed_away_on_years_of_age: "Faleceu em %{date} aos %{age}"
     show:
       parents: "Pais"
       siblings: "Irmãos"
-      mate: "Cônjuge"
+      mate: "Cônjuge/Parceiro"
       children: "Filhos"
       back_to_people: "Voltar para pessoas"
+      life_events: "Eventos da Vida"
+      notes: "Notas"
+      born: "Nascido"
+      died: "Falecido"
+      father: "Pai"
+      mother: "Mãe"
+      person_not_found: "Pessoa não encontrada"
+      no_parents: "Nenhum pai registrado"
+      no_siblings: "Nenhum irmão registrado"
+      no_spouse: "Nenhum cônjuge/parceiro registrado"
+      no_children: "Nenhum filho registrado"
+      add: "Adicionar"
+      edit: "Editar"
     birthday: "Nascimento"
   users:
     form:
     roles:
       role: "Função"
       level: "Nível"
+      manage_user_permissions: "Gerenciar permissões e níveis de acesso de usuários"
+      total_users: "Total de Usuários"
+      administrators: "Administradores"
+      editors: "Editores"
+      last_access: "Último Acesso"
+      status: "Status"
+      unnamed_user: "Usuário Sem Nome"
+      sign_in_count:
+        one: "1 acesso"
+        other: "%{count} acessos"
+      never_signed_in: "Nunca acessou"
+      confirmed: "Confirmado"
+      pending: "Pendente"
   pages:
     about:
       title: "Sobre a aplicação"
@@ -95,6 +152,12 @@ pt:
     confirmations:
       new:
         resend_confirmation_instructions: "Reenviar instruções de confirmação"
+      instruction_text: "Digite seu endereço de e-mail e enviaremos instruções para confirmar sua conta"
+      email_placeholder: "Digite seu endereço de e-mail"
+      email_help: "Enviaremos instruções de confirmação para este endereço de e-mail"
+      already_confirmed: "Já confirmou sua conta?"
+      tip_title: "Dica:"
+      tip_content: "Verifique sua pasta de spam se você não vir o e-mail de confirmação em sua caixa de entrada"
     mailer:
       confirmation_instructions:
         welcome: "Bem vindo %{email}!"
@@ -111,8 +174,24 @@ pt:
         change_password: "Alterar a senha"
         new_password: "Nova senha"
         new_password_confirmation: "Confirmação da nova senha"
+        instruction_text: "Crie uma nova senha forte para sua conta"
+        requirements_title: "Requisitos da Senha"
+        new_password_placeholder: "Digite sua nova senha"
+        password_tip: "Use uma combinação de letras, números e símbolos"
+        confirm_password_placeholder: "Digite novamente sua nova senha"
+        confirmation_help: "Ambas as senhas devem ser iguais"
+        remember_password: "Lembrou sua senha?"
+        security_title: "Nota de Segurança:"
+        security_content: "Após alterar sua senha, você será conectado automaticamente"
       new:
         forgot_your_password: "Esqueceu sua senha?"
+        reset_password_description: "Digite seu endereço de email e enviaremos instruções para redefinir sua senha"
+        email_placeholder: "Digite seu endereço de email"
+        email_help_text: "Enviaremos instruções de redefinição de senha para este email"
+        remember_password: "Lembrou sua senha?"
+        back_to_sign_in: "Voltar para Entrar"
+        dont_have_account: "Não tem uma conta?"
+        sign_up_link: "Registre-se"
         send_me_reset_password_instructions: "Envie-me instruções de redefinição de senha"
     registrations:
       edit:
@@ -122,19 +201,49 @@ pt:
         leave_blank: "deixe em branco se não desejar alterar"
         we_need_your_current_password: "Necessitamos da sua senha atual para confirmar as mudanças"
         update: "Alterar"
+        basic_information: "Informações Básicas"
+        security_settings: "Configurações de Segurança"
+        danger_zone: "Zona de Perigo"
+        placeholder_name: "Digite seu nome"
+        placeholder_email: "seu@email.com"
+        placeholder_phone: "+55 (11) 98765-4321"
+        placeholder_new_password: "Nova senha (opcional)"
+        placeholder_confirm_password: "Confirme a nova senha"
+        placeholder_current_password: "Necessária para salvar alterações"
         unhappy: "Insatisfeito?"
         cancel_my_account: "Cancelar a conta"
         are_you_sure: "Tem certeza?"
       new:
         sign_up: "Registrar"
+        create_account_description: "Junte-se ao Family Tree para começar a construir sua história familiar"
+        placeholder_name: "Digite seu nome completo"
+        placeholder_email: "seu@email.com"
+        placeholder_phone: "+55 (11) 98765-4321"
+        password_section: "Criar Senha"
+        placeholder_password: "Escolha uma senha forte"
+        placeholder_password_confirmation: "Confirme sua senha"
+        agree_terms_html: "Concordo com os <a href='#' class='has-text-info'>Termos e Condições</a>"
+        or_sign_up_with: "ou registre-se com"
+        already_have_account: "Já tem uma conta?"
+        sign_in_link: "Entrar"
       phone: "Telefone"
     sessions:
       new:
         log_in: "Entrar"
+        welcome_back: "Bem-vindo de volta ao Family Tree"
+        continue_with: "ou continue com"
+        dont_have_account: "Não tem uma conta?"
+        sign_up_link: "Registre-se"
         remember_me: "Lembre de mim"
         didnt_receive_confirmation_instructions: "Não recebeu as instruções de confirmação?"
     email: "Email"
     password: "Senha"
+    shared:
+      links:
+        sign_in: "Entrar"
+        sign_up: "Registrar"
+        forgot_your_password: "Esqueceu sua senha?"
+        didn_t_receive_confirmation_instructions: "Não recebeu as instruções de confirmação?"
     characters_minimum: "Mínimo de %{count} caracteres"
     password_confirmation: "Confirmação da senha"
   activerecord:

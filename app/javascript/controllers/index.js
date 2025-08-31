@@ -9,3 +9,6 @@ application.register("stimulus", StimulusController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
+
+import DarkModeController from "./dark_mode_controller"
+application.register("dark-mode", DarkModeController)

@@ -1,11 +1,15 @@
 <% couple = Couple.couple(person, mate) %>
-<tr id=<%= dom_id couple %>>
-  <td class='is-flex is-justify-content-space-between'>
-    <div>
-      <%= render 'people/icon', person: mate %>&nbsp;
-      <%= link_to mate.name, person_path(mate) %>
-    </div>
-    <div>
+<div id=<%= dom_id couple %> class='media'>
+  <div class='media-left'>
+    <%= render 'people/icon', person: mate %>
+  </div>
+  <div class='media-content'>
+    <p class='title is-6'>
+      <%= link_to mate.name, person_path(mate), class: 'has-text-dark' %>
+    </p>
+  </div>
+  <div class='media-right'>
+    <div class='buttons' style='gap: 0.125rem;'>
       <% if policy(couple).destroy? %>
         <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
             couple,
@@ -13,11 +17,12 @@
               turbo_method: :delete,
               turbo_confirm: t('confirm.messages.unlink_mate', person_name: person.name, mate_name: mate.name)
             },
-            title: t('helpers.submit.unlink', model: t('people.show.mate'))
+            title: t('helpers.submit.unlink', model: t('people.show.mate')),
+            class: 'button is-small is-white'
         %>
       <% end %>
       <% if policy(person).new? %>
-        <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success ml-2'),
+        <%= link_to icon('fa-solid', 'user-plus', class: 'has-text-success'),
           new_person_couple_child_path(person, couple),
           data: {
             turbo_frame: 'new_child',
@@ -25,11 +30,12 @@
             stimulus_id_value: 'child_new',
             action: 'stimulus#open'
           },
-          title: t('helpers.submit.create', model: t('children.form.child'))
+          title: t('helpers.submit.create', model: t('children.form.child')),
+          class: 'button is-small is-white'
         %>
       <% end %>
       <% if policy(couple).edit? %>
-        <%= link_to icon('fa-solid', 'pen', class: 'has-text-info ml-2'),
+        <%= link_to icon('fa-solid', 'pen', class: 'has-text-info'),
           edit_person_couple_path(person, couple),
           data: {
             turbo_frame: 'edit_couple',
@@ -37,9 +43,10 @@
             stimulus_id_value: 'couple_edit',
             action: 'stimulus#open'
           },
-          title: t('helpers.submit.edit', model: t('people.show.mate'))
+          title: t('helpers.submit.edit', model: t('people.show.mate')),
+          class: 'button is-small is-white'
         %>
       <% end %>
     </div>
-  </td>
-</tr>
+  </div>
+</div>
