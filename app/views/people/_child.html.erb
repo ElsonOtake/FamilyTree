@@ -5,16 +5,21 @@
   <div class='media-content'>
     <p class='title is-6'>
       <%= link_to child.name, person_path(child), class: 'has-text-dark' %>
+    </p>
+  </div>
+  <div class='media-right'>
+    <div class='buttons'>
       <% if policy(child).destroy? %>
-        <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger ml-2'),
+        <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
             person_couple_child_path(person, child.couples.first, child),
             data: {
               turbo_method: :delete,
               turbo_confirm: t('confirm.messages.unlink_child', name: child.name)
             },
-            title: t('helpers.submit.unlink', model: t('children.form.child'))
+            title: t('helpers.submit.unlink', model: t('children.form.child')),
+            class: 'button is-small is-white'
         %>
       <% end %>
-    </p>
+    </div>
   </div>
 </div>
