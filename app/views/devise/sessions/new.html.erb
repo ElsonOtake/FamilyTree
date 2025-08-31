@@ -83,7 +83,7 @@
           <%- resource_class.omniauth_providers.each do |provider| %>
             <%= button_to omniauth_authorize_path(resource_name, provider),
               data: { turbo: false },
-              class: 'button is-light is-medium' do %>
+              class: 'button is-outlined is-medium' do %>
               <span class='icon'>
                 <i class='fab fa-<%= provider.to_s.delete_suffix('_oauth2') %>'></i>
               </span>
@@ -99,7 +99,7 @@
           <p class='is-size-7'>
             <%= link_to t('.didnt_receive_confirmation_instructions'), 
               new_confirmation_path(resource_name), 
-              class: 'has-text-warning' %>
+              class: 'has-text-link' %>
           </p>
         </div>
       <% end %>
