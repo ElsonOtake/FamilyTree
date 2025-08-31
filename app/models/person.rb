@@ -29,10 +29,12 @@ class Person < ApplicationRecord
   before_validation :set_default_gender, on: :create
 
   def siblings
-    return [] if couples.empty?
+    # Find couples where this person is a child
+    parent_couples = couples
+    return [] if parent_couples.empty?
 
-    # Use flat_map to avoid N+1 and filter out self
-    couples.flat_map(&:people).uniq - [self]
+    # Get all children of those parent couples, excluding self
+    parent_couples.flat_map(&:people).uniq - [self]
   end
 
   def father

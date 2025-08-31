@@ -1,23 +1,63 @@
-<%= render 'people/search_child_name' %>
+<div class='box'>
+  <!-- Search Section -->
+  <div class='field'>
+    <label class='label'>
+      <span class='icon-text'>
+        <span class='icon has-text-info'>
+          <i class='fas fa-search'></i>
+        </span>
+        <span><%= t('children.form.search_existing_person') %></span>
+      </span>
+    </label>
+    <p class='help mb-3'><%= t('children.form.search_help_text') %></p>
+    <%= render 'people/search_child_name' %>
+  </div>
 
-<%= form_with url: person_couple_children_path(person, couple), data: { controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
-  <div class='field column'>
-    <%= form.label :child, t('.child'), style: 'display: block', class: 'label' %>
-    <div class='control'>
-      <%= form.number_field :child_id, class: 'input is-hidden' %>
-      <%= form.text_field :name, class: 'input', readonly: true, required: true %>
+  <!-- Selected Person Display -->
+  <%= form_with url: person_couple_children_path(person, couple), data: { controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
+    <div class='box has-background-light'>
+      <div class='field'>
+        <%= form.label :child, t('.selected_person'), class: 'label' %>
+        <div class='control has-icons-left'>
+          <%= form.number_field :child_id, class: 'input is-hidden' %>
+          <%= form.text_field :name, 
+              class: 'input is-medium', 
+              readonly: true, 
+              required: true,
+              placeholder: t('children.form.no_person_selected') %>
+          <span class='icon is-small is-left'>
+            <i class='fas fa-user-check'></i>
+          </span>
+        </div>
+        <p class='help is-info mt-2'>
+          <span class='icon-text'>
+            <span class='icon'>
+              <i class='fas fa-info-circle'></i>
+            </span>
+            <span><%= t('children.form.selected_person_help') %></span>
+          </span>
+        </p>
+      </div>
     </div>
-  </div>
 
-  <div class='control is-flex is-justify-content-space-between'>
-    <%= form.submit t('children.form.create_child'), class: 'button is-info is-rounded', disabled: true, id: 'submit-button' %>
-    <%= link_to t(:back),
-      nil,
-      data: {
-        controller: 'stimulus',
-        action: 'stimulus#closeAllModals'
-      },
-      class: 'button is-info is-rounded'
-    %>
-  </div>
-<% end %>
+    <!-- Form Actions -->
+    <div class='field is-grouped is-grouped-centered mt-5'>
+      <div class='control'>
+        <%= form.submit t('children.form.create_child'), 
+            class: 'button is-success is-medium', 
+            disabled: true, 
+            id: 'submit-button' %>
+      </div>
+      <div class='control'>
+        <%= link_to t(:back),
+          nil,
+          data: {
+            controller: 'stimulus',
+            action: 'stimulus#closeAllModals'
+          },
+          class: 'button is-light is-medium'
+        %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,22 +1,99 @@
 <%= search_form_for @q, url: search_child_people_path, data: { turbo_frame: 'results' } do |f| %>
   <div class='field'>
-    <div class='control has-icons-left'>
-      <%= f.search_field :name_cont, oninput: 'this.form.requestSubmit();', class: 'input', autofocus: true %>
-      <span class='icon is-small is-left'>
+    <div class='control has-icons-left has-icons-right is-large'>
+      <%= f.search_field :name_cont, 
+          oninput: 'this.form.requestSubmit();', 
+          class: 'input is-medium', 
+          placeholder: t('children.form.type_to_search'),
+          autofocus: true %>
+      <span class='icon is-medium is-left'>
         <i class='fas fa-magnifying-glass'></i>
+      </span>
+      <span class='icon is-medium is-right'>
+        <i class='fas fa-keyboard'></i>
       </span>
     </div>
   </div>
-
-  <br>
 <% end %>
 
 <%= turbo_frame_tag 'results' do %>
-  <ul class='has-background-warning' id='results-list'>
-  <% @people.each do |person| %>
-    <li class='is-clickable' data-controller='stimulus' data-action='click->stimulus#select_child' data-stimulus-child-id-param=<%= person.id %> style='width:360px;'>
-      <%= person.name %>
-    </li>
+  <% if @people && @people.any? %>
+    <div class='box' style='max-height: 300px; overflow-y: auto;'>
+      <h4 class='subtitle is-6 mb-3'>
+        <span class='icon-text'>
+          <span class='icon has-text-success'>
+            <i class='fas fa-users'></i>
+          </span>
+          <span><%= t('children.form.search_results', count: @people.count) %></span>
+        </span>
+      </h4>
+      <div class='list'>
+        <% @people.each do |person| %>
+          <a class='list-item has-background-white-ter' 
+             data-controller='stimulus' 
+             data-action='click->stimulus#select_child' 
+             data-stimulus-child-id-param=<%= person.id %>
+             style='border-radius: 4px; margin-bottom: 0.5rem;'>
+            <div class='list-item-content'>
+              <div class='list-item-title'>
+                <span class='icon-text'>
+                  <span class='icon'>
+                    <%= render 'people/icon', person: person %>
+                  </span>
+                  <span class='has-text-weight-semibold'><%= person.name %></span>
+                </span>
+              </div>
+              <div class='list-item-description'>
+                <small class='has-text-grey'>
+                  <% if person.birth_year.present? %>
+                    <span class='icon-text'>
+                      <span class='icon is-small'>
+                        <i class='fas fa-birthday-cake'></i>
+                      </span>
+                      <span><%= person.birth_year %></span>
+                    </span>
+                  <% end %>
+                  <% if person.father.present? || person.mother.present? %>
+                    <span class='ml-3'>
+                      <span class='icon-text'>
+                        <span class='icon is-small'>
+                          <i class='fas fa-users'></i>
+                        </span>
+                        <span>
+                          <%= [person.father&.name, person.mother&.name].compact.join(' & ') %>
+                        </span>
+                      </span>
+                    </span>
+                  <% end %>
+                </small>
+              </div>
+            </div>
+            <div class='list-item-controls'>
+              <span class='icon has-text-info'>
+                <i class='fas fa-arrow-right'></i>
+              </span>
+            </div>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  <% elsif params[:q] && params[:q][:name_cont].present? %>
+    <div class='notification is-warning is-light'>
+      <span class='icon-text'>
+        <span class='icon'>
+          <i class='fas fa-search'></i>
+        </span>
+        <span><%= t('children.form.no_results_found') %></span>
+      </span>
+    </div>
+  <% else %>
+    <div class='notification is-info is-light'>
+      <span class='icon-text'>
+        <span class='icon'>
+          <i class='fas fa-keyboard'></i>
+        </span>
+        <span><%= t('children.form.start_typing_to_search') %></span>
+      </span>
+    </div>
   <% end %>
-  </ul>
 <% end %>

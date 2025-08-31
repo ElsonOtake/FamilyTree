@@ -1,5 +1,9 @@
 ja:
   back: "戻る"
+  locales:
+    en: "英語"
+    ja: "日本語"
+    pt: "ポルトガル語"
   or: "または"
   sign_in_with: "サインイン"
   layouts:
@@ -19,7 +23,20 @@ ja:
   children:
     form:
       create_child: "子供を作成"
-      child: "族柄"
+      child: "子供"
+      search_existing_person: "既存の人物を検索"
+      search_help_text: "家系図内の既存の人物を検索するには名前を入力してください"
+      selected_person: "選択された人物"
+      no_person_selected: "まだ人物が選択されていません"
+      selected_person_help: "検索結果から人物をクリックして選択してください"
+      type_to_search: "名前を入力して検索..."
+      search_results:
+        one: "1人が見つかりました"
+        other: "%{count}人が見つかりました"
+      no_results_found: "検索に一致する人物が見つかりませんでした"
+      start_typing_to_search: "人物を検索するには入力を開始してください"
+      new_person: "新しい人物"
+      existing_person: "既存の人物"
   couples:
     form:
       create_couple: "カップルを作成"
@@ -27,7 +44,15 @@ ja:
       couple: "カップル"
       marriage: "結婚"
       separation: "分離"
-      local: "地元"
+      local: "場所"
+      partner_information: "パートナー情報"
+      relationship_details: "関係の詳細"
+      select_partner: "パートナーを選択"
+      search_partner_help: "関係を作成するために人物を検索して選択してください"
+      location_placeholder: "この関係の場所または詳細を入力"
+      location_help: "この関係に関する関連情報を追加できます"
+      new_partner: "新しいパートナー"
+      existing_partner: "既存のパートナー"
   people:
     index:
       family_tree: "家系図"
@@ -65,21 +90,53 @@ ja:
       female: "女性"
       pet: "ペット"
       other: "他の"
+      basic_information: "基本情報"
+      life_events: "人生の出来事"
+      additional_info: "追加情報"
+      relationship_info: "関係情報"
+      choose_file: "ファイルを選択"
+      no_file_selected: "ファイルが選択されていません"
     person:
       passed_away_on: "%{date}に逝去"
       passed_away_on_years_of_age: "%{date}、生後%{age}歳で逝去"
     show:
       parents: "両親"
       siblings: "兄弟"
-      mate: "配偶者"
+      mate: "配偶者/パートナー"
       children: "子供たち"
       back_to_people: "人々に戻る"
+      life_events: "人生の出来事"
+      notes: "メモ"
+      born: "生まれ"
+      died: "死亡"
+      father: "父"
+      mother: "母"
+      person_not_found: "人物が見つかりません"
+      no_parents: "両親の記録なし"
+      no_siblings: "兄弟の記録なし"
+      no_spouse: "配偶者/パートナーの記録なし"
+      no_children: "子供の記録なし"
+      add: "追加"
+      edit: "編集"
     birthday: "誕生"
   users:
     form:
     roles:
       role: "役割"
       level: "レベル"
+      manage_user_permissions: "ユーザーの権限とアクセスレベルを管理"
+      total_users: "全ユーザー"
+      administrators: "管理者"
+      editors: "編集者"
+      last_access: "最終アクセス"
+      status: "ステータス"
+      unnamed_user: "名前なしユーザー"
+      sign_in_count:
+        one: "1回のサインイン"
+        other: "%{count}回のサインイン"
+      never_signed_in: "サインインしたことがありません"
+      confirmed: "確認済み"
+      pending: "保留中"
   pages:
     about:
       title: "アプリケーションについて"
@@ -95,6 +152,12 @@ ja:
     confirmations:
       new:
         resend_confirmation_instructions: "確認指示を再送信"
+      instruction_text: "メールアドレスを入力してください。アカウント確認の指示を送信します"
+      email_placeholder: "メールアドレスを入力"
+      email_help: "このメールアドレスに確認指示を送信します"
+      already_confirmed: "すでにアカウントを確認しましたか？"
+      tip_title: "ヒント："
+      tip_content: "確認メールが受信トレイに見つからない場合は、スパムフォルダを確認してください"
     mailer:
       confirmation_instructions:
         welcome: "%{email}へようこそ!"
@@ -111,9 +174,25 @@ ja:
         change_password: "パスワードを変更してください"
         new_password: "新しいパスワード"
         new_password_confirmation: "新しいパスワードを確認"
+        instruction_text: "アカウントのために強力な新しいパスワードを作成してください"
+        requirements_title: "パスワードの要件"
+        new_password_placeholder: "新しいパスワードを入力"
+        password_tip: "文字、数字、記号を組み合わせて使用してください"
+        confirm_password_placeholder: "新しいパスワードを再入力"
+        confirmation_help: "両方のパスワードが一致する必要があります"
+        remember_password: "パスワードを思い出しましたか？"
+        security_title: "セキュリティノート："
+        security_content: "パスワード変更後、自動的にサインインされます"
       new:
         forgot_your_password: "パスワードをお忘れですか？"
-        send_me_reset_password_instructions: "パスワードのリセット手順を送信してください"
+        reset_password_description: "メールアドレスを入力してください。パスワードリセットの手順をお送りします"
+        email_placeholder: "メールアドレスを入力"
+        email_help_text: "このメールアドレスにパスワードリセットの手順を送信します"
+        remember_password: "パスワードを思い出しましたか？"
+        back_to_sign_in: "ログインに戻る"
+        dont_have_account: "アカウントをお持ちでない方"
+        sign_up_link: "新規登録"
+        send_me_reset_password_instructions: "パスワードのリセット手順を送信"
     registrations:
       edit:
         edit_user: "ユーザーの編集"
@@ -122,19 +201,49 @@ ja:
         leave_blank: "変更しない場合は空白のままにしてください"
         we_need_your_current_password: "変更を確認するには現在のパスワードが必要です"
         update: "更新"
+        basic_information: "基本情報"
+        security_settings: "セキュリティ設定"
+        danger_zone: "危険ゾーン"
+        placeholder_name: "お名前を入力"
+        placeholder_email: "your@email.com"
+        placeholder_phone: "090-1234-5678"
+        placeholder_new_password: "新しいパスワード（任意）"
+        placeholder_confirm_password: "新しいパスワードの確認"
+        placeholder_current_password: "変更を保存するために必要"
         unhappy: "不幸ですか？"
         cancel_my_account: "アカウントをキャンセル"
         are_you_sure: "本気ですか？"
       new:
-        sign_up: "サインアップ"
+        sign_up: "新規登録"
+        create_account_description: "Family Treeに参加して、あなたの家族の歴史を始めましょう"
+        placeholder_name: "お名前を入力"
+        placeholder_email: "your@email.com"
+        placeholder_phone: "090-1234-5678"
+        password_section: "パスワード設定"
+        placeholder_password: "強力なパスワードを選択"
+        placeholder_password_confirmation: "パスワードを確認"
+        agree_terms_html: "<a href='#' class='has-text-info'>利用規約</a>に同意します"
+        or_sign_up_with: "または登録"
+        already_have_account: "すでにアカウントをお持ちの方"
+        sign_in_link: "ログイン"
       phone: "電話"
     sessions:
       new:
         log_in: "ログイン"
+        welcome_back: "Family Treeへようこそ"
+        continue_with: "または続ける"
+        dont_have_account: "アカウントをお持ちでない方"
+        sign_up_link: "新規登録"
         remember_me: "私を覚えていてください"
         didnt_receive_confirmation_instructions: "確認の指示を受け取っていませんか?"
     email: "Eメール"
     password: "パスワード"
+    shared:
+      links:
+        sign_in: "サインイン"
+        sign_up: "サインアップ"
+        forgot_your_password: "パスワードをお忘れですか？"
+        didn_t_receive_confirmation_instructions: "確認の指示を受け取っていませんか？"
     characters_minimum: "%{count}文字以上"
     password_confirmation: "パスワードの確認"
   activerecord:
@@ -278,9 +387,9 @@ ja:
       create: 登録する
       submit: 保存する
       update: 更新する
-      edit: Edit
-      delete: Delete
-      unlink: Unlink
+      edit: 編集
+      delete: 削除
+      unlink: リンク解除
   number:
     currency:
       format:
@@ -361,6 +470,7 @@ ja:
     has_many_new: "%{model} を追加する"
     has_many_delete: "削除する"
     has_many_remove: "削除する"
+    move: "移動"
     filters:
       buttons:
         filter: "絞り込む"
@@ -370,6 +480,8 @@ ja:
         to: "終了"
     search_status:
       headline: "検索状態"
+      title: "アクティブ検索"
+      title_with_scope: "%{name}のアクティブ検索"
       no_current_filters: "なし"
       current_filters: "現在のフィルター"
     status_tag:
@@ -447,7 +559,7 @@ ja:
       in_all: "は以下の全ての範囲内である"
       not_in: "は以下の範囲内でない"
       not_in_any: "は以下のいずれかの範囲内でない"
-      not_in_all: "は以下の全ての範囲内"
+      not_in_all: "は以下の全ての範囲内でない"
       cont: "は以下を含む"
       cont_any: "はいずれかを含む"
       cont_all: "は以下の全てを含む"
