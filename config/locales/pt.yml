@@ -152,6 +152,12 @@ pt:
     confirmations:
       new:
         resend_confirmation_instructions: "Reenviar instruções de confirmação"
+      instruction_text: "Digite seu endereço de e-mail e enviaremos instruções para confirmar sua conta"
+      email_placeholder: "Digite seu endereço de e-mail"
+      email_help: "Enviaremos instruções de confirmação para este endereço de e-mail"
+      already_confirmed: "Já confirmou sua conta?"
+      tip_title: "Dica:"
+      tip_content: "Verifique sua pasta de spam se você não vir o e-mail de confirmação em sua caixa de entrada"
     mailer:
       confirmation_instructions:
         welcome: "Bem vindo %{email}!"

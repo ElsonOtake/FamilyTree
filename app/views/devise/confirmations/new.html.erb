@@ -1,16 +1,130 @@
-<h2 class='title has-text-info'><%= t('.resend_confirmation_instructions') %></h2>
+<div class='columns is-centered'>
+  <div class='column is-5'>
+    
+    <!-- Logo/Icon Section -->
+    <div class='has-text-centered mb-5'>
+      <span class='icon is-large has-text-info'>
+        <i class='fas fa-envelope-circle-check fa-4x'></i>
+      </span>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render 'devise/shared/error_messages', resource: resource %>
+    <!-- Main Card -->
+    <div class='box'>
+      <h2 class='title is-4 has-text-centered mb-5'>
+        <%= t('.resend_confirmation_instructions') %>
+      </h2>
+      
+      <p class='has-text-centered mb-5'>
+        <span class='icon-text'>
+          <span class='icon has-text-warning'>
+            <i class='fas fa-info-circle'></i>
+          </span>
+          <span><%= t('devise.confirmations.instruction_text') %></span>
+        </span>
+      </p>
 
-  <div class='field'>
-    <%= f.label :email, t('devise.email'), class: 'label' %>
-    <div class='control'>
-      <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'input', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+      <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render 'devise/shared/error_messages', resource: resource %>
+
+        <!-- Email Field -->
+        <div class='field'>
+          <%= f.label :email, t('devise.email'), class: 'label' %>
+          <div class='control has-icons-left has-icons-right'>
+            <%= f.email_field :email, 
+                autofocus: true, 
+                autocomplete: 'email', 
+                class: 'input is-medium', 
+                placeholder: t('devise.confirmations.email_placeholder'),
+                value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+            <span class='icon is-medium is-left'>
+              <i class='fas fa-envelope'></i>
+            </span>
+            <span class='icon is-medium is-right'>
+              <i class='fas fa-at'></i>
+            </span>
+          </div>
+          <p class='help'>
+            <span class='icon-text'>
+              <span class='icon'>
+                <i class='fas fa-info-circle'></i>
+              </span>
+              <span><%= t('devise.confirmations.email_help') %></span>
+            </span>
+          </p>
+        </div>
+
+        <!-- Submit Button -->
+        <div class='field mt-5'>
+          <div class='control'>
+            <%= f.submit t('.resend_confirmation_instructions'), 
+                class: 'button is-info is-medium is-fullwidth' %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Divider -->
+      <hr class='my-5'>
+
+      <!-- Additional Links -->
+      <div class='has-text-centered'>
+        <p class='mb-3'>
+          <span class='icon-text'>
+            <span class='icon has-text-grey'>
+              <i class='fas fa-check-circle'></i>
+            </span>
+            <span class='has-text-grey'><%= t('devise.confirmations.already_confirmed') %></span>
+          </span>
+        </p>
+        
+        <%= link_to new_session_path(resource_name), class: 'button is-light is-outlined' do %>
+          <span class='icon'>
+            <i class='fas fa-sign-in-alt'></i>
+          </span>
+          <span><%= t('devise.shared.links.sign_in') %></span>
+        <% end %>
+      </div>
+
+      <!-- Other Options -->
+      <div class='has-text-centered mt-4'>
+        <% if devise_mapping.registerable? && controller_name != 'registrations' %>
+          <p class='mb-2'>
+            <%= link_to new_registration_path(resource_name), class: 'has-text-info' do %>
+              <span class='icon-text'>
+                <span class='icon'>
+                  <i class='fas fa-user-plus'></i>
+                </span>
+                <span><%= t('devise.shared.links.sign_up') %></span>
+              </span>
+            <% end %>
+          </p>
+        <% end %>
+
+        <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+          <p>
+            <%= link_to new_password_path(resource_name), class: 'has-text-info' do %>
+              <span class='icon-text'>
+                <span class='icon'>
+                  <i class='fas fa-key'></i>
+                </span>
+                <span><%= t('devise.shared.links.forgot_your_password') %></span>
+              </span>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class='notification is-info is-light mt-4'>
+      <span class='icon-text'>
+        <span class='icon'>
+          <i class='fas fa-lightbulb'></i>
+        </span>
+        <span>
+          <strong><%= t('devise.confirmations.tip_title') %></strong><br>
+          <%= t('devise.confirmations.tip_content') %>
+        </span>
+      </span>
     </div>
   </div>
-
-  <div class='actions'>
-    <%= f.submit t('.resend_confirmation_instructions'), class: 'button is-info is-rounded' %>
-  </div>
-<% end %>
+</div>

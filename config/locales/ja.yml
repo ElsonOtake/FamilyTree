@@ -152,6 +152,12 @@ ja:
     confirmations:
       new:
         resend_confirmation_instructions: "確認指示を再送信"
+      instruction_text: "メールアドレスを入力してください。アカウント確認の指示を送信します"
+      email_placeholder: "メールアドレスを入力"
+      email_help: "このメールアドレスに確認指示を送信します"
+      already_confirmed: "すでにアカウントを確認しましたか？"
+      tip_title: "ヒント："
+      tip_content: "確認メールが受信トレイに見つからない場合は、スパムフォルダを確認してください"
     mailer:
       confirmation_instructions:
         welcome: "%{email}へようこそ!"

@@ -155,6 +155,12 @@ en:
     confirmations:
       new:
         resend_confirmation_instructions: "Resend confirmation instructions"
+      instruction_text: "Enter your email address and we'll send you instructions to confirm your account"
+      email_placeholder: "Enter your email address"
+      email_help: "We'll send confirmation instructions to this email address"
+      already_confirmed: "Already confirmed your account?"
+      tip_title: "Tip:"
+      tip_content: "Check your spam folder if you don't see the confirmation email in your inbox"
     mailer:
       confirmation_instructions:
         welcome: "Welcome %{email}!"
