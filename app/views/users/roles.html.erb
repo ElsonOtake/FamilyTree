@@ -178,13 +178,15 @@
                 <%= render 'form_role', user: user %>
               </td>
               <td>
-                <% if user.current_sign_in_at %>
+                <% if user.respond_to?(:current_sign_in_at) && user.current_sign_in_at %>
                   <p class='is-size-7'>
                     <%= l(user.current_sign_in_at, format: :short) %>
                   </p>
-                  <p class='is-size-7 has-text-grey'>
-                    <%= t('.sign_in_count', count: user.sign_in_count || 0) %>
-                  </p>
+                  <% if user.respond_to?(:sign_in_count) %>
+                    <p class='is-size-7 has-text-grey'>
+                      <%= t('.sign_in_count', count: user.sign_in_count || 0) %>
+                    </p>
+                  <% end %>
                 <% else %>
                   <span class='has-text-grey'>
                     <%= t('.never_signed_in') %>
@@ -192,7 +194,7 @@
                 <% end %>
               </td>
               <td>
-                <% if user.confirmed_at %>
+                <% if user.respond_to?(:confirmed_at) && user.confirmed_at %>
                   <span class='tag is-success is-light'>
                     <span class='icon-text'>
                       <span class='icon'>
