@@ -140,6 +140,10 @@ ja:
     sessions:
       new:
         log_in: "ログイン"
+        welcome_back: "Family Treeへようこそ"
+        continue_with: "または続ける"
+        dont_have_account: "アカウントをお持ちでない方"
+        sign_up_link: "新規登録"
         remember_me: "私を覚えていてください"
         didnt_receive_confirmation_instructions: "確認の指示を受け取っていませんか?"
     email: "Eメール"

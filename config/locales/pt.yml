@@ -140,6 +140,10 @@ pt:
     sessions:
       new:
         log_in: "Entrar"
+        welcome_back: "Bem-vindo de volta ao Family Tree"
+        continue_with: "ou continue com"
+        dont_have_account: "Não tem uma conta?"
+        sign_up_link: "Registre-se"
         remember_me: "Lembre de mim"
         didnt_receive_confirmation_instructions: "Não recebeu as instruções de confirmação?"
     email: "Email"
