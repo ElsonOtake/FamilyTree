@@ -90,7 +90,7 @@
                   <span class='icon has-text-grey'>
                     <i class='fas fa-cross'></i>
                   </span>
-                  <span><strong><%= t('people.show.died') %>:</strong> <%= person.death_date_text if person.death_date_text.present? %></span>
+                  <span><strong><%= t('people.show.died') %>:</strong> <%= person.death_date_formatted if person.death_date_formatted.present? %></span>
                 </span>
               </p>
             <% end %>
