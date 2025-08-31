@@ -1,33 +1,105 @@
 <div class="container">
-  <div class="columns is-centered">
-    <div class="column is-8">
-      <div class="has-text-centered">
-        <figure class="image is-128x128 is-inline-block">
-          <img src="<%= asset_path('EAO.png') %>" alt="Family Tree">
+  <!-- Hero Section -->
+  <section class="hero is-info is-medium has-background">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <figure class="image is-128x128 is-inline-block mb-4">
+          <img src="<%= asset_path('EAO.png') %>" alt="Family Tree" style="border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         </figure>
-      </div>
-
-      <h1 class="title has-text-info has-text-centered mt-5"><%= t('.title') %></h1>
-
-      <p class="content has-text-justified"><%= t('.description') %></p>
-
-      <h2 class="subtitle has-text-weight-semibold mt-5"><%= t('.features') %></h2>
-      <ul class="content">
-        <li><span class="icon has-text-success"><i class="fas fa-user"></i></span> <%= t('.feature_1') %></li>
-        <li><span class="icon has-text-primary"><i class="fas fa-link"></i></span> <%= t('.feature_2') %></li>
-        <li><span class="icon has-text-info"><i class="fas fa-pen"></i></span> <%= t('.feature_3') %></li>
-      </ul>
-
-      <h2 class="subtitle has-text-weight-semibold mt-5"><%= t('.contact') %></h2>
-      <p class="content has-text-justified"><%= t('.contact_description') %></p>
-      <div class="has-text-centered">
-        <%= link_to nil, class: 'button is-link is-medium' do %>
-          <span class="icon">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <span><%= t('.contact_link') %></span>
-        <% end %>
+        <h1 class="title is-1 has-text-white">
+          <%= t('.title') %>
+        </h1>
+        <h2 class="subtitle is-4 has-text-white-ter mt-3">
+          <%= t('.description') %>
+        </h2>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section">
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <h2 class="title is-3 has-text-centered mb-6">
+          <span class="icon-text">
+            <span class="icon has-text-warning">
+              <i class="fas fa-star"></i>
+            </span>
+            <span><%= t('.features') %></span>
+          </span>
+        </h2>
+        
+        <div class="columns is-multiline">
+          <!-- Feature 1 -->
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-success mb-4">
+                  <i class="fas fa-users fa-3x"></i>
+                </div>
+                <p class="title is-5">
+                  <%= t('.feature_1') %>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feature 2 -->
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-primary mb-4">
+                  <i class="fas fa-sitemap fa-3x"></i>
+                </div>
+                <p class="title is-5">
+                  <%= t('.feature_2') %>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feature 3 -->
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-info mb-4">
+                  <i class="fas fa-edit fa-3x"></i>
+                </div>
+                <p class="title is-5">
+                  <%= t('.feature_3') %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section has-background-light">
+    <div class="columns is-centered">
+      <div class="column is-6 has-text-centered">
+        <div class="box">
+          <h2 class="title is-4 mb-4">
+            <span class="icon-text">
+              <span class="icon has-text-link">
+                <i class="fas fa-comments"></i>
+              </span>
+              <span><%= t('.contact') %></span>
+            </span>
+          </h2>
+          <p class="subtitle is-6 mb-5">
+            <%= t('.contact_description') %>
+          </p>
+          <%= link_to "mailto:contact@familytree.com", class: 'button is-link is-medium is-rounded' do %>
+            <span class="icon">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <span><%= t('.contact_link') %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
