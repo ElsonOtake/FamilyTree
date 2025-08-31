@@ -142,7 +142,18 @@ ja:
         cancel_my_account: "アカウントをキャンセル"
         are_you_sure: "本気ですか？"
       new:
-        sign_up: "サインアップ"
+        sign_up: "新規登録"
+        create_account_description: "Family Treeに参加して、あなたの家族の歴史を始めましょう"
+        placeholder_name: "お名前を入力"
+        placeholder_email: "your@email.com"
+        placeholder_phone: "090-1234-5678"
+        password_section: "パスワード設定"
+        placeholder_password: "強力なパスワードを選択"
+        placeholder_password_confirmation: "パスワードを確認"
+        agree_terms_html: "<a href='#' class='has-text-info'>利用規約</a>に同意します"
+        or_sign_up_with: "または登録"
+        already_have_account: "すでにアカウントをお持ちの方"
+        sign_in_link: "ログイン"
       phone: "電話"
     sessions:
       new:

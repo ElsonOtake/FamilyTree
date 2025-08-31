@@ -143,6 +143,17 @@ pt:
         are_you_sure: "Tem certeza?"
       new:
         sign_up: "Registrar"
+        create_account_description: "Junte-se ao Family Tree para começar a construir sua história familiar"
+        placeholder_name: "Digite seu nome completo"
+        placeholder_email: "seu@email.com"
+        placeholder_phone: "+55 (11) 98765-4321"
+        password_section: "Criar Senha"
+        placeholder_password: "Escolha uma senha forte"
+        placeholder_password_confirmation: "Confirme sua senha"
+        agree_terms_html: "Concordo com os <a href='#' class='has-text-info'>Termos e Condições</a>"
+        or_sign_up_with: "ou registre-se com"
+        already_have_account: "Já tem uma conta?"
+        sign_in_link: "Entrar"
       phone: "Telefone"
     sessions:
       new:
