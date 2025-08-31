@@ -1,5 +1,9 @@
 en:
   back: "Back"
+  locales:
+    en: "English"
+    ja: "Japanese"
+    pt: "Portuguese"
   or: "or"
   sign_in_with: "Sign in with"
   layouts:
@@ -123,6 +127,19 @@ en:
     roles:
       role: "Role"
       level: "Level"
+      manage_user_permissions: "Manage user permissions and access levels"
+      total_users: "Total Users"
+      administrators: "Administrators"
+      editors: "Editors"
+      last_access: "Last Access"
+      status: "Status"
+      unnamed_user: "Unnamed User"
+      sign_in_count:
+        one: "1 sign in"
+        other: "%{count} sign ins"
+      never_signed_in: "Never signed in"
+      confirmed: "Confirmed"
+      pending: "Pending"
   pages:
     about:
       title: "About the Application"

@@ -1,5 +1,9 @@
 pt:
   back: "Voltar"
+  locales:
+    en: "Inglês"
+    ja: "Japonês"
+    pt: "Português"
   or: "ou"
   sign_in_with: "Entrar com"
   layouts:
@@ -120,6 +124,19 @@ pt:
     roles:
       role: "Função"
       level: "Nível"
+      manage_user_permissions: "Gerenciar permissões e níveis de acesso de usuários"
+      total_users: "Total de Usuários"
+      administrators: "Administradores"
+      editors: "Editores"
+      last_access: "Último Acesso"
+      status: "Status"
+      unnamed_user: "Usuário Sem Nome"
+      sign_in_count:
+        one: "1 acesso"
+        other: "%{count} acessos"
+      never_signed_in: "Nunca acessou"
+      confirmed: "Confirmado"
+      pending: "Pendente"
   pages:
     about:
       title: "Sobre a aplicação"

@@ -1,5 +1,9 @@
 ja:
   back: "戻る"
+  locales:
+    en: "英語"
+    ja: "日本語"
+    pt: "ポルトガル語"
   or: "または"
   sign_in_with: "サインイン"
   layouts:
@@ -120,6 +124,19 @@ ja:
     roles:
       role: "役割"
       level: "レベル"
+      manage_user_permissions: "ユーザーの権限とアクセスレベルを管理"
+      total_users: "全ユーザー"
+      administrators: "管理者"
+      editors: "編集者"
+      last_access: "最終アクセス"
+      status: "ステータス"
+      unnamed_user: "名前なしユーザー"
+      sign_in_count:
+        one: "1回のサインイン"
+        other: "%{count}回のサインイン"
+      never_signed_in: "サインインしたことがありません"
+      confirmed: "確認済み"
+      pending: "保留中"
   pages:
     about:
       title: "アプリケーションについて"
