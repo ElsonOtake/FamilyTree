@@ -71,9 +71,21 @@ en:
     show:
       parents: "Parents"
       siblings: "Siblings"
-      mate: "Mate"
+      mate: "Spouse/Partner"
       children: "Children"
       back_to_people: "Back to people"
+      life_events: "Life Events"
+      notes: "Notes"
+      born: "Born"
+      died: "Died"
+      father: "Father"
+      mother: "Mother"
+      no_parents: "No parents recorded"
+      no_siblings: "No siblings recorded"
+      no_spouse: "No spouse/partner recorded"
+      no_children: "No children recorded"
+      add: "Add"
+      edit: "Edit"
     birthday: "Birthday"
   users:
     form:
