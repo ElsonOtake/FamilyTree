@@ -40,7 +40,13 @@ ja:
       couple: "カップル"
       marriage: "結婚"
       separation: "分離"
-      local: "地元"
+      local: "場所"
+      partner_information: "パートナー情報"
+      relationship_details: "関係の詳細"
+      select_partner: "パートナーを選択"
+      search_partner_help: "関係を作成するために人物を検索して選択してください"
+      location_placeholder: "この関係の場所または詳細を入力"
+      location_help: "この関係に関する関連情報を追加できます"
   people:
     index:
       family_tree: "家系図"

@@ -40,7 +40,13 @@ en:
       couple: "Couple"
       marriage: "Marriage"
       separation: "Separation"
-      local: "Local"
+      local: "Location"
+      partner_information: "Partner Information"
+      relationship_details: "Relationship Details"
+      select_partner: "Select a partner"
+      search_partner_help: "Search and select a person to create a relationship"
+      location_placeholder: "Enter the location or details about this relationship"
+      location_help: "You can add any relevant information about this relationship"
   people:
     index:
       family_tree: "Family tree"
