@@ -31,6 +31,8 @@ ja:
         other: "%{count}人が見つかりました"
       no_results_found: "検索に一致する人物が見つかりませんでした"
       start_typing_to_search: "人物を検索するには入力を開始してください"
+      new_person: "新しい人物"
+      existing_person: "既存の人物"
   couples:
     form:
       create_couple: "カップルを作成"

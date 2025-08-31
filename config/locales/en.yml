@@ -31,6 +31,8 @@ en:
         other: "%{count} people found"
       no_results_found: "No people found matching your search"
       start_typing_to_search: "Start typing to search for people"
+      new_person: "New person"
+      existing_person: "Existing person"
   couples:
     form:
       create_couple: "Create couple"
