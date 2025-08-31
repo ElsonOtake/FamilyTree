@@ -238,6 +238,12 @@ ja:
         didnt_receive_confirmation_instructions: "確認の指示を受け取っていませんか?"
     email: "Eメール"
     password: "パスワード"
+    shared:
+      links:
+        sign_in: "サインイン"
+        sign_up: "サインアップ"
+        forgot_your_password: "パスワードをお忘れですか？"
+        didn_t_receive_confirmation_instructions: "確認の指示を受け取っていませんか？"
     characters_minimum: "%{count}文字以上"
     password_confirmation: "パスワードの確認"
   activerecord:
