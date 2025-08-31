@@ -80,6 +80,7 @@ en:
       died: "Died"
       father: "Father"
       mother: "Mother"
+      person_not_found: "Person not found"
       no_parents: "No parents recorded"
       no_siblings: "No siblings recorded"
       no_spouse: "No spouse/partner recorded"

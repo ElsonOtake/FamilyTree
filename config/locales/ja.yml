@@ -80,6 +80,7 @@ ja:
       died: "死亡"
       father: "父"
       mother: "母"
+      person_not_found: "人物が見つかりません"
       no_parents: "両親の記録なし"
       no_siblings: "兄弟の記録なし"
       no_spouse: "配偶者/パートナーの記録なし"

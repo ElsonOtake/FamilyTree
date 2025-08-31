@@ -1,7 +1,14 @@
 <!-- Person Details Card -->
-<%= render @person %>
+<% if @person %>
+  <%= render @person %>
+<% else %>
+  <div class="notification is-danger">
+    <%= t('people.show.person_not_found') %>
+  </div>
+<% end %>
 
 <!-- Family Relationships -->
+<% if @person %>
 <div class='columns is-multiline'>
   <!-- Parents Section -->
   <div class='column is-half'>
@@ -17,9 +24,9 @@
         </p>
       </header>
       <div class='card-content'>
-        <% if @person.father.present? || @person.mother.present? %>
+        <% if @person&.father.present? || @person&.mother.present? %>
           <div class='content'>
-            <% if @person.father.present? %>
+            <% if @person&.father.present? %>
               <div class='media'>
                 <div class='media-left'>
                   <span class='icon has-text-info'>
@@ -29,14 +36,14 @@
                 <div class='media-content'>
                   <p class='title is-5'>
                     <%= link_to @person.father.name, person_path(@person.father), 
-                      class: 'has-text-dark' %>
+                      class: 'has-text-dark' if @person&.father %>
                   </p>
                   <p class='subtitle is-6 has-text-grey'><%= t('people.show.father') %></p>
                 </div>
               </div>
             <% end %>
             
-            <% if @person.mother.present? %>
+            <% if @person&.mother.present? %>
               <div class='media'>
                 <div class='media-left'>
                   <span class='icon has-text-danger'>
@@ -46,7 +53,7 @@
                 <div class='media-content'>
                   <p class='title is-5'>
                     <%= link_to @person.mother.name, person_path(@person.mother), 
-                      class: 'has-text-dark' %>
+                      class: 'has-text-dark' if @person&.mother %>
                   </p>
                   <p class='subtitle is-6 has-text-grey'><%= t('people.show.mother') %></p>
                 </div>
@@ -74,7 +81,7 @@
         </p>
       </header>
       <div class='card-content'>
-        <% siblings = @person.siblings.where.not(id: @person.id) %>
+        <% siblings = @person&.siblings&.where&.not(id: @person.id) || [] %>
         <% if siblings.any? %>
           <div class='content'>
             <% siblings.each do |sibling| %>
@@ -130,9 +137,9 @@
         <% end %>
       </header>
       <div class='card-content'>
-        <% if @person.mates.any? %>
+        <% if @person&.mates&.any? %>
           <div class='content' id='mate'>
-            <% @person.mates.each do |mate| %>
+            <% @person&.mates&.each do |mate| %>
               <%= render 'mate', person: @person, mate: mate %>
             <% end %>
           </div>
@@ -157,9 +164,9 @@
         </p>
       </header>
       <div class='card-content'>
-        <% if @person.children.any? %>
+        <% if @person&.children&.any? %>
           <div class='content' id='children'>
-            <% @person.children.each do |child| %>
+            <% @person&.children&.each do |child| %>
               <%= render 'child', person: @person, child: child %>
             <% end %>
           </div>
@@ -170,6 +177,7 @@
     </div>
   </div>
 </div>
+<% end %>
 
 <!-- Navigation -->
 <div class='has-text-centered mt-6 mb-6'>

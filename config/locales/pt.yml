@@ -80,6 +80,7 @@ pt:
       died: "Falecido"
       father: "Pai"
       mother: "Mãe"
+      person_not_found: "Pessoa não encontrada"
       no_parents: "Nenhum pai registrado"
       no_siblings: "Nenhum irmão registrado"
       no_spouse: "Nenhum cônjuge/parceiro registrado"
