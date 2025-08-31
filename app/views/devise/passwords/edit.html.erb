@@ -1,27 +1,170 @@
-<h2 class='title has-text-info'><%= t('.change_password') %></h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render 'devise/shared/error_messages', resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class='field'>
-    <%= f.label :password, t('.new_password'), class: 'label' %>
-    <div class='control'>
-      <%= f.password_field :password, autofocus: true, autocomplete: 'new-password', class: 'input' %>
+<div class='columns is-centered'>
+  <div class='column is-5'>
+    
+    <!-- Logo/Icon Section -->
+    <div class='has-text-centered mb-5'>
+      <span class='icon is-large has-text-info'>
+        <i class='fas fa-lock-open fa-4x'></i>
+      </span>
     </div>
-    <% if @minimum_password_length %>
-      <span class='help is-danger'><%= t('devise.characters_minimum', count: @minimum_password_length) %></span>
-    <% end %>
-  </div>
 
-  <div class='field'>
-    <%= f.label :password_confirmation, t('.new_password_confirmation'), class: 'label' %>
-    <div class='control'>
-      <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input' %>
+    <!-- Main Card -->
+    <div class='box'>
+      <h2 class='title is-4 has-text-centered mb-5'>
+        <%= t('.change_password') %>
+      </h2>
+      
+      <p class='has-text-centered mb-5'>
+        <span class='icon-text'>
+          <span class='icon has-text-success'>
+            <i class='fas fa-shield-check'></i>
+          </span>
+          <span><%= t('devise.passwords.edit.instruction_text') %></span>
+        </span>
+      </p>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render 'devise/shared/error_messages', resource: resource %>
+        <%= f.hidden_field :reset_password_token %>
+
+        <!-- Password Requirements Box -->
+        <% if @minimum_password_length %>
+          <div class='notification is-info is-light mb-4'>
+            <span class='icon-text'>
+              <span class='icon'>
+                <i class='fas fa-info-circle'></i>
+              </span>
+              <span>
+                <strong><%= t('devise.passwords.edit.requirements_title') %></strong><br>
+                <%= t('devise.characters_minimum', count: @minimum_password_length) %>
+              </span>
+            </span>
+          </div>
+        <% end %>
+
+        <!-- New Password Field -->
+        <div class='field'>
+          <%= f.label :password, t('.new_password'), class: 'label' %>
+          <div class='control has-icons-left has-icons-right'>
+            <%= f.password_field :password, 
+                autofocus: true, 
+                autocomplete: 'new-password', 
+                class: 'input is-medium',
+                placeholder: t('devise.passwords.edit.new_password_placeholder') %>
+            <span class='icon is-medium is-left'>
+              <i class='fas fa-key'></i>
+            </span>
+            <span class='icon is-medium is-right'>
+              <i class='fas fa-asterisk'></i>
+            </span>
+          </div>
+          <p class='help'>
+            <span class='icon-text'>
+              <span class='icon'>
+                <i class='fas fa-lightbulb'></i>
+              </span>
+              <span><%= t('devise.passwords.edit.password_tip') %></span>
+            </span>
+          </p>
+        </div>
+
+        <!-- Password Confirmation Field -->
+        <div class='field'>
+          <%= f.label :password_confirmation, t('.new_password_confirmation'), class: 'label' %>
+          <div class='control has-icons-left has-icons-right'>
+            <%= f.password_field :password_confirmation, 
+                autocomplete: 'new-password', 
+                class: 'input is-medium',
+                placeholder: t('devise.passwords.edit.confirm_password_placeholder') %>
+            <span class='icon is-medium is-left'>
+              <i class='fas fa-lock'></i>
+            </span>
+            <span class='icon is-medium is-right'>
+              <i class='fas fa-check'></i>
+            </span>
+          </div>
+          <p class='help'>
+            <span class='icon-text'>
+              <span class='icon'>
+                <i class='fas fa-info-circle'></i>
+              </span>
+              <span><%= t('devise.passwords.edit.confirmation_help') %></span>
+            </span>
+          </p>
+        </div>
+
+        <!-- Submit Button -->
+        <div class='field mt-5'>
+          <div class='control'>
+            <%= f.submit t('.change_password'), 
+                class: 'button is-success is-medium is-fullwidth' %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Divider -->
+      <hr class='my-5'>
+
+      <!-- Additional Links -->
+      <div class='has-text-centered'>
+        <p class='mb-3'>
+          <span class='icon-text'>
+            <span class='icon has-text-grey'>
+              <i class='fas fa-arrow-left'></i>
+            </span>
+            <span class='has-text-grey'><%= t('devise.passwords.edit.remember_password') %></span>
+          </span>
+        </p>
+        
+        <%= link_to new_session_path(resource_name), class: 'button is-info is-outlined' do %>
+          <span class='icon'>
+            <i class='fas fa-sign-in-alt'></i>
+          </span>
+          <span><%= t('devise.shared.links.sign_in') %></span>
+        <% end %>
+      </div>
+
+      <!-- Other Options -->
+      <div class='has-text-centered mt-4'>
+        <% if devise_mapping.registerable? && controller_name != 'registrations' %>
+          <p class='mb-2'>
+            <%= link_to new_registration_path(resource_name), class: 'has-text-info' do %>
+              <span class='icon-text'>
+                <span class='icon'>
+                  <i class='fas fa-user-plus'></i>
+                </span>
+                <span><%= t('devise.shared.links.sign_up') %></span>
+              </span>
+            <% end %>
+          </p>
+        <% end %>
+
+        <% if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+          <p>
+            <%= link_to new_confirmation_path(resource_name), class: 'has-text-info' do %>
+              <span class='icon-text'>
+                <span class='icon'>
+                  <i class='fas fa-envelope-circle-check'></i>
+                </span>
+                <span><%= t('devise.shared.links.didn_t_receive_confirmation_instructions') %></span>
+              </span>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Security Note -->
+    <div class='notification is-warning is-light mt-4'>
+      <span class='icon-text'>
+        <span class='icon'>
+          <i class='fas fa-shield-alt'></i>
+        </span>
+        <span>
+          <strong><%= t('devise.passwords.edit.security_title') %></strong><br>
+          <%= t('devise.passwords.edit.security_content') %>
+        </span>
+      </span>
     </div>
   </div>
-
-  <div class='actions'>
-    <%= f.submit t('.change_password'), class: 'button is-info is-rounded' %>
-  </div>
-<% end %>
+</div>
