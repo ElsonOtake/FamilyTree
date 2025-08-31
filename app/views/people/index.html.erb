@@ -1,112 +1,244 @@
-<div class='is-flex is-align-items-center mb-4'>
-  <h1 class='title has-text-info m-0'><%= t('.family_tree') %></h1>
-  <% if policy(@people).new? %>
-    <%= link_to icon('fa-solid fa-xl', 'user-plus', class: 'has-text-success ml-4'),
-      new_person_path,
-      data: {
-        turbo_frame: 'new_person',
-        controller: 'stimulus',
-        stimulus_id_value: 'person_new',
-        action: 'stimulus#open'
-      },
-      title: t('helpers.submit.create', model: t('people.form.person'))
-    %>
-  <% end %>
-</div>
-
-<%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search, class: 'mb-4' do |f| %>
-  <div class='field'>
-    <%= f.label :name_cont, t('.search_by_name'), class: 'label' %>
-    <div class='control has-icons-left'>
-      <%= f.search_field :name_cont, oninput: 'this.form.requestSubmit();', class: 'input' %>
-      <span class='icon is-small is-left'>
-        <i class='fas fa-magnifying-glass'></i>
-      </span>
-    </div>
-  </div>
-<% end %>
-
-<div class='columns is-mobile custom-columns'>
-  <div class='column is-narrow first-column'>
-    <%= label :q, :birth_year_gteq, "#{t('.birth_year')}", class: 'label' %>
-    <div class='field columns'>
-      <div class='control column is-one-fifth'>
-        <%= search_field :q, :birth_year_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.gteq') %>
-      </div>
-      <div class='control column is-one-fifth'>
-        <%= search_field :q, :birth_year_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.lteq') %>
-      </div>
-    </div>
-
-    <%= label :q, :birth_month_gteq, "#{t('.birth_month')}", class: 'label' %>
-    <div class='field columns'>
-      <div class='control column is-one-fifth'>
-        <%= search_field :q, :birth_month_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.gteq') %>
-      </div>
-      <div class='control column is-one-fifth'>
-        <%= search_field :q, :birth_month_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.lteq') %>
-      </div>
-    </div>
-
-    <%= label :q, :birth_day_gteq, "#{t('.birth_day')}", class: 'label' %>
-    <div class='field columns'>
-      <div class='control column is-one-fifth'>
-        <%= search_field :q, :birth_day_gteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.gteq') %>
-      </div>
-      <div class='control column is-one-fifth'>
-        <%= search_field :q, :birth_day_lteq, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.lteq') %>
-      </div>
-    </div>
-
-    <div class='field'>
-      <%= label :q, :gender_in, t('people.form.gender'), class: 'label' %>
-      <% Person.genders.each do |key, value| %>
-        <div class='control'>
-          <%= check_box :q, :gender_in, { multiple: true, onclick: 'this.form.requestSubmit();', form: :form_search }, value, nil %>
-          <%= t(".#{key}") %>
+<!-- Hero Header -->
+<section class='hero is-info is-small mb-5'>
+  <div class='hero-body'>
+    <div class='level'>
+      <div class='level-left'>
+        <div class='level-item'>
+          <div>
+            <h1 class='title is-2 has-text-white'>
+              <span class='icon-text'>
+                <span class='icon'>
+                  <i class='fas fa-tree'></i>
+                </span>
+                <span><%= t('.family_tree') %></span>
+              </span>
+            </h1>
+            <p class='subtitle has-text-white-ter'>
+              <%= t('.search_by_name') %>
+            </p>
+          </div>
         </div>
-      <% end %>
-    </div>
-
-    <div class='field'>
-      <%= label :q, :alive_eq, t('people.form.alive'), class: 'label' %>
-      <div class='control'>
-        <% %w[nil true false].each do |value| %>
-          <%= radio_button :q, :alive_eq, eval(value), onchange: 'this.form.requestSubmit();', form: :form_search %>
-          <%= label :q, :alive_eq, t(".#{value}") %><br>
+      </div>
+      <div class='level-right'>
+        <% if policy(@people).new? %>
+          <div class='level-item'>
+            <%= link_to new_person_path,
+              class: 'button is-success is-medium',
+              data: {
+                turbo_frame: 'new_person',
+                controller: 'stimulus',
+                stimulus_id_value: 'person_new',
+                action: 'stimulus#open'
+              },
+              title: t('helpers.submit.create', model: t('people.form.person')) do %>
+              <span class='icon'>
+                <i class='fas fa-user-plus'></i>
+              </span>
+              <span><%= t('helpers.submit.create', model: t('people.form.person')) %></span>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>
+  </div>
+</section>
 
+<!-- Search Bar -->
+<div class='box mb-5'>
+  <%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search do |f| %>
     <div class='field'>
-      <%= label :q, :description_cont, t('people.form.remark'), class: 'label' %>
-      <div class='control'>
-        <%= search_field :q, :description_cont, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input' %>
+      <div class='control has-icons-left has-icons-right is-large'>
+        <%= f.search_field :name_cont, 
+          oninput: 'this.form.requestSubmit();', 
+          class: 'input is-large', 
+          placeholder: t('.search_by_name') %>
+        <span class='icon is-left is-large'>
+          <i class='fas fa-magnifying-glass'></i>
+        </span>
       </div>
     </div>
+  <% end %>
+</div>
 
+<div class='columns'>
+  <!-- Filters Sidebar -->
+  <div class='column is-3'>
+    <div class='box'>
+      <h3 class='title is-5 mb-4'>
+        <span class='icon-text'>
+          <span class='icon has-text-info'>
+            <i class='fas fa-filter'></i>
+          </span>
+          <span>Filters</span>
+        </span>
+      </h3>
+      
+      <!-- Birth Year Filter -->
+      <div class='field mb-4'>
+        <%= label :q, :birth_year_gteq, t('.birth_year'), class: 'label is-small' %>
+        <div class='field is-grouped'>
+          <div class='control is-expanded'>
+            <%= search_field :q, :birth_year_gteq, 
+              oninput: 'this.form.requestSubmit();', 
+              form: :form_search, 
+              class: 'input is-small', 
+              placeholder: t('.gteq') %>
+          </div>
+          <div class='control is-expanded'>
+            <%= search_field :q, :birth_year_lteq, 
+              oninput: 'this.form.requestSubmit();', 
+              form: :form_search, 
+              class: 'input is-small', 
+              placeholder: t('.lteq') %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Birth Month Filter -->
+      <div class='field mb-4'>
+        <%= label :q, :birth_month_gteq, t('.birth_month'), class: 'label is-small' %>
+        <div class='field is-grouped'>
+          <div class='control is-expanded'>
+            <%= search_field :q, :birth_month_gteq, 
+              oninput: 'this.form.requestSubmit();', 
+              form: :form_search, 
+              class: 'input is-small', 
+              placeholder: t('.gteq') %>
+          </div>
+          <div class='control is-expanded'>
+            <%= search_field :q, :birth_month_lteq, 
+              oninput: 'this.form.requestSubmit();', 
+              form: :form_search, 
+              class: 'input is-small', 
+              placeholder: t('.lteq') %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Birth Day Filter -->
+      <div class='field mb-4'>
+        <%= label :q, :birth_day_gteq, t('.birth_day'), class: 'label is-small' %>
+        <div class='field is-grouped'>
+          <div class='control is-expanded'>
+            <%= search_field :q, :birth_day_gteq, 
+              oninput: 'this.form.requestSubmit();', 
+              form: :form_search, 
+              class: 'input is-small', 
+              placeholder: t('.gteq') %>
+          </div>
+          <div class='control is-expanded'>
+            <%= search_field :q, :birth_day_lteq, 
+              oninput: 'this.form.requestSubmit();', 
+              form: :form_search, 
+              class: 'input is-small', 
+              placeholder: t('.lteq') %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gender Filter -->
+      <div class='field mb-4'>
+        <%= label :q, :gender_in, t('people.form.gender'), class: 'label is-small' %>
+        <% Person.genders.each do |key, value| %>
+          <label class='checkbox is-block mb-2'>
+            <%= check_box :q, :gender_in, 
+              { multiple: true, onclick: 'this.form.requestSubmit();', form: :form_search }, 
+              value, nil %>
+            <span class='ml-2'><%= t(".#{key}") %></span>
+          </label>
+        <% end %>
+      </div>
+
+      <!-- Alive Status Filter -->
+      <div class='field mb-4'>
+        <%= label :q, :alive_eq, t('people.form.alive'), class: 'label is-small' %>
+        <div class='control'>
+          <% %w[nil true false].each do |value| %>
+            <label class='radio is-block mb-2'>
+              <%= radio_button :q, :alive_eq, eval(value), 
+                onchange: 'this.form.requestSubmit();', 
+                form: :form_search %>
+              <span class='ml-2'><%= t(".#{value}") %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Remark Filter -->
+      <div class='field'>
+        <%= label :q, :description_cont, t('people.form.remark'), class: 'label is-small' %>
+        <div class='control'>
+          <%= search_field :q, :description_cont, 
+            oninput: 'this.form.requestSubmit();', 
+            form: :form_search, 
+            class: 'input is-small',
+            placeholder: t('people.form.remark') %>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class='column second-column'>
-    <%= turbo_frame_tag 'results', data: { turbo_action: :advance } do %>
-
-      <table class='table'>
-        <thead>
-          <tr>
-            <th><%= sort_link(@q, :name, t('people.form.name'), default_order: :asc) %></th>
-            <th class='is-hidden-touch'><%= sort_link(@q, :birth, t('people.birthday')) %></th>
-            <th class='is-hidden-touch'><%= sort_link(@q, :death, t('people.form.death')) %></th>
-            <th class='is-hidden-touch'><%= sort_link(@q, :alive, t('people.form.alive')) %></th>
-            <th class='is-hidden-touch'><%= t('people.form.remark') %></th>
-          </tr>
-        </thead>
-        <tbody id='people'>
-          <%= render 'people/table', people: @people %>
-        </tbody>
-      </table>
-
-      <%== pagy_bulma_nav(@pagy) %>
-
-    <% end %>
+  
+  <!-- Results Section -->
+  <div class='column is-9'>
+    <div class='box'>
+      <%= turbo_frame_tag 'results', data: { turbo_action: :advance } do %>
+        <div class='table-container'>
+          <table class='table is-fullwidth is-hoverable is-striped'>
+            <thead>
+              <tr class='has-background-light'>
+                <th>
+                  <span class='icon-text'>
+                    <span class='icon has-text-info'>
+                      <i class='fas fa-user'></i>
+                    </span>
+                    <span><%= sort_link(@q, :name, t('people.form.name'), default_order: :asc) %></span>
+                  </span>
+                </th>
+                <th class='is-hidden-touch'>
+                  <span class='icon-text'>
+                    <span class='icon has-text-success'>
+                      <i class='fas fa-birthday-cake'></i>
+                    </span>
+                    <span><%= sort_link(@q, :birth, t('people.birthday')) %></span>
+                  </span>
+                </th>
+                <th class='is-hidden-touch'>
+                  <span class='icon-text'>
+                    <span class='icon has-text-grey'>
+                      <i class='fas fa-cross'></i>
+                    </span>
+                    <span><%= sort_link(@q, :death, t('people.form.death')) %></span>
+                  </span>
+                </th>
+                <th class='is-hidden-touch'>
+                  <span class='icon-text'>
+                    <span class='icon has-text-primary'>
+                      <i class='fas fa-heartbeat'></i>
+                    </span>
+                    <span><%= sort_link(@q, :alive, t('people.form.alive')) %></span>
+                  </span>
+                </th>
+                <th class='is-hidden-touch'>
+                  <span class='icon-text'>
+                    <span class='icon has-text-warning'>
+                      <i class='fas fa-comment'></i>
+                    </span>
+                    <span><%= t('people.form.remark') %></span>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody id='people'>
+              <%= render 'people/table', people: @people %>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class='mt-4'>
+          <%== pagy_bulma_nav(@pagy) %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 
