@@ -1,47 +1,165 @@
-<h2 class='title has-text-info'><%= t('.sign_up') %></h2>
+<div class='columns is-centered'>
+  <div class='column is-5'>
+    <!-- Sign Up Card -->
+    <div class='box'>
+      <!-- Logo and Title -->
+      <div class='has-text-centered mb-5'>
+        <figure class='image is-96x96 is-inline-block mb-4'>
+          <img src="<%= asset_path('EAO.png') %>" alt="Family Tree" style="border-radius: 50%;">
+        </figure>
+        <h2 class='title is-3 has-text-info'>
+          <span class='icon-text'>
+            <span class='icon'>
+              <i class='fas fa-user-plus'></i>
+            </span>
+            <span><%= t('.sign_up') %></span>
+          </span>
+        </h2>
+        <p class='subtitle is-6 has-text-grey'>
+          <%= t('.create_account_description') %>
+        </p>
+      </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render 'devise/shared/error_messages', resource: resource %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= render 'devise/shared/error_messages', resource: resource %>
 
-  <div class='field'>
-    <%= f.label :name, t(:name), class: 'label' %>
-    <div class='control'>
-      <%= f.text_field :name, autofocus: true, autocomplete: 'name', class: 'input' %>
-    </div>
-  </div>
+        <!-- Name Field -->
+        <div class='field'>
+          <%= f.label :name, t(:name), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.text_field :name, 
+              autofocus: true, 
+              autocomplete: 'name', 
+              class: 'input', 
+              placeholder: t('.placeholder_name') %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-user'></i>
+            </span>
+          </div>
+        </div>
 
-  <div class='field'>
-    <%= f.label :email, t('devise.email'), class: 'label' %>
-    <div class='control'>
-      <%= f.email_field :email, autocomplete: 'email', class: 'input' %>
-    </div>
-  </div>
+        <!-- Email Field -->
+        <div class='field'>
+          <%= f.label :email, t('devise.email'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.email_field :email, 
+              autocomplete: 'email', 
+              class: 'input', 
+              placeholder: t('.placeholder_email') %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-envelope'></i>
+            </span>
+          </div>
+        </div>
 
-  <div class='field'>
-    <%= f.label :password, t('devise.password'), class: 'label' %>
-    <div class='control'>
-      <%= f.password_field :password, autocomplete: 'new-password', class: 'input' %>
-      <% if @minimum_password_length %>
-        <p class='help is-danger'>(<%= t('devise.characters_minimum', count: @minimum_password_length) %>)</p>
+        <!-- Phone Field -->
+        <div class='field'>
+          <%= f.label :phone, t('devise.registrations.phone'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.text_field :phone, 
+              autocomplete: 'phone', 
+              class: 'input', 
+              placeholder: t('.placeholder_phone') %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-phone'></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Password Fields Section -->
+        <div class='box has-background-light mb-4'>
+          <h4 class='title is-6 mb-3'>
+            <span class='icon-text'>
+              <span class='icon has-text-warning'>
+                <i class='fas fa-lock'></i>
+              </span>
+              <span><%= t('.password_section') %></span>
+            </span>
+          </h4>
+
+          <!-- Password Field -->
+          <div class='field'>
+            <%= f.label :password, t('devise.password'), class: 'label is-small' %>
+            <div class='control has-icons-left'>
+              <%= f.password_field :password, 
+                autocomplete: 'new-password', 
+                class: 'input', 
+                placeholder: t('.placeholder_password') %>
+              <span class='icon is-small is-left'>
+                <i class='fas fa-key'></i>
+              </span>
+            </div>
+            <% if @minimum_password_length %>
+              <p class='help'>
+                <span class='icon-text'>
+                  <span class='icon has-text-info'>
+                    <i class='fas fa-info-circle'></i>
+                  </span>
+                  <span><%= t('devise.characters_minimum', count: @minimum_password_length) %></span>
+                </span>
+              </p>
+            <% end %>
+          </div>
+
+          <!-- Password Confirmation Field -->
+          <div class='field'>
+            <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label is-small' %>
+            <div class='control has-icons-left'>
+              <%= f.password_field :password_confirmation, 
+                autocomplete: 'new-password', 
+                class: 'input', 
+                placeholder: t('.placeholder_password_confirmation') %>
+              <span class='icon is-small is-left'>
+                <i class='fas fa-key'></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms and Conditions (optional) -->
+        <div class='field'>
+          <div class='control'>
+            <label class='checkbox'>
+              <input type='checkbox' required>
+              <span class='ml-2'><%= t('.agree_terms_html') %></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class='field mt-5'>
+          <%= f.submit t('.sign_up'), class: 'button is-info is-fullwidth is-medium' %>
+        </div>
       <% end %>
+
+      <!-- OAuth Providers -->
+      <%- if devise_mapping.omniauthable? && resource_class.omniauth_providers.any? %>
+        <hr class='my-5'>
+        <p class='has-text-centered has-text-grey mb-4'>
+          <%= t('.or_sign_up_with') %>
+        </p>
+        <div class='buttons is-centered'>
+          <%- resource_class.omniauth_providers.each do |provider| %>
+            <%= button_to omniauth_authorize_path(resource_name, provider),
+              data: { turbo: false },
+              class: 'button is-info is-outlined is-medium' do %>
+              <span class='icon'>
+                <i class='fab fa-<%= provider.to_s.delete_suffix('_oauth2') %>'></i>
+              </span>
+              <span><%= provider.to_s.delete_suffix('_oauth2').capitalize %></span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Sign In Link -->
+      <div class='has-text-centered mt-5'>
+        <p>
+          <%= t('.already_have_account') %> 
+          <%= link_to t('.sign_in_link'), new_session_path(resource_name), 
+            class: 'has-text-info has-text-weight-bold' %>
+        </p>
+      </div>
     </div>
   </div>
-
-  <div class='field'>
-    <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label' %>
-    <div class='control'>
-      <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input' %>
-    </div>
-  </div>
-
-  <div class='field'>
-    <%= f.label :phone, t('devise.registrations.phone'), class: 'label' %>
-    <div class='control'>
-      <%= f.text_field :phone, autocomplete: 'phone', class: 'input' %>
-    </div>
-  </div>
-
-  <div class='actions'>
-    <%= f.submit t('.sign_up'), class: 'button is-info is-rounded' %>
-  </div>
-<% end %>
+</div>

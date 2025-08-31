@@ -143,6 +143,17 @@ en:
         are_you_sure: "Are you sure?"
       new:
         sign_up: "Sign up"
+        create_account_description: "Join Family Tree to start building your family history"
+        placeholder_name: "Enter your full name"
+        placeholder_email: "your@email.com"
+        placeholder_phone: "+1 (555) 123-4567"
+        password_section: "Create Password"
+        placeholder_password: "Choose a strong password"
+        placeholder_password_confirmation: "Confirm your password"
+        agree_terms_html: "I agree to the <a href='#' class='has-text-info'>Terms and Conditions</a>"
+        or_sign_up_with: "or sign up with"
+        already_have_account: "Already have an account?"
+        sign_in_link: "Sign in"
       phone: "Phone"
     sessions:
       new:
