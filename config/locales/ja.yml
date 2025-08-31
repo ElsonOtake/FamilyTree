@@ -20,6 +20,17 @@ ja:
     form:
       create_child: "子供を作成"
       child: "子供"
+      search_existing_person: "既存の人物を検索"
+      search_help_text: "家系図内の既存の人物を検索するには名前を入力してください"
+      selected_person: "選択された人物"
+      no_person_selected: "まだ人物が選択されていません"
+      selected_person_help: "検索結果から人物をクリックして選択してください"
+      type_to_search: "名前を入力して検索..."
+      search_results:
+        one: "1人が見つかりました"
+        other: "%{count}人が見つかりました"
+      no_results_found: "検索に一致する人物が見つかりませんでした"
+      start_typing_to_search: "人物を検索するには入力を開始してください"
   couples:
     form:
       create_couple: "カップルを作成"
