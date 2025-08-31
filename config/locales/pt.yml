@@ -47,6 +47,8 @@ pt:
       search_partner_help: "Busque e selecione uma pessoa para criar um relacionamento"
       location_placeholder: "Digite o local ou detalhes sobre este relacionamento"
       location_help: "Você pode adicionar qualquer informação relevante sobre este relacionamento"
+      new_partner: "Novo parceiro(a)"
+      existing_partner: "Parceiro(a) existente"
   people:
     index:
       family_tree: "Árvore genealógica"
