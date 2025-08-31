@@ -24,11 +24,13 @@
             <div class='is-flex is-align-items-center'>
               <div>
                 <h1 class='title is-2 has-text-white mb-3'>
-                  <%= render 'icon', person: person %>
-                  <%= person&.name || '' %>
+                  <span class='icon-text'>
+                    <%= render 'icon', person: person %>
+                    <span><%= person&.name || '' %></span>
+                  </span>
                 </h1>
                 <% if person&.kanji.present? %>
-                  <p class='subtitle is-4 has-text-white-ter mb-0 mt-2'>
+                  <p class='subtitle is-4 has-text-white-ter mb-0 mt-2 ml-5'>
                     <%= person&.kanji %>
                   </p>
                 <% end %>
