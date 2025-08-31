@@ -41,6 +41,12 @@ pt:
       marriage: "Casamento"
       separation: "Separação"
       local: "Local"
+      partner_information: "Informações do Parceiro"
+      relationship_details: "Detalhes do Relacionamento"
+      select_partner: "Selecione um parceiro"
+      search_partner_help: "Busque e selecione uma pessoa para criar um relacionamento"
+      location_placeholder: "Digite o local ou detalhes sobre este relacionamento"
+      location_help: "Você pode adicionar qualquer informação relevante sobre este relacionamento"
   people:
     index:
       family_tree: "Árvore genealógica"
