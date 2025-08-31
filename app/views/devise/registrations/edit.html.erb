@@ -1,73 +1,169 @@
-<h2 class='title has-text-info'><%= t('.edit_user') %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render 'devise/shared/error_messages', resource: resource %>
-
-  <div class='field'>
-    <%= f.label :name, t(:name), class: 'label' %>
-    <div class='control'>
-      <%= f.text_field :name, autofocus: true, autocomplete: 'name', class: 'input' %>
+<div class='columns is-centered'>
+  <div class='column is-6'>
+    <!-- Page Header -->
+    <div class='hero is-info is-small mb-5'>
+      <div class='hero-body'>
+        <h1 class='title has-text-white'>
+          <span class='icon-text'>
+            <span class='icon'>
+              <i class='fas fa-user-edit'></i>
+            </span>
+            <span><%= t('.edit_user') %></span>
+          </span>
+        </h1>
+        <p class='subtitle has-text-white-ter'>
+          <%= t('.we_need_your_current_password') %>
+        </p>
+      </div>
     </div>
-  </div>
 
-  <div class='field'>
-    <%= f.label :email, t('devise.email'), class: 'label' %>
-    <div class='control'>
-      <%= f.email_field :email, autocomplete: 'email', class: 'input' %>
-    </div>
-  </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render 'devise/shared/error_messages', resource: resource %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div><%= t('.currently_waiting_confirmation_for') %><%= resource.unconfirmed_email %></div>
-  <% end %>
+      <!-- Basic Information Section -->
+      <div class='box mb-5'>
+        <h3 class='title is-5 mb-4'>
+          <span class='icon-text'>
+            <span class='icon has-text-info'>
+              <i class='fas fa-id-card'></i>
+            </span>
+            <span>Basic Information</span>
+          </span>
+        </h3>
 
-  <div class='field'>
-    <%= f.label :password, t('devise.password'), class: 'label' %>
-    <div class='control'>
-      <%= f.password_field :password, autocomplete: 'new-password', class: 'input' %>
-    </div>
-    <% if @minimum_password_length %>
-      <span class='help is-danger'><%= t('devise.characters_minimum', count: @minimum_password_length) %><span class='has-text-info'>(<%= t('.leave_blank') %>)</span></span>
+        <div class='field'>
+          <%= f.label :name, t(:name), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.text_field :name, autofocus: true, autocomplete: 'name', class: 'input', placeholder: 'Enter your name' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-user'></i>
+            </span>
+          </div>
+        </div>
+
+        <div class='field'>
+          <%= f.label :email, t('devise.email'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.email_field :email, autocomplete: 'email', class: 'input', placeholder: 'your@email.com' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-envelope'></i>
+            </span>
+          </div>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <p class='help is-warning'>
+              <span class='icon-text'>
+                <span class='icon'>
+                  <i class='fas fa-clock'></i>
+                </span>
+                <span><%= t('.currently_waiting_confirmation_for') %><strong><%= resource.unconfirmed_email %></strong></span>
+              </span>
+            </p>
+          <% end %>
+        </div>
+
+        <div class='field'>
+          <%= f.label :phone, t('devise.registrations.phone'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.text_field :phone, autocomplete: 'phone', class: 'input', placeholder: '+1 (555) 123-4567' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-phone'></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Section -->
+      <div class='box mb-5'>
+        <h3 class='title is-5 mb-4'>
+          <span class='icon-text'>
+            <span class='icon has-text-warning'>
+              <i class='fas fa-lock'></i>
+            </span>
+            <span>Security Settings</span>
+          </span>
+        </h3>
+
+        <div class='notification is-info is-light'>
+          <span class='icon-text'>
+            <span class='icon'>
+              <i class='fas fa-info-circle'></i>
+            </span>
+            <span><%= t('.leave_blank') %></span>
+          </span>
+        </div>
+
+        <div class='field'>
+          <%= f.label :password, t('devise.password'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.password_field :password, autocomplete: 'new-password', class: 'input', placeholder: 'New password (optional)' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-key'></i>
+            </span>
+          </div>
+          <% if @minimum_password_length %>
+            <p class='help'><%= t('devise.characters_minimum', count: @minimum_password_length) %></p>
+          <% end %>
+        </div>
+
+        <div class='field'>
+          <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input', placeholder: 'Confirm new password' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-key'></i>
+            </span>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class='field'>
+          <%= f.label :current_password, t('.current_password'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= f.password_field :current_password, autocomplete: 'current-password', class: 'input', placeholder: 'Required to save changes' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-shield-alt'></i>
+            </span>
+          </div>
+          <p class='help is-danger'><strong>Required:</strong> <%= t('.we_need_your_current_password') %></p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class='field is-grouped is-grouped-centered'>
+        <div class='control'>
+          <%= f.submit t('.update'), class: 'button is-success is-medium' %>
+        </div>
+        <div class='control'>
+          <%= link_to root_path, class: 'button is-light is-medium' do %>
+            <span class='icon'>
+              <i class='fas fa-arrow-left'></i>
+            </span>
+            <span><%= t('people.show.back_to_people') %></span>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  </div>
 
-  <div class='field'>
-    <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label' %>
-    <div class='control'>
-      <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input' %>
+    <!-- Danger Zone -->
+    <div class='box has-background-danger-light mt-6'>
+      <h3 class='title is-5 has-text-danger mb-4'>
+        <span class='icon-text'>
+          <span class='icon'>
+            <i class='fas fa-exclamation-triangle'></i>
+          </span>
+          <span>Danger Zone</span>
+        </span>
+      </h3>
+      <p class='mb-4'><%= t('.unhappy') %></p>
+      <%= button_to t('.cancel_my_account'),
+        registration_path(resource_name),
+        class: 'button is-danger',
+        data: { turbo_confirm: t('.are_you_sure') },
+        method: :delete
+      %>
     </div>
   </div>
-
-  <div class='field'>
-    <%= f.label :current_password, t('.current_password'), class: 'label' %>
-    <div class='control'>
-      <%= f.password_field :current_password, autocomplete: 'current-password', class: 'input' %>
-    </div>
-    <p class='help is-info'><%= t('.we_need_your_current_password') %></p>
-  </div>
-
-  <div class='field'>
-    <%= f.label :phone, t('devise.registrations.phone'), class: 'label' %>
-    <div class='control'>
-      <%= f.text_field :phone, autocomplete: 'phone', class: 'input' %>
-    </div>
-  </div>
-
-  <div class='actions'>
-    <div class='buttons is-flex is-justify-content-space-between'>
-      <%= f.submit t('.update'), class: 'button is-info is-rounded' %>
-      <%= link_to t('people.show.back_to_people'), root_path, class: 'button is-info is-rounded' %>
-    </div>
-  </div>
-<% end %>
-
-<h3 class='subtitle has-text-info mt-6'><%= t('.unhappy') %></h3>
-
-<%= button_to t('.cancel_my_account'),
-  registration_path(resource_name),
-  class: 'button is-danger is-rounded',
-  data: { turbo_confirm: t('.are_you_sure') },
-  method: :delete
-%>
+</div>
 
 
