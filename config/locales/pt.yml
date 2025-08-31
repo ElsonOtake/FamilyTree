@@ -31,6 +31,8 @@ pt:
         other: "%{count} pessoas encontradas"
       no_results_found: "Nenhuma pessoa encontrada com sua busca"
       start_typing_to_search: "Comece a digitar para buscar pessoas"
+      new_person: "Novo indivíduo"
+      existing_person: "Indivíduo existente"
   couples:
     form:
       create_couple: "Criar Casal"
