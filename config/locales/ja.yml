@@ -47,6 +47,8 @@ ja:
       search_partner_help: "関係を作成するために人物を検索して選択してください"
       location_placeholder: "この関係の場所または詳細を入力"
       location_help: "この関係に関する関連情報を追加できます"
+      new_partner: "新しいパートナー"
+      existing_partner: "既存のパートナー"
   people:
     index:
       family_tree: "家系図"
