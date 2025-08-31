@@ -1,13 +1,13 @@
 <% couple = Couple.couple(person, mate) %>
-<tr id=<%= dom_id couple %>>
-  <td class='is-flex is-justify-content-space-between'>
-    <div>
-      <%= render 'people/icon', person: mate %>&nbsp;
-      <%= link_to mate.name, person_path(mate) %>
-    </div>
-    <div>
+<div id=<%= dom_id couple %> class='media'>
+  <div class='media-left'>
+    <%= render 'people/icon', person: mate %>
+  </div>
+  <div class='media-content'>
+    <p class='title is-6'>
+      <%= link_to mate.name, person_path(mate), class: 'has-text-dark' %>
       <% if policy(couple).destroy? %>
-        <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
+        <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger ml-2'),
             couple,
             data: {
               turbo_method: :delete,
@@ -40,6 +40,6 @@
           title: t('helpers.submit.edit', model: t('people.show.mate'))
         %>
       <% end %>
-    </div>
-  </td>
-</tr>
+    </p>
+  </div>
+</div>

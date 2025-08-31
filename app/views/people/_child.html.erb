@@ -1,18 +1,20 @@
-<tr id=<%= "child_#{child.id}" %>>
-  <td class='is-flex is-justify-content-space-between'>
-    <div>
-      <%= render 'people/icon', person: child %>&nbsp;
-      <%= link_to child.name, person_path(child) %>
-    </div>
-    <% if policy(child).destroy? %>
-      <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
-          person_couple_child_path(person, child.couples.first, child),
-          data: {
-            turbo_method: :delete,
-            turbo_confirm: t('confirm.messages.unlink_child', name: child.name)
-          },
-          title: t('helpers.submit.unlink', model: t('children.form.child'))
-      %>
-    <% end %>
-  </td>
-</tr>
+<div id=<%= "child_#{child.id}" %> class='media'>
+  <div class='media-left'>
+    <%= render 'people/icon', person: child %>
+  </div>
+  <div class='media-content'>
+    <p class='title is-6'>
+      <%= link_to child.name, person_path(child), class: 'has-text-dark' %>
+      <% if policy(child).destroy? %>
+        <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger ml-2'),
+            person_couple_child_path(person, child.couples.first, child),
+            data: {
+              turbo_method: :delete,
+              turbo_confirm: t('confirm.messages.unlink_child', name: child.name)
+            },
+            title: t('helpers.submit.unlink', model: t('children.form.child'))
+        %>
+      <% end %>
+    </p>
+  </div>
+</div>
