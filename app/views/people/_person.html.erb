@@ -1,3 +1,4 @@
+<% if person %>
 <div id="<%= dom_id person %>" class='card mb-5'>
   <!-- Hero Section with Avatar and Name -->
   <div class='card-content p-0'>
@@ -6,11 +7,11 @@
         <div class='columns is-vcentered'>
           <div class='column is-narrow'>
             <figure class='image is-128x128'>
-              <% if person.avatar.attached? %>
-                <%= link_to image_tag(person.avatar.variant(:thumb), 
+              <% if person&.avatar&.attached? %>
+                <%= link_to image_tag(person&.avatar&.variant(:thumb), 
                   class: 'is-rounded', 
                   style: 'width: 128px; height: 128px; object-fit: cover;'), 
-                  person.avatar %>
+                  person&.avatar %>
               <% else %>
                 <img src='<%= image_path '96x96.png' %>' 
                   alt='Placeholder image' 
@@ -22,8 +23,8 @@
           <div class='column'>
             <h1 class='title is-2 has-text-white'>
               <%= render 'icon', person: person %>
-              <%= person.name %>
-              <% if policy(person).edit? %>
+              <%= person&.name || '' %>
+              <% if person && policy(person).edit? %>
                 <%= link_to edit_person_path(person),
                   class: 'button is-small is-white is-outlined ml-3',
                   data: {
@@ -40,9 +41,9 @@
                 <% end %>
               <% end %>
             </h1>
-            <% if person.kanji.present? %>
+            <% if person&.kanji.present? %>
               <p class='subtitle is-4 has-text-white-ter'>
-                <%= person.kanji %>
+                <%= person&.kanji %>
               </p>
             <% end %>
           </div>
@@ -71,26 +72,26 @@
                 <span class='icon has-text-success'>
                   <i class='fas fa-birthday-cake'></i>
                 </span>
-                <span><strong><%= t('people.show.born') %>:</strong> <%= person.date_text %></span>
+                <span><strong><%= t('people.show.born') %>:</strong> <%= person&.date_text %></span>
               </span>
             </p>
-            <% if person.birth_text.present? %>
+            <% if person&.birth_text.present? %>
               <p class='mb-2'>
                 <span class='icon-text'>
                   <span class='icon has-text-info'>
                     <i class='fas fa-map-marker-alt'></i>
                 </span>
-                  <span><%= person.birth_text %></span>
+                  <span><%= person&.birth_text %></span>
                 </span>
               </p>
             <% end %>
-            <% unless person.alive %>
+            <% unless person&.alive %>
               <p class='mb-2'>
                 <span class='icon-text'>
                   <span class='icon has-text-grey'>
                     <i class='fas fa-cross'></i>
                   </span>
-                  <span><strong><%= t('people.show.died') %>:</strong> <%= person.death_date_formatted if person.death_date_formatted.present? %></span>
+                  <span><strong><%= t('people.show.died') %>:</strong> <%= person&.death_date_formatted if person&.death_date_formatted.present? %></span>
                 </span>
               </p>
             <% end %>
@@ -98,7 +99,7 @@
         </div>
 
         <!-- Description/Notes -->
-        <% if person.description.present? %>
+        <% if person&.description.present? %>
           <div class='box'>
             <h3 class='title is-5 mb-3'>
               <span class='icon-text'>
@@ -109,7 +110,7 @@
               </span>
             </h3>
             <div class='content'>
-              <p><%= person.description %></p>
+              <p><%= person&.description %></p>
             </div>
           </div>
         <% end %>
@@ -117,3 +118,4 @@
     </div>
   </div>
 </div>
+<% end %>
