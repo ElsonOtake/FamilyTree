@@ -21,12 +21,21 @@
             </figure>
           </div>
           <div class='column'>
-            <h1 class='title is-2 has-text-white'>
-              <%= render 'icon', person: person %>
-              <%= person&.name || '' %>
+            <div class='is-flex is-align-items-center'>
+              <div>
+                <h1 class='title is-2 has-text-white mb-2'>
+                  <%= render 'icon', person: person %>
+                  <%= person&.name || '' %>
+                </h1>
+                <% if person&.kanji.present? %>
+                  <p class='subtitle is-4 has-text-white-ter mb-0'>
+                    <%= person&.kanji %>
+                  </p>
+                <% end %>
+              </div>
               <% if person && policy(person).edit? %>
                 <%= link_to edit_person_path(person),
-                  class: 'button is-small is-white is-outlined ml-3',
+                  class: 'button is-small is-white is-outlined ml-4',
                   data: {
                     turbo_frame: 'edit_person',
                     controller: 'stimulus',
@@ -40,12 +49,7 @@
                   <span><%= t('people.show.edit') %></span>
                 <% end %>
               <% end %>
-            </h1>
-            <% if person&.kanji.present? %>
-              <p class='subtitle is-4 has-text-white-ter'>
-                <%= person&.kanji %>
-              </p>
-            <% end %>
+            </div>
           </div>
         </div>
       </div>
