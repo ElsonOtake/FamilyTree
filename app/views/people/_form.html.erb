@@ -1,8 +1,7 @@
 <%= form_with model: person, data: { turbo: false, controller: 'stimulus', action: 'turbo:submit-end->stimulus#submitEnd' } do |form| %>
   <% if person.errors.any? %>
-    <div style='color: red'>
-      <h2><%= t('errors.template.header', count: person.errors.count, model: t('.person')) %></h2>
-
+    <div class='notification is-danger'>
+      <h2 class='title is-5'><%= t('errors.template.header', count: person.errors.count, model: t('.person')) %></h2>
       <ul>
         <% person.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -14,136 +13,278 @@
   <%= form.hidden_field :couple, value: couple %>
   <%= form.hidden_field :mate, value: mate %>
 
-  <div class='field'>
-    <%= form.label :avatar, t('.avatar'), style: 'display: block', class: 'label' %>
-    <div class='control'>
-      <%= form.file_field :avatar %>
+  <!-- Basic Information Section -->
+  <div class='box'>
+    <h3 class='title is-5 mb-4'>
+      <span class='icon-text'>
+        <span class='icon has-text-info'>
+          <i class='fas fa-user'></i>
+        </span>
+        <span><%= t('people.form.basic_information') %></span>
+      </span>
+    </h3>
+
+    <!-- Avatar Upload -->
+    <div class='field'>
+      <%= form.label :avatar, t('.avatar'), class: 'label' %>
+      <div class='file has-name is-fullwidth'>
+        <label class='file-label'>
+          <%= form.file_field :avatar, class: 'file-input' %>
+          <span class='file-cta'>
+            <span class='file-icon'>
+              <i class='fas fa-upload'></i>
+            </span>
+            <span class='file-label'>
+              <%= t('people.form.choose_file') %>
+            </span>
+          </span>
+          <span class='file-name'>
+            <%= person.avatar.attached? ? person.avatar.filename : t('people.form.no_file_selected') %>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Name Fields -->
+    <div class='columns'>
+      <div class='field column'>
+        <%= form.label :name, t('.name'), class: 'label' %>
+        <div class='control has-icons-left'>
+          <%= form.text_field :name, class: 'input', required: true %>
+          <span class='icon is-small is-left'>
+            <i class='fas fa-signature'></i>
+          </span>
+        </div>
+      </div>
+
+      <div class='field column'>
+        <%= form.label :kanji, t('.kanji'), class: 'label' %>
+        <div class='control has-icons-left'>
+          <%= form.text_field :kanji, class: 'input' %>
+          <span class='icon is-small is-left'>
+            <i class='fas fa-language'></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gender and Status -->
+    <div class='columns'>
+      <div class='field column'>
+        <%= form.label :gender, t('.gender'), class: 'label' %>
+        <div class='control'>
+          <label class='radio'>
+            <%= form.radio_button :gender, 'M' %>
+            <span class='icon-text'>
+              <span class='icon has-text-info'>
+                <i class='fas fa-male'></i>
+              </span>
+              <span><%= t('.male') %></span>
+            </span>
+          </label>
+          <label class='radio ml-3'>
+            <%= form.radio_button :gender, 'F' %>
+            <span class='icon-text'>
+              <span class='icon has-text-danger'>
+                <i class='fas fa-female'></i>
+              </span>
+              <span><%= t('.female') %></span>
+            </span>
+          </label>
+          <label class='radio ml-3'>
+            <%= form.radio_button :gender, 'P' %>
+            <span class='icon-text'>
+              <span class='icon has-text-warning'>
+                <i class='fas fa-paw'></i>
+              </span>
+              <span><%= t('.pet') %></span>
+            </span>
+          </label>
+          <label class='radio ml-3'>
+            <%= form.radio_button :gender, 'X' %>
+            <span class='icon-text'>
+              <span class='icon has-text-grey'>
+                <i class='fas fa-genderless'></i>
+              </span>
+              <span><%= t('.other') %></span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class='field column'>
+        <%= form.label :alive, t('.alive'), class: 'label' %>
+        <div class='control'>
+          <label class='radio'>
+            <%= form.radio_button :alive, true %>
+            <span class='icon-text'>
+              <span class='icon has-text-success'>
+                <i class='fas fa-heart'></i>
+              </span>
+              <span><%= t('.yes') %></span>
+            </span>
+          </label>
+          <label class='radio ml-3'>
+            <%= form.radio_button :alive, false %>
+            <span class='icon-text'>
+              <span class='icon has-text-grey'>
+                <i class='fas fa-cross'></i>
+              </span>
+              <span><%= t('.no') %></span>
+            </span>
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 
-  <br>
+  <!-- Life Events Section -->
+  <div class='box'>
+    <h3 class='title is-5 mb-4'>
+      <span class='icon-text'>
+        <span class='icon has-text-warning'>
+          <i class='fas fa-calendar'></i>
+        </span>
+        <span><%= t('people.form.life_events') %></span>
+      </span>
+    </h3>
 
-  <div class='columns'>
-    <div class='field column'>
-      <%= form.label :name, t('.name'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.text_field :name, class: 'input' %>
-      </div>
-    </div>
-
-    <div class='field column'>
-      <%= form.label :kanji, t('.kanji'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.text_field :kanji, class: 'input' %>
-      </div>
-    </div>
-  </div>
-
-  <div class='columns'>
-    <div class='field column'>
-      <%= form.label :gender, t('.gender'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.radio_button :gender, 'M' %>
-        <%= form.label t('.male') %>
-        <%= form.radio_button :gender, 'F', class: 'ml-2' %>
-        <%= form.label t('.female') %>
-        <%= form.radio_button :gender, 'P', class: 'ml-2' %>
-        <%= form.label t('.pet') %>
-        <%= form.radio_button :gender, 'X', class: 'ml-2' %>
-        <%= form.label t('.other') %>
-      </div>
-    </div>
-
-    <div class='field column'>
-      <%= form.label :alive, t('.alive'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.radio_button :alive, true %>
-        <%= form.label t('.yes') %>
-        <%= form.radio_button :alive, false, class: 'ml-2' %>
-        <%= form.label t('.no') %>
-      </div>
-    </div>
-  </div>
-
-  <div class='columns'>
-    <div class='field column'>
-      <%= form.label :birth, t('people.birthday'), style: 'display: block', class: 'label' %>
-      <div class="columns">
-        <div class='control column'>
-          <%= form.text_field :birth_year, class: 'input', placeholder: t('.yyyy') %>
-        </div>
-        <div class='control column'>
-          <%= form.text_field :birth_month, class: 'input', placeholder: t('.mm') %>
-        </div>
-        <div class='control column'>
-          <%= form.text_field :birth_day, class: 'input', placeholder: t('.dd') %>
+    <div class='columns'>
+      <!-- Birth Date -->
+      <div class='field column'>
+        <%= form.label :birth, t('people.birthday'), class: 'label' %>
+        <div class='field is-grouped'>
+          <div class='control is-expanded'>
+            <div class='field has-addons'>
+              <div class='control'>
+                <span class='button is-static'>
+                  <span class='icon has-text-success'>
+                    <i class='fas fa-birthday-cake'></i>
+                  </span>
+                </span>
+              </div>
+              <div class='control is-expanded'>
+                <%= form.text_field :birth_year, class: 'input', placeholder: t('.yyyy') %>
+              </div>
+              <div class='control'>
+                <%= form.text_field :birth_month, class: 'input', placeholder: t('.mm') %>
+              </div>
+              <div class='control'>
+                <%= form.text_field :birth_day, class: 'input', placeholder: t('.dd') %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class='field column'>
-      <%= form.label :death, t('.death'), style: 'display: block', class: 'label' %>
-      <div class='columns'>
-        <div class='control column'>
-          <%= form.text_field :death_year, class: 'input', placeholder: t('.yyyy') %>
-        </div>
-        <div class='control column'>
-          <%= form.text_field :death_month, class: 'input', placeholder: t('.mm') %>
-        </div>
-        <div class='control column'>
-          <%= form.text_field :death_day, class: 'input', placeholder: t('.dd') %>
+      <!-- Death Date -->
+      <div class='field column'>
+        <%= form.label :death, t('.death'), class: 'label' %>
+        <div class='field is-grouped'>
+          <div class='control is-expanded'>
+            <div class='field has-addons'>
+              <div class='control'>
+                <span class='button is-static'>
+                  <span class='icon has-text-grey'>
+                    <i class='fas fa-cross'></i>
+                  </span>
+                </span>
+              </div>
+              <div class='control is-expanded'>
+                <%= form.text_field :death_year, class: 'input', placeholder: t('.yyyy') %>
+              </div>
+              <div class='control'>
+                <%= form.text_field :death_month, class: 'input', placeholder: t('.mm') %>
+              </div>
+              <div class='control'>
+                <%= form.text_field :death_day, class: 'input', placeholder: t('.dd') %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class='field'>
-    <%= form.label :description, t('.remark'), style: 'display: block', class: 'label' %>
-    <div class='control'>
-      <%= form.text_area :description, class: 'input' %>
+  <!-- Notes Section -->
+  <div class='box'>
+    <h3 class='title is-5 mb-4'>
+      <span class='icon-text'>
+        <span class='icon has-text-success'>
+          <i class='fas fa-sticky-note'></i>
+        </span>
+        <span><%= t('people.form.additional_info') %></span>
+      </span>
+    </h3>
+
+    <div class='field'>
+      <%= form.label :description, t('.remark'), class: 'label' %>
+      <div class='control'>
+        <%= form.text_area :description, class: 'textarea', rows: 4 %>
+      </div>
     </div>
   </div>
 
   <% unless mate.nil? %>
+    <!-- Relationship Section -->
+    <div class='box'>
+      <h3 class='title is-5 mb-4'>
+        <span class='icon-text'>
+          <span class='icon has-text-danger'>
+            <i class='fas fa-heart'></i>
+          </span>
+          <span><%= t('people.form.relationship_info') %></span>
+        </span>
+      </h3>
 
-    <br>
-
-    <div class='columns'>
-      <div class='field column'>
-        <%= form.label :marriage, t('.marriage'), style: 'display: block', class: 'label' %>
-        <div class='control'>
-          <%= form.date_field :marriage, class: 'input' %>
+      <div class='columns'>
+        <div class='field column'>
+          <%= form.label :marriage, t('.marriage'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= form.date_field :marriage, class: 'input' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-ring'></i>
+            </span>
+          </div>
+          <p class='help'><%= t('.mm_dd_yyyy') %></p>
         </div>
-        <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
+
+        <div class='field column'>
+          <%= form.label :separation, t('.separation'), class: 'label' %>
+          <div class='control has-icons-left'>
+            <%= form.date_field :separation, class: 'input' %>
+            <span class='icon is-small is-left'>
+              <i class='fas fa-heart-broken'></i>
+            </span>
+          </div>
+          <p class='help'><%= t('.mm_dd_yyyy') %></p>
+        </div>
       </div>
 
-      <div class='field column'>
-        <%= form.label :separation, t('.separation'), style: 'display: block', class: 'label' %>
+      <div class='field'>
+        <%= form.label :local, t('.local'), class: 'label' %>
         <div class='control'>
-          <%= form.date_field :separation, class: 'input' %>
+          <%= form.text_area :local, class: 'textarea', rows: 3 %>
         </div>
-        <p class='help is-info'><%= t('.mm_dd_yyyy') %></p>
       </div>
     </div>
-
-    <div class='field'>
-      <%= form.label :local, t('.local'), style: 'display: block', class: 'label' %>
-      <div class='control'>
-        <%= form.text_area :local, class: 'input' %>
-      </div>
-    </div>
-
   <% end %>
 
   <% button_text = person.persisted? ? t('people.form.update_person') : t('people.form.create_person') %>
 
-  <div class='control is-flex is-justify-content-space-between'>
-    <%= form.submit button_text, class: 'button is-info is-rounded' %>
-    <button
-      data-controller='stimulus'
-      data-action='stimulus#closeAllModals'
-      class='button is-info is-rounded'>
-      <%= t(:back) %>
-    </button>
+  <!-- Form Actions -->
+  <div class='field is-grouped is-grouped-centered mt-5'>
+    <div class='control'>
+      <%= form.submit button_text, class: 'button is-info is-medium' %>
+    </div>
+    <div class='control'>
+      <button
+        type='button'
+        data-controller='stimulus'
+        data-action='stimulus#closeAllModals'
+        class='button is-light is-medium'>
+        <%= t(:back) %>
+      </button>
+    </div>
   </div>
 <% end %>
