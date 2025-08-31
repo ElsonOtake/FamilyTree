@@ -65,6 +65,12 @@ ja:
       female: "女性"
       pet: "ペット"
       other: "他の"
+      basic_information: "基本情報"
+      life_events: "人生の出来事"
+      additional_info: "追加情報"
+      relationship_info: "関係情報"
+      choose_file: "ファイルを選択"
+      no_file_selected: "ファイルが選択されていません"
     person:
       passed_away_on: "%{date}に逝去"
       passed_away_on_years_of_age: "%{date}、生後%{age}歳で逝去"

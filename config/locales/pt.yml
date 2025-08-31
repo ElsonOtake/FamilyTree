@@ -65,6 +65,12 @@ pt:
       female: "Fem"
       pet: "Pet"
       other: "Outro"
+      basic_information: "Informações Básicas"
+      life_events: "Eventos da Vida"
+      additional_info: "Informações Adicionais"
+      relationship_info: "Informações de Relacionamento"
+      choose_file: "Escolher arquivo"
+      no_file_selected: "Nenhum arquivo selecionado"
     person:
       passed_away_on: "Faleceu em %{date}"
       passed_away_on_years_of_age: "Faleceu em %{date} aos %{age}"
