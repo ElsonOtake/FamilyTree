@@ -34,7 +34,7 @@
         <div class='field'>
           <%= f.label :name, t(:name), class: 'label' %>
           <div class='control has-icons-left'>
-            <%= f.text_field :name, autofocus: true, autocomplete: 'name', class: 'input', placeholder: 'Enter your name' %>
+            <%= f.text_field :name, autofocus: true, autocomplete: 'name', class: 'input', placeholder: t('.placeholder_name') %>
             <span class='icon is-small is-left'>
               <i class='fas fa-user'></i>
             </span>
@@ -44,7 +44,7 @@
         <div class='field'>
           <%= f.label :email, t('devise.email'), class: 'label' %>
           <div class='control has-icons-left'>
-            <%= f.email_field :email, autocomplete: 'email', class: 'input', placeholder: 'your@email.com' %>
+            <%= f.email_field :email, autocomplete: 'email', class: 'input', placeholder: t('.placeholder_email') %>
             <span class='icon is-small is-left'>
               <i class='fas fa-envelope'></i>
             </span>
@@ -64,7 +64,7 @@
         <div class='field'>
           <%= f.label :phone, t('devise.registrations.phone'), class: 'label' %>
           <div class='control has-icons-left'>
-            <%= f.text_field :phone, autocomplete: 'phone', class: 'input', placeholder: '+1 (555) 123-4567' %>
+            <%= f.text_field :phone, autocomplete: 'phone', class: 'input', placeholder: t('.placeholder_phone') %>
             <span class='icon is-small is-left'>
               <i class='fas fa-phone'></i>
             </span>
@@ -95,7 +95,7 @@
         <div class='field'>
           <%= f.label :password, t('devise.password'), class: 'label' %>
           <div class='control has-icons-left'>
-            <%= f.password_field :password, autocomplete: 'new-password', class: 'input', placeholder: 'New password (optional)' %>
+            <%= f.password_field :password, autocomplete: 'new-password', class: 'input', placeholder: t('.placeholder_new_password') %>
             <span class='icon is-small is-left'>
               <i class='fas fa-key'></i>
             </span>
@@ -108,7 +108,7 @@
         <div class='field'>
           <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label' %>
           <div class='control has-icons-left'>
-            <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input', placeholder: 'Confirm new password' %>
+            <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input', placeholder: t('.placeholder_confirm_password') %>
             <span class='icon is-small is-left'>
               <i class='fas fa-key'></i>
             </span>
@@ -120,7 +120,7 @@
         <div class='field'>
           <%= f.label :current_password, t('.current_password'), class: 'label' %>
           <div class='control has-icons-left'>
-            <%= f.password_field :current_password, autocomplete: 'current-password', class: 'input', placeholder: 'Required to save changes' %>
+            <%= f.password_field :current_password, autocomplete: 'current-password', class: 'input', placeholder: t('.placeholder_current_password') %>
             <span class='icon is-small is-left'>
               <i class='fas fa-shield-alt'></i>
             </span>
