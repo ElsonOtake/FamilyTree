@@ -10,19 +10,9 @@
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
     
-    <!-- Temporary debug script for dark mode -->
+    <!-- Mobile menu theme support -->
     <script>
-      console.log('Page loaded - checking dark mode');
-      
-      // Force dark mode for testing AND fix mobile menu
       document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded - applying dark mode for testing');
-        document.documentElement.setAttribute('data-theme', 'dark');
-        console.log('HTML data-theme attribute:', document.documentElement.getAttribute('data-theme'));
-        
-        // Also add a debug class for testing
-        document.body.classList.add('debug-dark-mode');
-        
         // Fix mobile menu styling dynamically
         function updateMobileMenuTheme() {
           const theme = document.documentElement.getAttribute('data-theme') || 'light';
@@ -30,14 +20,13 @@
           const navbarItems = document.querySelectorAll('.navbar-menu .navbar-item, .navbar-menu .navbar-link, .navbar-menu a, .navbar-menu span');
           
           if (navbarMenu) {
-            if (theme === 'dark' || document.body.classList.contains('debug-dark-mode')) {
+            if (theme === 'dark') {
               // Dark mode
               navbarMenu.style.backgroundColor = '#2d2d2d';
               navbarItems.forEach(item => {
                 item.style.color = '#ffffff';
                 item.style.fontWeight = '700';
               });
-              console.log('Applied dark mode mobile menu styling');
             } else {
               // Light mode
               navbarMenu.style.backgroundColor = '#ffffff';
@@ -45,15 +34,13 @@
                 item.style.color = '#000000';
                 item.style.fontWeight = '700';
               });
-              console.log('Applied light mode mobile menu styling');
             }
           }
         }
         
-        // Apply immediately and also on any theme changes
+        // Apply immediately and watch for theme changes
         updateMobileMenuTheme();
         
-        // Watch for theme changes
         const observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
             if (mutation.attributeName === 'data-theme') {
@@ -108,23 +95,6 @@
           opacity: 1 !important;
         }
         
-        /* Debug class for testing */
-        .debug-dark-mode .navbar-menu {
-          background-color: #2d2d2d !important;
-        }
-        
-        .debug-dark-mode .navbar-menu .navbar-item,
-        .debug-dark-mode .navbar-menu .navbar-item *,
-        .debug-dark-mode .navbar-menu .navbar-link,
-        .debug-dark-mode .navbar-menu .navbar-link *,
-        .debug-dark-mode .navbar-menu a,
-        .debug-dark-mode .navbar-menu a *,
-        .debug-dark-mode .navbar-menu span {
-          color: #ffffff !important;
-          font-weight: 700 !important;
-          text-shadow: none !important;
-          opacity: 1 !important;
-        }
       }
     </style>
   </head>
