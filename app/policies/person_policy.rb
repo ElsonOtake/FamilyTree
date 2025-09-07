@@ -49,4 +49,8 @@ class PersonPolicy < ApplicationPolicy
   def search_mate?
     new?
   end
+
+  def birthdays?
+    true
+  end
 end

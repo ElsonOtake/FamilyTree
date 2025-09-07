@@ -50,9 +50,7 @@
                         </figure>
                       </div>
                       <div class='media-content'>
-                        <p class='title is-5 mb-1'>
-                          <%= link_to person.name, person_path(person), class: 'has-text-dark' %>
-                        </p>
+                        <%= link_to person.name, person_path(person), class: 'title is-5', style: 'display: block;' %><br>
                         <% if person.age_on_birthday %>
                           <p class='subtitle is-6 has-text-primary-dark'>
                             <strong><%= t('.turning_age', age: person.age_on_birthday) %></strong>
@@ -101,9 +99,7 @@
                         </figure>
                       </div>
                       <div class='media-content'>
-                        <p class='title is-6 mb-1'>
-                          <%= link_to person.name, person_path(person), class: 'has-text-dark' %>
-                        </p>
+                        <%= link_to person.name, person_path(person), class: 'title is-6', style: 'display: block;' %><br>
                         <p class='subtitle is-7 has-text-grey'>
                           <%= t('.days_ago', count: person.days_until_birthday.abs) %>
                           <% if person.age_on_birthday %>
@@ -149,18 +145,16 @@
                         </figure>
                       </div>
                       <div class='media-content'>
-                        <p class='title is-6 mb-1'>
-                          <%= link_to person.name, person_path(person), class: 'has-text-dark' %>
-                        </p>
-                        <p class='subtitle is-7 has-text-success'>
+                        <%= link_to person.name, person_path(person), class: 'title is-6', style: 'display: block;' %><br>
+                        <span class='subtitle is-7 has-text-success'>
                           <%= t('.in_days', count: person.days_until_birthday) %>
                           <% if person.age_on_birthday %>
                             - <%= t('.will_turn_age', age: person.age_on_birthday) %>
                           <% end %>
-                        </p>
-                        <p class='is-size-7 has-text-grey'>
+                        </span><br>
+                        <span class='is-size-7 has-text-grey'>
                           <%= person.birthday_this_year.strftime('%B %d') if person.birthday_this_year %>
-                        </p>
+                        </span>
                       </div>
                     </div>
                   </div>
