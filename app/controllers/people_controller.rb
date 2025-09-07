@@ -126,6 +126,15 @@ class PeopleController < ApplicationController
     @people = params[:q].nil? ? [] : @q.result(distinct: true)
   end
 
+  def birthdays
+    @people_with_birthdays = Person.upcoming_birthdays(7, 7)
+    
+    # Group by days until birthday for better organization
+    @past_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday < 0 }
+    @today_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday == 0 }
+    @upcoming_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday > 0 }
+  end
+
   private
 
   def set_person

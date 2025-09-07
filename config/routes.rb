@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get 'download', on: :collection
     get 'search_child', on: :collection
     get 'search_mate', on: :collection
+    get 'birthdays', on: :collection
   end
   resources :users, path: :usuarios do
     get 'roles', on: :collection

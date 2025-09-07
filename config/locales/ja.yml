@@ -119,6 +119,24 @@ ja:
       add: "追加"
       edit: "編集"
     birthday: "誕生"
+    birthdays:
+      title: "誕生日"
+      subtitle: "先週と来週の家族の誕生日"
+      today_birthdays: "今日の誕生日"
+      past_week_birthdays: "先週"
+      upcoming_birthdays: "今週"
+      turning_age: "%{age}歳になります"
+      birthday_today: "今日が誕生日！"
+      days_ago:
+        one: "%{count}日前"
+        other: "%{count}日前"
+      turned_age: "%{age}歳になりました"
+      in_days:
+        one: "%{count}日後"
+        other: "%{count}日後"
+      will_turn_age: "%{age}歳になります"
+      no_birthdays: "近日中の誕生日はありません"
+      no_birthdays_description: "先週と来週に誕生日が見つかりませんでした。"
   users:
     form:
     roles:
