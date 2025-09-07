@@ -118,6 +118,8 @@ ja:
       no_children: "子供の記録なし"
       add: "追加"
       edit: "編集"
+      delete: "削除"
+      delete_confirmation: "%{name}を削除してもよろしいですか？この操作は元に戻せません。"
     birthday: "誕生"
   users:
     form:

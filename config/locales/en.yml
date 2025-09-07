@@ -121,6 +121,8 @@ en:
       no_children: "No children recorded"
       add: "Add"
       edit: "Edit"
+      delete: "Delete"
+      delete_confirmation: "Are you sure you want to delete %{name}? This action cannot be undone."
     birthday: "Birthday"
   users:
     form:
