@@ -30,5 +30,6 @@ Rails.application.routes.draw do
   end
   get 'children/download', to: 'children#download', as: 'download_children'
   get 'about', to: 'pages#about', as: 'about'
+  get 'statistics', to: 'pages#statistics', as: 'statistics'
   root 'people#index'
 end
