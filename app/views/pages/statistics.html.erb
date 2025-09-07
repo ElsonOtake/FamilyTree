@@ -8,7 +8,7 @@
             <span class="icon">
               <i class="fas fa-chart-bar"></i>
             </span>
-            <span><%= t('.title') %></span>
+            <span class="ml-2"><%= t('.title') %></span>
           </span>
         </h1>
         <h2 class="subtitle is-4 has-text-white-ter mt-3">
@@ -27,7 +27,7 @@
             <span class="icon has-text-info">
               <i class="fas fa-users"></i>
             </span>
-            <span><%= t('.overview') %></span>
+            <span class="ml-2"><%= t('.overview') %></span>
           </span>
         </h2>
         
@@ -105,7 +105,7 @@
   </section>
 
   <!-- Gender Distribution Section -->
-  <section class="section has-background-light">
+  <section class="section">
     <div class="columns is-centered">
       <div class="column is-10">
         <h2 class="title is-3 has-text-centered mb-6">
@@ -113,7 +113,7 @@
             <span class="icon has-text-info">
               <i class="fas fa-venus-mars"></i>
             </span>
-            <span><%= t('.gender_distribution') %></span>
+            <span class="ml-2"><%= t('.gender_distribution') %></span>
           </span>
         </h2>
         
@@ -125,11 +125,11 @@
                   <div class="icon is-large mb-4 <%= gender_color_class(gender) %>">
                     <i class="<%= gender_icon_class(gender) %> fa-2x"></i>
                   </div>
-                  <p class="title is-3 <%= gender_color_class(gender) %>">
+                  <p class="title is-3">
                     <%= count %>
                   </p>
                   <p class="subtitle is-6">
-                    <%= t(".gender_#{gender.downcase}") %>
+                    <%= t(".gender_#{gender&.downcase || 'unknown'}") %>
                   </p>
                   <div class="progress-wrapper">
                     <progress class="progress <%= gender_progress_class(gender) %>" 
@@ -137,7 +137,7 @@
                               max="<%= @total_people %>">
                       <%= ((count.to_f / @total_people) * 100).round(1) %>%
                     </progress>
-                    <span class="progress-text"><%= ((count.to_f / @total_people) * 100).round(1) %>%</span>
+                    <span class="progress-text has-text-dark has-text-weight-bold"><%= ((count.to_f / @total_people) * 100).round(1) %>%</span>
                   </div>
                 </div>
               </div>
@@ -158,7 +158,7 @@
               <span class="icon has-text-warning">
                 <i class="fas fa-calendar-alt"></i>
               </span>
-              <span><%= t('.birth_decades') %></span>
+              <span class="ml-2"><%= t('.birth_decades') %></span>
             </span>
           </h2>
           
@@ -172,7 +172,7 @@
                         <span class="icon has-text-info">
                           <i class="fas fa-calendar"></i>
                         </span>
-                        <span><%= t('.decade') %></span>
+                        <span class="ml-2"><%= t('.decade') %></span>
                       </span>
                     </th>
                     <th>
@@ -180,7 +180,7 @@
                         <span class="icon has-text-primary">
                           <i class="fas fa-users"></i>
                         </span>
-                        <span><%= t('.people_count') %></span>
+                        <span class="ml-2"><%= t('.people_count') %></span>
                       </span>
                     </th>
                     <th>
@@ -188,7 +188,7 @@
                         <span class="icon has-text-success">
                           <i class="fas fa-percentage"></i>
                         </span>
-                        <span><%= t('.percentage') %></span>
+                        <span class="ml-2"><%= t('.percentage') %></span>
                       </span>
                     </th>
                   </tr>
@@ -196,7 +196,7 @@
                 <tbody>
                   <% @birth_year_stats.each do |decade, count| %>
                     <tr>
-                      <td><strong><%= decade %>s</strong></td>
+                      <td class="has-text-weight-bold"><%= decade %>s</td>
                       <td>
                         <span class="tag is-primary is-medium">
                           <%= count %>
@@ -209,7 +209,7 @@
                                     max="<%= @birth_year_stats.values.max %>">
                             <%= ((count.to_f / @birth_year_stats.values.sum) * 100).round(1) %>%
                           </progress>
-                          <span class="progress-text"><%= ((count.to_f / @birth_year_stats.values.sum) * 100).round(1) %>%</span>
+                          <span class="progress-text has-text-dark has-text-weight-bold"><%= ((count.to_f / @birth_year_stats.values.sum) * 100).round(1) %>%</span>
                         </div>
                       </td>
                     </tr>
@@ -224,7 +224,7 @@
   <% end %>
 
   <!-- Family Structure Section -->
-  <section class="section has-background-light">
+  <section class="section">
     <div class="columns is-centered">
       <div class="column is-10">
         <h2 class="title is-3 has-text-centered mb-6">
@@ -232,7 +232,7 @@
             <span class="icon has-text-info">
               <i class="fas fa-sitemap"></i>
             </span>
-            <span><%= t('.family_structure') %></span>
+            <span class="ml-2"><%= t('.family_structure') %></span>
           </span>
         </h2>
         

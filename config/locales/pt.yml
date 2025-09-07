@@ -161,6 +161,7 @@ pt:
       gender_f: "Feminino"
       gender_p: "Pet"
       gender_x: "Outro"
+      gender_unknown: "Gênero Desconhecido"
       birth_decades: "Décadas de Nascimento"
       decade: "Década"
       people_count: "Pessoas"
