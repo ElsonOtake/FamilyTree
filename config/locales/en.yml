@@ -140,6 +140,13 @@ en:
       never_signed_in: "Never signed in"
       confirmed: "Confirmed"
       pending: "Pending"
+  favorites:
+    title: "Favorites"
+    add: "Add to favorites"
+    remove: "Remove from favorites"
+    added: "Added to favorites"
+    removed: "Removed from favorites"
+    not_found: "Favorite not found"
   pages:
     about:
       title: "About the Application"

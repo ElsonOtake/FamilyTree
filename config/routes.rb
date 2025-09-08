@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :couples, path: :casais do
       resources :children, path: :filhos
     end
+    resources :favorites, only: [:create, :destroy]
     get 'download', on: :collection
     get 'search_child', on: :collection
     get 'search_mate', on: :collection

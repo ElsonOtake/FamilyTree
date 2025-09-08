@@ -12,3 +12,6 @@ application.register("tabs", TabsController)
 
 import DarkModeController from "./dark_mode_controller"
 application.register("dark-mode", DarkModeController)
+
+import FavoritesController from "./favorites_controller"
+application.register("favorites", FavoritesController)

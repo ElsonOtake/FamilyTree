@@ -10,7 +10,15 @@ class PeopleController < ApplicationController
   # GET /people or /people.json
   def index
     @q = Person.ransack(params[:q])
-    @pagy, @people = pagy(@q.result(distinct: true), items: 10)
+    
+    # Show favorites when no search/filter is active, otherwise show search results
+    if search_active?
+      @pagy, @people = pagy(@q.result(distinct: true), items: 10)
+      @showing_favorites = false
+    else
+      @pagy, @people = pagy(current_user.favorite_people, items: 10)
+      @showing_favorites = true
+    end
   end
 
   def download
@@ -127,6 +135,10 @@ class PeopleController < ApplicationController
   end
 
   private
+
+  def search_active?
+    params[:q].present?
+  end
 
   def set_person
     @person = Person.includes(
