@@ -12,7 +12,7 @@
       <td class='is-hidden-touch'><%= t("people.index.#{person.alive}") %></td>
       <td class='is-hidden-touch'><%= highlight person.description, params.dig(:q, :description_cont) %></td>
       <td>
-        <% favorite = current_user.favorites.find_by(person: person) %>
+        <% favorite = @favorites_lookup[person.id] %>
         <% if favorite %>
           <%= button_to person_favorite_path(person, favorite), 
             method: :delete,

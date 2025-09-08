@@ -57,9 +57,8 @@
                 <% end %>
                 
                 <!-- Favorite Toggle Button -->
-                <% favorite = current_user.favorites.find_by(person: person) %>
-                <% if favorite %>
-                  <%= button_to person_favorite_path(person, favorite), 
+                <% if @favorite %>
+                  <%= button_to person_favorite_path(person, @favorite), 
                     method: :delete,
                     remote: true,
                     data: { 
@@ -89,18 +88,19 @@
                   <% end %>
                 <% end %>
                 <% if person && policy(person).destroy? %>
-                  <%= link_to person_path(person),
-                    class: 'button is-small is-danger',
-                    data: {
-                      turbo_method: :delete,
-                      turbo_confirm: t('people.show.delete_confirmation', name: person&.name)
-                    },
-                    title: t('helpers.submit.delete', model: t('people.form.person')) do %>
-                    <span class='icon'>
-                      <i class='fas fa-trash'></i>
-                    </span>
-                    <span><%= t('people.show.delete') %></span>
-                  <% end %>
+                  <form action="<%= person_path(person) %>" method="post" style="display: inline;">
+                    <input type="hidden" name="_method" value="delete">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <button type="submit" 
+                            class="button is-small is-danger"
+                            title="<%= t('helpers.submit.delete', model: t('people.form.person')) %>"
+                            onclick="return confirm('<%= j(t('people.show.delete_confirmation', name: person&.name)) %>')">
+                      <span class="icon">
+                        <i class="fas fa-trash"></i>
+                      </span>
+                      <span><%= t('people.show.delete') %></span>
+                    </button>
+                  </form>
                 <% end %>
               </div>
             </div>
