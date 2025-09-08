@@ -37,22 +37,58 @@
                   </p>
                 <% end %>
               </div>
-              <% if person && policy(person).edit? %>
-                <%= link_to edit_person_path(person),
-                  class: 'button is-small is-white is-outlined ml-4',
-                  data: {
-                    turbo_frame: 'edit_person',
-                    controller: 'stimulus',
-                    stimulus_id_value: 'person_edit',
-                    action: 'stimulus#open'
-                  },
-                  title: t('helpers.submit.edit', model: t('people.form.person')) do %>
-                  <span class='icon'>
-                    <i class='fas fa-edit'></i>
-                  </span>
-                  <span><%= t('people.show.edit') %></span>
+              <div class='buttons ml-4'>
+                <!-- Edit Button -->
+                <% if person && policy(person).edit? %>
+                  <%= link_to edit_person_path(person),
+                    class: 'button is-small is-white is-outlined',
+                    data: {
+                      turbo_frame: 'edit_person',
+                      controller: 'stimulus',
+                      stimulus_id_value: 'person_edit',
+                      action: 'stimulus#open'
+                    },
+                    title: t('helpers.submit.edit', model: t('people.form.person')) do %>
+                    <span class='icon'>
+                      <i class='fas fa-edit'></i>
+                    </span>
+                    <span><%= t('people.show.edit') %></span>
+                  <% end %>
                 <% end %>
-              <% end %>
+                
+                <!-- Favorite Toggle Button -->
+                <% favorite = current_user.favorites.find_by(person: person) %>
+                <% if favorite %>
+                  <%= button_to person_favorite_path(person, favorite), 
+                    method: :delete,
+                    remote: true,
+                    data: { 
+                      controller: 'favorites',
+                      action: 'click->favorites#toggle'
+                    },
+                    class: 'button is-small is-danger',
+                    title: t('favorites.remove') do %>
+                    <span class='icon'>
+                      <i class='fas fa-heart'></i>
+                    </span>
+                    <span><%= t('favorites.remove') %></span>
+                  <% end %>
+                <% else %>
+                  <%= button_to person_favorites_path(person), 
+                    remote: true,
+                    data: { 
+                      controller: 'favorites',
+                      action: 'click->favorites#toggle'
+                    },
+                    class: 'button is-small is-white is-outlined',
+                    title: t('favorites.add') do %>
+                    <span class='icon'>
+                      <i class='far fa-heart'></i>
+                    </span>
+                    <span><%= t('favorites.add') %></span>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
