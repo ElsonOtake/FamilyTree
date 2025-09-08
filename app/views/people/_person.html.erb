@@ -37,22 +37,38 @@
                   </p>
                 <% end %>
               </div>
-              <% if person && policy(person).edit? %>
-                <%= link_to edit_person_path(person),
-                  class: 'button is-small is-white is-outlined ml-4',
-                  data: {
-                    turbo_frame: 'edit_person',
-                    controller: 'stimulus',
-                    stimulus_id_value: 'person_edit',
-                    action: 'stimulus#open'
-                  },
-                  title: t('helpers.submit.edit', model: t('people.form.person')) do %>
-                  <span class='icon'>
-                    <i class='fas fa-edit'></i>
-                  </span>
-                  <span><%= t('people.show.edit') %></span>
+              <div class='buttons'>
+                <% if person && policy(person).edit? %>
+                  <%= link_to edit_person_path(person),
+                    class: 'button is-small is-white is-outlined',
+                    data: {
+                      turbo_frame: 'edit_person',
+                      controller: 'stimulus',
+                      stimulus_id_value: 'person_edit',
+                      action: 'stimulus#open'
+                    },
+                    title: t('helpers.submit.edit', model: t('people.form.person')) do %>
+                    <span class='icon'>
+                      <i class='fas fa-edit'></i>
+                    </span>
+                    <span><%= t('people.show.edit') %></span>
+                  <% end %>
                 <% end %>
-              <% end %>
+                <% if person && policy(person).destroy? %>
+                  <%= link_to person_path(person),
+                    class: 'button is-small is-danger',
+                    data: {
+                      turbo_method: :delete,
+                      turbo_confirm: t('people.show.delete_confirmation', name: person&.name)
+                    },
+                    title: t('helpers.submit.delete', model: t('people.form.person')) do %>
+                    <span class='icon'>
+                      <i class='fas fa-trash'></i>
+                    </span>
+                    <span><%= t('people.show.delete') %></span>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
@@ -76,12 +92,7 @@
           </h3>
           <div class='content'>
             <p class='mb-2'>
-              <span class='icon-text'>
-                <span class='icon has-text-success'>
-                  <i class='fas fa-birthday-cake'></i>
-                </span>
-                <span><strong><%= t('people.show.born') %>:</strong> <%= person&.date_text %></span>
-              </span>
+              <%= person&.date_text %>
             </p>
             <% if person&.birth_text.present? %>
               <p class='mb-2'>
@@ -96,10 +107,10 @@
             <% unless person&.alive %>
               <p class='mb-2'>
                 <span class='icon-text'>
-                  <span class='icon has-text-grey'>
+                  <span class='icon has-text-danger'>
                     <i class='fas fa-cross'></i>
                   </span>
-                  <span><strong><%= t('people.show.died') %>:</strong> <%= person&.death_date_formatted if person&.death_date_formatted.present? %></span>
+                  <span><%= t('people.show.died') %>: <%= person&.death_date_formatted if person&.death_date_formatted.present? %></span>
                 </span>
               </p>
             <% end %>
