@@ -12,6 +12,8 @@ class Person < ApplicationRecord
     attachable.variant :thumb, resize_to_limit: [240, 240]
   end
   has_many :events, as: :resource
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_by, through: :favorites, source: :user
 
   validates :name, presence: true
   validates :avatar, content_type: ['image/png', 'image/jpeg'],

@@ -157,6 +157,13 @@ ja:
       never_signed_in: "サインインしたことがありません"
       confirmed: "確認済み"
       pending: "保留中"
+  favorites:
+    title: "お気に入り"
+    add: "お気に入りに追加"
+    remove: "お気に入りから削除"
+    added: "お気に入りに追加されました"
+    removed: "お気に入りから削除されました"
+    not_found: "お気に入りが見つかりません"
   pages:
     about:
       title: "アプリケーションについて"

@@ -1,0 +1,16 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# Initial favorite - user one has favorited person one
+one:
+  user: one
+  person: one
+
+# Another user's favorite - user two has favorited person two  
+two:
+  user: two
+  person: two
+
+# Cross-user favorite example - user two has also favorited person one
+three:
+  user: two
+  person: one
