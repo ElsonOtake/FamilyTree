@@ -73,7 +73,11 @@ export default class extends Controller {
       }
     } catch (error) {
       console.error('Favorite toggle error:', error);
-      this.showFlashMessage('An error occurred. Please try again.', 'error');
+      let errorMessage = 'An error occurred. Please try again.';
+      if (!navigator.onLine) {
+        errorMessage = 'Please check your internet connection.';
+      }
+      this.showFlashMessage(errorMessage, 'error');
       // Restore original button state
       button.innerHTML = originalHTML;
     } finally {
