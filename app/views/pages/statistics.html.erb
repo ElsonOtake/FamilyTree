@@ -1,0 +1,344 @@
+<div class="container">
+  <!-- Hero Section -->
+  <section class="hero is-primary is-medium">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-1 has-text-white">
+          <span class="icon-text">
+            <span class="icon">
+              <i class="fas fa-chart-bar"></i>
+            </span>
+            <span class="ml-2"><%= t('.title') %></span>
+          </span>
+        </h1>
+        <h2 class="subtitle is-4 has-text-white-ter mt-3">
+          <%= t('.description') %>
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview Statistics Section -->
+  <section class="section">
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <h2 class="title is-3 has-text-centered mb-6">
+          <span class="icon-text">
+            <span class="icon has-text-info">
+              <i class="fas fa-users"></i>
+            </span>
+            <span class="ml-2"><%= t('.overview') %></span>
+          </span>
+        </h2>
+        
+        <div class="columns is-multiline">
+          <!-- Total People -->
+          <div class="column is-3">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-primary mb-4">
+                  <i class="fas fa-users fa-3x"></i>
+                </div>
+                <p class="title is-2 has-text-primary">
+                  <%= @total_people %>
+                </p>
+                <p class="subtitle is-6">
+                  <%= t('.total_people') %>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Total Couples -->
+          <div class="column is-3">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-danger mb-4">
+                  <i class="fas fa-heart fa-3x"></i>
+                </div>
+                <p class="title is-2 has-text-danger">
+                  <%= @total_couples %>
+                </p>
+                <p class="subtitle is-6">
+                  <%= t('.total_couples') %>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Living People -->
+          <div class="column is-3">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-success mb-4">
+                  <i class="fas fa-heartbeat fa-3x"></i>
+                </div>
+                <p class="title is-2 has-text-success">
+                  <%= @living_people %>
+                </p>
+                <p class="subtitle is-6">
+                  <%= t('.living_people') %>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Deceased People -->
+          <div class="column is-3">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-grey mb-4">
+                  <i class="fas fa-cross fa-3x"></i>
+                </div>
+                <p class="title is-2 has-text-grey">
+                  <%= @deceased_people %>
+                </p>
+                <p class="subtitle is-6">
+                  <%= t('.deceased_people') %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gender Distribution Section -->
+  <section class="section">
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <h2 class="title is-3 has-text-centered mb-6">
+          <span class="icon-text">
+            <span class="icon has-text-info">
+              <i class="fas fa-venus-mars"></i>
+            </span>
+            <span class="ml-2"><%= t('.gender_distribution') %></span>
+          </span>
+        </h2>
+        
+        <div class="columns is-multiline">
+          <% @people_by_gender.each do |gender, count| %>
+            <div class="column is-3">
+              <div class="card">
+                <div class="card-content has-text-centered">
+                  <div class="icon is-large mb-4 <%= gender_color_class(gender) %>">
+                    <i class="<%= gender_icon_class(gender) %> fa-2x"></i>
+                  </div>
+                  <p class="title is-3">
+                    <%= count %>
+                  </p>
+                  <p class="subtitle is-6">
+                    <%= t(".gender_#{gender&.downcase || 'unknown'}") %>
+                  </p>
+                  <div class="progress-wrapper">
+                    <progress class="progress <%= gender_progress_class(gender) %>" 
+                              value="<%= count %>" 
+                              max="<%= @total_people %>">
+                      <%= ((count.to_f / @total_people) * 100).round(1) %>%
+                    </progress>
+                    <span class="progress-text has-text-dark has-text-weight-bold"><%= ((count.to_f / @total_people) * 100).round(1) %>%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Birth Year Statistics Section -->
+  <% unless @birth_year_stats.empty? %>
+    <section class="section">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3 has-text-centered mb-6">
+            <span class="icon-text">
+              <span class="icon has-text-warning">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
+              <span class="ml-2"><%= t('.birth_decades') %></span>
+            </span>
+          </h2>
+          
+          <div class="box">
+            <div class="table-container">
+              <table class="table is-fullwidth is-striped">
+                <thead>
+                  <tr class="has-background-light">
+                    <th>
+                      <span class="icon-text">
+                        <span class="icon has-text-info">
+                          <i class="fas fa-calendar"></i>
+                        </span>
+                        <span class="ml-2"><%= t('.decade') %></span>
+                      </span>
+                    </th>
+                    <th>
+                      <span class="icon-text">
+                        <span class="icon has-text-primary">
+                          <i class="fas fa-users"></i>
+                        </span>
+                        <span class="ml-2"><%= t('.people_count') %></span>
+                      </span>
+                    </th>
+                    <th>
+                      <span class="icon-text">
+                        <span class="icon has-text-success">
+                          <i class="fas fa-percentage"></i>
+                        </span>
+                        <span class="ml-2"><%= t('.percentage') %></span>
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @birth_year_stats.each do |decade, count| %>
+                    <tr>
+                      <td class="has-text-weight-bold"><%= decade %>s</td>
+                      <td>
+                        <span class="tag is-primary is-medium">
+                          <%= count %>
+                        </span>
+                      </td>
+                      <td>
+                        <div class="progress-wrapper">
+                          <progress class="progress is-success" 
+                                    value="<%= count %>" 
+                                    max="<%= @birth_year_stats.values.max %>">
+                            <%= ((count.to_f / @birth_year_stats.values.sum) * 100).round(1) %>%
+                          </progress>
+                          <span class="progress-text has-text-dark has-text-weight-bold"><%= ((count.to_f / @birth_year_stats.values.sum) * 100).round(1) %>%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <% end %>
+
+  <!-- Family Structure Section -->
+  <section class="section">
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <h2 class="title is-3 has-text-centered mb-6">
+          <span class="icon-text">
+            <span class="icon has-text-info">
+              <i class="fas fa-sitemap"></i>
+            </span>
+            <span class="ml-2"><%= t('.family_structure') %></span>
+          </span>
+        </h2>
+        
+        <div class="columns is-multiline">
+          <!-- People without parents -->
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-warning mb-4">
+                  <i class="fas fa-user-slash fa-2x"></i>
+                </div>
+                <p class="title is-3 has-text-warning">
+                  <%= @people_without_parents %>
+                </p>
+                <p class="subtitle is-6">
+                  <%= t('.without_parents') %>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- People with children -->
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-success mb-4">
+                  <i class="fas fa-baby fa-2x"></i>
+                </div>
+                <p class="title is-3 has-text-success">
+                  <%= @people_with_children %>
+                </p>
+                <p class="subtitle is-6">
+                  <%= t('.with_children') %>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- People without children -->
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content has-text-centered">
+                <div class="icon is-large has-text-info mb-4">
+                  <i class="fas fa-user fa-2x"></i>
+                </div>
+                <p class="title is-3 has-text-info">
+                  <%= @people_without_children %>
+                </p>
+                <p class="subtitle is-6">
+                  <%= t('.without_children') %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+.progress-wrapper {
+  position: relative;
+  margin-top: 10px;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+</style>
+
+<%
+  def gender_color_class(gender)
+    case gender.to_s.upcase
+    when 'M' then 'has-text-info'
+    when 'F' then 'has-text-danger'  
+    when 'P' then 'has-text-success'
+    when 'X' then 'has-text-warning'
+    else 'has-text-grey'
+    end
+  end
+
+  def gender_icon_class(gender)
+    case gender.to_s.upcase
+    when 'M' then 'fas fa-mars'
+    when 'F' then 'fas fa-venus'
+    when 'P' then 'fas fa-genderless'
+    when 'X' then 'fas fa-question'
+    else 'fas fa-user'
+    end
+  end
+
+  def gender_progress_class(gender)
+    case gender.to_s.upcase
+    when 'M' then 'is-info'
+    when 'F' then 'is-danger'
+    when 'P' then 'is-success' 
+    when 'X' then 'is-warning'
+    else 'is-grey'
+    end
+  end
+%>

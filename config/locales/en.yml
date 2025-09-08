@@ -151,6 +151,28 @@ en:
       contact: "Contact Us"
       contact_description: "If you have any questions or suggestions, please contact us."
       contact_link: "Contact Us"
+    statistics:
+      title: "Family Statistics"
+      description: "Overview of your family tree data and demographics"
+      overview: "Overview"
+      total_people: "Total People"
+      total_couples: "Total Couples"
+      living_people: "Living People"
+      deceased_people: "Deceased People"
+      gender_distribution: "Gender Distribution"
+      gender_m: "Male"
+      gender_f: "Female"
+      gender_p: "Pet"
+      gender_x: "Other"
+      gender_unknown: "Gender Unknown"
+      birth_decades: "Birth Decades"
+      decade: "Decade"
+      people_count: "People"
+      percentage: "Distribution"
+      family_structure: "Family Structure"
+      without_parents: "Without Parents"
+      with_children: "With Children"
+      without_children: "Without Children"
   devise:
     confirmations:
       new:

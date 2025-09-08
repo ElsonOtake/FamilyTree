@@ -148,6 +148,28 @@ pt:
       contact: "Entre em contato"
       contact_description: "Se você tiver alguma dúvida ou sugestão, entre em contato conosco."
       contact_link: "Entre em contato"
+    statistics:
+      title: "Estatísticas da Família"
+      description: "Visão geral dos dados da sua árvore genealógica e demografia"
+      overview: "Visão Geral"
+      total_people: "Total de Pessoas"
+      total_couples: "Total de Casais"
+      living_people: "Pessoas Vivas"
+      deceased_people: "Pessoas Falecidas"
+      gender_distribution: "Distribuição por Gênero"
+      gender_m: "Masculino"
+      gender_f: "Feminino"
+      gender_p: "Pet"
+      gender_x: "Outro"
+      gender_unknown: "Gênero Desconhecido"
+      birth_decades: "Décadas de Nascimento"
+      decade: "Década"
+      people_count: "Pessoas"
+      percentage: "Distribuição"
+      family_structure: "Estrutura Familiar"
+      without_parents: "Sem Pais"
+      with_children: "Com Filhos"
+      without_children: "Sem Filhos"
   devise:
     confirmations:
       new:
