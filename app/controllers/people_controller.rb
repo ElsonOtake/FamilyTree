@@ -19,6 +19,9 @@ class PeopleController < ApplicationController
       @pagy, @people = pagy(current_user.favorite_people, items: 10)
       @showing_favorites = true
     end
+    
+    # Preload favorites for the current page to avoid N+1 queries
+    @favorites_lookup = current_user.favorites.where(person: @people).index_by(&:person_id)
   end
 
   def download
@@ -31,7 +34,10 @@ class PeopleController < ApplicationController
   end
 
   # GET /people/1 or /people/1.json
-  def show; end
+  def show
+    # Preload favorite to avoid additional query in view
+    @favorite = current_user.favorites.find_by(person: @person)
+  end
 
   # GET /people/new
   def new
@@ -113,11 +119,18 @@ class PeopleController < ApplicationController
   # DELETE /people/1 or /people/1.json
   def destroy
     authorize @person
+    person_name = @person.name
     @person.destroy
 
     respond_to do |format|
-      format.html { redirect_to people_url, notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person')) }
-      format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person')) }
+      format.html { 
+        redirect_to people_path, 
+        notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person')) 
+      }
+      format.turbo_stream { 
+        redirect_to people_path, 
+        notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person'))
+      }
       format.json { head :no_content }
     end
   end
