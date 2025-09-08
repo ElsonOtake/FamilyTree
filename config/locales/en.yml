@@ -121,7 +121,27 @@ en:
       no_children: "No children recorded"
       add: "Add"
       edit: "Edit"
+      delete: "Delete"
+      delete_confirmation: "Are you sure you want to delete %{name}? This action cannot be undone."
     birthday: "Birthday"
+    birthdays:
+      title: "Birthdays"
+      subtitle: "Family birthdays from the past week and next week"
+      today_birthdays: "Today's Birthdays"
+      past_week_birthdays: "Past Week"
+      upcoming_birthdays: "This Week"
+      turning_age: "Turning %{age}"
+      birthday_today: "Birthday today!"
+      days_ago:
+        one: "%{count} day ago"
+        other: "%{count} days ago"
+      turned_age: "turned %{age}"
+      in_days:
+        one: "in %{count} day"
+        other: "in %{count} days"
+      will_turn_age: "will turn %{age}"
+      no_birthdays: "No upcoming birthdays"
+      no_birthdays_description: "No birthdays found in the past week or next week."
   users:
     form:
     roles:
@@ -158,6 +178,28 @@ en:
       contact: "Contact Us"
       contact_description: "If you have any questions or suggestions, please contact us."
       contact_link: "Contact Us"
+    statistics:
+      title: "Family Statistics"
+      description: "Overview of your family tree data and demographics"
+      overview: "Overview"
+      total_people: "Total People"
+      total_couples: "Total Couples"
+      living_people: "Living People"
+      deceased_people: "Deceased People"
+      gender_distribution: "Gender Distribution"
+      gender_m: "Male"
+      gender_f: "Female"
+      gender_p: "Pet"
+      gender_x: "Other"
+      gender_unknown: "Gender Unknown"
+      birth_decades: "Birth Decades"
+      decade: "Decade"
+      people_count: "People"
+      percentage: "Distribution"
+      family_structure: "Family Structure"
+      without_parents: "Without Parents"
+      with_children: "With Children"
+      without_children: "Without Children"
   devise:
     confirmations:
       new:

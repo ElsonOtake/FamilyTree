@@ -27,6 +27,9 @@ class Person < ApplicationRecord
   enum gender: %i[M F P X]
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
+  scope :with_birthdays_in_period, -> {
+    where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
+  }
 
   before_validation :set_default_gender, on: :create
 
@@ -116,6 +119,58 @@ class Person < ApplicationRecord
 
   def should_generate_new_friendly_id?
     name_changed?
+  end
+
+  def birthday_this_year
+    return nil unless birth_month && birth_day
+    Date.new(Date.current.year, birth_month, birth_day)
+  rescue Date::Error
+    nil
+  end
+
+  def birthday_next_year
+    return nil unless birth_month && birth_day
+    Date.new(Date.current.year + 1, birth_month, birth_day)
+  rescue Date::Error
+    nil
+  end
+
+  def days_until_birthday
+    return nil unless birth_month && birth_day
+    
+    this_year = birthday_this_year
+    next_year = birthday_next_year
+    today = Date.current
+    
+    return nil unless this_year && next_year
+    
+    if this_year >= today
+      (this_year - today).to_i
+    else
+      (next_year - today).to_i
+    end
+  end
+
+  def age_on_birthday
+    return nil unless birth_year && birth_month && birth_day
+    
+    birthday = birthday_this_year
+    return nil unless birthday
+    
+    if birthday >= Date.current
+      Date.current.year - birth_year
+    else
+      Date.current.year - birth_year + 1
+    end
+  end
+
+  def self.upcoming_birthdays(days_ahead = 7, days_back = 7)
+    people = with_birthdays_in_period.includes(:avatar_attachment)
+    
+    people.select do |person|
+      days_until = person.days_until_birthday
+      days_until && days_until >= -days_back && days_until <= days_ahead
+    end.sort_by(&:days_until_birthday)
   end
 
   def self.ransackable_attributes(_auth_object = nil)

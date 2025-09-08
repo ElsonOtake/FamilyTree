@@ -118,7 +118,27 @@ ja:
       no_children: "子供の記録なし"
       add: "追加"
       edit: "編集"
+      delete: "削除"
+      delete_confirmation: "%{name}を削除してもよろしいですか？この操作は元に戻せません。"
     birthday: "誕生"
+    birthdays:
+      title: "誕生日"
+      subtitle: "先週と来週の家族の誕生日"
+      today_birthdays: "今日の誕生日"
+      past_week_birthdays: "先週"
+      upcoming_birthdays: "今週"
+      turning_age: "%{age}歳になります"
+      birthday_today: "今日が誕生日！"
+      days_ago:
+        one: "%{count}日前"
+        other: "%{count}日前"
+      turned_age: "%{age}歳になりました"
+      in_days:
+        one: "%{count}日後"
+        other: "%{count}日後"
+      will_turn_age: "%{age}歳になります"
+      no_birthdays: "近日中の誕生日はありません"
+      no_birthdays_description: "先週と来週に誕生日が見つかりませんでした。"
   users:
     form:
     roles:
@@ -155,6 +175,28 @@ ja:
       contact: "ご連絡ください"
       contact_description: "ご質問やご提案がございましたら、お問い合わせください。"
       contact_link: "ご連絡ください"
+    statistics:
+      title: "家族の統計"
+      description: "家系図のデータと人口統計の概要"
+      overview: "概要"
+      total_people: "総人数"
+      total_couples: "総夫婦数"
+      living_people: "生存者"
+      deceased_people: "故人"
+      gender_distribution: "性別分布"
+      gender_m: "男性"
+      gender_f: "女性"
+      gender_p: "ペット"
+      gender_x: "その他"
+      gender_unknown: "性別不明"
+      birth_decades: "出生年代"
+      decade: "年代"
+      people_count: "人数"
+      percentage: "分布"
+      family_structure: "家族構造"
+      without_parents: "両親なし"
+      with_children: "子供あり"
+      without_children: "子供なし"
   devise:
     confirmations:
       new:
