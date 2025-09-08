@@ -153,7 +153,7 @@
                           <% end %>
                         </span><br>
                         <span class='is-size-7 has-text-grey'>
-                          <%= person.birthday_this_year.strftime('%B %d') if person.birthday_this_year %>
+                          <%= I18n.l(person.birthday_this_year, format: :day_month_long) if person.birthday_this_year %>
                         </span>
                       </div>
                     </div>
