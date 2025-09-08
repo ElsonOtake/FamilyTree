@@ -148,6 +148,28 @@ ja:
       contact: "ご連絡ください"
       contact_description: "ご質問やご提案がございましたら、お問い合わせください。"
       contact_link: "ご連絡ください"
+    statistics:
+      title: "家族の統計"
+      description: "家系図のデータと人口統計の概要"
+      overview: "概要"
+      total_people: "総人数"
+      total_couples: "総夫婦数"
+      living_people: "生存者"
+      deceased_people: "故人"
+      gender_distribution: "性別分布"
+      gender_m: "男性"
+      gender_f: "女性"
+      gender_p: "ペット"
+      gender_x: "その他"
+      gender_unknown: "性別不明"
+      birth_decades: "出生年代"
+      decade: "年代"
+      people_count: "人数"
+      percentage: "分布"
+      family_structure: "家族構造"
+      without_parents: "両親なし"
+      with_children: "子供あり"
+      without_children: "子供なし"
   devise:
     confirmations:
       new:
