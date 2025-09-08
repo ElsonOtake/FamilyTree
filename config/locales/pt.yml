@@ -118,6 +118,8 @@ pt:
       no_children: "Nenhum filho registrado"
       add: "Adicionar"
       edit: "Editar"
+      delete: "Excluir"
+      delete_confirmation: "Tem certeza de que deseja excluir %{name}? Esta ação não pode ser desfeita."
     birthday: "Nascimento"
     birthdays:
       title: "Aniversários"
