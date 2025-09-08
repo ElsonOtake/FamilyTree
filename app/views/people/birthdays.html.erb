@@ -1,0 +1,185 @@
+<!-- Hero Header -->
+<section class='hero is-info is-small mb-5'>
+  <div class='hero-body'>
+    <div class='container'>
+      <h1 class='title is-2 has-text-white mb-3'>
+        <span class='icon-text'>
+          <span class='icon'>
+            <i class='fas fa-birthday-cake'></i>
+          </span>
+          <span><%= t('.title') %></span>
+        </span>
+      </h1>
+      <p class='subtitle is-4 has-text-white-ter'>
+        <%= t('.subtitle') %>
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class='container'>
+  <div class='columns is-centered'>
+    <div class='column is-10'>
+      
+      <!-- Today's Birthdays -->
+      <% if @today_birthdays.any? %>
+        <div class='box mb-5'>
+          <h2 class='title is-4 has-text-primary mb-4'>
+            <span class='icon-text'>
+              <span class='icon'>
+                <i class='fas fa-gift'></i>
+              </span>
+              <span><%= t('.today_birthdays') %></span>
+            </span>
+          </h2>
+          <div class='columns is-multiline'>
+            <% @today_birthdays.each do |person| %>
+              <div class='column is-6-tablet is-4-desktop'>
+                <div class='card has-background-primary-light'>
+                  <div class='card-content'>
+                    <div class='media'>
+                      <div class='media-left'>
+                        <figure class='image is-48x48'>
+                          <% if person.avatar.attached? %>
+                            <%= image_tag person.avatar.variant(:thumb), alt: person.name, class: 'is-rounded' %>
+                          <% else %>
+                            <span class='icon is-large has-text-primary'>
+                              <i class='fas fa-user-circle fa-3x'></i>
+                            </span>
+                          <% end %>
+                        </figure>
+                      </div>
+                      <div class='media-content'>
+                        <%= link_to person.name, person_path(person), class: 'title is-5', style: 'display: block;' %><br>
+                        <% if person.age_on_birthday %>
+                          <p class='subtitle is-6 has-text-primary-dark'>
+                            <strong><%= t('.turning_age', age: person.age_on_birthday) %></strong>
+                          </p>
+                        <% else %>
+                          <p class='subtitle is-6 has-text-grey'>
+                            <%= t('.birthday_today') %>
+                          </p>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Past Week Birthdays -->
+      <% if @past_birthdays.any? %>
+        <div class='box mb-5'>
+          <h2 class='title is-4 has-text-grey mb-4'>
+            <span class='icon-text'>
+              <span class='icon'>
+                <i class='fas fa-history'></i>
+              </span>
+              <span><%= t('.past_week_birthdays') %></span>
+            </span>
+          </h2>
+          <div class='columns is-multiline'>
+            <% @past_birthdays.each do |person| %>
+              <div class='column is-6-tablet is-4-desktop'>
+                <div class='card'>
+                  <div class='card-content'>
+                    <div class='media'>
+                      <div class='media-left'>
+                        <figure class='image is-48x48'>
+                          <% if person.avatar.attached? %>
+                            <%= image_tag person.avatar.variant(:thumb), alt: person.name, class: 'is-rounded' %>
+                          <% else %>
+                            <span class='icon is-large has-text-grey'>
+                              <i class='fas fa-user-circle fa-3x'></i>
+                            </span>
+                          <% end %>
+                        </figure>
+                      </div>
+                      <div class='media-content'>
+                        <%= link_to person.name, person_path(person), class: 'title is-6', style: 'display: block;' %><br>
+                        <p class='subtitle is-7 has-text-grey'>
+                          <%= t('.days_ago', count: person.days_until_birthday.abs) %>
+                          <% if person.age_on_birthday %>
+                            - <%= t('.turned_age', age: person.age_on_birthday) %>
+                          <% end %>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Upcoming Birthdays -->
+      <% if @upcoming_birthdays.any? %>
+        <div class='box mb-5'>
+          <h2 class='title is-4 has-text-success mb-4'>
+            <span class='icon-text'>
+              <span class='icon'>
+                <i class='fas fa-calendar-plus'></i>
+              </span>
+              <span><%= t('.upcoming_birthdays') %></span>
+            </span>
+          </h2>
+          <div class='columns is-multiline'>
+            <% @upcoming_birthdays.each do |person| %>
+              <div class='column is-6-tablet is-4-desktop'>
+                <div class='card'>
+                  <div class='card-content'>
+                    <div class='media'>
+                      <div class='media-left'>
+                        <figure class='image is-48x48'>
+                          <% if person.avatar.attached? %>
+                            <%= image_tag person.avatar.variant(:thumb), alt: person.name, class: 'is-rounded' %>
+                          <% else %>
+                            <span class='icon is-large has-text-success'>
+                              <i class='fas fa-user-circle fa-3x'></i>
+                            </span>
+                          <% end %>
+                        </figure>
+                      </div>
+                      <div class='media-content'>
+                        <%= link_to person.name, person_path(person), class: 'title is-6', style: 'display: block;' %><br>
+                        <span class='subtitle is-7 has-text-success'>
+                          <%= t('.in_days', count: person.days_until_birthday) %>
+                          <% if person.age_on_birthday %>
+                            - <%= t('.will_turn_age', age: person.age_on_birthday) %>
+                          <% end %>
+                        </span><br>
+                        <span class='is-size-7 has-text-grey'>
+                          <%= person.birthday_this_year.strftime('%B %d') if person.birthday_this_year %>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- No Birthdays Message -->
+      <% if @people_with_birthdays.empty? %>
+        <div class='box has-text-centered'>
+          <span class='icon is-large has-text-grey-light'>
+            <i class='fas fa-calendar fa-3x'></i>
+          </span>
+          <p class='title is-4 has-text-grey-light mt-4'>
+            <%= t('.no_birthdays') %>
+          </p>
+          <p class='subtitle has-text-grey'>
+            <%= t('.no_birthdays_description') %>
+          </p>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
