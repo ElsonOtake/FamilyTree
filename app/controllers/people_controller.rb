@@ -112,6 +112,7 @@ class PeopleController < ApplicationController
 
   # DELETE /people/1 or /people/1.json
   def destroy
+    authorize @person
     @person.destroy
 
     respond_to do |format|
@@ -132,6 +133,15 @@ class PeopleController < ApplicationController
     @q = Person.not_P.not_F.ransack(params[:q]) if session[:gender] == 'F'
     @q = Person.not_P.where.not(id: session[:id]).ransack(params[:q]) if session[:gender] == 'X'
     @people = params[:q].nil? ? [] : @q.result(distinct: true)
+  end
+
+  def birthdays
+    @people_with_birthdays = Person.upcoming_birthdays(7, 7)
+    
+    # Group by days until birthday for better organization
+    @past_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday < 0 }
+    @today_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday == 0 }
+    @upcoming_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday > 0 }
   end
 
   private
