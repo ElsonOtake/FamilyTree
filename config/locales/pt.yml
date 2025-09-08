@@ -157,6 +157,13 @@ pt:
       never_signed_in: "Nunca acessou"
       confirmed: "Confirmado"
       pending: "Pendente"
+  favorites:
+    title: "Favoritos"
+    add: "Adicionar aos favoritos"
+    remove: "Remover dos favoritos"
+    added: "Adicionado aos favoritos"
+    removed: "Removido dos favoritos"
+    not_found: "Favorito não encontrado"
   pages:
     about:
       title: "Sobre a aplicação"

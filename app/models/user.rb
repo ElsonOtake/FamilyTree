@@ -8,6 +8,8 @@ class User < ApplicationRecord
   # acts_as_paranoid
 
   has_many :events
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_people, through: :favorites, source: :person
 
   rolify
   # Include default devise modules. Others available are:

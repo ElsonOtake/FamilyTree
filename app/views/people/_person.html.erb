@@ -37,7 +37,8 @@
                   </p>
                 <% end %>
               </div>
-              <div class='buttons'>
+              <div class='buttons ml-4'>
+                <!-- Edit Button -->
                 <% if person && policy(person).edit? %>
                   <%= link_to edit_person_path(person),
                     class: 'button is-small is-white is-outlined',
@@ -54,19 +55,52 @@
                     <span><%= t('people.show.edit') %></span>
                   <% end %>
                 <% end %>
-                <% if person && policy(person).destroy? %>
-                  <%= link_to person_path(person),
-                    class: 'button is-small is-danger',
-                    data: {
-                      turbo_method: :delete,
-                      turbo_confirm: t('people.show.delete_confirmation', name: person&.name)
+                
+                <!-- Favorite Toggle Button -->
+                <% if @favorite %>
+                  <%= button_to person_favorite_path(person, @favorite), 
+                    method: :delete,
+                    remote: true,
+                    data: { 
+                      controller: 'favorites',
+                      action: 'click->favorites#toggle'
                     },
-                    title: t('helpers.submit.delete', model: t('people.form.person')) do %>
+                    class: 'button is-small is-danger',
+                    title: t('favorites.remove') do %>
                     <span class='icon'>
-                      <i class='fas fa-trash'></i>
+                      <i class='fas fa-heart'></i>
                     </span>
-                    <span><%= t('people.show.delete') %></span>
+                    <span><%= t('favorites.remove') %></span>
                   <% end %>
+                <% else %>
+                  <%= button_to person_favorites_path(person), 
+                    remote: true,
+                    data: { 
+                      controller: 'favorites',
+                      action: 'click->favorites#toggle'
+                    },
+                    class: 'button is-small is-white is-outlined',
+                    title: t('favorites.add') do %>
+                    <span class='icon'>
+                      <i class='far fa-heart'></i>
+                    </span>
+                    <span><%= t('favorites.add') %></span>
+                  <% end %>
+                <% end %>
+                <% if person && policy(person).destroy? %>
+                  <form action="<%= person_path(person) %>" method="post" style="display: inline;">
+                    <input type="hidden" name="_method" value="delete">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <button type="submit" 
+                            class="button is-small is-danger"
+                            title="<%= t('helpers.submit.delete', model: t('people.form.person')) %>"
+                            onclick="return confirm('<%= j(t('people.show.delete_confirmation', name: person&.name)) %>')">
+                      <span class="icon">
+                        <i class="fas fa-trash"></i>
+                      </span>
+                      <span><%= t('people.show.delete') %></span>
+                    </button>
+                  </form>
                 <% end %>
               </div>
             </div>
