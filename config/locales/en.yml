@@ -122,6 +122,24 @@ en:
       add: "Add"
       edit: "Edit"
     birthday: "Birthday"
+    birthdays:
+      title: "Birthdays"
+      subtitle: "Family birthdays from the past week and next week"
+      today_birthdays: "Today's Birthdays"
+      past_week_birthdays: "Past Week"
+      upcoming_birthdays: "This Week"
+      turning_age: "Turning %{age}"
+      birthday_today: "Birthday today!"
+      days_ago:
+        one: "%{count} day ago"
+        other: "%{count} days ago"
+      turned_age: "turned %{age}"
+      in_days:
+        one: "in %{count} day"
+        other: "in %{count} days"
+      will_turn_age: "will turn %{age}"
+      no_birthdays: "No upcoming birthdays"
+      no_birthdays_description: "No birthdays found in the past week or next week."
   users:
     form:
     roles:

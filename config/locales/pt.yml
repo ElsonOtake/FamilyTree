@@ -119,6 +119,24 @@ pt:
       add: "Adicionar"
       edit: "Editar"
     birthday: "Nascimento"
+    birthdays:
+      title: "Aniversários"
+      subtitle: "Aniversários da família da semana passada e próxima semana"
+      today_birthdays: "Aniversários de Hoje"
+      past_week_birthdays: "Semana Passada"
+      upcoming_birthdays: "Esta Semana"
+      turning_age: "Fazendo %{age} anos"
+      birthday_today: "Aniversário hoje!"
+      days_ago:
+        one: "há %{count} dia"
+        other: "há %{count} dias"
+      turned_age: "fez %{age} anos"
+      in_days:
+        one: "em %{count} dia"
+        other: "em %{count} dias"
+      will_turn_age: "fará %{age} anos"
+      no_birthdays: "Nenhum aniversário próximo"
+      no_birthdays_description: "Nenhum aniversário encontrado na semana passada ou próxima semana."
   users:
     form:
     roles:
