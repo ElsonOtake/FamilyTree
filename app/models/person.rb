@@ -168,31 +168,10 @@ class Person < ApplicationRecord
     start_date = today - days_back.days
     end_date = today + days_ahead.days
     
-    # Get current year's month/day ranges for the period
-    start_month, start_day = start_date.month, start_date.day
-    end_month, end_day = end_date.month, end_date.day
-    
+    # Get all people with complete birthday data
     people = with_birthdays_in_period.includes(:avatar_attachment)
     
-    # Handle year boundaries (e.g., Dec 28 to Jan 5)
-    if start_date.year != end_date.year
-      people = people.where(
-        "(birth_month = ? AND birth_day >= ?) OR " \
-        "(birth_month > ?) OR " \
-        "(birth_month < ?) OR " \
-        "(birth_month = ? AND birth_day <= ?)",
-        start_month, start_day, start_month, end_month, end_month, end_day
-      )
-    else
-      people = people.where(
-        "(birth_month = ? AND birth_day >= ? AND birth_day <= ?) OR " \
-        "(birth_month > ? AND birth_month < ?) OR " \
-        "(birth_month = ? AND birth_day <= ?)",
-        start_month, start_day, end_day, start_month, end_month, end_month, end_day
-      )
-    end
-    
-    # Filter and sort by actual birthday calculation
+    # Filter by actual birthday dates and sort
     people.select do |person|
       birthday = person.birthday_this_year
       next unless birthday
