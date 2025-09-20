@@ -14,7 +14,7 @@ class ChildPolicy < ApplicationPolicy
   end
 
   def download?
-    user.has_role? :admin
+    user&.has_role? :admin
   end
 
   def show?
@@ -22,7 +22,7 @@ class ChildPolicy < ApplicationPolicy
   end
 
   def new?
-    user.has_any_role? :silver, :gold, :admin
+    user&.has_any_role? :silver, :gold, :admin
   end
 
   def edit?
@@ -38,6 +38,6 @@ class ChildPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.has_any_role? :gold, :admin
+    user&.has_any_role? :gold, :admin
   end
 end
