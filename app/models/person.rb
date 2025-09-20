@@ -139,20 +139,19 @@ class Person < ApplicationRecord
     return nil unless birth_month && birth_day
     
     this_year = birthday_this_year
-    next_year = birthday_next_year
     today = Date.current
     
-    return nil unless this_year && next_year
+    return nil unless this_year
     
-    if this_year >= today
-      (this_year - today).to_i
-    else
-      (next_year - today).to_i
-    end
+    (this_year - today).to_i
+  end
+
+  def alive?
+    death_year.blank?
   end
 
   def age_on_birthday
-    return nil unless birth_year && birth_month && birth_day
+    return nil unless birth_year && birth_month && birth_day && alive?
     
     birthday = birthday_this_year
     return nil unless birthday
