@@ -1,0 +1,28 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: "person.create"
+  user: one
+  data: { name: "Test Person", birth_year: 1990 }
+  resource: one (Person)
+  created_at: <%= 1.day.ago %>
+
+two:
+  name: "couple.create"
+  user: one
+  data: { marriage: "2023-01-01" }
+  resource: one (Person)
+  created_at: <%= 2.days.ago %>
+
+three:
+  name: "child.create"
+  user: one
+  data: { couple_id: 1 }
+  resource: two (Person)
+  created_at: <%= 3.days.ago %>
+
+user_create_event:
+  name: "user.create"
+  user: one
+  data: { email: "test@example.com" }
+  created_at: <%= 1.week.ago %>
