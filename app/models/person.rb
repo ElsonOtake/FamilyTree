@@ -281,13 +281,13 @@ class Person < ApplicationRecord
   end
 
   def valid_partial_date?(year, month, day)
-    # Verifica se o ano é válido
+    # Check if year is valid
     return false if year.present? && year.to_i > Date.today.year
 
-    # Verifica se o mês é válido
+    # Check if month is valid
     return false if month.present? && (month.to_i < 1 || month.to_i > 12)
 
-    # Verifica se o dia é válido
+    # Check if day is valid
     if day.present?
       return true if year.present? && month.present? && Date.valid_date?(year.to_i, month.to_i, day.to_i)
       return false if day.to_i < 1 || day.to_i > 31
