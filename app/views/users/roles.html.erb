@@ -44,7 +44,7 @@
           <div class='level-left'>
             <div>
               <p class='heading'><%= t('.administrators') %></p>
-              <p class='title is-3'><%= @users.select { |u| u.roles.first.name == 'admin' }.count %></p>
+              <p class='title is-3'><%= @users.select { |u| u.has_role?(:admin) }.count %></p>
             </div>
           </div>
           <div class='level-right'>
@@ -62,7 +62,7 @@
           <div class='level-left'>
             <div>
               <p class='heading'><%= t('.editors') %></p>
-              <p class='title is-3'><%= @users.select { |u| u.roles.first.name == 'editor' }.count %></p>
+              <p class='title is-3'><%= @users.select { |u| u.has_role?(:editor) }.count %></p>
             </div>
           </div>
           <div class='level-right'>
@@ -136,9 +136,9 @@
               <td>
                 <div class='is-flex is-align-items-center'>
                   <span class='icon mr-2'>
-                    <% if user.roles.first.name == 'admin' %>
+                    <% if user.has_role?(:admin) %>
                       <i class='fas fa-user-cog has-text-danger'></i>
-                    <% elsif user.roles.first.name == 'editor' %>
+                    <% elsif user.has_role?(:editor) %>
                       <i class='fas fa-user-edit has-text-info'></i>
                     <% else %>
                       <i class='fas fa-user has-text-grey'></i>

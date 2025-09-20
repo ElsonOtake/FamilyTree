@@ -1,0 +1,36 @@
+<% content_for :title, t('users.index.title') %>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">Users</h1>
+    
+    <div class="table-container">
+      <table class="table is-fullwidth is-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Locale</th>
+            <th>Roles</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= user.locale %></td>
+              <td>
+                <% user.roles.each do |role| %>
+                  <span class="tag is-primary"><%= role.name %></span>
+                <% end %>
+              </td>
+              <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
