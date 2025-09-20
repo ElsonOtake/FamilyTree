@@ -164,11 +164,39 @@ class Person < ApplicationRecord
   end
 
   def self.upcoming_birthdays(days_ahead = 7, days_back = 7)
+    today = Date.current
+    start_date = today - days_back.days
+    end_date = today + days_ahead.days
+    
+    # Get current year's month/day ranges for the period
+    start_month, start_day = start_date.month, start_date.day
+    end_month, end_day = end_date.month, end_date.day
+    
     people = with_birthdays_in_period.includes(:avatar_attachment)
     
+    # Handle year boundaries (e.g., Dec 28 to Jan 5)
+    if start_date.year != end_date.year
+      people = people.where(
+        "(birth_month = ? AND birth_day >= ?) OR " \
+        "(birth_month > ?) OR " \
+        "(birth_month < ?) OR " \
+        "(birth_month = ? AND birth_day <= ?)",
+        start_month, start_day, start_month, end_month, end_month, end_day
+      )
+    else
+      people = people.where(
+        "(birth_month = ? AND birth_day >= ? AND birth_day <= ?) OR " \
+        "(birth_month > ? AND birth_month < ?) OR " \
+        "(birth_month = ? AND birth_day <= ?)",
+        start_month, start_day, end_day, start_month, end_month, end_month, end_day
+      )
+    end
+    
+    # Filter and sort by actual birthday calculation
     people.select do |person|
-      days_until = person.days_until_birthday
-      days_until && days_until >= -days_back && days_until <= days_ahead
+      birthday = person.birthday_this_year
+      next unless birthday
+      birthday >= start_date && birthday <= end_date
     end.sort_by(&:days_until_birthday)
   end
 
