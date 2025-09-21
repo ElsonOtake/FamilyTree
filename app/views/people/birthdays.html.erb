@@ -11,7 +11,11 @@
         </span>
       </h1>
       <p class='subtitle is-4 has-text-white-ter'>
-        <%= t('.subtitle') %>
+        <% if @showing_favorites %>
+          <%= t('.subtitle_favorites') %>
+        <% else %>
+          <%= t('.subtitle') %>
+        <% end %>
       </p>
     </div>
   </div>
@@ -169,14 +173,36 @@
       <% if @people_with_birthdays.empty? %>
         <div class='box has-text-centered'>
           <span class='icon is-large has-text-grey-light'>
-            <i class='fas fa-calendar fa-3x'></i>
+            <% if @showing_favorites %>
+              <i class='fas fa-heart fa-3x'></i>
+            <% else %>
+              <i class='fas fa-calendar fa-3x'></i>
+            <% end %>
           </span>
           <p class='title is-4 has-text-grey-light mt-4'>
-            <%= t('.no_birthdays') %>
+            <% if @showing_favorites %>
+              <%= t('.no_favorites_birthdays') %>
+            <% else %>
+              <%= t('.no_birthdays') %>
+            <% end %>
           </p>
           <p class='subtitle has-text-grey'>
-            <%= t('.no_birthdays_description') %>
+            <% if @showing_favorites %>
+              <%= t('.no_favorites_birthdays_description') %>
+            <% else %>
+              <%= t('.no_birthdays_description') %>
+            <% end %>
           </p>
+          <% if @showing_favorites %>
+            <div class='mt-4'>
+              <%= link_to people_path, class: 'button is-primary is-outlined' do %>
+                <span class='icon'>
+                  <i class='fas fa-users'></i>
+                </span>
+                <span><%= t('.browse_all_people') %></span>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       <% end %>
 
