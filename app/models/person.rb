@@ -164,9 +164,7 @@ class Person < ApplicationRecord
   end
 
   def self.upcoming_birthdays(days_ahead = 7, days_back = 7)
-    today = Date.current
-    start_date = today - days_back.days
-    end_date = today + days_ahead.days
+    start_date, end_date = birthday_date_range(days_ahead, days_back)
     
     # Get all people with complete birthday data
     people = with_birthdays_in_period.includes(:avatar_attachment)
@@ -180,9 +178,7 @@ class Person < ApplicationRecord
   end
 
   def self.upcoming_birthdays_for_people(people_collection, days_ahead = 7, days_back = 7)
-    today = Date.current
-    start_date = today - days_back.days
-    end_date = today + days_ahead.days
+    start_date, end_date = birthday_date_range(days_ahead, days_back)
     
     # Use the same optimized filtering as the main upcoming_birthdays method
     # Get people with complete birthday data from the provided collection
@@ -227,6 +223,11 @@ class Person < ApplicationRecord
   end
 
   private
+
+  def self.birthday_date_range(days_ahead, days_back)
+    today = Date.current
+    [today - days_back.days, today + days_ahead.days]
+  end
 
   def set_default_gender
     self.gender ||= 'M'
