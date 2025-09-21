@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_21_001642) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_21_032011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -135,6 +135,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_21_001642) do
     t.integer "death_day"
     t.integer "death_month"
     t.integer "death_year"
+    t.index ["birth_month", "birth_day"], name: "idx_people_birth_month_day"
     t.index ["deleted_at"], name: "index_people_on_deleted_at"
     t.index ["previous_id"], name: "index_people_on_previous_id"
     t.index ["slug"], name: "index_people_on_slug"
