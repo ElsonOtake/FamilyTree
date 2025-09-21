@@ -124,6 +124,7 @@ ja:
     birthdays:
       title: "誕生日"
       subtitle: "先週と来週の家族の誕生日"
+      subtitle_favorites: "お気に入り家族の先週と来週の誕生日"
       today_birthdays: "今日の誕生日"
       past_week_birthdays: "先週"
       upcoming_birthdays: "今週"
@@ -139,6 +140,9 @@ ja:
       will_turn_age: "%{age}歳になります"
       no_birthdays: "近日中の誕生日はありません"
       no_birthdays_description: "先週と来週に誕生日が見つかりませんでした。"
+      no_favorites_birthdays: "お気に入りの中に誕生日がありません"
+      no_favorites_birthdays_description: "お気に入りの家族の中で先週と来週に誕生日がある人はいませんでした。"
+      browse_all_people: "すべての人を見る"
   users:
     form:
     roles:
