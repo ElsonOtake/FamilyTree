@@ -124,6 +124,7 @@ pt:
     birthdays:
       title: "Aniversários"
       subtitle: "Aniversários da família da semana passada e próxima semana"
+      subtitle_favorites: "Aniversários dos seus familiares favoritos da semana passada e próxima semana"
       today_birthdays: "Aniversários de Hoje"
       past_week_birthdays: "Semana Passada"
       upcoming_birthdays: "Esta Semana"
@@ -139,6 +140,9 @@ pt:
       will_turn_age: "fará %{age} anos"
       no_birthdays: "Nenhum aniversário próximo"
       no_birthdays_description: "Nenhum aniversário encontrado na semana passada ou próxima semana."
+      no_favorites_birthdays: "Nenhum aniversário entre seus favoritos"
+      no_favorites_birthdays_description: "Nenhum dos seus familiares favoritos tem aniversário na semana passada ou próxima semana."
+      browse_all_people: "Ver Todas as Pessoas"
   users:
     form:
     roles:

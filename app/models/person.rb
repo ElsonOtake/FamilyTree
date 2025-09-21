@@ -179,6 +179,24 @@ class Person < ApplicationRecord
     end.sort_by(&:days_until_birthday)
   end
 
+  def self.upcoming_birthdays_for_people(people_collection, days_ahead = 7, days_back = 7)
+    today = Date.current
+    start_date = today - days_back.days
+    end_date = today + days_ahead.days
+    
+    # Get people with complete birthday data from the provided collection
+    people_with_birthdays = people_collection.joins("LEFT JOIN active_storage_attachments ON active_storage_attachments.record_id = people.id AND active_storage_attachments.record_type = 'Person' AND active_storage_attachments.name = 'avatar'")
+                                            .where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
+                                            .includes(:avatar_attachment)
+    
+    # Filter by actual birthday dates and sort
+    people_with_birthdays.select do |person|
+      birthday = person.birthday_this_year
+      next unless birthday
+      birthday >= start_date && birthday <= end_date
+    end.sort_by(&:days_until_birthday)
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[alive birth birth_year birth_month birth_day death description gender name kanji]
   end
