@@ -139,20 +139,19 @@ class Person < ApplicationRecord
     return nil unless birth_month && birth_day
     
     this_year = birthday_this_year
-    next_year = birthday_next_year
     today = Date.current
     
-    return nil unless this_year && next_year
+    return nil unless this_year
     
-    if this_year >= today
-      (this_year - today).to_i
-    else
-      (next_year - today).to_i
-    end
+    (this_year - today).to_i
+  end
+
+  def alive?
+    death_year.blank?
   end
 
   def age_on_birthday
-    return nil unless birth_year && birth_month && birth_day
+    return nil unless birth_year && birth_month && birth_day && alive?
     
     birthday = birthday_this_year
     return nil unless birthday
@@ -165,11 +164,18 @@ class Person < ApplicationRecord
   end
 
   def self.upcoming_birthdays(days_ahead = 7, days_back = 7)
+    today = Date.current
+    start_date = today - days_back.days
+    end_date = today + days_ahead.days
+    
+    # Get all people with complete birthday data
     people = with_birthdays_in_period.includes(:avatar_attachment)
     
+    # Filter by actual birthday dates and sort
     people.select do |person|
-      days_until = person.days_until_birthday
-      days_until && days_until >= -days_back && days_until <= days_ahead
+      birthday = person.birthday_this_year
+      next unless birthday
+      birthday >= start_date && birthday <= end_date
     end.sort_by(&:days_until_birthday)
   end
 
@@ -254,13 +260,13 @@ class Person < ApplicationRecord
   end
 
   def valid_partial_date?(year, month, day)
-    # Verifica se o ano é válido
+    # Check if year is valid
     return false if year.present? && year.to_i > Date.today.year
 
-    # Verifica se o mês é válido
+    # Check if month is valid
     return false if month.present? && (month.to_i < 1 || month.to_i > 12)
 
-    # Verifica se o dia é válido
+    # Check if day is valid
     if day.present?
       return true if year.present? && month.present? && Date.valid_date?(year.to_i, month.to_i, day.to_i)
       return false if day.to_i < 1 || day.to_i > 31

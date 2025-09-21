@@ -2,15 +2,15 @@
   <div class='field has-addons mb-0'>
     <div class='control has-icons-left'>
       <div class='select is-small 
-        <% if user.roles.first.name == 'admin' %>
+        <% if user.has_role?(:admin) %>
           is-danger
-        <% elsif user.roles.first.name == 'editor' %>
+        <% elsif user.has_role?(:editor) %>
           is-info
         <% else %>
           is-light
         <% end %>'>
         <%= form.select :role, @roles, 
-            { selected: user.roles.first.name }, 
+            { selected: (user.has_role?(:admin) ? 'admin' : user.has_role?(:editor) ? 'editor' : user.roles.first&.name) }, 
             { oninput: 'this.form.requestSubmit();',
               class: 'has-text-weight-semibold' } %>
       </div>

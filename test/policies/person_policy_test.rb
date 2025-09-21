@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CouplePolicyTest < ActiveSupport::TestCase
+class PersonPolicyTest < ActiveSupport::TestCase
   def setup
     # Create roles if they don't exist
     Role.find_or_create_by(name: 'admin')
@@ -30,93 +30,93 @@ class CouplePolicyTest < ActiveSupport::TestCase
     @bronze_user = users(:two)
     @bronze_user.add_role(:bronze)
     
-    @couple = couples(:one)
+    @person = people(:one)
   end
 
   # INITIALIZATION TESTS
-  test "policy initializes correctly with user and couple" do
-    policy = CouplePolicy.new(@admin_user, @couple)
+  test "policy initializes correctly with user and person" do
+    policy = PersonPolicy.new(@admin_user, @person)
     assert_equal @admin_user, policy.user
-    assert_equal @couple, policy.record
+    assert_equal @person, policy.record
   end
 
   test "policy custom attribute readers work" do
-    policy = CouplePolicy.new(@admin_user, @couple)
+    policy = PersonPolicy.new(@admin_user, @person)
     assert_equal @admin_user, policy.user
-    # The policy assigns @couple but doesn't have attr_reader for it
+    # The policy assigns @person but doesn't have attr_reader for it
     # The record is still accessible via inherited record attr_reader
-    assert_equal @couple, policy.record
+    assert_equal @person, policy.record
   end
 
   # INDEX TESTS
   test "index? allows everyone" do
-    policy = CouplePolicy.new(@admin_user, Couple)
+    policy = PersonPolicy.new(@admin_user, Person)
     assert policy.index?
     
-    policy = CouplePolicy.new(@bronze_user, Couple)
+    policy = PersonPolicy.new(@bronze_user, Person)
     assert policy.index?
     
-    policy = CouplePolicy.new(nil, Couple)
+    policy = PersonPolicy.new(nil, Person)
     assert policy.index?
   end
 
   # DOWNLOAD TESTS
   test "download? allows admin users only" do
-    policy = CouplePolicy.new(@admin_user, Couple)
+    policy = PersonPolicy.new(@admin_user, Person)
     assert policy.download?
   end
 
   test "download? denies non-admin users" do
     [@gold_user, @silver_user, @bronze_user].each do |user|
-      policy = CouplePolicy.new(user, Couple)
+      policy = PersonPolicy.new(user, Person)
       assert_not policy.download?, "#{user.roles.pluck(:name)} should not have download access"
     end
   end
 
   test "download? denies unauthenticated users" do
-    policy = CouplePolicy.new(nil, Couple)
+    policy = PersonPolicy.new(nil, Person)
     assert_not policy.download?
   end
 
   # SHOW TESTS
   test "show? allows everyone" do
-    policy = CouplePolicy.new(@admin_user, @couple)
+    policy = PersonPolicy.new(@admin_user, @person)
     assert policy.show?
     
-    policy = CouplePolicy.new(@bronze_user, @couple)
+    policy = PersonPolicy.new(@bronze_user, @person)
     assert policy.show?
     
-    policy = CouplePolicy.new(nil, @couple)
+    policy = PersonPolicy.new(nil, @person)
     assert policy.show?
   end
 
   # NEW TESTS
   test "new? allows silver, gold, and admin users" do
     [@silver_user, @gold_user, @admin_user].each do |user|
-      policy = CouplePolicy.new(user, Couple)
+      policy = PersonPolicy.new(user, Person)
       assert policy.new?, "#{user.roles.pluck(:name)} should have new access"
     end
   end
 
   test "new? denies bronze users" do
-    policy = CouplePolicy.new(@bronze_user, Couple)
+    policy = PersonPolicy.new(@bronze_user, Person)
     assert_not policy.new?
   end
 
   test "new? denies unauthenticated users" do
-    policy = CouplePolicy.new(nil, Couple)
+    policy = PersonPolicy.new(nil, Person)
     assert_not policy.new?
   end
 
   # EDIT TESTS
   test "edit? delegates to new?" do
     [@silver_user, @gold_user, @admin_user].each do |user|
-      policy = CouplePolicy.new(user, @couple)
+      policy = PersonPolicy.new(user, @person)
       assert policy.edit?, "#{user.roles.pluck(:name)} should have edit access"
       assert_equal policy.new?, policy.edit?
     end
     
-    policy = CouplePolicy.new(@bronze_user, @couple)
+    policy = PersonPolicy.new(@bronze_user, @person)
     assert_not policy.edit?
     assert_equal policy.new?, policy.edit?
   end
@@ -124,12 +124,12 @@ class CouplePolicyTest < ActiveSupport::TestCase
   # CREATE TESTS
   test "create? delegates to new?" do
     [@silver_user, @gold_user, @admin_user].each do |user|
-      policy = CouplePolicy.new(user, Couple)
+      policy = PersonPolicy.new(user, Person)
       assert policy.create?, "#{user.roles.pluck(:name)} should have create access"
       assert_equal policy.new?, policy.create?
     end
     
-    policy = CouplePolicy.new(@bronze_user, Couple)
+    policy = PersonPolicy.new(@bronze_user, Person)
     assert_not policy.create?
     assert_equal policy.new?, policy.create?
   end
@@ -137,12 +137,12 @@ class CouplePolicyTest < ActiveSupport::TestCase
   # UPDATE TESTS
   test "update? delegates to new?" do
     [@silver_user, @gold_user, @admin_user].each do |user|
-      policy = CouplePolicy.new(user, @couple)
+      policy = PersonPolicy.new(user, @person)
       assert policy.update?, "#{user.roles.pluck(:name)} should have update access"
       assert_equal policy.new?, policy.update?
     end
     
-    policy = CouplePolicy.new(@bronze_user, @couple)
+    policy = PersonPolicy.new(@bronze_user, @person)
     assert_not policy.update?
     assert_equal policy.new?, policy.update?
   end
@@ -150,37 +150,75 @@ class CouplePolicyTest < ActiveSupport::TestCase
   # DESTROY TESTS
   test "destroy? allows gold and admin users only" do
     [@gold_user, @admin_user].each do |user|
-      policy = CouplePolicy.new(user, @couple)
+      policy = PersonPolicy.new(user, @person)
       assert policy.destroy?, "#{user.roles.pluck(:name)} should have destroy access"
     end
   end
 
   test "destroy? denies silver and bronze users" do
     [@silver_user, @bronze_user].each do |user|
-      policy = CouplePolicy.new(user, @couple)
+      policy = PersonPolicy.new(user, @person)
       assert_not policy.destroy?, "#{user.roles.pluck(:name)} should not have destroy access"
     end
   end
 
   test "destroy? denies unauthenticated users" do
-    policy = CouplePolicy.new(nil, @couple)
+    policy = PersonPolicy.new(nil, @person)
     assert_not policy.destroy?
+  end
+
+  # SEARCH_CHILD TESTS
+  test "search_child? delegates to new?" do
+    [@silver_user, @gold_user, @admin_user].each do |user|
+      policy = PersonPolicy.new(user, @person)
+      assert policy.search_child?, "#{user.roles.pluck(:name)} should have search_child access"
+      assert_equal policy.new?, policy.search_child?
+    end
+    
+    policy = PersonPolicy.new(@bronze_user, @person)
+    assert_not policy.search_child?
+    assert_equal policy.new?, policy.search_child?
+  end
+
+  # SEARCH_MATE TESTS
+  test "search_mate? delegates to new?" do
+    [@silver_user, @gold_user, @admin_user].each do |user|
+      policy = PersonPolicy.new(user, @person)
+      assert policy.search_mate?, "#{user.roles.pluck(:name)} should have search_mate access"
+      assert_equal policy.new?, policy.search_mate?
+    end
+    
+    policy = PersonPolicy.new(@bronze_user, @person)
+    assert_not policy.search_mate?
+    assert_equal policy.new?, policy.search_mate?
+  end
+
+  # BIRTHDAYS TESTS
+  test "birthdays? allows everyone" do
+    policy = PersonPolicy.new(@admin_user, Person)
+    assert policy.birthdays?
+    
+    policy = PersonPolicy.new(@bronze_user, Person)
+    assert policy.birthdays?
+    
+    policy = PersonPolicy.new(nil, Person)
+    assert policy.birthdays?
   end
 
   # ROLE HIERARCHY TESTS
   test "role hierarchy for creation actions" do
-    creation_actions = [:new?, :edit?, :create?, :update?]
+    creation_actions = [:new?, :edit?, :create?, :update?, :search_child?, :search_mate?]
     
-    # Admin, Gold, and Silver should have all creation permissions
+    # Admin and Gold should have all creation permissions
     [@admin_user, @gold_user, @silver_user].each do |user|
-      policy = CouplePolicy.new(user, @couple)
+      policy = PersonPolicy.new(user, @person)
       creation_actions.each do |action|
         assert policy.send(action), "#{user.roles.pluck(:name)} should have #{action} access"
       end
     end
     
     # Bronze should not have creation permissions
-    policy = CouplePolicy.new(@bronze_user, @couple)
+    policy = PersonPolicy.new(@bronze_user, @person)
     creation_actions.each do |action|
       assert_not policy.send(action), "Bronze users should not have #{action} access"
     end
@@ -189,24 +227,24 @@ class CouplePolicyTest < ActiveSupport::TestCase
   test "role hierarchy for destruction actions" do
     # Only gold and admin should have destroy permissions
     [@gold_user, @admin_user].each do |user|
-      policy = CouplePolicy.new(user, @couple)
+      policy = PersonPolicy.new(user, @person)
       assert policy.destroy?, "#{user.roles.pluck(:name)} should have destroy access"
     end
     
     # Silver and bronze should not have destroy permissions
     [@silver_user, @bronze_user].each do |user|
-      policy = CouplePolicy.new(user, @couple)
+      policy = PersonPolicy.new(user, @person)
       assert_not policy.destroy?, "#{user.roles.pluck(:name)} should not have destroy access"
     end
   end
 
   # INHERITANCE TESTS
   test "inherits from ApplicationPolicy" do
-    assert CouplePolicy < ApplicationPolicy
+    assert PersonPolicy < ApplicationPolicy
   end
 
   test "overrides ApplicationPolicy defaults correctly" do
-    policy = CouplePolicy.new(@admin_user, @couple)
+    policy = PersonPolicy.new(@admin_user, @person)
     
     # These should be overridden to allow access
     assert policy.index?
@@ -215,27 +253,7 @@ class CouplePolicyTest < ActiveSupport::TestCase
     assert policy.create?
     assert policy.update?
     assert policy.destroy?
-  end
-
-  test "policy follows same pattern as PersonPolicy" do
-    # CouplePolicy and PersonPolicy should have identical authorization rules
-    person_policy = PersonPolicy.new(@admin_user, people(:one))
-    couple_policy = CouplePolicy.new(@admin_user, @couple)
-    
-    # Public access methods
-    assert_equal person_policy.index?, couple_policy.index?
-    assert_equal person_policy.show?, couple_policy.show?
-    
-    # Creation methods (require silver+)
-    assert_equal person_policy.new?, couple_policy.new?
-    assert_equal person_policy.create?, couple_policy.create?
-    assert_equal person_policy.update?, couple_policy.update?
-    
-    # Destruction methods (require gold+)
-    assert_equal person_policy.destroy?, couple_policy.destroy?
-    
-    # Admin-only methods
-    assert_equal person_policy.download?, couple_policy.download?
+    assert policy.birthdays?
   end
 
   # EDGE CASES
@@ -249,7 +267,7 @@ class CouplePolicyTest < ActiveSupport::TestCase
     multi_role_user.add_role(:bronze)
     multi_role_user.add_role(:gold)
     
-    policy = CouplePolicy.new(multi_role_user, @couple)
+    policy = PersonPolicy.new(multi_role_user, @person)
     
     # Should have highest role privileges (gold)
     assert policy.new?
@@ -265,7 +283,7 @@ class CouplePolicyTest < ActiveSupport::TestCase
     )
     # Don't add any roles
     
-    policy = CouplePolicy.new(no_role_user, @couple)
+    policy = PersonPolicy.new(no_role_user, @person)
     
     # Should not have privileged access
     assert_not policy.new?
@@ -275,12 +293,13 @@ class CouplePolicyTest < ActiveSupport::TestCase
     # But should still have public access
     assert policy.index?
     assert policy.show?
+    assert policy.birthdays?
   end
 
   test "policy methods work with different record types" do
     # Test with class vs instance
-    class_policy = CouplePolicy.new(@admin_user, Couple)
-    instance_policy = CouplePolicy.new(@admin_user, @couple)
+    class_policy = PersonPolicy.new(@admin_user, Person)
+    instance_policy = PersonPolicy.new(@admin_user, @person)
     
     # Both should work for all actions
     assert class_policy.index?
@@ -291,7 +310,7 @@ class CouplePolicyTest < ActiveSupport::TestCase
   end
 
   test "nil record handling" do
-    policy = CouplePolicy.new(@admin_user, nil)
+    policy = PersonPolicy.new(@admin_user, nil)
     
     # Should not crash and should still check user permissions
     assert policy.index?
@@ -300,10 +319,10 @@ class CouplePolicyTest < ActiveSupport::TestCase
   end
 
   test "all policy methods are defined" do
-    policy = CouplePolicy.new(@admin_user, @couple)
+    policy = PersonPolicy.new(@admin_user, @person)
     expected_methods = [
       :index?, :download?, :show?, :new?, :edit?, :create?, 
-      :update?, :destroy?
+      :update?, :destroy?, :search_child?, :search_mate?, :birthdays?
     ]
     
     expected_methods.each do |method|
@@ -315,31 +334,16 @@ class CouplePolicyTest < ActiveSupport::TestCase
     # Test that has_any_role? correctly identifies users with any of the specified roles
     
     # Silver user should pass silver/gold/admin check
-    policy = CouplePolicy.new(@silver_user, @couple)
+    policy = PersonPolicy.new(@silver_user, @person)
     assert policy.new? # Uses has_any_role? :silver, :gold, :admin
     
     # Gold user should pass gold/admin check  
-    policy = CouplePolicy.new(@gold_user, @couple)
+    policy = PersonPolicy.new(@gold_user, @person)
     assert policy.destroy? # Uses has_any_role? :gold, :admin
     
     # Bronze user should fail both checks
-    policy = CouplePolicy.new(@bronze_user, @couple)
+    policy = PersonPolicy.new(@bronze_user, @person)
     assert_not policy.new? # Should fail silver/gold/admin check
     assert_not policy.destroy? # Should fail gold/admin check
-  end
-
-  test "policy is consistent across different couple instances" do
-    # Create another couple to test consistency
-    person1 = Person.create!(name: "Test Person 1", birth_year: 1980)
-    person2 = Person.create!(name: "Test Person 2", birth_year: 1981)
-    another_couple = Couple.create!(person1: person1, person2: person2)
-    
-    original_policy = CouplePolicy.new(@silver_user, @couple)
-    another_policy = CouplePolicy.new(@silver_user, another_couple)
-    
-    # Permissions should be the same regardless of which couple instance
-    assert_equal original_policy.show?, another_policy.show?
-    assert_equal original_policy.new?, another_policy.new?
-    assert_equal original_policy.destroy?, another_policy.destroy?
   end
 end

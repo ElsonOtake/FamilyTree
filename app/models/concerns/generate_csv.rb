@@ -10,7 +10,7 @@
 # The method can be called on the model class to generate
 #
 #
-# Não está carregando o valor do campo deleted_at
+# Note: deleted_at field value is not being loaded
 #
 #
 module GenerateCsv

@@ -15,6 +15,6 @@ class FavoritePolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.present? && (favorite.user == user)
+    user.present? && favorite&.user == user
   end
 end
