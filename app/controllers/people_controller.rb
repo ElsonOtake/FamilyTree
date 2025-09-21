@@ -155,6 +155,7 @@ class PeopleController < ApplicationController
       @people_with_birthdays = Person.upcoming_birthdays_for_people(current_user.favorite_people, 7, 7)
       @showing_favorites = true
     else
+      authorize Person, :birthdays?
       @people_with_birthdays = Person.upcoming_birthdays(7, 7)
       @showing_favorites = false
     end
