@@ -184,17 +184,38 @@ class Person < ApplicationRecord
     start_date = today - days_back.days
     end_date = today + days_ahead.days
     
+    # Use the same optimized filtering as the main upcoming_birthdays method
     # Get people with complete birthday data from the provided collection
-    people_with_birthdays = people_collection.joins("LEFT JOIN active_storage_attachments ON active_storage_attachments.record_id = people.id AND active_storage_attachments.record_type = 'Person' AND active_storage_attachments.name = 'avatar'")
-                                            .where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
-                                            .includes(:avatar_attachment)
+    people_with_birthdays = people_collection
+                            .joins("LEFT JOIN active_storage_attachments ON active_storage_attachments.record_id = people.id AND active_storage_attachments.record_type = 'Person' AND active_storage_attachments.name = 'avatar'")
+                            .where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
+                            .includes(:avatar_attachment)
     
-    # Filter by actual birthday dates and sort
-    people_with_birthdays.select do |person|
-      birthday = person.birthday_this_year
-      next unless birthday
-      birthday >= start_date && birthday <= end_date
-    end.sort_by(&:days_until_birthday)
+    # Apply date filtering with SQL where possible
+    # For most cases (within same year), we can filter efficiently
+    if start_date.year == end_date.year && start_date.month <= end_date.month
+      # Simple case: same year and no month wrap-around
+      people_with_birthdays = people_with_birthdays.where(
+        "(birth_month > ? OR (birth_month = ? AND birth_day >= ?)) AND (birth_month < ? OR (birth_month = ? AND birth_day <= ?))",
+        start_date.month - 1, start_date.month, start_date.day,
+        end_date.month + 1, end_date.month, end_date.day
+      )
+      
+      # Final filtering and sorting in Ruby for exact date calculations
+      people_with_birthdays.to_a.select do |person|
+        birthday = person.birthday_this_year
+        next unless birthday
+        birthday >= start_date && birthday <= end_date
+      end.sort_by(&:days_until_birthday)
+    else
+      # Complex case: year boundary or month wrap-around, fall back to Ruby filtering
+      # Still more efficient than original as we pre-filter by birth_month/birth_day existence
+      people_with_birthdays.to_a.select do |person|
+        birthday = person.birthday_this_year
+        next unless birthday
+        birthday >= start_date && birthday <= end_date
+      end.sort_by(&:days_until_birthday)
+    end
   end
 
   def self.ransackable_attributes(_auth_object = nil)
