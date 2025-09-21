@@ -1,0 +1,32 @@
+<% content_for :title, t('couples.index.title') %>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title"><%= t('couples.index.title') %></h1>
+    
+    <div class="table-container">
+      <table class="table is-fullwidth is-striped">
+        <thead>
+          <tr>
+            <th><%= t('couples.table.person1') %></th>
+            <th><%= t('couples.table.person2') %></th>
+            <th><%= t('couples.table.marriage') %></th>
+            <th><%= t('couples.table.separation') %></th>
+            <th><%= t('couples.table.location') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @couples.each do |couple| %>
+            <tr>
+              <td><%= couple.person1&.name || "Person #{couple.person1_id}" %></td>
+              <td><%= couple.person2&.name || "Person #{couple.person2_id}" %></td>
+              <td><%= couple.marriage&.strftime("%Y-%m-%d") %></td>
+              <td><%= couple.separation&.strftime("%Y-%m-%d") %></td>
+              <td><%= couple.local %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

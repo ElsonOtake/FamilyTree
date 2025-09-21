@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   def authenticate_admin_user!
     unless user_signed_in? && current_user.has_role?(:admin)
       flash[:alert] = I18n.t('active_admin.access_denied')
-      redirect_to root_path # Redireciona para a página inicial ou outra página
+      redirect_to root_path # Redirect to home page or another page
     end
   end
 

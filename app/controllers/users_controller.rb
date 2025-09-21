@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     @user.add_role(user_params[:role])
     current_user.events.create(
       name: 'role.update',
-      data: { user_id: @user.id, old_roles: , new_roles: @user.roles.pluck(:name) }
+      data: { user_id: @user.id, old_roles: old_roles, new_roles: @user.roles.pluck(:name) }
     )
     redirect_to roles_users_path
   end
