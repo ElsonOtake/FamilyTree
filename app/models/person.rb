@@ -24,7 +24,7 @@ class Person < ApplicationRecord
   extend FriendlyId
   friendly_id :slug_candidates, use: %i[slugged finders history]
 
-  enum gender: %i[M F P X]
+  enum :gender, %i[M F P X]
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
   scope :with_birthdays_in_period, -> {
