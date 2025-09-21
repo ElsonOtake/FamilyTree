@@ -164,7 +164,7 @@ class Person < ApplicationRecord
   end
 
   def self.upcoming_birthdays(days_ahead = 7, days_back = 7)
-    upcoming_birthdays_for_people(all, days_ahead, days_back)
+    filter_birthdays_in_range(all, days_ahead, days_back)
   end
 
   def self.upcoming_birthdays_for_people(people_collection, days_ahead = 7, days_back = 7)
