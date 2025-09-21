@@ -24,7 +24,7 @@ class Person < ApplicationRecord
   extend FriendlyId
   friendly_id :slug_candidates, use: %i[slugged finders history]
 
-  enum gender: %i[M F P X]
+  enum :gender, %i[M F P X]
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
   scope :with_birthdays_in_period, -> {
@@ -164,19 +164,11 @@ class Person < ApplicationRecord
   end
 
   def self.upcoming_birthdays(days_ahead = 7, days_back = 7)
-    today = Date.current
-    start_date = today - days_back.days
-    end_date = today + days_ahead.days
-    
-    # Get all people with complete birthday data
-    people = with_birthdays_in_period.includes(:avatar_attachment)
-    
-    # Filter by actual birthday dates and sort
-    people.select do |person|
-      birthday = person.birthday_this_year
-      next unless birthday
-      birthday >= start_date && birthday <= end_date
-    end.sort_by(&:days_until_birthday)
+    filter_birthdays_in_range(all, days_ahead, days_back)
+  end
+
+  def self.upcoming_birthdays_for_people(people_collection, days_ahead = 7, days_back = 7)
+    filter_birthdays_in_range(people_collection, days_ahead, days_back)
   end
 
   def self.ransackable_attributes(_auth_object = nil)
@@ -188,6 +180,43 @@ class Person < ApplicationRecord
   end
 
   private
+
+  def self.birthday_date_range(days_ahead, days_back)
+    today = Date.current
+    [today - days_back.days, today + days_ahead.days]
+  end
+
+  def self.filter_birthdays_in_range(people_collection, days_ahead, days_back)
+    start_date, end_date = birthday_date_range(days_ahead, days_back)
+    current_year = Date.current.year
+    
+    # Build efficient SQL query with birthday date calculations
+    people_with_birthdays = people_collection
+                            .where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
+                            .includes(:avatar_attachment)
+    
+    # Use SQL to filter by birthday dates within range
+    # Calculate the birthday this year for comparison at SQL level
+    # Note: MAKE_DATE function requires PostgreSQL 9.4+
+    if start_date.year == end_date.year
+      # Same year - can use direct month/day comparisons
+      people_with_birthdays = people_with_birthdays.where(
+        "MAKE_DATE(?, birth_month, birth_day) BETWEEN ? AND ?",
+        current_year, start_date, end_date
+      )
+    else
+      # Year boundary crossing - use OR condition for two year ranges
+      people_with_birthdays = people_with_birthdays.where(
+        "MAKE_DATE(?, birth_month, birth_day) >= ? OR MAKE_DATE(?, birth_month, birth_day) <= ?",
+        start_date.year, start_date, end_date.year, end_date
+      )
+    end
+    
+    # Sort by days until birthday using SQL
+    people_with_birthdays
+      .select("people.*, (MAKE_DATE(#{current_year}, birth_month, birth_day) - CURRENT_DATE) AS days_until_birthday")
+      .order("days_until_birthday ASC")
+  end
 
   def set_default_gender
     self.gender ||= 'M'
