@@ -65,6 +65,49 @@ class PersonTest < ActiveSupport::TestCase
     end
   end
 
+  test "upcoming_birthdays_for_people returns correct results" do
+    # Create people with birthdays around current date
+    person_past = Person.create!(
+      name: "Past Birthday", 
+      birth_year: 1985, 
+      birth_month: 9, 
+      birth_day: 15
+    )
+    person_future = Person.create!(
+      name: "Future Birthday",
+      birth_year: 1995,
+      birth_month: 9,
+      birth_day: 25
+    )
+    person_today = Person.create!(
+      name: "Today Birthday",
+      birth_year: 2000,
+      birth_month: 9,
+      birth_day: 20
+    )
+    person_excluded = Person.create!(
+      name: "Excluded Person",
+      birth_year: 1990,
+      birth_month: 9,
+      birth_day: 22
+    )
+
+    # Create a collection that includes only some people
+    favorites_collection = Person.where(id: [person_past.id, person_future.id, person_today.id])
+
+    travel_to Date.new(2025, 9, 20) do
+      upcoming = Person.upcoming_birthdays_for_people(favorites_collection, 7, 7)
+      
+      # Should include people from the collection
+      assert_includes upcoming, person_past
+      assert_includes upcoming, person_future  
+      assert_includes upcoming, person_today
+      
+      # Should NOT include people outside the collection
+      assert_not_includes upcoming, person_excluded
+    end
+  end
+
   test "upcoming_birthdays handles month boundaries correctly" do
     # Person with birthday at end of previous month
     person_prev_month = Person.create!(
