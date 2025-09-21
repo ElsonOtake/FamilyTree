@@ -151,6 +151,7 @@ class PeopleController < ApplicationController
   def birthdays
     # Get birthdays from user's favorite people, or all people if no favorites
     if current_user&.favorite_people&.any?
+      authorize current_user.favorites, :index?
       @people_with_birthdays = Person.upcoming_birthdays_for_people(current_user.favorite_people, 7, 7)
       @showing_favorites = true
     else

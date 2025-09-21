@@ -65,6 +65,23 @@ class FavoritePolicyTest < ActiveSupport::TestCase
     assert policy.create? # Should still allow creation for authenticated user
   end
 
+  # INDEX TESTS
+  test "index? allows authenticated users" do
+    policy = FavoritePolicy.new(@user, @favorite)
+    assert policy.index?
+    
+    policy = FavoritePolicy.new(@other_user, @favorite)
+    assert policy.index?
+    
+    policy = FavoritePolicy.new(@third_user, @favorite)
+    assert policy.index?
+  end
+
+  test "index? denies unauthenticated users" do
+    policy = FavoritePolicy.new(nil, @favorite)
+    assert_not policy.index?
+  end
+
   # DESTROY TESTS
   test "destroy? allows user to destroy their own favorite" do
     # Create a unique favorite for this test
@@ -137,8 +154,8 @@ class FavoritePolicyTest < ActiveSupport::TestCase
   test "inherits ApplicationPolicy defaults for non-overridden methods" do
     policy = FavoritePolicy.new(@user, @favorite)
     
-    # FavoritePolicy only overrides create? and destroy?, all others should use ApplicationPolicy defaults
-    assert_not policy.index?
+    # FavoritePolicy overrides index?, create? and destroy?, all others should use ApplicationPolicy defaults
+    assert policy.index? # Now overridden to allow authenticated users
     assert_not policy.show?
     assert_not policy.update?
     assert_not policy.edit?
@@ -166,17 +183,17 @@ class FavoritePolicyTest < ActiveSupport::TestCase
     assert FavoritePolicy < ApplicationPolicy
   end
 
-  test "only overrides create? and destroy? methods" do
-    # FavoritePolicy should only define create? and destroy?, all others inherited
+  test "only overrides index?, create? and destroy? methods" do
+    # FavoritePolicy should only define index?, create? and destroy?, all others inherited
     favorite_methods = FavoritePolicy.instance_methods(false)
-    expected_overrides = [:create?, :destroy?]
+    expected_overrides = [:index?, :create?, :destroy?]
     
     expected_overrides.each do |method|
       assert_includes favorite_methods, method, "FavoritePolicy should override #{method}"
     end
     
     # Should not override other methods
-    not_overridden = [:index?, :show?, :new?, :update?, :edit?]
+    not_overridden = [:show?, :new?, :update?, :edit?]
     not_overridden.each do |method|
       assert_not_includes favorite_methods, method, "FavoritePolicy should not override #{method}"
     end

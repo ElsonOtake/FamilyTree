@@ -164,20 +164,29 @@ class Person < ApplicationRecord
   end
 
   def self.upcoming_birthdays(days_ahead = 7, days_back = 7)
-    start_date, end_date = birthday_date_range(days_ahead, days_back)
-    
-    # Get all people with complete birthday data
-    people = with_birthdays_in_period.includes(:avatar_attachment)
-    
-    # Filter by actual birthday dates and sort
-    people.select do |person|
-      birthday = person.birthday_this_year
-      next unless birthday
-      birthday >= start_date && birthday <= end_date
-    end.sort_by(&:days_until_birthday)
+    upcoming_birthdays_for_people(all, days_ahead, days_back)
   end
 
   def self.upcoming_birthdays_for_people(people_collection, days_ahead = 7, days_back = 7)
+    filter_birthdays_in_range(people_collection, days_ahead, days_back)
+  end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[alive birth birth_year birth_month birth_day death description gender name kanji]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    []
+  end
+
+  private
+
+  def self.birthday_date_range(days_ahead, days_back)
+    today = Date.current
+    [today - days_back.days, today + days_ahead.days]
+  end
+
+  def self.filter_birthdays_in_range(people_collection, days_ahead, days_back)
     start_date, end_date = birthday_date_range(days_ahead, days_back)
     current_year = Date.current.year
     
@@ -206,21 +215,6 @@ class Person < ApplicationRecord
     people_with_birthdays
       .select("people.*, (MAKE_DATE(#{current_year}, birth_month, birth_day) - CURRENT_DATE) AS days_until_birthday")
       .order("days_until_birthday ASC")
-  end
-
-  def self.ransackable_attributes(_auth_object = nil)
-    %w[alive birth birth_year birth_month birth_day death description gender name kanji]
-  end
-
-  def self.ransackable_associations(_auth_object = nil)
-    []
-  end
-
-  private
-
-  def self.birthday_date_range(days_ahead, days_back)
-    today = Date.current
-    [today - days_back.days, today + days_ahead.days]
   end
 
   def set_default_gender
