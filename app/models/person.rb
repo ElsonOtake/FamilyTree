@@ -197,6 +197,7 @@ class Person < ApplicationRecord
     
     # Use SQL to filter by birthday dates within range
     # Calculate the birthday this year for comparison at SQL level
+    # Note: MAKE_DATE function requires PostgreSQL 9.4+
     if start_date.year == end_date.year
       # Same year - can use direct month/day comparisons
       people_with_birthdays = people_with_birthdays.where(

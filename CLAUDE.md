@@ -90,7 +90,7 @@ yarn build:css      # Build CSS from Sass
 ### Deployment
 
 - Deployed to Fly.io (see fly.toml)
-- PostgreSQL database
+- PostgreSQL database (version 9.4+ required for birthday filtering functionality)
 - S3 for file storage in production
 - Release command runs migrations automatically
 
