@@ -118,24 +118,33 @@ li.is-active a {
     padding-right: 1.5rem;
   }
 
-  .pr-4-tablet {
-    padding-right: 1rem;
-  }
-
-  .mb-3-tablet {
-    margin-bottom: 0.75rem;
+  .py-5-tablet {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
   }
 
   .mb-0-tablet {
     margin-bottom: 0;
   }
 
-  .ml-5-tablet {
-    margin-left: 1.25rem;
+  .mx-0-tablet {
+    margin-left: 0;
+    margin-right: 0;
   }
 
-  .column.is-narrow-tablet {
-    flex: none;
-    width: auto;
+  .ml-4-tablet {
+    margin-left: 1rem;
+  }
+
+  .is-inline-block-tablet {
+    display: inline-block;
+  }
+
+  .has-text-left-tablet {
+    text-align: left;
+  }
+
+  .is-justify-content-start-tablet {
+    justify-content: flex-start;
   }
 }
