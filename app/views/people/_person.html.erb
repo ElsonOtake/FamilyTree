@@ -24,9 +24,9 @@
 
           <!-- Content - Centered on Mobile -->
           <div class='is-inline-block-tablet ml-0-mobile ml-4-tablet' style='vertical-align: top; width: 100%;' class='mobile-full-width'>
-            <div class='mb-3'>
-              <h1 class='title is-4-mobile is-2-tablet has-text-white mb-2 has-text-centered has-text-left-tablet' style='line-height: 1.5;'>
-                <span class='icon-text is-inline-flex is-align-items-center is-justify-content-center is-justify-content-start-tablet'>
+            <div class='mb-4'>
+              <h1 class='title is-4-mobile is-2-tablet has-text-white mb-3 has-text-centered has-text-left-tablet' style='line-height: 1.6; word-spacing: 9999px;'>
+                <span class='icon-text is-inline-flex is-align-items-center is-justify-content-center is-justify-content-start-tablet' style='word-spacing: normal;'>
                   <span class='icon'>
                     <%= render 'icon', person: person, theme: 'dark' %>
                   </span>
@@ -34,7 +34,7 @@
                 </span>
               </h1>
               <% if person&.kanji.present? %>
-                <p class='subtitle is-6-mobile is-4-tablet has-text-white-ter mb-0 has-text-centered has-text-left-tablet'>
+                <p class='subtitle is-6-mobile is-4-tablet has-text-white-ter mb-0 has-text-centered has-text-left-tablet' style='word-break: keep-all; white-space: nowrap; overflow-wrap: normal;'>
                   <%= person&.kanji %>
                 </p>
               <% end %>
