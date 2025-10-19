@@ -9,14 +9,15 @@ class PeopleController < ApplicationController
 
   # GET /people or /people.json
   def index
-    @q = Person.ransack(params[:q])
-
     # Show favorites when no search/filter is active, otherwise show search results
     if search_active?
+      @q = Person.ransack(params[:q])
       @pagy, @people = pagy(@q.result, items: 10)
       @showing_favorites = false
     else
-      @pagy, @people = pagy(current_user.favorite_people, items: 10)
+      # Apply sorting to favorites if sort params are present
+      @q = current_user.favorite_people.ransack(params[:q])
+      @pagy, @people = pagy(@q.result, items: 10)
       @showing_favorites = true
     end
 
@@ -169,7 +170,11 @@ class PeopleController < ApplicationController
   private
 
   def search_active?
-    params[:q].present?
+    return false unless params[:q].present?
+
+    # Check if there are any search params besides sorting
+    search_params = params[:q].to_unsafe_h.except('s')
+    search_params.any? { |_key, value| value.present? }
   end
 
   def set_person
