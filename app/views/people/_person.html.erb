@@ -1,8 +1,10 @@
 <% if person %>
-<div id="<%= dom_id person %>" class='card mb-5'>
-  <!-- Hero Section with Avatar and Name -->
-  <div class='card-content p-0'>
-    <div class='hero is-info is-small'>
+<div class='columns is-multiline is-mobile mb-5'>
+  <!-- Hero Section -->
+  <div class='column is-12-mobile is-half-tablet'>
+    <div id="<%= dom_id person %>" class='card'>
+      <div class='card-content p-0'>
+        <div class='hero is-info is-small'>
       <div class='hero-body px-4 py-4 px-6-tablet py-5-tablet'>
         <div class='has-text-centered has-text-left-tablet'>
           <!-- Avatar - Centered on Mobile -->
@@ -110,14 +112,16 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
     </div>
   </div>
+  </div>
 
-  <!-- Person Details -->
-  <div class='card-content'>
-    <div class='columns'>
-      <div class='column'>
+  <!-- Life Events Section -->
+  <div class='column is-12-mobile is-half-tablet'>
+    <div class='card'>
+      <div class='card-content'>
         <!-- Life Dates -->
         <div class='box'>
           <h3 class='title is-5 mb-3'>
