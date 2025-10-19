@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_21_032011) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_19_180817) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -77,7 +77,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_21_032011) do
     t.index ["previous_id"], name: "index_couples_on_previous_id"
   end
 
-  create_table "couples_people", id: false, force: :cascade do |t|
+  create_table "couples_people", primary_key: ["person_id", "couple_id"], force: :cascade do |t|
     t.bigint "person_id", null: false
     t.bigint "couple_id", null: false
     t.index ["couple_id"], name: "index_couples_people_on_couple_id"
