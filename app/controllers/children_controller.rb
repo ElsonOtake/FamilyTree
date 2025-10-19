@@ -43,10 +43,21 @@ class ChildrenController < ApplicationController
     @child = Person.find(params[:id])
     @child_record = Child.find_by(person_id: @child.id, couple_id: @couple.id)
 
-    if @child_record
-      @child_record.current_user = current_user
-      @child_record.destroy
+    unless @child_record
+      respond_to do |format|
+        format.html do
+          redirect_to person_url(@person), alert: I18n.t('children.errors.relationship_not_found')
+        end
+        format.turbo_stream do
+          flash.now[:alert] = I18n.t('children.errors.relationship_not_found')
+          render turbo_stream: helpers.render_turbo_stream_inline_flash_messages
+        end
+      end
+      return
     end
+
+    @child_record.current_user = current_user
+    @child_record.destroy
 
     # Check if person has any remaining children
     @person.reload
