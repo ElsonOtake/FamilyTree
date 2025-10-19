@@ -114,13 +114,20 @@ class ChildTest < ActiveSupport::TestCase
     assert_equal @child_person.id, event.data['person_id']
   end
 
-  test "after_create callback does not create event when current_user is nil" do
+  test "after_create callback creates event with system user when current_user is nil" do
     child = Child.new(person_id: @child_person.id, couple_id: @couple.id)
     child.current_user = nil
 
-    assert_no_difference('Event.count') do
+    assert_difference('Event.count', 1) do
       child.save!
     end
+
+    event = Event.last
+    assert_equal 'child.create', event.name
+    assert_equal @child_person, event.resource
+    assert_equal User.system_user, event.user
+    assert_equal @couple.id, event.data['couple_id']
+    assert_equal @child_person.id, event.data['person_id']
   end
 
   test "after_destroy callback creates event when current_user is set" do
@@ -139,13 +146,20 @@ class ChildTest < ActiveSupport::TestCase
     assert_equal @child_person.id, event.data['person_id']
   end
 
-  test "after_destroy callback does not create event when current_user is nil" do
+  test "after_destroy callback creates event with system user when current_user is nil" do
     child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
     child.current_user = nil
 
-    assert_no_difference('Event.count') do
+    assert_difference('Event.count', 1) do
       child.destroy!
     end
+
+    event = Event.last
+    assert_equal 'child.unlink', event.name
+    assert_equal @child_person, event.resource
+    assert_equal User.system_user, event.user
+    assert_equal @couple.id, event.data['couple_id']
+    assert_equal @child_person.id, event.data['person_id']
   end
 
   test "Child inherits CSV generation from GenerateCsv" do
