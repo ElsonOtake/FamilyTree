@@ -10,16 +10,16 @@ class PeopleController < ApplicationController
   # GET /people or /people.json
   def index
     @q = Person.ransack(params[:q])
-    
+
     # Show favorites when no search/filter is active, otherwise show search results
     if search_active?
-      @pagy, @people = pagy(@q.result(distinct: true), items: 10)
+      @pagy, @people = pagy(@q.result, items: 10)
       @showing_favorites = false
     else
       @pagy, @people = pagy(current_user.favorite_people, items: 10)
       @showing_favorites = true
     end
-    
+
     # Preload favorites for the current page to avoid N+1 queries
     @favorites_lookup = current_user.favorites.where(person: @people).index_by(&:person_id)
   end
