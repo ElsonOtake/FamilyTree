@@ -94,7 +94,15 @@
           text-shadow: none !important;
           opacity: 1 !important;
         }
-        
+
+      }
+
+      /* Emergency fix for card header titles in dark mode */
+      [data-theme="dark"] .card-header-title,
+      [data-theme="dark"] .card-header-title *,
+      [data-theme="dark"] .card-header-title span,
+      [data-theme="dark"] .card-header-title .icon-text span:not(.icon) {
+        color: #f5f5f5 !important;
       }
     </style>
   </head>
