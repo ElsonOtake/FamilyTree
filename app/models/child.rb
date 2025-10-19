@@ -23,12 +23,9 @@ class Child < ApplicationRecord
   private
 
   def record_child_added
-    unless current_user
-      Rails.logger.warn("Child#record_child_added: Event not recorded - current_user not set for person_id=#{person_id}, couple_id=#{couple_id}")
-      return
-    end
+    user = current_user || system_user_with_warning('record_child_added')
 
-    current_user.events.create(
+    user.events.create(
       name: 'child.create',
       data: {
         couple_id: couple_id,
@@ -39,12 +36,9 @@ class Child < ApplicationRecord
   end
 
   def record_child_removed
-    unless current_user
-      Rails.logger.warn("Child#record_child_removed: Event not recorded - current_user not set for person_id=#{person_id}, couple_id=#{couple_id}")
-      return
-    end
+    user = current_user || system_user_with_warning('record_child_removed')
 
-    current_user.events.create(
+    user.events.create(
       name: 'child.unlink',
       data: {
         couple_id: couple_id,
@@ -52,5 +46,10 @@ class Child < ApplicationRecord
       },
       resource: person
     )
+  end
+
+  def system_user_with_warning(action)
+    Rails.logger.warn("Child##{action}: Using system user - current_user not set for person_id=#{person_id}, couple_id=#{couple_id}")
+    User.system_user
   end
 end
