@@ -4,40 +4,40 @@
   <div class='card-content p-0'>
     <div class='hero is-info is-small'>
       <div class='hero-body'>
-        <div class='columns is-vcentered'>
-          <div class='column is-narrow'>
+        <div class='columns is-vcentered is-mobile'>
+          <div class='column is-narrow has-text-centered-mobile'>
             <figure class='image is-128x128'>
               <% if person&.avatar&.attached? %>
-                <%= link_to image_tag(person&.avatar&.variant(:thumb), 
-                  class: 'is-rounded', 
-                  style: 'width: 128px; height: 128px; object-fit: cover;'), 
+                <%= link_to image_tag(person&.avatar&.variant(:thumb),
+                  class: 'is-rounded',
+                  style: 'width: 128px; height: 128px; object-fit: cover;'),
                   person&.avatar %>
               <% else %>
-                <img src='<%= image_path '96x96.png' %>' 
-                  alt='Placeholder image' 
-                  class='is-rounded' 
+                <img src='<%= image_path '96x96.png' %>'
+                  alt='Placeholder image'
+                  class='is-rounded'
                   style='width: 128px; height: 128px; background: white;'>
               <% end %>
             </figure>
           </div>
           <div class='column'>
-            <div class='is-flex is-align-items-center'>
-              <div>
-                <h1 class='title is-2 has-text-white mb-3'>
-                  <span class='icon-text'>
+            <div class='is-flex is-flex-direction-column is-flex-direction-row-tablet is-align-items-start is-align-items-center-tablet is-justify-content-space-between'>
+              <div class='mb-3 mb-0-tablet'>
+                <h1 class='title is-3-mobile is-2-tablet has-text-white mb-3'>
+                  <span class='icon-text is-flex-wrap-wrap'>
                     <span class='icon'>
                       <%= render 'icon', person: person, theme: 'dark' %>
                     </span>
-                    <span><%= person&.name || '' %></span>
+                    <span class='is-block is-inline-tablet'><%= person&.name || '' %></span>
                   </span>
                 </h1>
                 <% if person&.kanji.present? %>
-                  <p class='subtitle is-4 has-text-white-ter mb-0 mt-2' style='margin-left: 2.5rem;'>
+                  <p class='subtitle is-5-mobile is-4-tablet has-text-white-ter mb-0 mt-2 ml-0 ml-5-tablet'>
                     <%= person&.kanji %>
                   </p>
                 <% end %>
               </div>
-              <div class='buttons ml-4'>
+              <div class='buttons is-flex-wrap-wrap ml-0 ml-4-tablet'>
                 <!-- Edit Button -->
                 <% if person && policy(person).edit? %>
                   <%= link_to edit_person_path(person),
