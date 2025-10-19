@@ -56,12 +56,11 @@ class ChildrenController < ApplicationController
       return
     end
 
+    # Check if person has any remaining children before destroying (avoids reload)
+    @has_remaining_children = @person.parent_relationships.where.not(couple_id: @couple.id).exists?
+
     @child_record.current_user = current_user
     @child_record.destroy
-
-    # Check if person has any remaining children
-    @person.reload
-    @has_remaining_children = @person.children.any?
 
     respond_to do |format|
       format.html { redirect_to person_url(@person) }
