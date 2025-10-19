@@ -77,9 +77,4 @@ class ChildrenController < ApplicationController
   def set_couple
     @couple = Couple.find(params[:couple_id])
   end
-
-  # Only allow a list of trusted parameters through.
-  def child_params
-    params.require(:child).permit(:child_id)
-  end
 end
