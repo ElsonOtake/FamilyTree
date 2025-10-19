@@ -66,12 +66,6 @@ class CouplesController < ApplicationController
 
   # DELETE /couples/1 or /couples/1.json
   def destroy
-    id = @couple.id
-    person1 = @couple.person1_id
-    person2 = @couple.person2_id
-    marriage = @couple.marriage
-    separation = @couple.separation
-    local = @couple.local
     @couple.current_user = current_user
     @couple.destroy
 

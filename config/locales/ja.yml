@@ -37,6 +37,8 @@ ja:
       start_typing_to_search: "人物を検索するには入力を開始してください"
       new_person: "新しい人物"
       existing_person: "既存の人物"
+    errors:
+      relationship_not_found: "親子関係が見つかりません"
   couples:
     form:
       create_couple: "カップルを作成"

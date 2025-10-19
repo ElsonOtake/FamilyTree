@@ -66,4 +66,210 @@ li.is-active a {
   .custom-columns .second-column {
     order: 1; /* Move a segunda coluna para cima */
   }
+
+  // Mobile-specific image sizes
+  .image.is-96x96-mobile {
+    height: 96px;
+    width: 96px;
+  }
+
+  // Mobile-specific gap removal
+  .columns.is-gapless-mobile {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+
+    & > .column {
+      padding: 0;
+    }
+  }
+
+  // Mobile-specific padding utilities
+  .px-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .pr-3 {
+    padding-right: 0.75rem;
+  }
+
+  // Mobile column sizing
+  .column.is-narrow-mobile {
+    flex: none;
+    width: auto;
+  }
+
+  .column.px-0 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+// Tablet and up
+@media (min-width: 769px) {
+  .image.is-128x128-tablet {
+    height: 128px;
+    width: 128px;
+  }
+
+  .px-6-tablet {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .py-5-tablet {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .mb-0-tablet {
+    margin-bottom: 0;
+  }
+
+  .mx-0-tablet {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .ml-4-tablet {
+    margin-left: 1rem;
+  }
+
+  .is-inline-block-tablet {
+    display: inline-block;
+  }
+
+  .has-text-left-tablet {
+    text-align: left;
+  }
+
+  .is-justify-content-start-tablet {
+    justify-content: flex-start;
+  }
+
+  .is-medium-tablet {
+    font-size: 1.25rem;
+  }
+}
+
+// Prevent horizontal scroll on mobile
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    position: relative;
+  }
+
+  .hero, .hero-body, .section, .container {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  // Constrain columns to prevent overflow
+  .columns {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+  }
+
+  .column {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    max-width: 100%;
+  }
+
+  // Ensure boxes and cards don't overflow
+  .box, .card {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  // Table container must allow horizontal scroll internally
+  .table-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  // Ensure tables don't force page width
+  .table {
+    width: 100%;
+    table-layout: auto;
+  }
+
+  // Field groups should wrap on mobile
+  .field.is-grouped {
+    flex-wrap: wrap;
+
+    .control {
+      flex-grow: 1;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+  }
+
+  // Icon-text elements should not cause overflow
+  .icon-text {
+    max-width: 100%;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // Ensure all inline-flex elements wrap
+  .is-inline-flex {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
+  // Fix level layout on mobile
+  .level {
+    display: block;
+
+    .level-left, .level-right {
+      display: block;
+    }
+  }
+
+  // Smaller button on mobile
+  .button.is-small {
+    font-size: 0.75rem;
+  }
+
+  // Mobile-specific image sizes
+  .image.is-80x80-mobile {
+    height: 80px;
+    width: 80px;
+  }
+
+  // Additional mobile utilities
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ml-0-mobile {
+    margin-left: 0;
+  }
+
+  .is-flex-wrap-wrap {
+    flex-wrap: wrap;
+  }
 }

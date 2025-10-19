@@ -37,6 +37,8 @@ pt:
       start_typing_to_search: "Comece a digitar para buscar pessoas"
       new_person: "Novo indivíduo"
       existing_person: "Indivíduo existente"
+    errors:
+      relationship_not_found: "Relação pai-filho não encontrada"
   couples:
     form:
       create_couple: "Criar Casal"

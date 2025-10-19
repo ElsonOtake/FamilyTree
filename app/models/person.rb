@@ -7,7 +7,10 @@ class Person < ApplicationRecord
 
   acts_as_paranoid
 
-  has_and_belongs_to_many :couples
+  # Relationship with parent couples through the Child model
+  has_many :parent_relationships, class_name: 'Child', foreign_key: 'person_id', dependent: :destroy
+  has_many :couples, through: :parent_relationships, source: :couple
+
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [240, 240]
   end
@@ -152,10 +155,10 @@ class Person < ApplicationRecord
 
   def age_on_birthday
     return nil unless birth_year && birth_month && birth_day && alive?
-    
+
     birthday = birthday_this_year
     return nil unless birthday
-    
+
     if birthday >= Date.current
       Date.current.year - birth_year
     else
@@ -189,12 +192,12 @@ class Person < ApplicationRecord
   def self.filter_birthdays_in_range(people_collection, days_ahead, days_back)
     start_date, end_date = birthday_date_range(days_ahead, days_back)
     current_year = Date.current.year
-    
+
     # Build efficient SQL query with birthday date calculations
     people_with_birthdays = people_collection
                             .where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
                             .includes(:avatar_attachment)
-    
+
     # Use SQL to filter by birthday dates within range
     # Calculate the birthday this year for comparison at SQL level
     # Note: MAKE_DATE function requires PostgreSQL 9.4+
@@ -211,7 +214,7 @@ class Person < ApplicationRecord
         start_date.year, start_date, end_date.year, end_date
       )
     end
-    
+
     # Sort by days until birthday using SQL
     people_with_birthdays
       .select("people.*, (MAKE_DATE(#{current_year}, birth_month, birth_day) - CURRENT_DATE) AS days_until_birthday")

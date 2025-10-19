@@ -1,2 +1,7 @@
 <%= turbo_stream.remove "child_#{@child.id}" %>
+<% unless @has_remaining_children %>
+  <%= turbo_stream.append 'children' do %>
+    <p class='has-text-grey' id='no-children-message'><%= t('people.show.no_children') %></p>
+  <% end %>
+<% end %>
 <%= render_turbo_stream_flash_messages %>

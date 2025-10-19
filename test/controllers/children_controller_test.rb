@@ -94,18 +94,17 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle adding child multiple times" do
-    # Add a child that's already added - this should succeed since duplicates are allowed
-    @couple.people << @child
-    
-    post person_couple_children_path(@parent1, @couple), params: { 
-      child_id: @child.id 
-    }
-    
-    assert_redirected_to person_path(@parent1)
-    
-    # Verify child is still associated
-    @couple.reload
-    assert_includes @couple.people, @child
+    # Add a child that's already added - this should fail due to uniqueness validation
+    Child.create!(person_id: @child.id, couple_id: @couple.id)
+
+    # Try to add the same child again - should fail validation
+    assert_no_difference('Child.count') do
+      post person_couple_children_path(@parent1, @couple), params: {
+        child_id: @child.id
+      }, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    assert_response :success
   end
 
   test "should destroy child relationship" do
@@ -195,29 +194,45 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle missing person" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get new_person_couple_child_path(99999, @couple)
-    end
+    get new_person_couple_child_path(99999, @couple)
+    assert_response :not_found
   end
 
   test "should handle missing couple" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get new_person_couple_child_path(@parent1, 99999)
-    end
+    get new_person_couple_child_path(@parent1, 99999)
+    assert_response :not_found
   end
 
   test "should handle missing child in create" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      post person_couple_children_path(@parent1, @couple), params: { 
-        child_id: 99999 
-      }
-    end
+    post person_couple_children_path(@parent1, @couple), params: {
+      child_id: 99999
+    }
+    assert_response :not_found
   end
 
   test "should handle missing child in destroy" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      delete person_couple_child_path(@parent1, @couple, 99999)
-    end
+    delete person_couple_child_path(@parent1, @couple, 99999)
+    # Person with ID 99999 doesn't exist, so expect 404
+    assert_response :not_found
+  end
+
+  test "should handle destroy when relationship doesn't exist" do
+    # Try to delete a child that exists but isn't linked to this couple
+    delete person_couple_child_path(@parent1, @couple, @child)
+
+    assert_redirected_to person_path(@parent1)
+    assert_equal I18n.t('children.errors.relationship_not_found'), flash[:alert]
+  end
+
+  test "should handle destroy when relationship doesn't exist with turbo stream" do
+    # Try to delete a child that exists but isn't linked to this couple
+    delete person_couple_child_path(@parent1, @couple, @child),
+           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    assert_response :success
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    # Should render flash message about relationship not found
+    assert_includes response.body, I18n.t('children.errors.relationship_not_found')
   end
 
   test "Child model methods work correctly" do
@@ -233,15 +248,16 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_includes Child.column_names, 'couple_id'
   end
 
-  test "register_event creates proper event data" do
+  test "Child model creates event automatically on save" do
     child_model = Child.new(person_id: @child.id, couple_id: @couple.id)
-    
+    child_model.current_user = @user
+
     assert_difference('Event.count', 1) do
-      child_model.register_event(@child, @couple, @user, 'test.action')
+      child_model.save!
     end
-    
+
     event = Event.last
-    assert_equal 'test.action', event.name
+    assert_equal 'child.create', event.name
     assert_equal @child, event.resource
     assert_equal @user, event.user
     assert_equal @couple.id, event.data['couple_id']

@@ -3,41 +3,45 @@
   <!-- Hero Section with Avatar and Name -->
   <div class='card-content p-0'>
     <div class='hero is-info is-small'>
-      <div class='hero-body'>
-        <div class='columns is-vcentered'>
-          <div class='column is-narrow'>
-            <figure class='image is-128x128'>
+      <div class='hero-body px-4 py-4 px-6-tablet py-5-tablet'>
+        <div class='has-text-centered has-text-left-tablet'>
+          <!-- Avatar - Centered on Mobile -->
+          <div class='mb-4 mb-0-tablet is-inline-block-tablet' style='vertical-align: top;'>
+            <figure class='image is-80x80-mobile is-128x128-tablet mx-auto mx-0-tablet'>
               <% if person&.avatar&.attached? %>
-                <%= link_to image_tag(person&.avatar&.variant(:thumb), 
-                  class: 'is-rounded', 
-                  style: 'width: 128px; height: 128px; object-fit: cover;'), 
+                <%= link_to image_tag(person&.avatar&.variant(:thumb),
+                  class: 'is-rounded',
+                  style: 'width: 100%; height: 100%; object-fit: cover;'),
                   person&.avatar %>
               <% else %>
-                <img src='<%= image_path '96x96.png' %>' 
-                  alt='Placeholder image' 
-                  class='is-rounded' 
-                  style='width: 128px; height: 128px; background: white;'>
+                <img src='<%= image_path '96x96.png' %>'
+                  alt='Placeholder image'
+                  class='is-rounded'
+                  style='width: 100%; height: 100%; background: white;'>
               <% end %>
             </figure>
           </div>
-          <div class='column'>
-            <div class='is-flex is-align-items-center'>
-              <div>
-                <h1 class='title is-2 has-text-white mb-3'>
-                  <span class='icon-text'>
-                    <span class='icon'>
-                      <%= render 'icon', person: person, theme: 'dark' %>
-                    </span>
-                    <span><%= person&.name || '' %></span>
+
+          <!-- Content - Centered on Mobile -->
+          <div class='is-inline-block-tablet ml-0-mobile ml-4-tablet' style='vertical-align: top; width: 100%;' class='mobile-full-width'>
+            <div class='mb-4'>
+              <h1 class='title is-4-mobile is-2-tablet has-text-white mb-3 has-text-centered has-text-left-tablet'>
+                <span class='icon-text is-inline-flex is-align-items-start is-justify-content-center is-justify-content-start-tablet'>
+                  <span class='icon' style='margin-top: 0.25em; margin-bottom: 0.25em;'>
+                    <%= render 'icon', person: person, theme: 'dark' %>
                   </span>
-                </h1>
-                <% if person&.kanji.present? %>
-                  <p class='subtitle is-4 has-text-white-ter mb-0 mt-2' style='margin-left: 2.5rem;'>
-                    <%= person&.kanji %>
-                  </p>
-                <% end %>
-              </div>
-              <div class='buttons ml-4'>
+                  <span style='display: inline-block; line-height: 1.4;'><%= person&.name || '' %></span>
+                </span>
+              </h1>
+              <% if person&.kanji.present? %>
+                <p class='subtitle is-6-mobile is-4-tablet has-text-white-ter my-1 has-text-centered has-text-left-tablet' style='word-break: keep-all; white-space: nowrap; overflow-wrap: normal;'>
+                  <%= person&.kanji %>
+                </p>
+              <% end %>
+            </div>
+
+            <!-- Buttons - Full width on Mobile -->
+            <div class='buttons is-centered is-justify-content-start-tablet is-flex-wrap-wrap' style='gap: 0.5rem;'>
                 <!-- Edit Button -->
                 <% if person && policy(person).edit? %>
                   <%= link_to edit_person_path(person),
