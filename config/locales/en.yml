@@ -37,6 +37,8 @@ en:
       start_typing_to_search: "Start typing to search for people"
       new_person: "New person"
       existing_person: "Existing person"
+    errors:
+      relationship_not_found: "Parent-child relationship not found"
   couples:
     form:
       create_couple: "Create couple"

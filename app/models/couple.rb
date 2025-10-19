@@ -7,7 +7,10 @@ class Couple < ApplicationRecord
 
   acts_as_paranoid
 
-  has_and_belongs_to_many :people
+  # Relationship with children through the Child model
+  has_many :child_relationships, class_name: 'Child', dependent: :destroy
+  has_many :people, through: :child_relationships, source: :person
+
   belongs_to :person1, class_name: 'Person', foreign_key: 'person1_id'
   belongs_to :person2, class_name: 'Person', foreign_key: 'person2_id'
 

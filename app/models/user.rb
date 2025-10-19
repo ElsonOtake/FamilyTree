@@ -45,4 +45,14 @@ class User < ApplicationRecord
   def self.ransackable_attributes(auth_object = nil)
     ["confirmation_sent_at", "confirmation_token", "confirmed_at", "created_at", "deleted_at", "email", "encrypted_password", "id", "locale", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "unconfirmed_email", "updated_at"]
   end
+
+  # Get or create system user for automated operations
+  def self.system_user
+    find_or_create_by!(email: 'system@familytree.internal') do |user|
+      user.name = 'System'
+      user.password = SecureRandom.hex(32)
+      user.confirmed_at = Time.current
+      user.locale = :en
+    end
+  end
 end

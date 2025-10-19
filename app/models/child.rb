@@ -5,27 +5,51 @@
 class Child < ApplicationRecord
   include GenerateCsv
 
-  include ActiveModel::Model
-  include ActiveModel::Attributes
+  # This model represents the couples_people join table
+  self.table_name = 'couples_people'
+  self.primary_key = [:person_id, :couple_id]
 
-  attribute :person_id, :integer
-  attribute :couple_id, :integer
+  belongs_to :couple
+  belongs_to :person
 
-  def self.all
-    Person.joins(:couples).select('person_id, couple_id')
-  end
+  attr_accessor :current_user
 
-  def self.column_names
-    attribute_names
-  end
+  validates :person_id, uniqueness: { scope: :couple_id }
 
-  def register_event(person, couple, user, action)
+  # Record events when children are added or removed
+  after_create :record_child_added
+  after_destroy :record_child_removed
+
+  private
+
+  def record_child_added
+    user = current_user || system_user_with_warning('record_child_added')
+
     user.events.create(
-      name: action,
+      name: 'child.create',
       data: {
-        couple_id: couple.id
+        couple_id: couple_id,
+        person_id: person_id
       },
-      resource: Person.find(person.id)
+      resource: person
     )
+  end
+
+  def record_child_removed
+    user = current_user || system_user_with_warning('record_child_removed')
+
+    user.events.create(
+      name: 'child.unlink',
+      data: {
+        couple_id: couple_id,
+        person_id: person_id
+      },
+      resource: person
+    )
+  end
+
+  def system_user_with_warning(action)
+    Rails.logger.warn("Child##{action}: Using system user - current_user not set for person_id=#{person_id}, couple_id=#{couple_id}")
+    User.system_user
   end
 end

@@ -9,9 +9,9 @@
 
 <!-- Family Relationships -->
 <% if @person %>
-<div class='columns is-multiline'>
+<div class='columns is-multiline is-mobile'>
   <!-- Parents Section -->
-  <div class='column is-half'>
+  <div class='column is-12-mobile is-half-tablet'>
     <div class='card'>
       <header class='card-header'>
         <p class='card-header-title'>
@@ -68,7 +68,7 @@
   </div>
 
   <!-- Siblings Section -->
-  <div class='column is-half'>
+  <div class='column is-12-mobile is-half-tablet'>
     <div class='card'>
       <header class='card-header'>
         <p class='card-header-title'>
@@ -106,7 +106,7 @@
   </div>
 
   <!-- Spouse/Partner Section -->
-  <div class='column is-half'>
+  <div class='column is-12-mobile is-half-tablet'>
     <div class='card'>
       <header class='card-header'>
         <p class='card-header-title'>
@@ -151,7 +151,7 @@
   </div>
 
   <!-- Children Section -->
-  <div class='column is-half'>
+  <div class='column is-12-mobile is-half-tablet'>
     <div class='card'>
       <header class='card-header'>
         <p class='card-header-title'>
@@ -164,15 +164,15 @@
         </p>
       </header>
       <div class='card-content'>
-        <% if @person&.children&.any? %>
-          <div class='content' id='children'>
+        <div class='content' id='children'>
+          <% if @person&.children&.any? %>
             <% @person&.children&.each do |child| %>
               <%= render 'child', person: @person, child: child %>
             <% end %>
-          </div>
-        <% else %>
-          <p class='has-text-grey'><%= t('people.show.no_children') %></p>
-        <% end %>
+          <% else %>
+            <p class='has-text-grey' id='no-children-message'><%= t('people.show.no_children') %></p>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

@@ -1,45 +1,37 @@
 <!-- Hero Header -->
 <section class='hero is-info is-small mb-5'>
-  <div class='hero-body'>
-    <div class='level'>
-      <div class='level-left'>
-        <div class='level-item'>
-          <div>
-            <h1 class='title is-2 has-text-white mb-3'>
-              <span class='icon-text'>
-                <span class='icon'>
-                  <i class='fas fa-tree'></i>
-                </span>
-                <span><%= t('.family_tree') %></span>
-              </span>
-            </h1>
-            <p class='subtitle is-4 has-text-white-ter'>
-              <%= t('.search_by_name') %>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class='level-right'>
-        <% if policy(@people).new? %>
-          <div class='level-item'>
-            <%= link_to new_person_path,
-              class: 'button is-success is-medium',
-              data: {
-                turbo_frame: 'new_person',
-                controller: 'stimulus',
-                stimulus_id_value: 'person_new',
-                action: 'stimulus#open'
-              },
-              title: t('helpers.submit.create', model: t('people.form.person')) do %>
-              <span class='icon'>
-                <i class='fas fa-user-plus'></i>
-              </span>
-              <span><%= t('helpers.submit.create', model: t('people.form.person')) %></span>
-            <% end %>
-          </div>
+  <div class='hero-body px-3 py-4 px-6-tablet py-5-tablet'>
+    <div class='has-text-centered has-text-left-tablet' style='max-width: 100%;'>
+      <h1 class='title is-4-mobile is-2-tablet has-text-white mb-2' style='word-break: break-word; overflow-wrap: anywhere;'>
+        <span class='icon-text is-inline-flex is-align-items-center is-justify-content-center is-justify-content-start-tablet is-flex-wrap-wrap'>
+          <span class='icon'>
+            <i class='fas fa-tree'></i>
+          </span>
+          <span style='display: inline-block; line-height: 1.4;'><%= t('.family_tree') %></span>
+        </span>
+      </h1>
+      <p class='subtitle is-6-mobile is-4-tablet has-text-white-ter has-text-centered has-text-left-tablet my-1'>
+        <%= t('.search_by_name') %>
+      </p>
+    </div>
+    <% if policy(@people).new? %>
+      <div class='has-text-centered has-text-left-tablet mt-3'>
+        <%= link_to new_person_path,
+          class: 'button is-success is-small is-medium-tablet',
+          data: {
+            turbo_frame: 'new_person',
+            controller: 'stimulus',
+            stimulus_id_value: 'person_new',
+            action: 'stimulus#open'
+          },
+          title: t('helpers.submit.create', model: t('people.form.person')) do %>
+          <span class='icon'>
+            <i class='fas fa-user-plus'></i>
+          </span>
+          <span><%= t('helpers.submit.create', model: t('people.form.person')) %></span>
         <% end %>
       </div>
-    </div>
+    <% end %>
   </div>
 </section>
 
@@ -62,7 +54,7 @@
 
 <div class='columns'>
   <!-- Filters Sidebar -->
-  <div class='column is-3'>
+  <div class='column is-12-mobile is-3-tablet'>
     <div class='box'>
       <h3 class='title is-5 mb-4'>
         <span class='icon-text'>
