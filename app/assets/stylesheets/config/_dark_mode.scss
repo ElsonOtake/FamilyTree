@@ -57,6 +57,16 @@
 
   .card-header-title {
     color: var(--text-primary) !important;
+
+    // Target the text spans inside icon-text
+    .icon-text span:not(.icon) {
+      color: var(--text-primary) !important;
+    }
+
+    // Target any direct spans
+    > span {
+      color: var(--text-primary) !important;
+    }
   }
 
   .card-content {
