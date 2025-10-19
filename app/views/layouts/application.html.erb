@@ -96,14 +96,6 @@
         }
 
       }
-
-      /* Emergency fix for card header titles in dark mode */
-      [data-theme="dark"] .card-header-title,
-      [data-theme="dark"] .card-header-title *,
-      [data-theme="dark"] .card-header-title span,
-      [data-theme="dark"] .card-header-title .icon-text span:not(.icon) {
-        color: #f5f5f5 !important;
-      }
     </style>
   </head>
 
@@ -121,7 +113,7 @@
     </div>
     
     <section class='section'>
-      <div class='container is-fluid'>
+      <div class='container is-fluid p-0'>
         <div id='flash'>
           <%= render 'shared/flash' %>
         </div>
