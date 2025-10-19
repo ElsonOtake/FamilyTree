@@ -147,4 +147,24 @@ li.is-active a {
   .is-justify-content-start-tablet {
     justify-content: flex-start;
   }
+
+  .is-medium-tablet {
+    font-size: 1.25rem;
+  }
+}
+
+// Prevent horizontal scroll on mobile
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .hero-body {
+    overflow: hidden;
+  }
+
+  // Smaller button on mobile
+  .button.is-small {
+    font-size: 0.75rem;
+  }
 }
