@@ -55,30 +55,6 @@
     border-bottom-color: var(--border-color) !important;
   }
 
-  .card-header-title {
-    color: var(--text-primary) !important;
-
-    // Target all nested elements
-    * {
-      color: var(--text-primary) !important;
-    }
-
-    // Target the text spans inside icon-text
-    .icon-text span:not(.icon) {
-      color: var(--text-primary) !important;
-    }
-
-    // Target any direct spans
-    > span {
-      color: var(--text-primary) !important;
-    }
-
-    // Target span elements at any level
-    span:not(.icon) {
-      color: var(--text-primary) !important;
-    }
-  }
-
   .card-content {
     background-color: var(--card-bg) !important;
     color: var(--text-primary) !important;
