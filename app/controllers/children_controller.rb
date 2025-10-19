@@ -48,6 +48,10 @@ class ChildrenController < ApplicationController
       @child_record.destroy
     end
 
+    # Check if person has any remaining children
+    @person.reload
+    @has_remaining_children = @person.children.any?
+
     respond_to do |format|
       format.html { redirect_to person_url(@person) }
       format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('children.form.child')) }
