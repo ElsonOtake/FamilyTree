@@ -23,7 +23,10 @@ class Child < ApplicationRecord
   private
 
   def record_child_added
-    return unless current_user
+    unless current_user
+      Rails.logger.warn("Child#record_child_added: Event not recorded - current_user not set for person_id=#{person_id}, couple_id=#{couple_id}")
+      return
+    end
 
     current_user.events.create(
       name: 'child.create',
@@ -36,7 +39,10 @@ class Child < ApplicationRecord
   end
 
   def record_child_removed
-    return unless current_user
+    unless current_user
+      Rails.logger.warn("Child#record_child_removed: Event not recorded - current_user not set for person_id=#{person_id}, couple_id=#{couple_id}")
+      return
+    end
 
     current_user.events.create(
       name: 'child.unlink',
