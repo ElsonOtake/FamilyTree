@@ -55,6 +55,10 @@
     border-bottom-color: var(--border-color) !important;
   }
 
+  .card-header-title {
+    color: var(--text-primary) !important;
+  }
+
   .card-content {
     background-color: var(--card-bg) !important;
     color: var(--text-primary) !important;
