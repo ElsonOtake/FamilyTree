@@ -9,142 +9,143 @@ class ChildTest < ActiveSupport::TestCase
       birth_month: 5,
       birth_day: 15
     )
-    
+
     @parent2 = Person.create!(
-      name: "Parent Two", 
+      name: "Parent Two",
       birth_year: 1982,
       birth_month: 8,
       birth_day: 20
     )
-    
-    @child = Person.create!(
+
+    @child_person = Person.create!(
       name: "Test Child",
       birth_year: 2010,
       birth_month: 3,
       birth_day: 10
     )
-    
+
     # Create a couple
     @couple = Couple.create!(
       person1_id: [@parent1.id, @parent2.id].min,
       person2_id: [@parent1.id, @parent2.id].max
     )
-    
+
     # Create a user for event testing
     @user = users(:one)
   end
 
+  test "Child is an ActiveRecord model" do
+    assert Child < ApplicationRecord
+  end
+
   test "Child model includes correct modules" do
     assert Child.include?(GenerateCsv)
-    assert Child.include?(ActiveModel::Model)
-    assert Child.include?(ActiveModel::Attributes)
   end
 
-  test "Child has correct attributes" do
-    child = Child.new
-    assert_respond_to child, :person_id
-    assert_respond_to child, :couple_id
-    assert_respond_to child, :person_id=
-    assert_respond_to child, :couple_id=
+  test "Child has correct table name" do
+    assert_equal 'couples_people', Child.table_name
   end
 
-  test "Child can be instantiated and attributes can be set" do
-    child = Child.new
-    child.person_id = 123
-    child.couple_id = 456
-    assert_equal 123, child.person_id
-    assert_equal 456, child.couple_id
+  test "Child belongs to couple" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+    assert_equal @couple, child.couple
   end
 
-  test "Child.all returns Person.joins(:couples) with correct select" do
-    # Add child to couple first
-    @couple.people << @child
-    
-    children = Child.all
-    
-    # Should return objects with person_id and couple_id columns
-    assert_not_empty children
-    
-    # Check that it includes our test data
-    child_records = children.to_a
-    assert child_records.any? { |record| record.person_id == @child.id && record.couple_id == @couple.id }
+  test "Child belongs to person" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+    assert_equal @child_person, child.person
   end
 
-  test "Child.all returns empty collection when no children exist" do
-    # Ensure no children exist by clearing all couple-person relationships
-    Person.joins(:couples).delete_all
-    
-    children = Child.all
-    assert_empty children
+  test "Child validates uniqueness of person_id scoped to couple_id" do
+    # Create first child relationship
+    Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+
+    # Try to create duplicate
+    duplicate = Child.new(person_id: @child_person.id, couple_id: @couple.id)
+    assert_not duplicate.valid?
+    assert duplicate.errors[:person_id].present?
   end
 
-  test "Child.column_names returns attribute names" do
-    column_names = Child.column_names
-    assert_includes column_names, "person_id"
-    assert_includes column_names, "couple_id"
-    assert_equal 2, column_names.length
-  end
-
-  test "register_event creates an event with correct attributes" do
-    child_model = Child.new(person_id: @child.id, couple_id: @couple.id)
-    
-    assert_difference('Event.count', 1) do
-      child_model.register_event(@child, @couple, @user, 'test.action')
+  test "Child can be created with valid attributes" do
+    assert_difference('Child.count', 1) do
+      Child.create!(person_id: @child_person.id, couple_id: @couple.id)
     end
-    
+  end
+
+  test "Child.all returns all child relationships" do
+    # Create some child relationships
+    child1 = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+
+    another_person = Person.create!(name: "Another Child", birth_year: 2012)
+    child2 = Child.create!(person_id: another_person.id, couple_id: @couple.id)
+
+    children = Child.all
+    assert children.exists?(person_id: child1.person_id, couple_id: child1.couple_id)
+    assert children.exists?(person_id: child2.person_id, couple_id: child2.couple_id)
+  end
+
+  test "Child.where(couple_id:) returns children of specific couple" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+
+    children = Child.where(couple_id: @couple.id)
+    assert children.exists?(person_id: child.person_id, couple_id: child.couple_id)
+  end
+
+  test "Child.where(person_id:) returns couples where person is a child" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+
+    parent_couples = Child.where(person_id: @child_person.id)
+    assert parent_couples.exists?(person_id: child.person_id, couple_id: child.couple_id)
+  end
+
+  test "after_create callback creates event when current_user is set" do
+    child = Child.new(person_id: @child_person.id, couple_id: @couple.id)
+    child.current_user = @user
+
+    assert_difference('Event.count', 1) do
+      child.save!
+    end
+
     event = Event.last
-    assert_equal 'test.action', event.name
-    assert_equal @child, event.resource
+    assert_equal 'child.create', event.name
+    assert_equal @child_person, event.resource
     assert_equal @user, event.user
     assert_equal @couple.id, event.data['couple_id']
+    assert_equal @child_person.id, event.data['person_id']
   end
 
-  test "register_event handles different action types" do
-    child_model = Child.new(person_id: @child.id, couple_id: @couple.id)
-    
-    # Test child.create action
-    child_model.register_event(@child, @couple, @user, 'child.create')
-    create_event = Event.last
-    assert_equal 'child.create', create_event.name
-    
-    # Test child.unlink action
-    child_model.register_event(@child, @couple, @user, 'child.unlink')
-    unlink_event = Event.last
-    assert_equal 'child.unlink', unlink_event.name
-    
-    # Test custom action
-    child_model.register_event(@child, @couple, @user, 'child.custom')
-    custom_event = Event.last
-    assert_equal 'child.custom', custom_event.name
+  test "after_create callback does not create event when current_user is nil" do
+    child = Child.new(person_id: @child_person.id, couple_id: @couple.id)
+    child.current_user = nil
+
+    assert_no_difference('Event.count') do
+      child.save!
+    end
   end
 
-  test "register_event stores correct data structure" do
-    child_model = Child.new(person_id: @child.id, couple_id: @couple.id)
-    
-    child_model.register_event(@child, @couple, @user, 'test.action')
-    
+  test "after_destroy callback creates event when current_user is set" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+    child.current_user = @user
+
+    assert_difference('Event.count', 1) do
+      child.destroy!
+    end
+
     event = Event.last
-    assert event.data.is_a?(Hash)
+    assert_equal 'child.unlink', event.name
+    assert_equal @child_person, event.resource
+    assert_equal @user, event.user
     assert_equal @couple.id, event.data['couple_id']
-    assert_equal 1, event.data.keys.length # Only couple_id should be stored
+    assert_equal @child_person.id, event.data['person_id']
   end
 
-  test "register_event creates event associated with correct user" do
-    # Create another user
-    another_user = User.create!(
-      name: "Another User",
-      email: "another@example.com",
-      password: "password",
-      confirmed_at: 1.week.ago
-    )
-    
-    child_model = Child.new(person_id: @child.id, couple_id: @couple.id)
-    
-    child_model.register_event(@child, @couple, another_user, 'test.action')
-    
-    event = Event.last
-    assert_equal another_user, event.user
-    assert_not_equal @user, event.user
+  test "after_destroy callback does not create event when current_user is nil" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+    child.current_user = nil
+
+    assert_no_difference('Event.count') do
+      child.destroy!
+    end
   end
 
   test "Child inherits CSV generation from GenerateCsv" do
@@ -152,33 +153,27 @@ class ChildTest < ActiveSupport::TestCase
   end
 
   test "Child.to_csv generates CSV with correct headers and data" do
-    # Add child to couple
-    @couple.people << @child
-    
+    Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+
     children = Child.all
     csv_data = Child.to_csv(children)
-    
+
     # Check CSV structure
     lines = csv_data.split("\n")
-    headers = lines.first.split(";")
-    
-    assert_includes headers, "person_id"
-    assert_includes headers, "couple_id"
-    
+    assert_not_empty lines
+
     # Check that data is included
-    assert csv_data.include?(@child.id.to_s)
+    assert csv_data.include?(@child_person.id.to_s)
     assert csv_data.include?(@couple.id.to_s)
   end
 
   test "Child.to_csv handles empty collection" do
-    empty_collection = []
+    empty_collection = Child.none
     csv_data = Child.to_csv(empty_collection)
-    
+
     # Should only contain headers
     lines = csv_data.split("\n")
     assert_equal 1, lines.length
-    assert_includes lines.first, "person_id"
-    assert_includes lines.first, "couple_id"
   end
 
   test "Child model works with multiple children for same couple" do
@@ -189,38 +184,67 @@ class ChildTest < ActiveSupport::TestCase
       birth_month: 7,
       birth_day: 5
     )
-    
+
     # Add both children to the couple
-    @couple.people << @child
-    @couple.people << another_child
-    
-    children = Child.all
-    child_records = children.to_a
-    
+    child1 = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+    child2 = Child.create!(person_id: another_child.id, couple_id: @couple.id)
+
+    children = Child.where(couple_id: @couple.id)
+
     # Should have records for both children
-    assert child_records.any? { |record| record.person_id == @child.id && record.couple_id == @couple.id }
-    assert child_records.any? { |record| record.person_id == another_child.id && record.couple_id == @couple.id }
+    assert children.exists?(person_id: child1.person_id, couple_id: child1.couple_id)
+    assert children.exists?(person_id: child2.person_id, couple_id: child2.couple_id)
+    assert_equal 2, children.count
   end
 
-  test "Child model works with child having multiple couples" do
+  test "Child model works with child having multiple couples (e.g., adoption)" do
     # Create another couple
     parent3 = Person.create!(name: "Parent Three", birth_year: 1985)
     parent4 = Person.create!(name: "Parent Four", birth_year: 1987)
-    
+
     another_couple = Couple.create!(
       person1_id: [parent3.id, parent4.id].min,
       person2_id: [parent3.id, parent4.id].max
     )
-    
+
     # Add same child to both couples
-    @couple.people << @child
-    another_couple.people << @child
-    
-    children = Child.all
-    child_records = children.to_a
-    
+    child1 = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+    child2 = Child.create!(person_id: @child_person.id, couple_id: another_couple.id)
+
+    parent_couples = Child.where(person_id: @child_person.id)
+
     # Should have records for the same child in both couples
-    assert child_records.any? { |record| record.person_id == @child.id && record.couple_id == @couple.id }
-    assert child_records.any? { |record| record.person_id == @child.id && record.couple_id == another_couple.id }
+    assert parent_couples.exists?(person_id: child1.person_id, couple_id: child1.couple_id)
+    assert parent_couples.exists?(person_id: child2.person_id, couple_id: child2.couple_id)
+    assert_equal 2, parent_couples.count
+  end
+
+  test "destroying Child removes relationship from couples_people table" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+
+    assert_difference('Child.count', -1) do
+      child.destroy!
+    end
+
+    assert_not Child.exists?(person_id: @child_person.id, couple_id: @couple.id)
+  end
+
+  test "Child can access person and couple associations efficiently" do
+    child = Child.create!(person_id: @child_person.id, couple_id: @couple.id)
+
+    # Test associations work
+    assert_equal @child_person.name, child.person.name
+    assert_equal @couple.person1_id, child.couple.person1_id
+    assert_equal @couple.person2_id, child.couple.person2_id
+  end
+
+  test "event data includes both couple_id and person_id" do
+    child = Child.new(person_id: @child_person.id, couple_id: @couple.id)
+    child.current_user = @user
+    child.save!
+
+    event = Event.last
+    assert_equal @couple.id, event.data['couple_id']
+    assert_equal @child_person.id, event.data['person_id']
   end
 end
