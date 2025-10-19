@@ -216,6 +216,25 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "should handle destroy when relationship doesn't exist" do
+    # Try to delete a child that exists but isn't linked to this couple
+    delete person_couple_child_path(@parent1, @couple, @child)
+
+    assert_redirected_to person_path(@parent1)
+    assert_equal I18n.t('children.errors.relationship_not_found'), flash[:alert]
+  end
+
+  test "should handle destroy when relationship doesn't exist with turbo stream" do
+    # Try to delete a child that exists but isn't linked to this couple
+    delete person_couple_child_path(@parent1, @couple, @child),
+           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    assert_response :success
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    # Should render flash message about relationship not found
+    assert_includes response.body, I18n.t('children.errors.relationship_not_found')
+  end
+
   test "Child model methods work correctly" do
     # Test Child model methods used in controller
     @couple.people << @child
