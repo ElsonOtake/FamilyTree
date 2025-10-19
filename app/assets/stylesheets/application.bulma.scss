@@ -186,6 +186,45 @@ li.is-active a {
     overflow-wrap: break-word;
   }
 
+  // Table container must allow horizontal scroll internally
+  .table-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  // Ensure tables don't force page width
+  .table {
+    width: 100%;
+    table-layout: auto;
+  }
+
+  // Field groups should wrap on mobile
+  .field.is-grouped {
+    flex-wrap: wrap;
+
+    .control {
+      flex-grow: 1;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+  }
+
+  // Icon-text elements should not cause overflow
+  .icon-text {
+    max-width: 100%;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  // Ensure all inline-flex elements wrap
+  .is-inline-flex {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+
   // Fix level layout on mobile
   .level {
     display: block;
