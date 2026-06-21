@@ -9,6 +9,7 @@ ja:
   layouts:
     navbar:
       about: "アプリについて"
+      mcp_access: "MCPアクセス"
       edit_profile: "プロファイル編集"
       log_out: "ログアウト"
       more: "もっと"
@@ -163,6 +164,25 @@ ja:
       never_signed_in: "サインインしたことがありません"
       confirmed: "確認済み"
       pending: "保留中"
+    mcp_access:
+      title: "MCPアクセス"
+      intro: "AIアシスタントを家系図に接続します。個人トークンを使って「マリアの両親は誰ですか？」のように自然な言葉で質問できます。"
+      your_token: "アクセストークン"
+      token_help: "このトークンは秘密にしてください。トークンを持つ人は誰でもMCPサーバー経由で家系図を閲覧できます。"
+      endpoint: "MCPサーバーのエンドポイント"
+      regenerate: "トークンを再生成"
+      regenerate_confirm: "トークンを再生成しますか？現在のトークンは使えなくなります。"
+      revoke: "アクセスを取り消す"
+      revoke_confirm: "MCPアクセスを取り消しますか？トークンはただちに無効になります。"
+      disabled: "このアカウントではMCPアクセスが無効になっています。"
+      enable: "MCPアクセスを有効にする"
+      regenerated: "MCPトークンを再生成しました。"
+      revoked: "MCPアクセスを取り消しました。"
+      what_you_can_ask: "質問できること"
+      example_parents: "ある人の両親は誰ですか？"
+      example_siblings: "ある人の兄弟姉妹は誰ですか？"
+      example_age: "ある人は何歳ですか？"
+      example_children: "ある人の子供は誰ですか？"
   favorites:
     title: "お気に入り"
     add: "お気に入りに追加"

@@ -18,6 +18,19 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  # Any signed-in user may view and manage their own MCP access token.
+  def mcp_access?
+    user.present?
+  end
+
+  def regenerate_mcp_token?
+    mcp_access?
+  end
+
+  def revoke_mcp_token?
+    mcp_access?
+  end
+
   def change_unidentified?
     true
   end

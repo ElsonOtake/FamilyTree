@@ -9,6 +9,7 @@ pt:
   layouts:
     navbar:
       about: "Sobre"
+      mcp_access: "Acesso MCP"
       edit_profile: "Editar perfil"
       log_out: "Sair"
       more: "Mais"
@@ -163,6 +164,25 @@ pt:
       never_signed_in: "Nunca acessou"
       confirmed: "Confirmado"
       pending: "Pendente"
+    mcp_access:
+      title: "Acesso MCP"
+      intro: "Conecte um assistente de IA à sua árvore genealógica. Com o seu token pessoal você pode fazer perguntas como \"quem são os pais da Maria?\" em linguagem natural."
+      your_token: "Seu token de acesso"
+      token_help: "Mantenha em segredo. Qualquer pessoa com este token pode ler a árvore genealógica através do servidor MCP."
+      endpoint: "Endpoint do servidor MCP"
+      regenerate: "Gerar novo token"
+      regenerate_confirm: "Gerar um novo token? O token atual deixará de funcionar."
+      revoke: "Revogar acesso"
+      revoke_confirm: "Revogar o acesso MCP? O token deixará de funcionar imediatamente."
+      disabled: "O acesso MCP está desativado para a sua conta."
+      enable: "Ativar acesso MCP"
+      regenerated: "Seu token MCP foi gerado novamente."
+      revoked: "Seu acesso MCP foi revogado."
+      what_you_can_ask: "O que você pode perguntar"
+      example_parents: "Quem são os pais de uma pessoa?"
+      example_siblings: "Quem são os irmãos de alguém?"
+      example_age: "Qual a idade de uma pessoa?"
+      example_children: "Quem são os filhos de alguém?"
   favorites:
     title: "Favoritos"
     add: "Adicionar aos favoritos"

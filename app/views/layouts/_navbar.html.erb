@@ -105,6 +105,12 @@
                 <span><%= t('.about') %></span>
               </span>
             <% end %>
+            <%= link_to mcp_access_users_path, class: 'navbar-item' do %>
+              <span class='icon-text'>
+                <span class='icon has-text-link'><i class='fas fa-robot'></i></span>
+                <span><%= t('.mcp_access') %></span>
+              </span>
+            <% end %>
             <%#= link_to 'Log', nil, class: 'navbar-item' %>
             <%#= link_to 'Aniversários', nil, class: 'navbar-item' %>
             <%#= link_to 'Estatísticas', nil, class: 'navbar-item' %>

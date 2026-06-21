@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :favorite_people, through: :favorites, source: :person
 
   rolify
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -32,6 +33,30 @@ class User < ApplicationRecord
 
   def omniauth_login?
     provider.present?
+  end
+
+  # Whether this user has enabled access to the MCP server.
+  def mcp_enabled?
+    mcp_token.present?
+  end
+
+  # Generate (or rotate) the token used to authenticate this user against the
+  # MCP server. Opt-in: tokens are not created automatically, so a user only
+  # gains MCP access once they explicitly request a token.
+  def regenerate_mcp_token!
+    update!(mcp_token: self.class.generate_unique_secure_token(length: 32))
+  end
+
+  # Disable MCP access for this user by clearing the token.
+  def revoke_mcp_token!
+    update!(mcp_token: nil)
+  end
+
+  # Resolve a user from a bearer token. Returns nil for blank or unknown tokens.
+  def self.find_by_mcp_token(token)
+    return nil if token.blank?
+
+    find_by(mcp_token: token)
   end
 
   def self.from_omniauth(access_token)

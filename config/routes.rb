@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     get 'birthdays', on: :collection
   end
   resources :users, path: :usuarios do
+    get 'mcp_access', on: :collection
+    post 'mcp_token', on: :collection, to: 'users#regenerate_mcp_token', as: :regenerate_mcp_token
+    delete 'mcp_token', on: :collection, to: 'users#revoke_mcp_token', as: :revoke_mcp_token
     get 'roles', on: :collection
     get 'download', on: :collection
     patch 'role_update', on: :member
