@@ -37,9 +37,26 @@ class UsersController < ApplicationController
     redirect_to roles_users_path
   end
 
+  # Self-service page where a signed-in user manages their MCP access token.
+  def mcp_access
+    @user = current_user
+  end
+
+  def regenerate_mcp_token
+    current_user.regenerate_mcp_token!
+    current_user.events.create(name: 'mcp_token.regenerate')
+    redirect_to mcp_access_users_path, notice: t('users.mcp_access.regenerated')
+  end
+
+  def revoke_mcp_token
+    current_user.revoke_mcp_token!
+    current_user.events.create(name: 'mcp_token.revoke')
+    redirect_to mcp_access_users_path, notice: t('users.mcp_access.revoked')
+  end
+
   def change
     locale = params[:locale]
-    
+
     # Validate locale against allowed values
     if User.locales.keys.include?(locale)
       current_user.update!(locale: locale)
