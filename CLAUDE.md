@@ -73,6 +73,13 @@ yarn build:css      # Build CSS from Sass
 - **Form Objects**: Complex forms use form objects pattern
 - **Service Objects**: Business logic extracted to service classes
 
+### MCP Server
+
+- An MCP (Model Context Protocol) server lets AI assistants query the tree in natural language. Built with the `fast-mcp` gem, mounted at `/mcp`.
+- **Tools** live in `app/tools/` (`find_person`, `get_person`, `get_parents`, `get_children`, `get_siblings`, `get_partners`, `get_age`); they reuse the existing `Person`/`Couple` methods. Shared serializer: `app/mcp/person_presenter.rb`. Server config + custom auth transport: `config/initializers/fast_mcp.rb`.
+- **Auth**: per-user bearer token (`User#mcp_token`, opt-in via the *MCP access* page). The transport sets `Current.user` after validating the token. It is inserted before `Warden::Manager` so its 401s aren't swallowed by Devise.
+- Tools are **read-only**. When adding a tool, subclass `ApplicationTool`, return a JSON string via `render(...)`, and add a test under `test/tools/`.
+
 ### Frontend Architecture
 
 - **Hotwire/Turbo**: Most interactions are Turbo frames/streams, not full page loads

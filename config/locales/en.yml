@@ -9,6 +9,7 @@ en:
   layouts:
     navbar:
       about: "About"
+      mcp_access: "MCP access"
       edit_profile: "Edit profile"
       log_out: "Log out"
       more: "More"
@@ -166,6 +167,25 @@ en:
       never_signed_in: "Never signed in"
       confirmed: "Confirmed"
       pending: "Pending"
+    mcp_access:
+      title: "MCP access"
+      intro: "Connect an AI assistant to your family tree. With your personal token you can ask questions like \"who are Maria's parents?\" in plain language."
+      your_token: "Your access token"
+      token_help: "Keep this secret. Anyone with this token can read the family tree through the MCP server."
+      endpoint: "MCP server endpoint"
+      regenerate: "Regenerate token"
+      regenerate_confirm: "Regenerate your token? The current one will stop working."
+      revoke: "Revoke access"
+      revoke_confirm: "Revoke MCP access? The token will stop working immediately."
+      disabled: "MCP access is currently disabled for your account."
+      enable: "Enable MCP access"
+      regenerated: "Your MCP token has been regenerated."
+      revoked: "Your MCP access has been revoked."
+      what_you_can_ask: "What you can ask"
+      example_parents: "Who are the parents of a person?"
+      example_siblings: "Who are someone's siblings?"
+      example_age: "How old is a person?"
+      example_children: "Who are someone's children?"
   favorites:
     title: "Favorites"
     add: "Add to favorites"
