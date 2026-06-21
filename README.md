@@ -131,6 +131,52 @@ Couple.mates(person_id)          # All partners of a person
 Couple.children(person_id)       # All children of a person (from all couples)
 ```
 
+## MCP Server (AI Assistant Access)
+
+The app exposes a [Model Context Protocol](https://modelcontextprotocol.io) server so an AI assistant can answer
+natural-language questions about the tree ("who are Maria's parents?", "how old is John?", "who are
+someone's siblings?"). It is built with the [`fast-mcp`](https://github.com/yjacquin/fast-mcp) gem and
+mounted directly in Rails — the tools call the existing `Person`/`Couple` models, so there is no separate API to maintain.
+
+### Endpoint & authentication
+
+- **Endpoint:** `https://<your-app>/mcp` (SSE stream at `/mcp/sse`, messages at `/mcp/messages`)
+- **Auth:** per-user bearer token. Each user opts in from the **MCP access** page (in the navbar's *More*
+  menu), which generates a personal `mcp_token`. Send it as `Authorization: Bearer <token>`.
+- Access is read-only. Tokens can be regenerated or revoked at any time.
+
+### Tools
+
+| Tool | Question it answers |
+|------|---------------------|
+| `find_person` | Search people by name/kanji to get their id |
+| `get_person` | Full details for one person (gender, dates, age) |
+| `get_parents` | Father, mother, and recorded parents |
+| `get_children` | All children across relationships |
+| `get_siblings` | Other children of the same parents |
+| `get_partners` | Spouses/partners with marriage & separation dates |
+| `get_age` | Current age (handles partial dates and deceased people) |
+
+Tools live in [`app/tools/`](app/tools/), share a serializer in
+[`app/mcp/person_presenter.rb`](app/mcp/person_presenter.rb), and the server is configured in
+[`config/initializers/fast_mcp.rb`](config/initializers/fast_mcp.rb). Tests are in
+[`test/tools/`](test/tools/), [`test/integration/mcp_endpoint_test.rb`](test/integration/mcp_endpoint_test.rb),
+and the token lifecycle in [`test/models/user_mcp_token_test.rb`](test/models/user_mcp_token_test.rb).
+
+### Connecting a client
+
+```jsonc
+// Example MCP client config (SSE transport)
+{
+  "mcpServers": {
+    "family-tree": {
+      "url": "https://<your-app>/mcp/sse",
+      "headers": { "Authorization": "Bearer <your-mcp-token>" }
+    }
+  }
+}
+```
+
 ## User Roles
 
 | Role | Permissions |

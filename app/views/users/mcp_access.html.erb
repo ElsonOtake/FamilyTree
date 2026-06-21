@@ -1,0 +1,52 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title"><%= t('.title') %></h1>
+    <p class="subtitle is-6"><%= t('.intro') %></p>
+
+    <div class="box">
+      <% if @user.mcp_enabled? %>
+        <div class="field">
+          <label class="label"><%= t('.your_token') %></label>
+          <div class="control">
+            <input class="input is-family-monospace" type="text" readonly
+                   value="<%= @user.mcp_token %>"
+                   onclick="this.select()">
+          </div>
+          <p class="help"><%= t('.token_help') %></p>
+        </div>
+
+        <div class="field">
+          <label class="label"><%= t('.endpoint') %></label>
+          <div class="control">
+            <input class="input is-family-monospace" type="text" readonly
+                   value="<%= request.base_url %>/mcp/sse"
+                   onclick="this.select()">
+          </div>
+        </div>
+
+        <div class="buttons">
+          <%= button_to t('.regenerate'), regenerate_mcp_token_users_path,
+                        method: :post, class: 'button is-warning',
+                        data: { turbo_confirm: t('.regenerate_confirm') } %>
+          <%= button_to t('.revoke'), revoke_mcp_token_users_path,
+                        method: :delete, class: 'button is-danger',
+                        data: { turbo_confirm: t('.revoke_confirm') } %>
+        </div>
+      <% else %>
+        <p class="mb-4"><%= t('.disabled') %></p>
+        <%= button_to t('.enable'), regenerate_mcp_token_users_path,
+                      method: :post, class: 'button is-primary' %>
+      <% end %>
+    </div>
+
+    <div class="content">
+      <h2 class="title is-5"><%= t('.what_you_can_ask') %></h2>
+      <ul>
+        <li><%= t('.example_parents') %></li>
+        <li><%= t('.example_siblings') %></li>
+        <li><%= t('.example_age') %></li>
+        <li><%= t('.example_children') %></li>
+      </ul>
+    </div>
+  </div>
+</section>
