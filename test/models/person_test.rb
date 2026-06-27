@@ -174,6 +174,14 @@ class PersonTest < ActiveSupport::TestCase
     assert_not deceased_person.alive?
   end
 
+  test "alive? respects the alive flag when no death year is recorded" do
+    flagged_deceased = Person.new(name: "Flagged", alive: false, death_year: nil)
+    unknown_status = Person.new(name: "Unknown", alive: nil, death_year: nil)
+
+    assert_not flagged_deceased.alive?
+    assert unknown_status.alive?, "nil flag means unknown, treated as alive"
+  end
+
   test "birthday calculations work across timezone changes" do
     # Test that birthday calculations remain consistent
     # even when timezone is configured differently

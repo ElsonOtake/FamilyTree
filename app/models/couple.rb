@@ -22,6 +22,63 @@ class Couple < ApplicationRecord
     self.person1_id, self.person2_id = person2_id, person1_id if person1_id > person2_id
   end
 
+  # This year's wedding anniversary (the marriage month/day in the current
+  # year), or nil when no marriage date is recorded.
+  def anniversary_this_year
+    return nil unless marriage
+
+    Date.new(Date.current.year, marriage.month, marriage.day)
+  rescue Date::Error
+    nil
+  end
+
+  # Whole days until this year's anniversary (negative if it already passed).
+  def days_until_anniversary
+    anniversary = anniversary_this_year
+    return nil unless anniversary
+
+    (anniversary - Date.current).to_i
+  end
+
+  # The anniversary number celebrated on this year's anniversary (e.g. 25 for a
+  # couple married in 2000, queried in 2025). Nil when no marriage date.
+  def anniversary_years
+    return nil unless marriage
+
+    Date.current.year - marriage.year
+  end
+
+  # Couples whose recurring wedding anniversary (year-agnostic month/day of the
+  # marriage date) falls within [start_date, end_date] inclusive, ordered by how
+  # soon it occurs. Handles ranges that cross a year boundary.
+  def self.anniversaries_between(start_date, end_date)
+    current_year = Date.current.year
+    month = 'EXTRACT(MONTH FROM marriage)::int'
+    day = 'EXTRACT(DAY FROM marriage)::int'
+    scope = where.not(marriage: nil)
+
+    scope = if start_date.year == end_date.year
+              scope.where("MAKE_DATE(?, #{month}, #{day}) BETWEEN ? AND ?",
+                          start_date.year, start_date, end_date)
+            else
+              scope.where(
+                "MAKE_DATE(?, #{month}, #{day}) >= ? OR MAKE_DATE(?, #{month}, #{day}) <= ?",
+                start_date.year, start_date, end_date.year, end_date
+              )
+            end
+
+    scope
+      .select("couples.*, (MAKE_DATE(#{current_year}, #{month}, #{day}) - CURRENT_DATE) AS days_until_anniversary")
+      .order('days_until_anniversary ASC')
+  end
+
+  # Couples with a wedding anniversary in the given calendar month (1-12).
+  def self.anniversaries_in_month(month)
+    where.not(marriage: nil)
+         .where('EXTRACT(MONTH FROM marriage) = ?', month)
+         .order(Arel.sql('EXTRACT(DAY FROM marriage)'))
+  end
+
   def self.couple(person1, person2)
     return nil if person1.nil? || person2.nil?
 
