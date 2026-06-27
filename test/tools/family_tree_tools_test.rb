@@ -210,6 +210,38 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     refute result[:error], 'expected accented name to resolve'
   end
 
+  test 'tools resolve a unique partial name whose full slug has a suffix' do
+    # Two people share the base name, so friendly_id appends a uniqueness suffix
+    # to the slug. A partial name still resolves via the unambiguous name search.
+    full = Person.create!(name: 'Satiye Sakamoto Otake', gender: 'F',
+                          birth_year: 1941, birth_month: 1, birth_day: 1)
+
+    ['Satiye Sakamoto', 'satiye-sakamoto'].each do |identifier|
+      result = call_tool(GetAgeTool, person_id: identifier)
+      assert_not result[:error], "expected #{identifier.inspect} to resolve"
+      assert_equal full.id, result[:person][:id]
+    end
+  end
+
+  test 'tools do not resolve an ambiguous name' do
+    Person.create!(name: 'Aiko Sakamoto', gender: 'F')
+    Person.create!(name: 'Bento Sakamoto', gender: 'M')
+
+    # "Sakamoto" matches more than one person, so a get_* tool reports not found
+    # (the caller should use find_person to disambiguate).
+    result = call_tool(GetAgeTool, person_id: 'Sakamoto')
+
+    assert result[:error].present?
+  end
+
+  test 'tools do not resolve a misspelled name' do
+    Person.create!(name: 'Satiye Sakamoto Otake', gender: 'F')
+
+    result = call_tool(GetAgeTool, person_id: 'satie-sakamoto')
+
+    assert result[:error].present?
+  end
+
   test 'a person with no recorded parents returns nil father and mother' do
     orphan = Person.create!(name: 'Lone Doe', gender: 'X')
     result = call_tool(GetParentsTool, person_id: orphan.id.to_s)
