@@ -53,6 +53,25 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     assert_equal 2, result[:count]
   end
 
+  test 'find_person matches each word independently across a middle name' do
+    person = Person.create!(name: 'Elson Akio Otake', gender: 'M')
+
+    # First + last name, skipping the middle name, and in reversed order.
+    ['Elson Otake', 'otake elson', 'elson akio otake'].each do |query|
+      result = call_tool(FindPersonTool, query: query)
+      ids = result[:results].map { |r| r[:id] }
+      assert_includes ids, person.id, "expected #{query.inspect} to find Elson Akio Otake"
+    end
+  end
+
+  test 'find_person requires all words to match' do
+    Person.create!(name: 'Elson Akio Otake', gender: 'M')
+
+    result = call_tool(FindPersonTool, query: 'Elson Tanaka')
+
+    assert_equal 0, result[:count]
+  end
+
   test 'find_person tolerates romanization variants' do
     person = Person.create!(name: 'Mitio Otake', gender: 'M')
 
