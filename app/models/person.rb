@@ -219,6 +219,23 @@ class Person < ApplicationRecord
     where(birth_month: month).where.not(birth_day: nil).order(:birth_day)
   end
 
+  # Search people by name (or kanji). The query is split into words on
+  # whitespace, hyphens and underscores, and every word must appear in the
+  # romanization-normalized name or the raw kanji. Word order and skipped middle
+  # names don't matter, so "elson otake" and "otake-elson" both match
+  # "Elson Akio Otake".
+  def self.search_by_name(query)
+    tokens = query.to_s.split(/[\s_-]+/).reject(&:blank?)
+    return none if tokens.empty?
+
+    tokens.reduce(all) do |scope, token|
+      normalized = sanitize_sql_like(RomajiNormalizer.normalize(token))
+      kanji = sanitize_sql_like(token)
+      scope.where('name_normalized LIKE :name OR kanji ILIKE :kanji',
+                  name: "%#{normalized}%", kanji: "%#{kanji}%")
+    end
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[alive birth birth_year birth_month birth_day death description gender name kanji]
   end
