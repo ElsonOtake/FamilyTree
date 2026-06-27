@@ -4,11 +4,12 @@
 # family-tree tools require. Names are not unique, so this returns candidates.
 class FindPersonTool < ApplicationTool
   tool_name 'find_person'
-  description 'Search the family tree for people by name or kanji. Romanization ' \
-              'variants are tolerated (e.g. "Ohtake" matches "Otake", "Michio" ' \
-              'matches "Mitio"). Returns a list of matching people with their ' \
-              'id, gender, birth date and age. Use the returned id with the ' \
-              'other family-tree tools.'
+  description 'Search the family tree for people by name or kanji. Each word ' \
+              'is matched independently and in any order, so "elson otake" ' \
+              'finds "Elson Akio Otake". Romanization variants are tolerated ' \
+              '(e.g. "Ohtake" matches "Otake", "Michio" matches "Mitio"). ' \
+              'Returns a list of matching people with their id, gender, birth ' \
+              'date and age. Use the returned id with the other family-tree tools.'
 
   annotations(
     title: 'Find person',
@@ -23,12 +24,18 @@ class FindPersonTool < ApplicationTool
   end
 
   def call(query:, limit: 10)
-    # Match the canonicalized name (romanization-tolerant) or the raw kanji.
-    normalized = Person.sanitize_sql_like(RomajiNormalizer.normalize(query))
-    kanji = Person.sanitize_sql_like(query)
-    people = Person.where('name_normalized LIKE :name OR kanji ILIKE :kanji',
-                          name: "%#{normalized}%", kanji: "%#{kanji}%")
-                   .limit(limit)
+    # Split into words so a query matches regardless of word order or skipped
+    # middle names: every word must appear in the (romanization-tolerant)
+    # normalized name or the raw kanji.
+    tokens = query.to_s.split
+    return render(query: query, count: 0, results: []) if tokens.empty?
+
+    people = tokens.reduce(Person.all) do |scope, token|
+      normalized = Person.sanitize_sql_like(RomajiNormalizer.normalize(token))
+      kanji = Person.sanitize_sql_like(token)
+      scope.where('name_normalized LIKE :name OR kanji ILIKE :kanji',
+                  name: "%#{normalized}%", kanji: "%#{kanji}%")
+    end.limit(limit)
 
     render(
       query: query,
