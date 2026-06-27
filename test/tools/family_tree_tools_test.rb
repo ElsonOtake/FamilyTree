@@ -53,6 +53,17 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     assert_equal 2, result[:count]
   end
 
+  test 'find_person tolerates romanization variants' do
+    person = Person.create!(name: 'Mitio Otake', gender: 'M')
+
+    # Hepburn / long-vowel spellings should all resolve to the stored name.
+    ['Michio Otake', 'Mitio Ohtake', 'ohtake', 'michio'].each do |query|
+      result = call_tool(FindPersonTool, query: query)
+      ids = result[:results].map { |r| r[:id] }
+      assert_includes ids, person.id, "expected #{query.inspect} to find Mitio Otake"
+    end
+  end
+
   test 'get_person returns details and age' do
     travel_to Date.new(2024, 1, 1) do
       result = call_tool(GetPersonTool, person_id: @father.id.to_s)
@@ -116,10 +127,51 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     assert result[:summary].present?
   end
 
+  test 'get_age reports no age for a person marked not alive without a death year' do
+    # Born 1900, flagged deceased but no death date recorded. The age must not
+    # be computed as if they were still living (e.g. 126 in 2026).
+    deceased = Person.create!(name: 'Vintage Doe', gender: 'M', alive: false,
+                              birth_year: 1900, birth_month: 1, birth_day: 1)
+    result = call_tool(GetAgeTool, person_id: deceased.id.to_s)
+
+    assert_not result[:alive]
+    assert_nil result[:age_years]
+  end
+
+  test 'get_age suppresses an implausible age for unknown alive status' do
+    travel_to Date.new(2026, 6, 27) do
+      # alive: nil = unknown status; born 1900 would be 126, which is implausible.
+      ancient = Person.create!(name: 'Ancient Doe', gender: 'M', alive: nil,
+                               birth_year: 1900, birth_month: 1, birth_day: 1)
+      result = call_tool(GetAgeTool, person_id: ancient.id.to_s)
+
+      assert_nil result[:age_years]
+    end
+  end
+
+  test 'get_age still reports a plausible age for unknown alive status' do
+    travel_to Date.new(2026, 6, 27) do
+      # Unknown status but born recently enough to be plausibly alive.
+      young = Person.create!(name: 'Young Doe', gender: 'M', alive: nil,
+                             birth_year: 1990, birth_month: 1, birth_day: 1)
+      result = call_tool(GetAgeTool, person_id: young.id.to_s)
+
+      assert_equal 36, result[:age_years]
+    end
+  end
+
   test 'tools return an error for an unknown person' do
     result = call_tool(GetParentsTool, person_id: '999999')
 
     assert result[:error].present?
+  end
+
+  test 'find_person tolerates underscores in a hyphenated slug' do
+    # Slug for "John Doe" is "john-doe"; underscores should resolve too.
+    assert_equal 'john-doe', @father.slug
+    result = call_tool(GetChildrenTool, person_id: 'john_doe')
+
+    assert_equal 2, result[:count]
   end
 
   test 'a person with no recorded parents returns nil father and mother' do
@@ -129,5 +181,126 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     assert_nil result[:father]
     assert_nil result[:mother]
     assert_empty result[:parents]
+  end
+
+  test 'get_cousins returns the children of the parents siblings' do
+    # Extend the tree upward: grandparents -> @father, uncle.
+    grandfather = Person.create!(name: 'Gramps Doe', gender: 'M')
+    grandmother = Person.create!(name: 'Granny Doe', gender: 'F')
+    grandparents = Couple.create!(person1: grandfather, person2: grandmother)
+    uncle = Person.create!(name: 'Bob Doe', gender: 'M')
+    Child.create!(couple: grandparents, person: @father, current_user: @user)
+    Child.create!(couple: grandparents, person: uncle, current_user: @user)
+
+    # The uncle's child is @child's first cousin.
+    aunt_in_law = Person.create!(name: 'Sue Roe', gender: 'F')
+    uncle_couple = Couple.create!(person1: uncle, person2: aunt_in_law)
+    cousin = Person.create!(name: 'Kim Doe', gender: 'F')
+    Child.create!(couple: uncle_couple, person: cousin, current_user: @user)
+
+    result = call_tool(GetCousinsTool, person_id: @child.id.to_s)
+
+    assert_equal 1, result[:count]
+    names = result[:cousins].map { |c| c[:name] }
+    assert_includes names, 'Kim Doe'
+    # Own siblings are not cousins.
+    assert_not_includes names, 'Pat Doe'
+  end
+
+  test 'get_cousins returns an empty list when there are none' do
+    result = call_tool(GetCousinsTool, person_id: @child.id.to_s)
+
+    assert_equal 0, result[:count]
+    assert_empty result[:cousins]
+  end
+
+  test 'get_anniversaries finds couples with an anniversary today' do
+    travel_to Date.new(2025, 6, 1) do
+      # @parents married 1995-06-01; their 30th anniversary is today.
+      result = call_tool(GetAnniversariesTool, period: 'today')
+
+      ids = result[:anniversaries].map { |a| a[:couple_id] }
+      assert_includes ids, @parents.id
+      entry = result[:anniversaries].find { |a| a[:couple_id] == @parents.id }
+      assert_equal 0, entry[:days_until_anniversary]
+      assert_equal 30, entry[:years]
+      assert_equal '1995-06-01', entry[:marriage_date]
+      assert_equal 2, entry[:partners].size
+    end
+  end
+
+  test 'get_anniversaries excludes couples without a marriage date' do
+    a = Person.create!(name: 'No Date A', gender: 'M')
+    b = Person.create!(name: 'No Date B', gender: 'F')
+    undated = Couple.create!(person1: a, person2: b) # no marriage date
+
+    travel_to Date.new(2025, 6, 1) do
+      result = call_tool(GetAnniversariesTool, period: 'month')
+
+      assert_not_includes result[:anniversaries].map { |x| x[:couple_id] }, undated.id
+    end
+  end
+
+  test 'get_anniversaries month exposes a separation date when present' do
+    travel_to Date.new(2025, 6, 15) do
+      @parents.update!(separation: Date.new(2010, 1, 1))
+      result = call_tool(GetAnniversariesTool, period: 'month')
+
+      entry = result[:anniversaries].find { |a| a[:couple_id] == @parents.id }
+      assert_equal '2010-01-01', entry[:separation_date]
+    end
+  end
+
+  test 'get_birthdays finds people with a birthday today' do
+    travel_to Date.new(2025, 6, 27) do
+      today = Person.create!(name: 'Cake Doe', birth_year: 1990, birth_month: 6, birth_day: 27)
+      Person.create!(name: 'Other Doe', birth_year: 1990, birth_month: 8, birth_day: 1)
+
+      result = call_tool(GetBirthdaysTool, period: 'today')
+
+      ids = result[:birthdays].map { |b| b[:id] }
+      assert_includes ids, today.id
+      entry = result[:birthdays].find { |b| b[:id] == today.id }
+      assert_equal 0, entry[:days_until_birthday]
+      assert_equal 35, entry[:turning_age]
+      assert_equal '2025-06-27', entry[:birthday]
+    end
+  end
+
+  test 'get_birthdays defaults to today and excludes other days' do
+    travel_to Date.new(2025, 6, 27) do
+      tomorrow = Person.create!(name: 'Soon Doe', birth_year: 1980, birth_month: 6, birth_day: 28)
+
+      result = call_tool(GetBirthdaysTool)
+
+      assert_equal 'today', result[:period]
+      assert_not_includes result[:birthdays].map { |b| b[:id] }, tomorrow.id
+    end
+  end
+
+  test 'get_birthdays week covers the current Monday-Sunday week' do
+    travel_to Date.new(2025, 6, 27) do # Friday; week is Jun 23-29
+      in_week = Person.create!(name: 'Week Doe', birth_year: 1990, birth_month: 6, birth_day: 24)
+      out_week = Person.create!(name: 'Next Doe', birth_year: 1990, birth_month: 7, birth_day: 5)
+
+      result = call_tool(GetBirthdaysTool, period: 'week')
+      ids = result[:birthdays].map { |b| b[:id] }
+
+      assert_includes ids, in_week.id
+      assert_not_includes ids, out_week.id
+    end
+  end
+
+  test 'get_birthdays month returns birthdays without a recorded year' do
+    travel_to Date.new(2025, 6, 27) do
+      no_year = Person.create!(name: 'Yearless Doe', birth_month: 6, birth_day: 3)
+      other_month = Person.create!(name: 'Winter Doe', birth_month: 12, birth_day: 3)
+
+      result = call_tool(GetBirthdaysTool, period: 'month')
+      ids = result[:birthdays].map { |b| b[:id] }
+
+      assert_includes ids, no_year.id
+      assert_not_includes ids, other_month.id
+    end
   end
 end
