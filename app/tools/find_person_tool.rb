@@ -24,18 +24,7 @@ class FindPersonTool < ApplicationTool
   end
 
   def call(query:, limit: 10)
-    # Split into words so a query matches regardless of word order or skipped
-    # middle names: every word must appear in the (romanization-tolerant)
-    # normalized name or the raw kanji.
-    tokens = query.to_s.split
-    return render(query: query, count: 0, results: []) if tokens.empty?
-
-    people = tokens.reduce(Person.all) do |scope, token|
-      normalized = Person.sanitize_sql_like(RomajiNormalizer.normalize(token))
-      kanji = Person.sanitize_sql_like(token)
-      scope.where('name_normalized LIKE :name OR kanji ILIKE :kanji',
-                  name: "%#{normalized}%", kanji: "%#{kanji}%")
-    end.limit(limit)
+    people = Person.search_by_name(query).limit(limit)
 
     render(
       query: query,
