@@ -193,6 +193,23 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     assert_equal 2, result[:count]
   end
 
+  test 'tools resolve a person by display name, not just slug' do
+    # The id/slug argument also accepts a human-readable name, which is
+    # slugified to match (e.g. "John Doe" -> "john-doe").
+    %w[John\ Doe john\ doe].each do |identifier|
+      result = call_tool(GetChildrenTool, person_id: identifier)
+      assert_equal 2, result[:count], "expected #{identifier.inspect} to resolve to John Doe"
+    end
+  end
+
+  test 'tools resolve a name with accents via slugification' do
+    accented = Person.create!(name: 'José Antônio', gender: 'M')
+    assert_equal 'jose-antonio', accented.slug
+
+    result = call_tool(GetAgeTool, person_id: 'José Antônio')
+    refute result[:error], 'expected accented name to resolve'
+  end
+
   test 'a person with no recorded parents returns nil father and mother' do
     orphan = Person.create!(name: 'Lone Doe', gender: 'X')
     result = call_tool(GetParentsTool, person_id: orphan.id.to_s)
