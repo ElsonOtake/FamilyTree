@@ -9,6 +9,11 @@
 module PersonPresenter
   GENDER_LABELS = { 'M' => 'Male', 'F' => 'Female', 'P' => 'Pet', 'X' => 'Other' }.freeze
 
+  # The oldest verified human lived to 122. Beyond this, a person whose alive
+  # status is unknown is almost certainly deceased with an unrecorded death date,
+  # so we decline to report an age rather than assert an implausible one.
+  MAX_PLAUSIBLE_AGE = 120
+
   module_function
 
   # Compact representation used for lists (e.g. search results, sibling lists).
@@ -36,6 +41,12 @@ module PersonPresenter
     today = Date.current
     age = today.year - person.birth_year
     age -= 1 unless birthday_passed_this_year?(person, today)
+
+    # When alive status is unknown (nil flag), suppress an implausibly old age:
+    # the person is almost certainly deceased without a recorded death date.
+    # An explicit alive flag is respected as-is.
+    return nil if person[:alive].nil? && age > MAX_PLAUSIBLE_AGE
+
     age
   end
 
@@ -53,6 +64,24 @@ module PersonPresenter
   # Map a collection of people to summaries.
   def summaries(people)
     people.map { |person| summary(person) }
+  end
+
+  # Birthday-focused entry: a summary plus this year's birthday date, how many
+  # days away it is (negative if already passed this year), and the age the
+  # person will turn (nil when not computable or the person is deceased).
+  def birthday(person)
+    summary(person).merge(
+      {
+        birthday: person.birthday_this_year&.iso8601,
+        days_until_birthday: person.days_until_birthday,
+        turning_age: person.age_on_birthday
+      }.compact
+    )
+  end
+
+  # Map a collection of people to birthday entries.
+  def birthdays(people)
+    people.map { |person| birthday(person) }
   end
 
   # Whether the person's birthday has already occurred (or is today) this year.

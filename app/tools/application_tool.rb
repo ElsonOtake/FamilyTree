@@ -8,10 +8,19 @@ class ApplicationTool < ActionTool::Base
 
   # Resolve a Person from an id (integer) or friendly_id slug (string).
   # Soft-deleted people are excluded (default paranoia scope).
+  # Slugs use hyphens, but underscores are tolerated as a fallback so callers
+  # can pass either separator (e.g. "rafael_yuki" resolves to "rafael-yuki").
   def find_person(identifier)
     Person.friendly.find(identifier)
   rescue ActiveRecord::RecordNotFound
-    nil
+    normalized = identifier.to_s.tr("_", "-")
+    return nil if normalized == identifier.to_s
+
+    begin
+      Person.friendly.find(normalized)
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
   end
 
   # Serialize a hash/array result to a JSON string. fast-mcp wraps a returned
