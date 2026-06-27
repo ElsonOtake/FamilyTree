@@ -6,16 +6,24 @@
 class ApplicationTool < ActionTool::Base
   private
 
-  # Resolve a Person from an id (integer), a friendly_id slug, or a display
-  # name. Soft-deleted people are excluded (default paranoia scope).
-  #
-  # The first lookup matches an exact id/slug. If that misses, the identifier is
-  # slugified (downcased, spaces/underscores -> hyphens, accents stripped) and
-  # retried, so a human-readable name like "Emilia Setuko Sakamoto" or an
-  # underscore variant like "rafael_yuki" resolves to the same person as the
-  # canonical slug "emilia-setuko-sakamoto" / "rafael-yuki".
+  # Resolve a Person from an id (integer), a friendly_id slug, or a name.
+  # Soft-deleted people are excluded (default paranoia scope). Tried in order:
+  #   1. exact id/slug
+  #   2. the slugified identifier (so "Emilia Setuko Sakamoto" / "rafael_yuki"
+  #      reach the canonical "emilia-setuko-sakamoto" / "rafael-yuki")
+  #   3. a name search, used only when it matches exactly one person, so a
+  #      partial name like "Satiye Sakamoto" resolves to "Satiye Sakamoto Otake"
+  #      while an ambiguous one (e.g. "Sakamoto") is left to find_person.
   def find_person(identifier)
-    resolve_person(identifier) || resolve_person(slugify(identifier))
+    resolve_person(identifier) ||
+      resolve_person(slugify(identifier)) ||
+      resolve_by_name(identifier)
+  end
+
+  # Resolve via name search, but only when the match is unambiguous.
+  def resolve_by_name(identifier)
+    matches = Person.search_by_name(identifier).limit(2).to_a
+    matches.first if matches.size == 1
   end
 
   # Look up by exact id/slug, returning nil instead of raising when not found.
@@ -30,7 +38,7 @@ class ApplicationTool < ActionTool::Base
   # Convert an arbitrary identifier into the canonical slug form. Returns nil
   # when it is already identical (so we don't repeat the same failed lookup).
   def slugify(identifier)
-    candidate = identifier.to_s.parameterize.tr("_", "-")
+    candidate = identifier.to_s.parameterize.tr('_', '-')
     candidate == identifier.to_s ? nil : candidate
   end
 
