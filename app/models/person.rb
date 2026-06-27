@@ -35,6 +35,7 @@ class Person < ApplicationRecord
   }
 
   before_validation :set_default_gender, on: :create
+  before_save :set_name_normalized, if: :name_changed?
 
   def siblings
     # Find couples where this person is a child
@@ -43,6 +44,16 @@ class Person < ApplicationRecord
 
     # Get all children of those parent couples, excluding self
     parent_couples.flat_map(&:people).uniq - [self]
+  end
+
+  def cousins
+    # Parents are person1/person2 of this person's parent couples.
+    parents = couples.flat_map { |couple| [couple.person1, couple.person2] }.uniq
+    return [] if parents.empty?
+
+    # Aunts/uncles are the parents' siblings; first cousins are their children.
+    aunts_and_uncles = parents.flat_map(&:siblings).uniq - parents
+    aunts_and_uncles.flat_map(&:children).uniq - [self] - siblings
   end
 
   def father
@@ -150,7 +161,13 @@ class Person < ApplicationRecord
   end
 
   def alive?
-    death_year.blank?
+    # Dead if a death year is recorded, or if explicitly marked not alive via
+    # the `alive` flag (which can be set without a known death date). A nil flag
+    # means "unknown" and is treated as alive. This guards age calculations from
+    # reporting an implausible age for someone who is actually deceased.
+    return false if death_year.present?
+
+    self[:alive] != false
   end
 
   def age_on_birthday
@@ -174,6 +191,34 @@ class Person < ApplicationRecord
     filter_birthdays_in_range(people_collection, days_ahead, days_back)
   end
 
+  # People whose recurring birthday (year-agnostic month/day) falls within
+  # [start_date, end_date] inclusive, ordered by how soon the birthday occurs.
+  # Handles ranges that cross a year boundary (e.g. late Dec into early Jan).
+  # Callable on a relation to scope the result (e.g. favorites.birthdays_between).
+  def self.birthdays_between(start_date, end_date)
+    current_year = Date.current.year
+    scope = where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
+
+    scope = if start_date.year == end_date.year
+              scope.where("MAKE_DATE(?, birth_month, birth_day) BETWEEN ? AND ?",
+                          start_date.year, start_date, end_date)
+            else
+              scope.where(
+                "MAKE_DATE(?, birth_month, birth_day) >= ? OR MAKE_DATE(?, birth_month, birth_day) <= ?",
+                start_date.year, start_date, end_date.year, end_date
+              )
+            end
+
+    scope
+      .select("people.*, (MAKE_DATE(#{current_year}, birth_month, birth_day) - CURRENT_DATE) AS days_until_birthday")
+      .order("days_until_birthday ASC")
+  end
+
+  # People with a birthday in the given calendar month (1-12), ordered by day.
+  def self.birthdays_in_month(month)
+    where(birth_month: month).where.not(birth_day: nil).order(:birth_day)
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[alive birth birth_year birth_month birth_day death description gender name kanji]
   end
@@ -191,38 +236,18 @@ class Person < ApplicationRecord
 
   def self.filter_birthdays_in_range(people_collection, days_ahead, days_back)
     start_date, end_date = birthday_date_range(days_ahead, days_back)
-    current_year = Date.current.year
-
-    # Build efficient SQL query with birthday date calculations
-    people_with_birthdays = people_collection
-                            .where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
-                            .includes(:avatar_attachment)
-
-    # Use SQL to filter by birthday dates within range
-    # Calculate the birthday this year for comparison at SQL level
-    # Note: MAKE_DATE function requires PostgreSQL 9.4+
-    if start_date.year == end_date.year
-      # Same year - can use direct month/day comparisons
-      people_with_birthdays = people_with_birthdays.where(
-        "MAKE_DATE(?, birth_month, birth_day) BETWEEN ? AND ?",
-        current_year, start_date, end_date
-      )
-    else
-      # Year boundary crossing - use OR condition for two year ranges
-      people_with_birthdays = people_with_birthdays.where(
-        "MAKE_DATE(?, birth_month, birth_day) >= ? OR MAKE_DATE(?, birth_month, birth_day) <= ?",
-        start_date.year, start_date, end_date.year, end_date
-      )
-    end
-
-    # Sort by days until birthday using SQL
-    people_with_birthdays
-      .select("people.*, (MAKE_DATE(#{current_year}, birth_month, birth_day) - CURRENT_DATE) AS days_until_birthday")
-      .order("days_until_birthday ASC")
+    # MAKE_DATE requires PostgreSQL 9.4+; avatar is eager-loaded for the view.
+    people_collection.includes(:avatar_attachment).birthdays_between(start_date, end_date)
   end
 
   def set_default_gender
     self.gender ||= 'M'
+  end
+
+  # Keep the canonicalized name in sync so search can match romanization
+  # variants (e.g. "Ohtake"/"Otake"). See RomajiNormalizer.
+  def set_name_normalized
+    self.name_normalized = RomajiNormalizer.normalize(name)
   end
 
   def validate_birth_date
