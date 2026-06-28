@@ -6,14 +6,13 @@
 # *consistent*, not linguistically perfect: as long as "Ohtake" and "Otake"
 # (or "Michio" and "Mitio") map to the same string, a substring search matches.
 #
+# Diacritics are stripped first (via transliteration), so accented spellings
+# also collapse: "Márcio" -> "marcio", "Antônio" -> "antonio", "Ōtake" -> "otake".
+#
 # Roughly maps Hepburn and common long-vowel spellings onto Kunrei-shiki:
 #   Ohtake / Ootake / Outake / Ōtake -> "otake"   (long vowels collapse)
 #   Michio -> "mitio", Junko -> "zyunko"          (Hepburn digraphs -> Kunrei)
 module RomajiNormalizer
-  # Macron / circumflex long vowels -> plain vowel (paired by position).
-  MACRONS = 'āīūēōâîûêô'
-  PLAIN   = 'aiueoaiueo'
-
   # Ordered substitutions. Multi-character sequences come first so they win
   # over the shorter ones they contain (e.g. "shi" before any stray "sh").
   SUBSTITUTIONS = [
@@ -32,7 +31,7 @@ module RomajiNormalizer
   def normalize(value)
     return '' if value.nil?
 
-    s = value.to_s.downcase.tr(MACRONS, PLAIN)
+    s = I18n.transliterate(value.to_s).downcase # strip accents/macrons (á->a, ō->o)
     s = s.delete("'")                          # drop syllable-break apostrophes (shin'ichi)
     SUBSTITUTIONS.each { |from, to| s = s.gsub(from, to) }
     s = s.gsub(/m([bpm])/, 'n\1')              # Hepburn n -> m before b/p/m
