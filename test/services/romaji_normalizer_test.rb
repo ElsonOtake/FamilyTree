@@ -35,6 +35,13 @@ class RomajiNormalizerTest < ActiveSupport::TestCase
     assert_same_normal('Namba', 'Nanba')
   end
 
+  test 'accents and diacritics are stripped' do
+    assert_equal 'marcio', RomajiNormalizer.normalize('Márcio')
+    assert_same_normal('Márcio', 'Marcio')
+    assert_same_normal('Antônio', 'Antonio')
+    assert_same_normal('José', 'Jose')
+  end
+
   test 'casing and surrounding whitespace are ignored' do
     assert_equal 'rafael yuki', RomajiNormalizer.normalize('  Rafael   YUKI ')
   end

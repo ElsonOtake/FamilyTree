@@ -72,6 +72,17 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     assert_equal 0, result[:count]
   end
 
+  test 'find_person ignores accents in the query and stored name' do
+    person = Person.create!(name: 'Marcio Kazunori Otake', gender: 'M')
+
+    # Accented query against an unaccented stored name, and vice versa.
+    ['Márcio Otake', 'Marcio Otake'].each do |query|
+      result = call_tool(FindPersonTool, query: query)
+      ids = result[:results].map { |r| r[:id] }
+      assert_includes ids, person.id, "expected #{query.inspect} to find Marcio Kazunori Otake"
+    end
+  end
+
   test 'find_person tolerates romanization variants' do
     person = Person.create!(name: 'Mitio Otake', gender: 'M')
 
