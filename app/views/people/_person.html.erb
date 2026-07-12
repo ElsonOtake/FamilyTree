@@ -35,6 +35,11 @@
 
             <%= render 'people/favorite_button', person: person, favorite: @favorite, show_label: true %>
 
+            <%= link_to arvore_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
+              title: t('people.show.download_tree') do %>
+              <%= heroicon(:document_arrow_down, class: 'size-4') %><span><%= t('people.show.download_tree') %></span>
+            <% end %>
+
             <% if policy(person).destroy? %>
               <%= button_to person_path(person), method: :delete, class: 'btn btn-sm btn-danger',
                 form: { data: { turbo_confirm: t('people.show.delete_confirmation', name: person.name) } },

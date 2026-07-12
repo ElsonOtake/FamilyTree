@@ -57,6 +57,9 @@ gem 'devise'
 
 gem 'friendly_id', '~> 5.4.0'
 
+# Pure-Ruby PDF generation for the descendant-tree chart export.
+gem 'prawn', '~> 2.5'
+
 gem 'aws-sdk-s3', require: false
 
 gem 'active_storage_validations'
