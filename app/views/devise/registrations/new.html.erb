@@ -133,13 +133,13 @@
       <% end %>
 
       <!-- OAuth Providers -->
-      <%- if devise_mapping.omniauthable? && resource_class.omniauth_providers.any? %>
+      <%- if devise_mapping.omniauthable? && Devise.omniauth_providers.any? %>
         <hr class='my-5'>
         <p class='has-text-centered has-text-grey mb-4'>
           <%= t('.or_sign_up_with') %>
         </p>
         <div class='buttons is-centered'>
-          <%- resource_class.omniauth_providers.each do |provider| %>
+          <%- Devise.omniauth_providers.each do |provider| %>
             <%= button_to omniauth_authorize_path(resource_name, provider),
               data: { turbo: false },
               class: 'button is-info is-outlined is-medium' do %>
