@@ -1,165 +1,68 @@
-<div class='columns is-centered'>
-  <div class='column is-5'>
-    <!-- Sign Up Card -->
-    <div class='box'>
-      <!-- Logo and Title -->
-      <div class='has-text-centered mb-5'>
-        <figure class='image is-96x96 is-inline-block mb-4'>
-          <img src="<%= asset_path('EAO.png') %>" alt="Family Tree" style="border-radius: 50%;">
-        </figure>
-        <h2 class='title is-3 has-text-info'>
-          <span class='icon-text'>
-            <span class='icon'>
-              <i class='fas fa-user-plus'></i>
-            </span>
-            <span><%= t('.sign_up') %></span>
-          </span>
+<div class='mx-auto max-w-md'>
+  <div class='card'>
+    <div class='card-body'>
+      <div class='mb-6 text-center'>
+        <%= image_tag 'EAO.png', alt: 'Family Tree', class: 'mx-auto mb-3 size-20 rounded-full' %>
+        <h2 class='flex items-center justify-center gap-2 text-2xl font-bold text-slate-800 dark:text-slate-100'>
+          <%= heroicon(:user_plus, class: 'size-6 text-brand-500') %><%= t('.sign_up') %>
         </h2>
-        <p class='subtitle is-6 has-text-grey'>
-          <%= t('.create_account_description') %>
-        </p>
+        <p class='mt-1 text-sm text-slate-500'><%= t('.create_account_description') %></p>
       </div>
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= render 'devise/shared/error_messages', resource: resource %>
 
-        <!-- Name Field -->
         <div class='field'>
           <%= f.label :name, t(:name), class: 'label' %>
-          <div class='control has-icons-left'>
-            <%= f.text_field :name, 
-              autofocus: true, 
-              autocomplete: 'name', 
-              class: 'input', 
-              placeholder: t('.placeholder_name') %>
-            <span class='icon is-small is-left'>
-              <i class='fas fa-user'></i>
-            </span>
-          </div>
+          <%= f.text_field :name, autofocus: true, autocomplete: 'name', class: 'input', placeholder: t('.placeholder_name') %>
         </div>
-
-        <!-- Email Field -->
         <div class='field'>
           <%= f.label :email, t('devise.email'), class: 'label' %>
-          <div class='control has-icons-left'>
-            <%= f.email_field :email, 
-              autocomplete: 'email', 
-              class: 'input', 
-              placeholder: t('.placeholder_email') %>
-            <span class='icon is-small is-left'>
-              <i class='fas fa-envelope'></i>
-            </span>
-          </div>
+          <%= f.email_field :email, autocomplete: 'email', class: 'input', placeholder: t('.placeholder_email') %>
         </div>
-
-        <!-- Phone Field -->
         <div class='field'>
           <%= f.label :phone, t('devise.registrations.phone'), class: 'label' %>
-          <div class='control has-icons-left'>
-            <%= f.text_field :phone, 
-              autocomplete: 'phone', 
-              class: 'input', 
-              placeholder: t('.placeholder_phone') %>
-            <span class='icon is-small is-left'>
-              <i class='fas fa-phone'></i>
-            </span>
-          </div>
+          <%= f.text_field :phone, autocomplete: 'phone', class: 'input', placeholder: t('.placeholder_phone') %>
         </div>
 
-        <!-- Password Fields Section -->
-        <div class='box has-background-light mb-4'>
-          <h4 class='title is-6 mb-3'>
-            <span class='icon-text'>
-              <span class='icon has-text-warning'>
-                <i class='fas fa-lock'></i>
-              </span>
-              <span><%= t('.password_section') %></span>
-            </span>
-          </h4>
-
-          <!-- Password Field -->
+        <div class='mb-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-900/40'>
+          <h4 class='card-title mb-3'><%= heroicon(:lock_closed, class: 'size-4 text-amber-500') %><%= t('.password_section') %></h4>
           <div class='field'>
-            <%= f.label :password, t('devise.password'), class: 'label is-small' %>
-            <div class='control has-icons-left'>
-              <%= f.password_field :password, 
-                autocomplete: 'new-password', 
-                class: 'input', 
-                placeholder: t('.placeholder_password') %>
-              <span class='icon is-small is-left'>
-                <i class='fas fa-key'></i>
-              </span>
-            </div>
+            <%= f.label :password, t('devise.password'), class: 'label' %>
+            <%= f.password_field :password, autocomplete: 'new-password', class: 'input', placeholder: t('.placeholder_password') %>
             <% if @minimum_password_length %>
-              <p class='help'>
-                <span class='icon-text'>
-                  <span class='icon has-text-info'>
-                    <i class='fas fa-info-circle'></i>
-                  </span>
-                  <span><%= t('devise.characters_minimum', count: @minimum_password_length) %></span>
-                </span>
-              </p>
+              <p class='mt-1 text-xs text-slate-400'><%= t('devise.characters_minimum', count: @minimum_password_length) %></p>
             <% end %>
           </div>
-
-          <!-- Password Confirmation Field -->
-          <div class='field'>
-            <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label is-small' %>
-            <div class='control has-icons-left'>
-              <%= f.password_field :password_confirmation, 
-                autocomplete: 'new-password', 
-                class: 'input', 
-                placeholder: t('.placeholder_password_confirmation') %>
-              <span class='icon is-small is-left'>
-                <i class='fas fa-key'></i>
-              </span>
-            </div>
+          <div class='field mb-0'>
+            <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label' %>
+            <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input', placeholder: t('.placeholder_password_confirmation') %>
           </div>
         </div>
 
-        <!-- Terms and Conditions (optional) -->
-        <div class='field'>
-          <div class='control'>
-            <label class='checkbox'>
-              <input type='checkbox' required>
-              <span class='ml-2'><%= t('.agree_terms_html') %></span>
-            </label>
-          </div>
-        </div>
+        <label class='mb-4 flex items-center gap-2 text-sm'>
+          <input type='checkbox' required class='rounded border-slate-300 text-brand-500 focus:ring-brand-400'>
+          <span><%= t('.agree_terms_html') %></span>
+        </label>
 
-        <!-- Submit Button -->
-        <div class='field mt-5'>
-          <%= f.submit t('.sign_up'), class: 'button is-info is-fullwidth is-medium' %>
-        </div>
+        <%= f.submit t('.sign_up'), class: 'btn btn-primary w-full cursor-pointer' %>
       <% end %>
 
-      <!-- OAuth Providers -->
       <%- if devise_mapping.omniauthable? && Devise.omniauth_providers.any? %>
-        <hr class='my-5'>
-        <p class='has-text-centered has-text-grey mb-4'>
-          <%= t('.or_sign_up_with') %>
-        </p>
-        <div class='buttons is-centered'>
+        <div class='my-5 flex items-center gap-3 text-xs text-slate-400'>
+          <span class='h-px flex-1 bg-slate-200 dark:bg-slate-700'></span><%= t('.or_sign_up_with') %><span class='h-px flex-1 bg-slate-200 dark:bg-slate-700'></span>
+        </div>
+        <div class='flex justify-center gap-2'>
           <%- Devise.omniauth_providers.each do |provider| %>
-            <%= button_to omniauth_authorize_path(resource_name, provider),
-              data: { turbo: false },
-              class: 'button is-info is-outlined is-medium' do %>
-              <span class='icon'>
-                <i class='fab fa-<%= provider.to_s.delete_suffix('_oauth2') %>'></i>
-              </span>
-              <span><%= provider.to_s.delete_suffix('_oauth2').capitalize %></span>
-            <% end %>
+            <%= button_to provider.to_s.delete_suffix('_oauth2').capitalize, omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: 'btn btn-secondary' %>
           <% end %>
         </div>
       <% end %>
 
-      <!-- Sign In Link -->
-      <div class='has-text-centered mt-5'>
-        <p>
-          <%= t('.already_have_account') %> 
-          <%= link_to t('.sign_in_link'), new_session_path(resource_name), 
-            class: 'has-text-info has-text-weight-bold' %>
-        </p>
-      </div>
+      <p class='mt-5 text-center text-sm text-slate-500'>
+        <%= t('.already_have_account') %>
+        <%= link_to t('.sign_in_link'), new_session_path(resource_name), class: 'font-semibold text-brand-600 hover:underline dark:text-brand-300' %>
+      </p>
     </div>
   </div>
 </div>

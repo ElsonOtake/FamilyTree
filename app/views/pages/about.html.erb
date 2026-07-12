@@ -1,105 +1,38 @@
-<div class="container">
-  <!-- Hero Section -->
-  <section class="hero is-info is-medium has-background">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <figure class="image is-128x128 is-inline-block mb-4">
-          <img src="<%= asset_path('EAO.png') %>" alt="Family Tree" style="border-radius: 50%; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        </figure>
-        <h1 class="title is-1 has-text-white">
-          <%= t('.title') %>
-        </h1>
-        <h2 class="subtitle is-4 has-text-white-ter mt-3">
-          <%= t('.description') %>
-        </h2>
-      </div>
-    </div>
-  </section>
+<section class='mb-8 rounded-2xl bg-linear-to-r from-brand-600 to-brand-500 px-6 py-10 text-center text-white shadow-sm'>
+  <%= image_tag 'EAO.png', alt: 'Family Tree', class: 'mx-auto mb-4 size-28 rounded-full shadow-md' %>
+  <h1 class='text-3xl font-bold sm:text-4xl'><%= t('.title') %></h1>
+  <p class='mx-auto mt-3 max-w-2xl text-white/80'><%= t('.description') %></p>
+</section>
 
-  <!-- Features Section -->
-  <section class="section">
-    <div class="columns is-centered">
-      <div class="column is-10">
-        <h2 class="title is-3 has-text-centered mb-6">
-          <span class="icon-text">
-            <span class="icon has-text-warning">
-              <i class="fas fa-star"></i>
-            </span>
-            <span><%= t('.features') %></span>
+<div class='mx-auto max-w-5xl'>
+  <h2 class='mb-6 flex items-center justify-center gap-2 text-2xl font-bold text-slate-800 dark:text-slate-100'>
+    <%= heroicon(:star, class: 'size-6 text-amber-400') %><%= t('.features') %>
+  </h2>
+
+  <div class='grid grid-cols-1 gap-4 sm:grid-cols-3'>
+    <% [[:users, 'text-emerald-500', '.feature_1'], [:user_group, 'text-brand-500', '.feature_2'], [:pencil_square, 'text-blue-500', '.feature_3']].each do |icon, color, key| %>
+      <div class='card'>
+        <div class='card-body text-center'>
+          <span class='mx-auto mb-3 flex size-14 items-center justify-center rounded-full bg-slate-50 dark:bg-slate-700 <%= color %>'>
+            <%= heroicon(icon, class: 'size-7') %>
           </span>
-        </h2>
-        
-        <div class="columns is-multiline">
-          <!-- Feature 1 -->
-          <div class="column is-4">
-            <div class="card">
-              <div class="card-content has-text-centered">
-                <div class="icon is-large has-text-success mb-4">
-                  <i class="fas fa-users fa-3x"></i>
-                </div>
-                <p class="title is-5">
-                  <%= t('.feature_1') %>
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Feature 2 -->
-          <div class="column is-4">
-            <div class="card">
-              <div class="card-content has-text-centered">
-                <div class="icon is-large has-text-primary mb-4">
-                  <i class="fas fa-sitemap fa-3x"></i>
-                </div>
-                <p class="title is-5">
-                  <%= t('.feature_2') %>
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Feature 3 -->
-          <div class="column is-4">
-            <div class="card">
-              <div class="card-content has-text-centered">
-                <div class="icon is-large has-text-info mb-4">
-                  <i class="fas fa-edit fa-3x"></i>
-                </div>
-                <p class="title is-5">
-                  <%= t('.feature_3') %>
-                </p>
-              </div>
-            </div>
-          </div>
+          <p class='font-semibold text-slate-700 dark:text-slate-200'><%= t(key) %></p>
         </div>
       </div>
-    </div>
-  </section>
+    <% end %>
+  </div>
 
-  <!-- Contact Section -->
-  <section class="section has-background-light">
-    <div class="columns is-centered">
-      <div class="column is-6 has-text-centered">
-        <div class="box">
-          <h2 class="title is-4 mb-5">
-            <span class="icon-text">
-              <span class="icon has-text-link">
-                <i class="fas fa-comments"></i>
-              </span>
-              <span><%= t('.contact') %></span>
-            </span>
-          </h2>
-          <p class="subtitle is-6 mb-5">
-            <%= t('.contact_description') %>
-          </p>
-          <%= link_to "mailto:contact@example.com", class: 'button is-link is-medium is-rounded' do %>
-            <span class="icon">
-              <i class="fas fa-envelope"></i>
-            </span>
-            <span><%= t('.contact_link') %></span>
-          <% end %>
-        </div>
+  <div class='mx-auto mt-8 max-w-xl'>
+    <div class='card'>
+      <div class='card-body text-center'>
+        <h2 class='mb-3 flex items-center justify-center gap-2 text-xl font-bold text-slate-800 dark:text-slate-100'>
+          <%= heroicon(:envelope, class: 'size-5 text-brand-500') %><%= t('.contact') %>
+        </h2>
+        <p class='mb-5 text-sm text-slate-500'><%= t('.contact_description') %></p>
+        <%= link_to 'mailto:contact@example.com', class: 'btn btn-primary' do %>
+          <%= heroicon(:envelope, class: 'size-5') %><span><%= t('.contact_link') %></span>
+        <% end %>
       </div>
     </div>
-  </section>
+  </div>
 </div>
