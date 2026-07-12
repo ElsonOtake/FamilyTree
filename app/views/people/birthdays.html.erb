@@ -1,211 +1,74 @@
-<!-- Hero Header -->
-<section class='hero is-info is-small mb-5'>
-  <div class='hero-body'>
-    <div class='container'>
-      <h1 class='title is-2 has-text-white mb-3'>
-        <span class='icon-text'>
-          <span class='icon'>
-            <i class='fas fa-birthday-cake'></i>
-          </span>
-          <span><%= t('.title') %></span>
-        </span>
-      </h1>
-      <p class='subtitle is-4 has-text-white-ter'>
-        <% if @showing_favorites %>
-          <%= t('.subtitle_favorites') %>
-        <% else %>
-          <%= t('.subtitle') %>
-        <% end %>
-      </p>
-    </div>
-  </div>
+<section class='mb-6 rounded-2xl bg-linear-to-r from-brand-600 to-brand-500 px-6 py-6 text-white shadow-sm'>
+  <h1 class='flex items-center gap-2 text-2xl font-bold sm:text-3xl'>
+    <%= heroicon(:cake, class: 'size-7') %><%= t('.title') %>
+  </h1>
+  <p class='mt-1 text-sm text-white/80'>
+    <%= @showing_favorites ? t('.subtitle_favorites') : t('.subtitle') %>
+  </p>
 </section>
 
-<div class='container'>
-  <div class='columns is-centered'>
-    <div class='column is-10'>
-      
-      <!-- Today's Birthdays -->
-      <% if @today_birthdays.any? %>
-        <div class='box mb-5'>
-          <h2 class='title is-4 has-text-primary mb-4'>
-            <span class='icon-text'>
-              <span class='icon'>
-                <i class='fas fa-gift'></i>
-              </span>
-              <span><%= t('.today_birthdays') %></span>
-            </span>
-          </h2>
-          <div class='columns is-multiline'>
-            <% @today_birthdays.each do |person| %>
-              <div class='column is-6-tablet is-4-desktop'>
-                <div class='card has-background-primary-light'>
-                  <div class='card-content'>
-                    <div class='media'>
-                      <div class='media-left'>
-                        <figure class='image is-48x48'>
-                          <% if person.avatar.attached? %>
-                            <%= image_tag person.avatar.variant(:thumb), alt: person.name, class: 'is-rounded' %>
-                          <% else %>
-                            <span class='icon is-large has-text-primary'>
-                              <i class='fas fa-user-circle fa-3x'></i>
-                            </span>
-                          <% end %>
-                        </figure>
-                      </div>
-                      <div class='media-content'>
-                        <%= link_to person.name, person_path(person), class: 'title is-5', style: 'display: block;' %><br>
-                        <% if person.age_on_birthday %>
-                          <p class='subtitle is-6 has-text-primary-dark'>
-                            <strong><%= t('.turning_age', age: person.age_on_birthday) %></strong>
-                          </p>
-                        <% else %>
-                          <p class='subtitle is-6 has-text-grey'>
-                            <%= t('.birthday_today') %>
-                          </p>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+<div class='mx-auto max-w-5xl space-y-6'>
+  <% sections = [
+       [@today_birthdays, t('.today_birthdays'), :gift, 'text-brand-500'],
+       [@past_birthdays, t('.past_week_birthdays'), :clock, 'text-slate-400'],
+       [@upcoming_birthdays, t('.upcoming_birthdays'), :calendar, 'text-emerald-500']
+     ] %>
+  <% sections.each do |people, heading, icon, color| %>
+    <% next unless people.any? %>
+    <div class='card'>
+      <div class='card-body'>
+        <h2 class='card-title mb-4 text-base'><%= heroicon(icon, class: "size-5 #{color}") %><%= heading %></h2>
+        <div class='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+          <% people.each do |person| %>
+            <div class='flex items-center gap-3 rounded-xl border border-slate-100 p-3 dark:border-slate-700'>
+              <figure class='size-12 shrink-0'>
+                <% if person.avatar.attached? %>
+                  <%= image_tag person.avatar.variant(:thumb), alt: person.name, class: 'avatar size-full object-cover' %>
+                <% else %>
+                  <span class='flex size-full items-center justify-center rounded-full bg-slate-100 text-slate-400 dark:bg-slate-700'>
+                    <%= heroicon(:user, class: 'size-7') %>
+                  </span>
+                <% end %>
+              </figure>
+              <div class='min-w-0'>
+                <%= link_to person.name, person_path(person), class: 'block truncate font-semibold text-brand-700 hover:underline dark:text-brand-300' %>
+                <p class='text-xs text-slate-500'>
+                  <% if people.equal?(@today_birthdays) %>
+                    <%= person.age_on_birthday ? t('.turning_age', age: person.age_on_birthday) : t('.birthday_today') %>
+                  <% elsif people.equal?(@past_birthdays) %>
+                    <%= t('.days_ago', count: person.days_until_birthday.abs) %><%= " · #{t('.turned_age', age: person.age_on_birthday)}" if person.age_on_birthday %>
+                  <% else %>
+                    <%= t('.in_days', count: person.days_until_birthday) %><%= " · #{t('.will_turn_age', age: person.age_on_birthday)}" if person.age_on_birthday %>
+                  <% end %>
+                </p>
               </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-
-      <!-- Past Week Birthdays -->
-      <% if @past_birthdays.any? %>
-        <div class='box mb-5'>
-          <h2 class='title is-4 has-text-grey mb-4'>
-            <span class='icon-text'>
-              <span class='icon'>
-                <i class='fas fa-history'></i>
-              </span>
-              <span><%= t('.past_week_birthdays') %></span>
-            </span>
-          </h2>
-          <div class='columns is-multiline'>
-            <% @past_birthdays.each do |person| %>
-              <div class='column is-6-tablet is-4-desktop'>
-                <div class='card'>
-                  <div class='card-content'>
-                    <div class='media'>
-                      <div class='media-left'>
-                        <figure class='image is-48x48'>
-                          <% if person.avatar.attached? %>
-                            <%= image_tag person.avatar.variant(:thumb), alt: person.name, class: 'is-rounded' %>
-                          <% else %>
-                            <span class='icon is-large has-text-grey'>
-                              <i class='fas fa-user-circle fa-3x'></i>
-                            </span>
-                          <% end %>
-                        </figure>
-                      </div>
-                      <div class='media-content'>
-                        <%= link_to person.name, person_path(person), class: 'title is-6', style: 'display: block;' %><br>
-                        <p class='subtitle is-7 has-text-grey'>
-                          <%= t('.days_ago', count: person.days_until_birthday.abs) %>
-                          <% if person.age_on_birthday %>
-                            - <%= t('.turned_age', age: person.age_on_birthday) %>
-                          <% end %>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-
-      <!-- Upcoming Birthdays -->
-      <% if @upcoming_birthdays.any? %>
-        <div class='box mb-5'>
-          <h2 class='title is-4 has-text-success mb-4'>
-            <span class='icon-text'>
-              <span class='icon'>
-                <i class='fas fa-calendar-plus'></i>
-              </span>
-              <span><%= t('.upcoming_birthdays') %></span>
-            </span>
-          </h2>
-          <div class='columns is-multiline'>
-            <% @upcoming_birthdays.each do |person| %>
-              <div class='column is-6-tablet is-4-desktop'>
-                <div class='card'>
-                  <div class='card-content'>
-                    <div class='media'>
-                      <div class='media-left'>
-                        <figure class='image is-48x48'>
-                          <% if person.avatar.attached? %>
-                            <%= image_tag person.avatar.variant(:thumb), alt: person.name, class: 'is-rounded' %>
-                          <% else %>
-                            <span class='icon is-large has-text-success'>
-                              <i class='fas fa-user-circle fa-3x'></i>
-                            </span>
-                          <% end %>
-                        </figure>
-                      </div>
-                      <div class='media-content'>
-                        <%= link_to person.name, person_path(person), class: 'title is-6', style: 'display: block;' %><br>
-                        <span class='subtitle is-7 has-text-success'>
-                          <%= t('.in_days', count: person.days_until_birthday) %>
-                          <% if person.age_on_birthday %>
-                            - <%= t('.will_turn_age', age: person.age_on_birthday) %>
-                          <% end %>
-                        </span><br>
-                        <span class='is-size-7 has-text-grey'>
-                          <%= I18n.l(person.birthday_this_year, format: :day_month_long) if person.birthday_this_year %>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-
-      <!-- No Birthdays Message -->
-      <% if @people_with_birthdays.empty? %>
-        <div class='box has-text-centered'>
-          <span class='icon is-large has-text-grey-light'>
-            <% if @showing_favorites %>
-              <i class='fas fa-heart fa-3x'></i>
-            <% else %>
-              <i class='fas fa-calendar fa-3x'></i>
-            <% end %>
-          </span>
-          <p class='title is-4 has-text-grey-light mt-4'>
-            <% if @showing_favorites %>
-              <%= t('.no_favorites_birthdays') %>
-            <% else %>
-              <%= t('.no_birthdays') %>
-            <% end %>
-          </p>
-          <p class='subtitle has-text-grey'>
-            <% if @showing_favorites %>
-              <%= t('.no_favorites_birthdays_description') %>
-            <% else %>
-              <%= t('.no_birthdays_description') %>
-            <% end %>
-          </p>
-          <% if @showing_favorites %>
-            <div class='mt-4'>
-              <%= link_to people_path, class: 'button is-primary is-outlined' do %>
-                <span class='icon'>
-                  <i class='fas fa-users'></i>
-                </span>
-                <span><%= t('.browse_all_people') %></span>
-              <% end %>
             </div>
           <% end %>
         </div>
-      <% end %>
-
+      </div>
     </div>
-  </div>
+  <% end %>
+
+  <% if @people_with_birthdays.empty? %>
+    <div class='card'>
+      <div class='card-body py-12 text-center'>
+        <span class='mx-auto flex size-16 items-center justify-center rounded-full bg-slate-100 text-slate-400 dark:bg-slate-700'>
+          <%= heroicon(@showing_favorites ? :heart : :calendar, class: 'size-8') %>
+        </span>
+        <p class='mt-4 text-lg font-semibold text-slate-500'>
+          <%= @showing_favorites ? t('.no_favorites_birthdays') : t('.no_birthdays') %>
+        </p>
+        <p class='mt-1 text-sm text-slate-400'>
+          <%= @showing_favorites ? t('.no_favorites_birthdays_description') : t('.no_birthdays_description') %>
+        </p>
+        <% if @showing_favorites %>
+          <div class='mt-4'>
+            <%= link_to people_path, class: 'btn btn-secondary' do %>
+              <%= heroicon(:users, class: 'size-5') %><span><%= t('.browse_all_people') %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>

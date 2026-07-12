@@ -1,0 +1,17 @@
+<%# Favorite toggle. Locals: person, favorite (record or nil), show_label (bool). %>
+<% show_label = local_assigns.fetch(:show_label, false) %>
+<% if favorite %>
+  <%= button_to person_favorite_path(person, favorite), method: :delete,
+        form: { data: { turbo: false } },
+        data: { controller: 'favorites', action: 'favorites#toggle' },
+        class: 'btn btn-sm btn-danger', title: t('favorites.remove') do %>
+    <%= heroicon(:heart, class: 'size-4') %><% if show_label %><span><%= t('favorites.remove') %></span><% end %>
+  <% end %>
+<% else %>
+  <%= button_to person_favorites_path(person),
+        form: { data: { turbo: false } },
+        data: { controller: 'favorites', action: 'favorites#toggle' },
+        class: 'btn btn-sm btn-secondary', title: t('favorites.add') do %>
+    <%= heroicon(:heart, class: 'size-4') %><% if show_label %><span><%= t('favorites.add') %></span><% end %>
+  <% end %>
+<% end %>

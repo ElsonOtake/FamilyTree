@@ -1,250 +1,119 @@
-<!-- Hero Header -->
-<section class='hero is-info is-small mb-5'>
-  <div class='hero-body px-3 py-4 px-6-tablet py-5-tablet'>
-    <div class='has-text-centered has-text-left-tablet' style='max-width: 100%;'>
-      <h1 class='title is-4-mobile is-2-tablet has-text-white mb-2' style='word-break: break-word; overflow-wrap: anywhere;'>
-        <span class='icon-text is-inline-flex is-align-items-center is-justify-content-center is-justify-content-start-tablet is-flex-wrap-wrap'>
-          <span class='icon'>
-            <i class='fas fa-tree'></i>
-          </span>
-          <span style='display: inline-block; line-height: 1.4;'><%= t('.family_tree') %></span>
-        </span>
-      </h1>
-      <p class='subtitle is-6-mobile is-4-tablet has-text-white-ter has-text-centered has-text-left-tablet my-1'>
-        <%= t('.search_by_name') %>
-      </p>
+<%# Hero header %>
+<section class='mb-6 rounded-2xl bg-linear-to-r from-brand-600 to-brand-500 px-6 py-6 text-white shadow-sm sm:flex sm:items-center sm:justify-between'>
+  <div>
+    <h1 class='flex items-center gap-2 text-2xl font-bold sm:text-3xl'>
+      <%= heroicon(:user_group, class: 'size-7') %>
+      <%= t('.family_tree') %>
+    </h1>
+    <p class='mt-1 text-sm text-white/80'><%= t('.search_by_name') %></p>
+  </div>
+  <% if policy(@people).new? %>
+    <div class='mt-4 sm:mt-0'>
+      <%= link_to new_person_path,
+        class: 'btn btn-secondary',
+        data: { turbo_frame: 'new_person', controller: 'stimulus', stimulus_id_value: 'person_new', action: 'stimulus#open' },
+        title: t('helpers.submit.create', model: t('people.form.person')) do %>
+        <%= heroicon(:user_plus, class: 'size-5') %>
+        <span><%= t('helpers.submit.create', model: t('people.form.person')) %></span>
+      <% end %>
     </div>
-    <% if policy(@people).new? %>
-      <div class='has-text-centered has-text-left-tablet mt-3'>
-        <%= link_to new_person_path,
-          class: 'button is-success is-small is-medium-tablet',
-          data: {
-            turbo_frame: 'new_person',
-            controller: 'stimulus',
-            stimulus_id_value: 'person_new',
-            action: 'stimulus#open'
-          },
-          title: t('helpers.submit.create', model: t('people.form.person')) do %>
-          <span class='icon'>
-            <i class='fas fa-user-plus'></i>
-          </span>
-          <span><%= t('helpers.submit.create', model: t('people.form.person')) %></span>
-        <% end %>
+  <% end %>
+</section>
+
+<%# Search bar %>
+<div class='card mb-6'>
+  <div class='card-body'>
+    <%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search do |f| %>
+      <div class='relative'>
+        <span class='pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400'>
+          <%= heroicon(:magnifying_glass, class: 'size-5') %>
+        </span>
+        <%= f.search_field :name_cont, oninput: 'this.form.requestSubmit();',
+          class: 'input pl-10 text-lg', placeholder: t('.search_by_name') %>
       </div>
     <% end %>
   </div>
-</section>
-
-<!-- Search Bar -->
-<div class='box mb-5'>
-  <%= search_form_for @q, data: { turbo_frame: :results, turbo_action: :advance }, id: :form_search do |f| %>
-    <div class='field'>
-      <div class='control has-icons-left has-icons-right is-large'>
-        <%= f.search_field :name_cont, 
-          oninput: 'this.form.requestSubmit();', 
-          class: 'input is-large', 
-          placeholder: t('.search_by_name') %>
-        <span class='icon is-left is-large'>
-          <i class='fas fa-magnifying-glass'></i>
-        </span>
-      </div>
-    </div>
-  <% end %>
 </div>
 
-<div class='columns'>
-  <!-- Filters Sidebar -->
-  <div class='column is-12-mobile is-3-tablet'>
-    <div class='box'>
-      <h3 class='title is-5 mb-4'>
-        <span class='icon-text'>
-          <span class='icon has-text-info'>
-            <i class='fas fa-filter'></i>
-          </span>
-          <span>Filters</span>
-        </span>
-      </h3>
-      
-      <!-- Birth Year Filter -->
-      <div class='field mb-4'>
-        <%= label :q, :birth_year_gteq, t('.birth_year'), class: 'label is-small' %>
-        <div class='field is-grouped'>
-          <div class='control is-expanded'>
-            <%= search_field :q, :birth_year_gteq, 
-              oninput: 'this.form.requestSubmit();', 
-              form: :form_search, 
-              class: 'input is-small', 
-              placeholder: t('.gteq') %>
-          </div>
-          <div class='control is-expanded'>
-            <%= search_field :q, :birth_year_lteq, 
-              oninput: 'this.form.requestSubmit();', 
-              form: :form_search, 
-              class: 'input is-small', 
-              placeholder: t('.lteq') %>
-          </div>
-        </div>
-      </div>
+<div class='grid grid-cols-1 gap-6 lg:grid-cols-4'>
+  <%# Filters sidebar %>
+  <aside class='lg:col-span-1'>
+    <div class='card'>
+      <div class='card-body space-y-5'>
+        <h3 class='card-title'>
+          <%= heroicon(:funnel, class: 'size-5 text-brand-500') %><%= t('.filters', default: 'Filters') %>
+        </h3>
 
-      <!-- Birth Month Filter -->
-      <div class='field mb-4'>
-        <%= label :q, :birth_month_gteq, t('.birth_month'), class: 'label is-small' %>
-        <div class='field is-grouped'>
-          <div class='control is-expanded'>
-            <%= search_field :q, :birth_month_gteq, 
-              oninput: 'this.form.requestSubmit();', 
-              form: :form_search, 
-              class: 'input is-small', 
-              placeholder: t('.gteq') %>
+        <% [[:birth_year, '.birth_year'], [:birth_month, '.birth_month'], [:birth_day, '.birth_day']].each do |attr, key| %>
+          <div>
+            <%= label :q, :"#{attr}_gteq", t(key), class: 'label text-xs' %>
+            <div class='flex gap-2'>
+              <%= search_field :q, :"#{attr}_gteq", oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.gteq') %>
+              <%= search_field :q, :"#{attr}_lteq", oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('.lteq') %>
+            </div>
           </div>
-          <div class='control is-expanded'>
-            <%= search_field :q, :birth_month_lteq, 
-              oninput: 'this.form.requestSubmit();', 
-              form: :form_search, 
-              class: 'input is-small', 
-              placeholder: t('.lteq') %>
-          </div>
-        </div>
-      </div>
+        <% end %>
 
-      <!-- Birth Day Filter -->
-      <div class='field mb-4'>
-        <%= label :q, :birth_day_gteq, t('.birth_day'), class: 'label is-small' %>
-        <div class='field is-grouped'>
-          <div class='control is-expanded'>
-            <%= search_field :q, :birth_day_gteq, 
-              oninput: 'this.form.requestSubmit();', 
-              form: :form_search, 
-              class: 'input is-small', 
-              placeholder: t('.gteq') %>
-          </div>
-          <div class='control is-expanded'>
-            <%= search_field :q, :birth_day_lteq, 
-              oninput: 'this.form.requestSubmit();', 
-              form: :form_search, 
-              class: 'input is-small', 
-              placeholder: t('.lteq') %>
-          </div>
-        </div>
-      </div>
-
-      <!-- Gender Filter -->
-      <div class='field mb-4'>
-        <%= label :q, :gender_in, t('people.form.gender'), class: 'label is-small' %>
-        <% Person.genders.each do |key, value| %>
-          <div class='field'>
-            <div class='control'>
-              <label class='checkbox'>
-                <%= check_box :q, :gender_in, 
-                  { multiple: true, onclick: 'this.form.requestSubmit();', form: :form_search, class: 'mr-2' }, 
-                  value, nil %>
+        <div>
+          <span class='label text-xs'><%= t('people.form.gender') %></span>
+          <div class='space-y-1'>
+            <% Person.genders.each do |key, value| %>
+              <label class='flex items-center gap-2 text-sm'>
+                <%= check_box :q, :gender_in, { multiple: true, onclick: 'this.form.requestSubmit();', form: :form_search, class: 'rounded border-slate-300 text-brand-500 focus:ring-brand-400' }, value, nil %>
                 <%= t(".#{key}") %>
               </label>
-            </div>
+            <% end %>
           </div>
-        <% end %>
-      </div>
+        </div>
 
-      <!-- Alive Status Filter -->
-      <div class='field mb-4'>
-        <%= label :q, :alive_eq, t('people.form.alive'), class: 'label is-small' %>
-        <% %w[nil true false].each do |value| %>
-          <div class='field'>
-            <div class='control'>
-              <label class='radio'>
-                <%= radio_button :q, :alive_eq, eval(value), 
-                  onchange: 'this.form.requestSubmit();', 
-                  form: :form_search,
-                  class: 'mr-2' %>
+        <div>
+          <span class='label text-xs'><%= t('people.form.alive') %></span>
+          <div class='space-y-1'>
+            <% %w[nil true false].each do |value| %>
+              <label class='flex items-center gap-2 text-sm'>
+                <%= radio_button :q, :alive_eq, eval(value), onchange: 'this.form.requestSubmit();', form: :form_search, class: 'border-slate-300 text-brand-500 focus:ring-brand-400' %>
                 <%= t(".#{value}") %>
               </label>
-            </div>
+            <% end %>
           </div>
-        <% end %>
-      </div>
+        </div>
 
-      <!-- Remark Filter -->
-      <div class='field'>
-        <%= label :q, :description_cont, t('people.form.remark'), class: 'label is-small' %>
-        <div class='control'>
-          <%= search_field :q, :description_cont, 
-            oninput: 'this.form.requestSubmit();', 
-            form: :form_search, 
-            class: 'input is-small',
-            placeholder: t('people.form.remark') %>
+        <div>
+          <%= label :q, :description_cont, t('people.form.remark'), class: 'label text-xs' %>
+          <%= search_field :q, :description_cont, oninput: 'this.form.requestSubmit();', form: :form_search, class: 'input', placeholder: t('people.form.remark') %>
         </div>
       </div>
     </div>
-  </div>
-  
-  <!-- Results Section -->
-  <div class='column is-9'>
-    <div class='box'>
-      <%= turbo_frame_tag 'results', data: { turbo_action: :advance } do %>
-        <div class='table-container'>
-          <table class='table is-fullwidth is-hoverable is-striped'>
-            <thead>
-              <tr>
-                <th>
-                  <span class='icon-text'>
-                    <span class='icon has-text-info'>
-                      <i class='fas fa-user'></i>
-                    </span>
-                    <span><%= sort_link(@q, :name, t('people.form.name'), default_order: :asc) %></span>
-                  </span>
-                </th>
-                <th class='is-hidden-touch'>
-                  <span class='icon-text'>
-                    <span class='icon has-text-success'>
-                      <i class='fas fa-birthday-cake'></i>
-                    </span>
-                    <span><%= sort_link(@q, :birth, t('people.birthday')) %></span>
-                  </span>
-                </th>
-                <th class='is-hidden-touch'>
-                  <span class='icon-text'>
-                    <span class='icon has-text-grey'>
-                      <i class='fas fa-cross'></i>
-                    </span>
-                    <span><%= sort_link(@q, :death, t('people.form.death')) %></span>
-                  </span>
-                </th>
-                <th class='is-hidden-touch'>
-                  <span class='icon-text'>
-                    <span class='icon has-text-primary'>
-                      <i class='fas fa-heartbeat'></i>
-                    </span>
-                    <span><%= sort_link(@q, :alive, t('people.form.alive')) %></span>
-                  </span>
-                </th>
-                <th class='is-hidden-touch'>
-                  <span class='icon-text'>
-                    <span class='icon has-text-warning'>
-                      <i class='fas fa-comment'></i>
-                    </span>
-                    <span class="has-text-grey"><%= t('people.form.remark') %></span>
-                  </span>
-                </th>
-                <th>
-                  <span class='icon-text'>
-                    <span class='icon has-text-danger'>
-                      <i class='fas fa-heart'></i>
-                    </span>
-                    <span class="has-text-grey"><%= t('favorites.title') %></span>
-                  </span>
-                </th>
-              </tr>
-            </thead>
-            <tbody id='people'>
-              <%= render 'people/table', people: @people %>
-            </tbody>
-          </table>
-        </div>
-        
-        <div class='mt-4'>
-          <%== pagy_bulma_nav(@pagy) %>
-        </div>
-      <% end %>
+  </aside>
+
+  <%# Results %>
+  <div class='lg:col-span-3'>
+    <div class='card'>
+      <div class='card-body'>
+        <%= turbo_frame_tag 'results', data: { turbo_action: :advance } do %>
+          <div class='overflow-x-auto'>
+            <table class='w-full text-left text-sm'>
+              <thead class='border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500 dark:border-slate-700'>
+                <tr>
+                  <th class='py-2 pr-3'><%= sort_link(@q, :name, t('people.form.name'), default_order: :asc) %></th>
+                  <th class='hidden py-2 pr-3 md:table-cell'><%= sort_link(@q, :birth, t('people.birthday')) %></th>
+                  <th class='hidden py-2 pr-3 md:table-cell'><%= sort_link(@q, :death, t('people.form.death')) %></th>
+                  <th class='hidden py-2 pr-3 md:table-cell'><%= sort_link(@q, :alive, t('people.form.alive')) %></th>
+                  <th class='hidden py-2 pr-3 lg:table-cell'><%= t('people.form.remark') %></th>
+                  <th class='py-2 text-right'><%= t('favorites.title') %></th>
+                </tr>
+              </thead>
+              <tbody id='people' class='divide-y divide-slate-100 dark:divide-slate-700'>
+                <%= render 'people/table', people: @people %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class='mt-4'>
+            <%== pagy_nav(@pagy) %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

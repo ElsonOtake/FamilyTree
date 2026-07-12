@@ -99,4 +99,13 @@
   .avatar { @apply inline-block overflow-hidden rounded-full bg-slate-100 object-cover dark:bg-slate-700; }
 
   .empty-state { @apply text-sm text-slate-400 dark:text-slate-500; }
+
+  /* Pagy pagination nav */
+  .pagy { @apply flex flex-wrap items-center gap-1 text-sm; }
+  .pagy a:not(.gap), .pagy .current {
+    @apply inline-flex min-w-9 items-center justify-center rounded-lg border border-slate-200 px-3 py-1.5
+           text-slate-600 hover:bg-brand-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700;
+  }
+  .pagy .current { @apply border-brand-500 bg-brand-500 text-white hover:bg-brand-500; }
+  .pagy a[aria-disabled='true'] { @apply cursor-not-allowed opacity-40 hover:bg-transparent; }
 }
