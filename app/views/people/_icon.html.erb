@@ -1,6 +1,4 @@
-<% theme ||= 'light' %>
-<% male_color = theme == 'dark' ? 'has-text-white' : 'has-text-info' %>
-<%= icon('fa-solid', 'mars', class: male_color) if person.gender == 'M' %>
-<%= icon('fa-solid', 'venus', class: 'has-text-danger') if person.gender == 'F' %>
-<%= icon('fa-solid', 'mars-and-venus', class: 'has-text-primary') if person.gender == 'X' %>
-<%= icon('fa-solid', 'dog', class: 'has-text-warning') if person.gender == 'P' %>
+<%# Small gender indicator. Heroicons lacks gendered glyphs, so we tint a
+    person icon by gender (M/F/X/P). %>
+<% color = { 'M' => 'text-male', 'F' => 'text-female', 'X' => 'text-other', 'P' => 'text-pet' }[person.gender] || 'text-slate-400' %>
+<%= heroicon(:user, class: "size-5 #{color}") %>
