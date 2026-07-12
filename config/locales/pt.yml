@@ -108,6 +108,7 @@ pt:
       mate: "Cônjuge/Parceiro"
       children: "Filhos"
       back_to_people: "Voltar para pessoas"
+      download_tree: "Baixar árvore (PDF)"
       life_events: "Eventos da Vida"
       notes: "Notas"
       born: "Nascido"

@@ -4,7 +4,7 @@
 class PeopleController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!
-  before_action :set_person, only: %i[show edit update destroy]
+  before_action :set_person, only: %i[show edit update destroy pedigree]
   before_action -> { authorize Person }
 
   # GET /people or /people.json
@@ -38,6 +38,13 @@ class PeopleController < ApplicationController
   def show
     # Preload favorite to avoid additional query in view
     @favorite = current_user.favorites.find_by(person: @person)
+  end
+
+  # GET /people/1/arvore.pdf — descendant tree (up to 5 generations) as a PDF.
+  def pedigree
+    pdf = Pedigree::Pdf.new(@person, generations: 5).render
+    send_data pdf, filename: "arvore-#{@person.slug}.pdf",
+                   type: 'application/pdf', disposition: 'inline'
   end
 
   # GET /people/new
