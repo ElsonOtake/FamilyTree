@@ -5,7 +5,7 @@ Rails.application.routes.draw do
                                     sessions: 'users/sessions',
                                     registrations: 'users/registrations' }
   resources :people, path: :individuos do
-    resources :couples, path: :casais do
+    resources :couples, path: :casais, except: %i[show] do
       resources :children, path: :filhos
     end
     resources :favorites, only: [:create, :destroy]
@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   resources :events, only: [:index] do
     get 'download', on: :collection
   end
-  resources :couples, path: :casais, only: %i[index show destroy] do
+  resources :couples, path: :casais, only: %i[index destroy] do
     get 'download', on: :collection
   end
   get 'children/download', to: 'children#download', as: 'download_children'

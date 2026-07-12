@@ -51,11 +51,15 @@ class UiSmokeTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  # NOTE: couples pages are intentionally not smoke-tested here. Every
-  # CouplesController action 404s under test because a set_couple before_action
-  # references a :show action that doesn't exist (a couples#show route is mapped
-  # but the method is missing); Rails 8's raise_on_missing_callback_actions
-  # raises AbstractController::ActionNotFound. Fix while porting couples (Phase 4).
+  test 'person couples index renders' do
+    get person_couples_url(@person)
+    assert_response :success
+  end
+
+  test 'new couple form renders' do
+    get new_person_couple_url(@person)
+    assert_response :success
+  end
 
   test 'sign-in page renders when signed out' do
     delete destroy_user_session_url

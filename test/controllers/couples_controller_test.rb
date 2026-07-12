@@ -373,18 +373,16 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
   # ERROR HANDLING TESTS
   test "should handle missing person" do
     sign_in_as(@admin_user)
-    
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get new_person_couple_path(99999)
-    end
+
+    get new_person_couple_path(99999)
+    assert_response :not_found
   end
 
   test "should handle missing couple" do
     sign_in_as(@admin_user)
-    
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get edit_person_couple_path(@person1, 99999)
-    end
+
+    get edit_person_couple_path(@person1, 99999)
+    assert_response :not_found
   end
 
   # AUTHORIZATION TESTS
