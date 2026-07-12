@@ -45,17 +45,15 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-# Use Sass to process CSS
-# gem 'sassc-rails'
+# Sass library for Sprockets to compile ActiveAdmin's stylesheet only (the main
+# app uses Tailwind). Plain `sassc` — not `sassc-rails`, whose CSS transformer
+# would also run over the Tailwind build and choke on modern color syntax.
+gem 'sassc'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'
 
 gem 'devise'
-
-gem 'font-awesome-sass', '~> 6.4.0'
-
-gem 'bulma-rails', '~> 0.9.4'
 
 gem 'friendly_id', '~> 5.4.0'
 
