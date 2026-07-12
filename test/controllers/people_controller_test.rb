@@ -25,6 +25,20 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to person_url(Person.last)
   end
 
+  test "creates a new person as a child of a couple" do
+    @user.add_role(:admin)
+    dad = Person.create!(name: "Create Dad", gender: "M")
+    mom = Person.create!(name: "Create Mom", gender: "F")
+    couple = Couple.create!(person1: dad, person2: mom)
+
+    assert_difference ["Person.count", "Child.count"], 1 do
+      post people_url, params: { person: { name: "New Kid", gender: "M", couple: couple.id } }
+    end
+
+    assert_redirected_to person_url(dad)
+    assert_includes couple.reload.people.map(&:name), "New Kid"
+  end
+
   test "should show person" do
     get person_url(@person)
     assert_response :success
