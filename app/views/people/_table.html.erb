@@ -1,46 +1,23 @@
 <%= turbo_frame_tag 'table' do %>
   <% people.each do |person| %>
     <tr>
-      <td>
-        <%= render 'people/icon', person: %>&nbsp;
-        <%= link_to person_path(person), data: { turbo_frame: '_top' } do %>
-          <%= highlight person.name, params.dig(:q, :name_cont) %>
-        <% end %>
+      <td class='py-2 pr-3'>
+        <div class='flex items-center gap-2'>
+          <%= render 'people/icon', person: person %>
+          <%= link_to person_path(person), data: { turbo_frame: '_top' },
+              class: 'font-medium text-brand-700 hover:underline dark:text-brand-300' do %>
+            <%= highlight person.name, params.dig(:q, :name_cont) %>
+          <% end %>
+        </div>
       </td>
-      <td class='is-hidden-touch'><%= person.birth_date_formatted %></td>
-      <td class='is-hidden-touch'><%= person.death_date_formatted %></td>
-      <td class='is-hidden-touch'><%= t("people.index.#{person.alive}") %></td>
-      <td class='is-hidden-touch'><%= highlight person.description, params.dig(:q, :description_cont) %></td>
-      <td class='has-text-right'>
-        <% favorite = @favorites_lookup[person.id] %>
-        <% if favorite %>
-          <%= button_to person_favorite_path(person, favorite), 
-            method: :delete,
-            remote: true,
-            data: { 
-              controller: 'favorites',
-              action: 'click->favorites#toggle'
-            },
-            class: 'button is-small is-danger',
-            title: t('favorites.remove') do %>
-            <span class='icon'>
-              <i class='fas fa-heart'></i>
-            </span>
-          <% end %>
-        <% else %>
-          <%= button_to person_favorites_path(person), 
-            remote: true,
-            data: { 
-              controller: 'favorites',
-              action: 'click->favorites#toggle'
-            },
-            class: 'button is-small is-light',
-            title: t('favorites.add') do %>
-            <span class='icon'>
-              <i class='far fa-heart'></i>
-            </span>
-          <% end %>
-        <% end %>
+      <td class='hidden py-2 pr-3 md:table-cell'><%= person.birth_date_formatted %></td>
+      <td class='hidden py-2 pr-3 md:table-cell'><%= person.death_date_formatted %></td>
+      <td class='hidden py-2 pr-3 md:table-cell'><%= t("people.index.#{person.alive}") %></td>
+      <td class='hidden py-2 pr-3 text-slate-500 lg:table-cell'>
+        <%= highlight person.description, params.dig(:q, :description_cont) %>
+      </td>
+      <td class='py-2 text-right'>
+        <%= render 'people/favorite_button', person: person, favorite: @favorites_lookup[person.id] %>
       </td>
     </tr>
   <% end %>

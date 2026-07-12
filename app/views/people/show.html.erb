@@ -1,196 +1,108 @@
-<!-- Person Details Card -->
 <% if @person %>
   <%= render @person %>
-<% else %>
-  <div class="notification is-danger">
-    <%= t('people.show.person_not_found') %>
-  </div>
-<% end %>
 
-<!-- Family Relationships -->
-<% if @person %>
-<div class='columns is-multiline is-mobile'>
-  <!-- Parents Section -->
-  <div class='column is-12-mobile is-half-tablet'>
+  <div class='grid grid-cols-1 gap-6 md:grid-cols-2'>
+    <%# Parents %>
     <div class='card'>
-      <header class='card-header'>
-        <p class='card-header-title'>
-          <span class='icon-text'>
-            <span class='icon has-text-primary'>
-              <i class='fas fa-users'></i>
-            </span>
-            <span class='has-text-grey'><%= t('.parents') %></span>
-          </span>
-        </p>
-      </header>
-      <div class='card-content'>
-        <% if @person&.father.present? || @person&.mother.present? %>
-          <div class='content'>
-            <% if @person&.father.present? %>
-              <div class='media'>
-                <div class='media-left'>
-                  <span class='icon has-text-info'>
-                    <i class='fas fa-male fa-2x'></i>
-                  </span>
-                </div>
-                <div class='media-content'>
-                  <p class='title is-5'>
-                    <%= link_to @person.father.name, person_path(@person.father), 
-                      class: 'has-text-dark' if @person&.father %>
-                  </p>
-                  <p class='subtitle is-6 has-text-grey'><%= t('people.show.father') %></p>
-                </div>
+      <div class='card-header'>
+        <span class='card-title'><%= heroicon(:users, class: 'size-5 text-brand-500') %><%= t('.parents') %></span>
+      </div>
+      <div class='card-body space-y-3'>
+        <% if @person.father.present? || @person.mother.present? %>
+          <% [[@person.father, t('people.show.father')], [@person.mother, t('people.show.mother')]].each do |parent, label| %>
+            <% next unless parent %>
+            <div class='flex items-center gap-3'>
+              <%= render 'icon', person: parent %>
+              <div>
+                <%= link_to parent.name, person_path(parent), class: 'font-medium text-brand-700 hover:underline dark:text-brand-300' %>
+                <p class='text-xs text-slate-400'><%= label %></p>
               </div>
-            <% end %>
-            
-            <% if @person&.mother.present? %>
-              <div class='media'>
-                <div class='media-left'>
-                  <span class='icon has-text-danger'>
-                    <i class='fas fa-female fa-2x'></i>
-                  </span>
-                </div>
-                <div class='media-content'>
-                  <p class='title is-5'>
-                    <%= link_to @person.mother.name, person_path(@person.mother), 
-                      class: 'has-text-dark' if @person&.mother %>
-                  </p>
-                  <p class='subtitle is-6 has-text-grey'><%= t('people.show.mother') %></p>
-                </div>
-              </div>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
         <% else %>
-          <p class='has-text-grey'><%= t('people.show.no_parents') %></p>
+          <p class='empty-state'><%= t('people.show.no_parents') %></p>
         <% end %>
       </div>
     </div>
-  </div>
 
-  <!-- Siblings Section -->
-  <div class='column is-12-mobile is-half-tablet'>
+    <%# Siblings %>
     <div class='card'>
-      <header class='card-header'>
-        <p class='card-header-title'>
-          <span class='icon-text'>
-            <span class='icon has-text-success'>
-              <i class='fas fa-user-friends'></i>
-            </span>
-            <span class='has-text-grey'><%= t('.siblings') %></span>
-          </span>
-        </p>
-      </header>
-      <div class='card-content'>
-        <% siblings = @person ? @person.siblings : [] %>
+      <div class='card-header'>
+        <span class='card-title'><%= heroicon(:user_group, class: 'size-5 text-emerald-500') %><%= t('.siblings') %></span>
+      </div>
+      <div class='card-body space-y-2'>
+        <% siblings = @person.siblings %>
         <% if siblings.any? %>
-          <div class='content'>
-            <% siblings.each do |sibling| %>
-              <div class='media'>
-                <div class='media-left'>
-                  <%= render 'icon', person: sibling %>
-                </div>
-                <div class='media-content'>
-                  <p class='title is-6'>
-                    <%= link_to sibling.name, person_path(sibling), 
-                      class: 'has-text-dark' %>
-                  </p>
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <% siblings.each do |sibling| %>
+            <div class='flex items-center gap-3'>
+              <%= render 'icon', person: sibling %>
+              <%= link_to sibling.name, person_path(sibling), class: 'font-medium text-brand-700 hover:underline dark:text-brand-300' %>
+            </div>
+          <% end %>
         <% else %>
-          <p class='has-text-grey'><%= t('people.show.no_siblings') %></p>
+          <p class='empty-state'><%= t('people.show.no_siblings') %></p>
         <% end %>
       </div>
     </div>
-  </div>
 
-  <!-- Spouse/Partner Section -->
-  <div class='column is-12-mobile is-half-tablet'>
+    <%# Spouses / partners %>
     <div class='card'>
-      <header class='card-header'>
-        <p class='card-header-title'>
-          <span class='icon-text'>
-            <span class='icon has-text-danger'>
-              <i class='fas fa-heart'></i>
-            </span>
-            <span class='has-text-grey'><%= t('.mate') %></span>
-          </span>
-        </p>
+      <div class='card-header'>
+        <span class='card-title'><%= heroicon(:heart, class: 'size-5 text-female') %><%= t('.mate') %></span>
         <% if policy(@person).new? %>
-          <div class='card-header-icon'>
-            <%= link_to new_person_couple_path(@person),
-              class: 'button is-small is-success',
-              data: {
-                turbo_frame: 'new_couple',
-                controller: 'stimulus',
-                stimulus_id_value: 'couple_new',
-                action: 'stimulus#open'
-              },
-              title: t('helpers.submit.create', model: t('people.show.mate')) do %>
-              <span class='icon'>
-                <i class='fas fa-plus'></i>
-              </span>
-              <span><%= t('people.show.add') %></span>
-            <% end %>
-          </div>
+          <%= link_to new_person_couple_path(@person), class: 'btn btn-sm btn-primary',
+            data: { turbo_frame: 'new_couple', controller: 'stimulus', stimulus_id_value: 'couple_new', action: 'stimulus#open' },
+            title: t('helpers.submit.create', model: t('people.show.mate')) do %>
+            <%= heroicon(:plus, class: 'size-4') %><span><%= t('people.show.add') %></span>
+          <% end %>
         <% end %>
-      </header>
-      <div class='card-content'>
-        <% if @person&.mates&.any? %>
-          <div class='content' id='mate'>
-            <% @person&.mates&.each do |mate| %>
+      </div>
+      <div class='card-body'>
+        <% if @person.mates.any? %>
+          <div class='space-y-2' id='mate'>
+            <% @person.mates.each do |mate| %>
               <%= render 'mate', person: @person, mate: mate %>
             <% end %>
           </div>
         <% else %>
-          <p class='has-text-grey'><%= t('people.show.no_spouse') %></p>
+          <p class='empty-state'><%= t('people.show.no_spouse') %></p>
         <% end %>
       </div>
     </div>
-  </div>
 
-  <!-- Children Section -->
-  <div class='column is-12-mobile is-half-tablet'>
+    <%# Children %>
     <div class='card'>
-      <header class='card-header'>
-        <p class='card-header-title'>
-          <span class='icon-text'>
-            <span class='icon has-text-warning'>
-              <i class='fas fa-baby'></i>
-            </span>
-            <span class='has-text-grey'><%= t('.children') %></span>
-          </span>
-        </p>
-      </header>
-      <div class='card-content'>
-        <div class='content' id='children'>
-          <% if @person&.children&.any? %>
-            <% @person&.children&.each do |child| %>
+      <div class='card-header'>
+        <span class='card-title'><%= heroicon(:user_plus, class: 'size-5 text-amber-500') %><%= t('.children') %></span>
+      </div>
+      <div class='card-body'>
+        <div class='space-y-2' id='children'>
+          <% if @person.children.any? %>
+            <% @person.children.each do |child| %>
               <%= render 'child', person: @person, child: child %>
             <% end %>
           <% else %>
-            <p class='has-text-grey' id='no-children-message'><%= t('people.show.no_children') %></p>
+            <p class='empty-state' id='no-children-message'><%= t('people.show.no_children') %></p>
           <% end %>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div class='mt-8 text-center'>
+    <%= link_to people_path, class: 'btn btn-secondary' do %>
+      <%= heroicon(:arrow_left, class: 'size-5') %><span><%= t('.back_to_people') %></span>
+    <% end %>
+  </div>
+
+  <%= render 'shared/modal', tag_name: 'new_couple', modal_id: 'couple_new' %>
+  <%= render 'shared/modal', tag_name: 'new_child', modal_id: 'child_new' %>
+  <%= render 'shared/modal', tag_name: 'edit_person', modal_id: 'person_edit' %>
+  <%= render 'shared/modal', tag_name: 'edit_couple', modal_id: 'couple_edit' %>
+<% else %>
+  <div class='card'>
+    <div class='card-body'>
+      <p class='text-red-600'><%= t('people.show.person_not_found') %></p>
+    </div>
+  </div>
 <% end %>
-
-<!-- Navigation -->
-<div class='has-text-centered mt-6 mb-6'>
-  <%= link_to people_path, class: 'button is-info is-medium' do %>
-    <span class='icon'>
-      <i class='fas fa-arrow-left'></i>
-    </span>
-    <span><%= t('.back_to_people') %></span>
-  <% end %>
-</div>
-
-<!-- Modals -->
-<%= render 'shared/modal', tag_name: 'new_couple', modal_id: 'couple_new' %>
-<%= render 'shared/modal', tag_name: 'new_child', modal_id: 'child_new' %>
-<%= render 'shared/modal', tag_name: 'edit_person', modal_id: 'person_edit' %>
-<%= render 'shared/modal', tag_name: 'edit_couple', modal_id: 'couple_edit' %>

@@ -1,25 +1,16 @@
-<div id=<%= "child_#{child.id}" %> class='media'>
-  <div class='media-left'>
-    <%= render 'people/icon', person: child %>
+<div id='<%= "child_#{child.id}" %>' class='flex items-center gap-3 rounded-lg border border-slate-100 p-2 dark:border-slate-700'>
+  <%= render 'people/icon', person: child %>
+  <div class='min-w-0 flex-1'>
+    <%= link_to child.name, person_path(child),
+        class: 'font-medium text-brand-700 hover:underline dark:text-brand-300' %>
   </div>
-  <div class='media-content'>
-    <p class='title is-6'>
-      <%= link_to child.name, person_path(child), class: 'has-text-dark' %>
-    </p>
-  </div>
-  <div class='media-right'>
-    <div class='buttons' style='gap: 0.125rem;'>
-      <% if policy(child).destroy? %>
-        <%= link_to icon('fa-solid', 'link-slash', class: 'has-text-danger'),
-            person_couple_child_path(person, child.couples.first, child),
-            data: {
-              turbo_method: :delete,
-              turbo_confirm: t('confirm.messages.unlink_child', name: child.name)
-            },
-            title: t('helpers.submit.unlink', model: t('children.form.child')),
-            class: 'button is-small is-white'
-        %>
+  <div class='flex items-center gap-1'>
+    <% if policy(child).destroy? %>
+      <%= link_to person_couple_child_path(person, child.couples.first, child), class: 'btn btn-sm btn-ghost',
+          data: { turbo_method: :delete, turbo_confirm: t('confirm.messages.unlink_child', name: child.name) },
+          title: t('helpers.submit.unlink', model: t('children.form.child')) do %>
+        <%= heroicon(:link_slash, class: 'size-4 text-red-500') %>
       <% end %>
-    </div>
+    <% end %>
   </div>
 </div>
