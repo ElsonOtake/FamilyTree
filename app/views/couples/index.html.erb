@@ -1,32 +1,32 @@
 <% content_for :title, t('couples.index.title') %>
 
-<section class="section">
-  <div class="container">
-    <h1 class="title"><%= t('couples.index.title') %></h1>
-    
-    <div class="table-container">
-      <table class="table is-fullwidth is-striped">
-        <thead>
+<div class='card'>
+  <div class='card-body'>
+    <h1 class='mb-4 text-2xl font-bold text-slate-800 dark:text-slate-100'><%= t('couples.index.title') %></h1>
+
+    <div class='overflow-x-auto'>
+      <table class='w-full text-left text-sm'>
+        <thead class='border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500 dark:border-slate-700'>
           <tr>
-            <th><%= t('couples.table.person1') %></th>
-            <th><%= t('couples.table.person2') %></th>
-            <th><%= t('couples.table.marriage') %></th>
-            <th><%= t('couples.table.separation') %></th>
-            <th><%= t('couples.table.location') %></th>
+            <th class='py-2 pr-3'><%= t('couples.table.person1') %></th>
+            <th class='py-2 pr-3'><%= t('couples.table.person2') %></th>
+            <th class='py-2 pr-3'><%= t('couples.table.marriage') %></th>
+            <th class='py-2 pr-3'><%= t('couples.table.separation') %></th>
+            <th class='py-2'><%= t('couples.table.location') %></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class='divide-y divide-slate-100 dark:divide-slate-700'>
           <% @couples.each do |couple| %>
             <tr>
-              <td><%= couple.person1&.name || "Person #{couple.person1_id}" %></td>
-              <td><%= couple.person2&.name || "Person #{couple.person2_id}" %></td>
-              <td><%= couple.marriage&.strftime("%Y-%m-%d") %></td>
-              <td><%= couple.separation&.strftime("%Y-%m-%d") %></td>
-              <td><%= couple.local %></td>
+              <td class='py-2 pr-3'><%= couple.person1&.name || "Person #{couple.person1_id}" %></td>
+              <td class='py-2 pr-3'><%= couple.person2&.name || "Person #{couple.person2_id}" %></td>
+              <td class='py-2 pr-3'><%= couple.marriage&.strftime('%Y-%m-%d') %></td>
+              <td class='py-2 pr-3'><%= couple.separation&.strftime('%Y-%m-%d') %></td>
+              <td class='py-2'><%= couple.local %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
-</section>
+</div>
