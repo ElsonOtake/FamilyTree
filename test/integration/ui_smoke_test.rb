@@ -51,15 +51,19 @@ class UiSmokeTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  # NOTE: couples pages and the devise sign-in page are intentionally not
-  # smoke-tested here (both fail in the test env for reasons unrelated to CSS):
-  # - Every CouplesController action 404s under test because a set_couple
-  #   before_action references a :show action that doesn't exist (a couples#show
-  #   route is mapped but the method is missing); Rails 8's
-  #   raise_on_missing_callback_actions raises AbstractController::ActionNotFound.
-  #   Fix this while porting the couples views (Phase 4).
-  # - devise/sessions/new calls omniauth_authorize_path, which isn't available in
-  #   the integration-test view context. Cover it when porting Devise (Phase 5).
+  # NOTE: couples pages are intentionally not smoke-tested here. Every
+  # CouplesController action 404s under test because a set_couple before_action
+  # references a :show action that doesn't exist (a couples#show route is mapped
+  # but the method is missing); Rails 8's raise_on_missing_callback_actions
+  # raises AbstractController::ActionNotFound. Fix while porting couples (Phase 4).
+
+  test 'sign-in page renders when signed out' do
+    delete destroy_user_session_url
+    get new_user_session_url
+    assert_response :success
+    assert_select 'input[name=?]', 'user[email]'
+    assert_select 'input[name=?]', 'user[password]'
+  end
 
   test 'about page renders' do
     get about_path
