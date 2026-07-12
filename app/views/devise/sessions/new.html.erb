@@ -1,117 +1,60 @@
-<div class='columns is-centered'>
-  <div class='column is-5'>
-    <!-- Login Card -->
-    <div class='box'>
-      <!-- Logo and Title -->
-      <div class='has-text-centered mb-5'>
-        <figure class='image is-96x96 is-inline-block mb-4'>
-          <img src="<%= asset_path('EAO.png') %>" alt="Family Tree" style="border-radius: 50%;">
-        </figure>
-        <h2 class='title is-3 has-text-info'>
-          <span class='icon-text'>
-            <span class='icon'>
-              <i class='fas fa-sign-in-alt'></i>
-            </span>
-            <span><%= t('.log_in') %></span>
-          </span>
+<div class='mx-auto max-w-md'>
+  <div class='card'>
+    <div class='card-body'>
+      <div class='mb-6 text-center'>
+        <%= image_tag 'EAO.png', alt: 'Family Tree', class: 'mx-auto mb-3 size-20 rounded-full' %>
+        <h2 class='flex items-center justify-center gap-2 text-2xl font-bold text-slate-800 dark:text-slate-100'>
+          <%= heroicon(:arrow_left_on_rectangle, class: 'size-6 text-brand-500') %><%= t('.log_in') %>
         </h2>
-        <p class='subtitle is-6 has-text-grey'>
-          <%= t('.welcome_back') %>
-        </p>
+        <p class='mt-1 text-sm text-slate-500'><%= t('.welcome_back') %></p>
       </div>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <!-- Email Field -->
         <div class='field'>
           <%= f.label :email, t('devise.email'), class: 'label' %>
-          <div class='control has-icons-left'>
-            <%= f.email_field :email, 
-              autofocus: true, 
-              autocomplete: 'email', 
-              class: 'input is-medium', 
-              placeholder: 'your@email.com' %>
-            <span class='icon is-left'>
-              <i class='fas fa-envelope'></i>
-            </span>
-          </div>
+          <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'input', placeholder: 'your@email.com' %>
         </div>
 
-        <!-- Password Field -->
         <div class='field'>
           <%= f.label :password, t('devise.password'), class: 'label' %>
-          <div class='control has-icons-left'>
-            <%= f.password_field :password, 
-              autocomplete: 'current-password', 
-              class: 'input is-medium', 
-              placeholder: '••••••••' %>
-            <span class='icon is-left'>
-              <i class='fas fa-lock'></i>
-            </span>
-          </div>
+          <%= f.password_field :password, autocomplete: 'current-password', class: 'input', placeholder: '••••••••' %>
         </div>
 
-        <!-- Remember Me & Forgot Password -->
-        <div class='field is-grouped is-grouped-spread mb-5'>
+        <div class='mb-5 flex items-center justify-between text-sm'>
           <% if devise_mapping.rememberable? %>
-            <div class='control'>
-              <label class='checkbox'>
-                <%= f.check_box :remember_me %>
-                <span class='ml-2'><%= t('.remember_me') %></span>
-              </label>
-            </div>
+            <label class='flex items-center gap-2'>
+              <%= f.check_box :remember_me, class: 'rounded border-slate-300 text-brand-500 focus:ring-brand-400' %>
+              <%= t('.remember_me') %>
+            </label>
           <% end %>
-          <div class='control'>
-            <%= link_to t('devise.passwords.new.forgot_your_password'), 
-              new_password_path(resource_name), 
-              class: 'has-text-info' %>
-          </div>
+          <%= link_to t('devise.passwords.new.forgot_your_password'), new_password_path(resource_name), class: 'text-brand-600 hover:underline dark:text-brand-300' %>
         </div>
 
-        <!-- Submit Button -->
-        <div class='field'>
-          <%= f.submit t('.log_in'), class: 'button is-info is-fullwidth is-medium' %>
-        </div>
+        <%= f.submit t('.log_in'), class: 'btn btn-primary w-full cursor-pointer' %>
       <% end %>
 
-      <!-- OAuth Providers -->
       <%- if devise_mapping.omniauthable? && Devise.omniauth_providers.any? %>
-        <hr class='my-5'>
-        <p class='has-text-centered has-text-grey mb-4'>
-          <%= t('.continue_with') %>
-        </p>
-        <div class='buttons is-centered'>
+        <div class='my-5 flex items-center gap-3 text-xs text-slate-400'>
+          <span class='h-px flex-1 bg-slate-200 dark:bg-slate-700'></span><%= t('.continue_with') %><span class='h-px flex-1 bg-slate-200 dark:bg-slate-700'></span>
+        </div>
+        <div class='flex justify-center gap-2'>
           <%- Devise.omniauth_providers.each do |provider| %>
-            <%= button_to omniauth_authorize_path(resource_name, provider),
-              data: { turbo: false },
-              class: 'button is-info is-outlined is-medium' do %>
-              <span class='icon'>
-                <i class='fab fa-<%= provider.to_s.delete_suffix('_oauth2') %>'></i>
-              </span>
-              <span><%= provider.to_s.delete_suffix('_oauth2').capitalize %></span>
-            <% end %>
+            <%= button_to provider.to_s.delete_suffix('_oauth2').capitalize, omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: 'btn btn-secondary' %>
           <% end %>
         </div>
       <% end %>
 
-      <!-- Additional Links -->
       <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-        <div class='has-text-centered mt-5'>
-          <p class='is-size-7'>
-            <%= link_to t('.didnt_receive_confirmation_instructions'), 
-              new_confirmation_path(resource_name), 
-              class: 'has-text-info' %>
-          </p>
-        </div>
+        <p class='mt-5 text-center text-xs'>
+          <%= link_to t('.didnt_receive_confirmation_instructions'), new_confirmation_path(resource_name), class: 'text-brand-600 hover:underline dark:text-brand-300' %>
+        </p>
       <% end %>
 
-      <!-- Sign Up Link -->
       <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-        <div class='has-text-centered mt-4'>
-          <p>
-            <%= t('.dont_have_account') %> 
-            <%= link_to t('.sign_up_link'), new_registration_path(resource_name), class: 'has-text-info has-text-weight-bold' %>
-          </p>
-        </div>
+        <p class='mt-4 text-center text-sm text-slate-500'>
+          <%= t('.dont_have_account') %>
+          <%= link_to t('.sign_up_link'), new_registration_path(resource_name), class: 'font-semibold text-brand-600 hover:underline dark:text-brand-300' %>
+        </p>
       <% end %>
     </div>
   </div>

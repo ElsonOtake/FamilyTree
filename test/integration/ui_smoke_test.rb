@@ -79,6 +79,25 @@ class UiSmokeTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'mcp access page renders' do
+    get mcp_access_users_path
+    assert_response :success
+  end
+
+  test 'roles page renders' do
+    get roles_users_path
+    assert_response :success
+    assert_select 'select'
+  end
+
+  test 'sign-up page renders when signed out' do
+    delete destroy_user_session_url
+    get new_user_registration_url
+    assert_response :success
+    assert_select 'input[name=?]', 'user[email]'
+    assert_select 'input[name=?]', 'user[password]'
+  end
+
   test 'people CSV download works' do
     get download_people_url(format: :csv)
     assert_response :success
