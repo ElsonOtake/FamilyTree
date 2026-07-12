@@ -6,119 +6,40 @@
     <meta name='viewport' content='width=device-width,initial-scale=1'>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <script src='https://kit.fontawesome.com/064189fe66.js' crossorigin='anonymous'></script>
+
+    <%# Apply the saved theme before paint to avoid a flash of the wrong mode. %>
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
-    
-    <!-- Mobile menu theme support -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Fix mobile menu styling dynamically
-        function updateMobileMenuTheme() {
-          const theme = document.documentElement.getAttribute('data-theme') || 'light';
-          const navbarMenu = document.querySelector('.navbar-menu');
-          const navbarItems = document.querySelectorAll('.navbar-menu .navbar-item, .navbar-menu .navbar-link, .navbar-menu a, .navbar-menu span');
-          
-          if (navbarMenu) {
-            if (theme === 'dark') {
-              // Dark mode
-              navbarMenu.style.backgroundColor = '#2d2d2d';
-              navbarItems.forEach(item => {
-                item.style.color = '#ffffff';
-                item.style.fontWeight = '700';
-              });
-            } else {
-              // Light mode
-              navbarMenu.style.backgroundColor = '#ffffff';
-              navbarItems.forEach(item => {
-                item.style.color = '#000000';
-                item.style.fontWeight = '700';
-              });
-            }
-          }
-        }
-        
-        // Apply immediately and watch for theme changes
-        updateMobileMenuTheme();
-        
-        const observer = new MutationObserver(function(mutations) {
-          mutations.forEach(function(mutation) {
-            if (mutation.attributeName === 'data-theme') {
-              updateMobileMenuTheme();
-            }
-          });
-        });
-        
-        observer.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ['data-theme']
-        });
-      });
-    </script>
-    
-    <!-- Emergency mobile menu visibility fix for both themes -->
-    <style>
-      @media screen and (max-width: 1023px) {
-        /* Light mode (default) */
-        .navbar-menu {
-          background-color: #ffffff !important;
-        }
-        
-        .navbar-menu .navbar-item,
-        .navbar-menu .navbar-item *,
-        .navbar-menu .navbar-link,
-        .navbar-menu .navbar-link *,
-        .navbar-menu a,
-        .navbar-menu a *,
-        .navbar-menu span {
-          color: #000000 !important;
-          font-weight: 700 !important;
-          text-shadow: none !important;
-          opacity: 1 !important;
-        }
-        
-        /* Dark mode */
-        [data-theme="dark"] .navbar-menu {
-          background-color: #2d2d2d !important;
-        }
-        
-        [data-theme="dark"] .navbar-menu .navbar-item,
-        [data-theme="dark"] .navbar-menu .navbar-item *,
-        [data-theme="dark"] .navbar-menu .navbar-link,
-        [data-theme="dark"] .navbar-menu .navbar-link *,
-        [data-theme="dark"] .navbar-menu a,
-        [data-theme="dark"] .navbar-menu a *,
-        [data-theme="dark"] .navbar-menu span {
-          color: #ffffff !important;
-          font-weight: 700 !important;
-          text-shadow: none !important;
-          opacity: 1 !important;
-        }
-
-      }
-    </style>
   </head>
 
   <body>
     <%= render 'layouts/navbar' %>
-    
-    <!-- Dark Mode Toggle -->
-    <div data-controller="dark-mode" class="dark-mode-toggle">
-      <button class="button is-info is-small" data-action="click->dark-mode#toggle">
-        <span class="icon" data-dark-mode-target="icon">
-          <i class="fas fa-moon"></i>
-        </span>
-        <span data-dark-mode-target="text">Dark Mode</span>
+
+    <div data-controller='dark-mode' class='fixed bottom-4 right-4 z-40'>
+      <button type='button'
+              class='btn btn-secondary btn-sm shadow-md'
+              data-action='click->dark-mode#toggle'>
+        <%= heroicon(:moon, class: 'size-4 hidden dark:inline') %>
+        <%= heroicon(:sun, class: 'size-4 inline dark:hidden') %>
+        <span data-dark-mode-target='label'>Dark mode</span>
       </button>
     </div>
-    
-    <section class='section'>
-      <div class='container is-fluid p-0'>
-        <div id='flash'>
-          <%= render 'shared/flash' %>
-        </div>
-        <%= yield %>
+
+    <main class='mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8'>
+      <div id='flash'>
+        <%= render 'shared/flash' %>
       </div>
-    </section>
+      <%= yield %>
+    </main>
   </body>
 </html>
