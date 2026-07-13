@@ -1,8 +1,18 @@
+<% styles = {
+     'notice'  => 'bg-blue-50 text-blue-800 ring-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:ring-blue-800',
+     'success' => 'bg-emerald-50 text-emerald-800 ring-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-200 dark:ring-emerald-800',
+     'alert'   => 'bg-red-50 text-red-800 ring-red-200 dark:bg-red-900/30 dark:text-red-200 dark:ring-red-800',
+     'error'   => 'bg-red-50 text-red-800 ring-red-200 dark:bg-red-900/30 dark:text-red-200 dark:ring-red-800',
+     'warning' => 'bg-amber-50 text-amber-800 ring-amber-200 dark:bg-amber-900/30 dark:text-amber-200 dark:ring-amber-800'
+   } %>
 <% flash.each do |msg_type, message| %>
-  <div class='notification flash__message is-<%= msg_type == "notice" ? "info" : msg_type %>' 
-       data-controller='stimulus' 
-       data-action='animationend->stimulus#closeNotification'>
-    <button class='delete' data-action='stimulus#closeNotification'></button>
-    <%= message %>
+  <% next if message.blank? %>
+  <div data-controller='flash'
+       class='mb-3 flex items-start gap-3 rounded-lg px-4 py-3 text-sm shadow-sm ring-1 <%= styles[msg_type.to_s] || styles['notice'] %>'>
+    <div class='flex-1'><%= message %></div>
+    <button type='button' data-action='flash#close' aria-label='close'
+            class='-mr-1 shrink-0 opacity-60 transition-opacity hover:opacity-100'>
+      <%= heroicon(:x_mark, class: 'size-5') %>
+    </button>
   </div>
 <% end %>

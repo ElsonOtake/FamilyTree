@@ -22,6 +22,11 @@ class PersonPolicy < ApplicationPolicy
     true
   end
 
+  # Descendant-tree PDF export; same visibility as viewing the person.
+  def pedigree?
+    show?
+  end
+
   def new?
     user&.has_any_role? :silver, :gold, :admin
   end

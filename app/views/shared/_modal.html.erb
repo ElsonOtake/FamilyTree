@@ -1,11 +1,14 @@
-<div id=<%= modal_id %> class='modal'>
-	<div class='modal-background'></div>
-	
-	<div class='modal-content'>
-		<div class='box'>
-			<%= turbo_frame_tag tag_name %>
-		</div>
-	</div>
-	
-	<button class='modal-close is-large' aria-label='close'></button>
+<%# `modal` class is a JS hook for closeAllModals; visibility toggled via `hidden`. %>
+<div id='<%= modal_id %>' data-controller='stimulus' class='modal fixed inset-0 z-50 hidden'>
+  <div class='fixed inset-0 bg-black/50' data-action='click->stimulus#dismiss'></div>
+
+  <div class='relative flex min-h-full items-center justify-center p-4'>
+    <div class='relative z-10 w-full max-w-2xl rounded-xl bg-white p-6 shadow-xl dark:bg-slate-800'>
+      <button type='button' data-action='stimulus#dismiss' aria-label='close'
+              class='absolute right-3 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'>
+        <%= heroicon(:x_mark, class: 'size-6') %>
+      </button>
+      <%= turbo_frame_tag tag_name %>
+    </div>
+  </div>
 </div>

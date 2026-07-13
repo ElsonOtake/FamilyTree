@@ -36,3 +36,6 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# Claude Code local settings
+/.claude/

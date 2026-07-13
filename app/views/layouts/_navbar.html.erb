@@ -1,174 +1,130 @@
-<nav class='navigation navbar is-dark has-shadow' role='navigation' aria-label='main navigation' data-controller='stimulus'>
-  <div class='navbar-brand'>
-    <a class='navbar-item' href=<%= root_path %>>
-      <img src=<%= image_path 'EAO.png' %> width='90' height='45' class='mr-3'>
-      <div class='is-hidden-touch'>
-        <% if user_signed_in? %>
-          <p class='title is-6 has-text-white mb-0'>Family Tree - <%= current_user.name %></p>
-        <% else %>
-          <p class='title is-6 has-text-white mb-0'>Family Tree</p>
-        <% end %>
-      </div>
-    </a>
+<% locales = { pt: 'Português', en: 'English', ja: '日本語' }.with_indifferent_access %>
+<% current_locale = user_signed_in? ? current_user.locale : (session[:locale] ||= I18n.default_locale.to_s) %>
 
-    <a
-      role='button'
-      class='navbar-burger has-text-white'
-      aria-label='menu'
-      data-stimulus-target='burger'
-      data-action='stimulus#burger'
-    >
-      <span aria-hidden='true'></span>
-      <span aria-hidden='true'></span>
-      <span aria-hidden='true'></span>
-    </a>
-  </div>
+<nav data-controller='navbar'
+     class='sticky top-0 z-30 bg-brand-700 text-white shadow-md dark:bg-slate-800'
+     aria-label='main navigation'>
+  <div class='mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8'>
+    <%# Brand %>
+    <%= link_to root_path, class: 'flex shrink-0 items-center gap-3' do %>
+      <%= image_tag 'EAO.png', width: 72, class: 'h-9 w-auto' %>
+      <span class='hidden text-sm font-bold sm:block'>
+        <%= user_signed_in? ? "Family Tree — #{current_user.name}" : 'Family Tree' %>
+      </span>
+    <% end %>
 
-  <div id='navMenu' class='navbar-menu' data-stimulus-target='menu' style='background-color: white !important;'>
-    <div class='navbar-start'>
+    <%# Desktop links %>
+    <div class='hidden items-center gap-1 lg:flex'>
       <% if user_signed_in? %>
-        <%= link_to people_path, class: 'navbar-item', style: 'color: #000000 !important; font-weight: 700 !important;' do %>
-          <span class='icon-text'>
-            <span class='icon'><i class='fas fa-users'></i></span>
-            <span style='color: #000000 !important; font-weight: 700 !important;'><%= t('people.index.title', default: 'People') %></span>
-          </span>
+        <%= link_to people_path, class: 'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:users, class: 'size-5') %><span><%= t('people.index.title', default: 'People') %></span>
         <% end %>
-        <div class='navbar-item has-dropdown is-hoverable'>
-          <a class='navbar-link' style='color: #000000 !important; font-weight: 700 !important;'>
-            <span class='icon-text'>
-              <span class='icon'><i class='fas fa-chart-line'></i></span>
-              <span><%= t('.statistics', default: 'Statistics') %></span>
-            </span>
-          </a>
-          <div class='navbar-dropdown'>
-            <%= link_to birthdays_people_path, class: 'navbar-item' do %>
-              <span class='icon-text'>
-                <span class='icon has-text-info'><i class='fas fa-birthday-cake'></i></span>
-                <span><%= t('.birthdays', default: 'Birthdays') %></span>
-              </span>
-            <% end %>
-            <%= link_to statistics_path, class: 'navbar-item' do %>
-              <span class='icon-text'>
-                <span class='icon has-text-success'><i class='fas fa-chart-bar'></i></span>
-                <span><%= t('.family_stats', default: 'Family Statistics') %></span>
-              </span>
-            <% end %>
-          </div>
-        </div>
+
+        <%= render 'layouts/nav_dropdown', label: t('.statistics', default: 'Statistics'), icon: :chart_bar do %>
+          <%= render 'layouts/nav_dropdown_link', path: birthdays_people_path, icon: :cake, label: t('.birthdays', default: 'Birthdays') %>
+          <%= render 'layouts/nav_dropdown_link', path: statistics_path, icon: :chart_bar, label: t('.family_stats', default: 'Family Statistics') %>
+        <% end %>
       <% end %>
-    </div>
-    <div class='navbar-end'>
-      <% locales = {
-            pt: 'Português',
-            en: 'English',
-            ja: '日本語'
-          }.with_indifferent_access
-      %>
-      <div class='navbar-item has-dropdown is-hoverable'>
-        <a class='navbar-link has-text-white'>
-          <span class='icon-text'>
-            <span class='icon'><i class='fas fa-globe'></i></span>
-            <span>
-              <% if user_signed_in? %>
-                <%= locales[current_user.locale] %>
-              <% else %>
-                <% session[:locale] ||= I18n.default_locale.to_s %>
-                <%= locales[session[:locale]] %>
-              <% end %>
-            </span>
-          </span>
-        </a>
 
-        <div class='navbar-dropdown is-right'>
-          <% locales.each do |key, value| %>
-            <% if user_signed_in? %>
-              <%= link_to value, user_locale_change_path(current_user, key), data: { turbo_method: :patch }, class: 'navbar-item' unless key.to_s == current_user.locale %>
-            <% else %>
-              <%= link_to value, locale_change_unidentified_users_path(key), data: { turbo_method: :patch }, class: 'navbar-item' unless key.to_s == session[:locale] %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-      
+      <%# Locale switcher %>
+      <%= render 'layouts/nav_dropdown', label: locales[current_locale], icon: :globe_alt do %>
+        <% locales.each do |key, value| %>
+          <% next if key.to_s == current_locale.to_s %>
+          <% path = user_signed_in? ? user_locale_change_path(current_user, key) : locale_change_unidentified_users_path(key) %>
+          <%= link_to value, path, data: { turbo_method: :patch }, class: 'block rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-brand-50 dark:text-slate-200 dark:hover:bg-slate-700' %>
+        <% end %>
+      <% end %>
+
       <% if user_signed_in? %>
-        <div class='navbar-item has-dropdown is-hoverable'>
-          <a class='navbar-link' style='color: #000000 !important; font-weight: 700 !important;'>
-            <span class='icon-text'>
-              <span class='icon'><i class='fas fa-ellipsis-v'></i></span>
-              <span><%= t('.more')%></span>
-            </span>
-          </a>
-          <div class='navbar-dropdown is-right'>
-            <%= link_to about_path, class: 'navbar-item' do %>
-              <span class='icon-text'>
-                <span class='icon has-text-info'><i class='fas fa-info-circle'></i></span>
-                <span><%= t('.about') %></span>
-              </span>
-            <% end %>
-            <%= link_to mcp_access_users_path, class: 'navbar-item' do %>
-              <span class='icon-text'>
-                <span class='icon has-text-link'><i class='fas fa-robot'></i></span>
-                <span><%= t('.mcp_access') %></span>
-              </span>
-            <% end %>
-            <%#= link_to 'Log', nil, class: 'navbar-item' %>
-            <%#= link_to 'Aniversários', nil, class: 'navbar-item' %>
-            <%#= link_to 'Estatísticas', nil, class: 'navbar-item' %>
-            <%#= link_to 'Backup', nil, class: 'navbar-item' %>
-            <%#= link_to 'Contato', nil, class: 'navbar-item' %>
-            <% if policy(User).roles? %>
-              <%#= link_to t('.download_users_csv'), download_users_path(format: :csv), class: 'navbar-item' %>
-              <%#= link_to t('.download_roles_csv'), download_roles_path(format: :csv), class: 'navbar-item' %>
-              <%#= link_to t('.download_people_csv'), download_people_path(format: :csv), class: 'navbar-item' %>
-              <%#= link_to t('.download_couples_csv'), download_couples_path(format: :csv), class: 'navbar-item' %>
-              <%#= link_to t('.download_children_csv'), download_children_path(format: :csv), class: 'navbar-item' %>
-              <%#= link_to t('.download_events_csv'), download_events_path(format: :csv), class: 'navbar-item' %>
-              <hr class='navbar-divider'>
-              <%= link_to roles_users_path, class: 'navbar-item' do %>
-                <span class='icon-text'>
-                  <span class='icon has-text-warning'><i class='fas fa-user-shield'></i></span>
-                  <span><%= t('.roles') %></span>
-                </span>
-              <% end %>
-              <%= link_to admin_users_path, class: 'navbar-item' do %>
-                <span class='icon-text'>
-                  <span class='icon has-text-primary'><i class='fas fa-tachometer-alt'></i></span>
-                  <span><%= t('.dashboard') %></span>
-                </span>
-              <% end %>
-            <% end %>
-            <%# <hr class='navbar-divider'> %>
-            <hr class='navbar-divider'>
-            <% unless current_user.omniauth_login? %>
-              <%= link_to edit_user_registration_path, class: 'navbar-item' do %>
-                <span class='icon-text'>
-                  <span class='icon has-text-info'><i class='fas fa-user-edit'></i></span>
-                  <span><%= t('.edit_profile') %></span>
-                </span>
-              <% end %>
-            <% end %>
-            <%#= link_to 'Informe um erro', nil, class: 'navbar-item' %>
-          </div>
-        </div>
+        <%= render 'layouts/nav_dropdown', label: t('.more'), icon: :ellipsis_vertical do %>
+          <%= render 'layouts/nav_dropdown_link', path: about_path, icon: :information_circle, label: t('.about') %>
+          <%= render 'layouts/nav_dropdown_link', path: mcp_access_users_path, icon: :cpu_chip, label: t('.mcp_access') %>
+          <% if policy(User).roles? %>
+            <div class='my-1 border-t border-slate-100 dark:border-slate-700'></div>
+            <%= render 'layouts/nav_dropdown_link', path: roles_users_path, icon: :shield_check, label: t('.roles') %>
+            <%= render 'layouts/nav_dropdown_link', path: admin_users_path, icon: :squares_2x2, label: t('.dashboard') %>
+          <% end %>
+          <% unless current_user.omniauth_login? %>
+            <div class='my-1 border-t border-slate-100 dark:border-slate-700'></div>
+            <%= render 'layouts/nav_dropdown_link', path: edit_user_registration_path, icon: :pencil_square, label: t('.edit_profile') %>
+          <% end %>
+        <% end %>
 
-        <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'navbar-item', style: 'color: #000000 !important; font-weight: 700 !important;' do %>
-          <span class='icon-text'>
-            <span class='icon has-text-danger'><i class='fas fa-sign-out-alt'></i></span>
-            <span><%= t('.log_out') %></span>
-          </span>
+        <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:arrow_right_on_rectangle, class: 'size-5') %><span><%= t('.log_out') %></span>
         <% end %>
       <% else %>
-        <%= link_to new_user_registration_path, class: 'navbar-item', style: 'color: #000000 !important; font-weight: 700 !important;' do %>
-          <span class='icon-text'>
-            <span class='icon has-text-success'><i class='fas fa-user-plus'></i></span>
-            <span><%= t('devise.registrations.new.sign_up') %></span>
-          </span>
+        <%= link_to new_user_registration_path, class: 'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:user_plus, class: 'size-5') %><span><%= t('devise.registrations.new.sign_up') %></span>
         <% end %>
-        <%= link_to new_user_session_path, class: 'navbar-item', style: 'color: #000000 !important; font-weight: 700 !important;' do %>
-          <span class='icon-text'>
-            <span class='icon has-text-info'><i class='fas fa-sign-in-alt'></i></span>
-            <span><%= t('devise.sessions.new.log_in') %></span>
-          </span>
+        <%= link_to new_user_session_path, class: 'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:arrow_left_on_rectangle, class: 'size-5') %><span><%= t('devise.sessions.new.log_in') %></span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# Mobile hamburger %>
+    <button type='button'
+            class='inline-flex items-center rounded-lg p-2 hover:bg-white/10 lg:hidden'
+            data-action='navbar#toggleMenu'
+            aria-label='menu'>
+      <%= heroicon(:bars, class: 'size-6') %>
+    </button>
+  </div>
+
+  <%# Mobile menu %>
+  <div data-navbar-target='menu' class='hidden border-t border-white/10 px-4 pb-4 pt-2 lg:hidden'>
+    <div class='flex flex-col gap-1'>
+      <% if user_signed_in? %>
+        <%= link_to people_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:users, class: 'size-5') %><%= t('people.index.title', default: 'People') %>
+        <% end %>
+        <%= link_to birthdays_people_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:cake, class: 'size-5') %><%= t('.birthdays', default: 'Birthdays') %>
+        <% end %>
+        <%= link_to statistics_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:chart_bar, class: 'size-5') %><%= t('.family_stats', default: 'Family Statistics') %>
+        <% end %>
+        <%= link_to about_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:information_circle, class: 'size-5') %><%= t('.about') %>
+        <% end %>
+        <%= link_to mcp_access_users_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:cpu_chip, class: 'size-5') %><%= t('.mcp_access') %>
+        <% end %>
+        <% if policy(User).roles? %>
+          <%= link_to roles_users_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+            <%= heroicon(:shield_check, class: 'size-5') %><%= t('.roles') %>
+          <% end %>
+          <%= link_to admin_users_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+            <%= heroicon(:squares_2x2, class: 'size-5') %><%= t('.dashboard') %>
+          <% end %>
+        <% end %>
+        <% unless current_user.omniauth_login? %>
+          <%= link_to edit_user_registration_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+            <%= heroicon(:pencil_square, class: 'size-5') %><%= t('.edit_profile') %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <div class='my-1 border-t border-white/10'></div>
+      <p class='px-3 pb-1 text-xs uppercase tracking-wide text-white/60'><%= locales[current_locale] %></p>
+      <% locales.each do |key, value| %>
+        <% next if key.to_s == current_locale.to_s %>
+        <% path = user_signed_in? ? user_locale_change_path(current_user, key) : locale_change_unidentified_users_path(key) %>
+        <%= link_to value, path, data: { turbo_method: :patch }, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-white/10' %>
+      <% end %>
+
+      <div class='my-1 border-t border-white/10'></div>
+      <% if user_signed_in? %>
+        <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:arrow_right_on_rectangle, class: 'size-5') %><%= t('.log_out') %>
+        <% end %>
+      <% else %>
+        <%= link_to new_user_registration_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:user_plus, class: 'size-5') %><%= t('devise.registrations.new.sign_up') %>
+        <% end %>
+        <%= link_to new_user_session_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:arrow_left_on_rectangle, class: 'size-5') %><%= t('devise.sessions.new.log_in') %>
         <% end %>
       <% end %>
     </div>

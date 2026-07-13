@@ -1,38 +1,25 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="dark-mode"
+// Toggles Tailwind's class-based dark mode by adding/removing `dark` on <html>
+// and persisting the choice. A pre-paint snippet in the <head> applies the
+// stored theme before CSS loads to avoid a flash (FOUC).
 export default class extends Controller {
-  static targets = ["icon", "text"]
+  static targets = ["label"]
 
   connect() {
-    // Load saved theme preference or default to light
-    const savedTheme = localStorage.getItem('theme') || 'light'
-    this.setTheme(savedTheme)
+    this.updateLabel(document.documentElement.classList.contains("dark"))
   }
 
   toggle() {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light'
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light'
-    this.setTheme(newTheme)
-    localStorage.setItem('theme', newTheme)
+    const isDark = document.documentElement.classList.toggle("dark")
+    localStorage.setItem("theme", isDark ? "dark" : "light")
+    this.updateLabel(isDark)
   }
 
-  setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme)
-    this.updateToggleButton(theme)
-  }
-
-  updateToggleButton(theme) {
-    if (this.hasIconTarget && this.hasTextTarget) {
-      if (theme === 'dark') {
-        this.iconTarget.className = 'icon'
-        this.iconTarget.innerHTML = '<i class="fas fa-sun"></i>'
-        this.textTarget.textContent = 'Light Mode'
-      } else {
-        this.iconTarget.className = 'icon'
-        this.iconTarget.innerHTML = '<i class="fas fa-moon"></i>'
-        this.textTarget.textContent = 'Dark Mode'
-      }
+  updateLabel(isDark) {
+    if (this.hasLabelTarget) {
+      this.labelTarget.textContent = isDark ? "Light mode" : "Dark mode"
     }
   }
 }

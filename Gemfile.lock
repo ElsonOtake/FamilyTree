@@ -117,8 +117,6 @@ GEM
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.3.0)
-    bulma-rails (0.9.4)
-      sassc (~> 2.0)
     capybara (3.39.0)
       addressable
       matrix
@@ -197,8 +195,6 @@ GEM
       mime-types (~> 3.4)
       rack (>= 2.0, < 4.0)
     ffi (1.15.5)
-    font-awesome-sass (6.4.0)
-      sassc (~> 2.0)
     formtastic (5.0.0)
       actionpack (>= 6.0.0)
     formtastic_i18n (0.7.0)
@@ -326,9 +322,14 @@ GEM
     pagy (7.0.10)
     paranoia (3.0.1)
       activerecord (>= 6, < 8.1)
+    pdf-core (0.10.0)
     pg (1.5.3)
     pp (0.6.2)
       prettyprint
+    prawn (2.5.0)
+      matrix (~> 0.4)
+      pdf-core (~> 0.10.0)
+      ttfunk (~> 1.8)
     prettyprint (0.2.0)
     pry (0.15.2)
       coderay (~> 1.1)
@@ -427,6 +428,8 @@ GEM
     stringio (3.1.7)
     thor (1.4.0)
     timeout (0.4.3)
+    ttfunk (1.8.0)
+      bigdecimal (~> 3.1)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
@@ -467,7 +470,6 @@ DEPENDENCIES
   activeadmin
   aws-sdk-s3
   bootsnap
-  bulma-rails (~> 0.9.4)
   capybara
   cssbundling-rails (~> 1.4)
   debug
@@ -475,7 +477,6 @@ DEPENDENCIES
   dockerfile-rails (>= 1.7)
   dotenv-rails
   fast-mcp
-  font-awesome-sass (~> 6.4.0)
   friendly_id (~> 5.4.0)
   image_processing (~> 1.2)
   importmap-rails
@@ -487,6 +488,7 @@ DEPENDENCIES
   pagy (~> 7.0)
   paranoia (~> 3.0)
   pg (~> 1.1)
+  prawn (~> 2.5)
   pry-rails
   puma (~> 5.0)
   pundit (~> 2.3)
@@ -494,6 +496,7 @@ DEPENDENCIES
   ransack
   redis (~> 4.0)
   rolify
+  sassc
   selenium-webdriver
   sprockets-rails
   stimulus-rails

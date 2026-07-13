@@ -15,3 +15,9 @@ application.register("dark-mode", DarkModeController)
 
 import FavoritesController from "./favorites_controller"
 application.register("favorites", FavoritesController)
+
+import NavbarController from "./navbar_controller"
+application.register("navbar", NavbarController)
+
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)

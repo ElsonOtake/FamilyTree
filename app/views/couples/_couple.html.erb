@@ -1,27 +1,9 @@
-<div id="<%= dom_id couple %>">
-  <p>
-    <strong>Person1:</strong>
-    <%= couple.person1_id %>
-  </p>
-
-  <p>
-    <strong>Person2:</strong>
-    <%= couple.person2_id %>
-  </p>
-
-  <p>
-    <strong>Marriage:</strong>
-    <%= couple.marriage %>
-  </p>
-
-  <p>
-    <strong>Separation:</strong>
-    <%= couple.separation %>
-  </p>
-
-  <p>
-    <strong>Local:</strong>
-    <%= couple.local %>
-  </p>
-
+<div id='<%= dom_id couple %>' class='card'>
+  <div class='card-body space-y-1 text-sm'>
+    <p><span class='font-semibold'><%= t('couples.table.person1') %>:</span> <%= couple.person1&.name || couple.person1_id %></p>
+    <p><span class='font-semibold'><%= t('couples.table.person2') %>:</span> <%= couple.person2&.name || couple.person2_id %></p>
+    <p><span class='font-semibold'><%= t('couples.table.marriage') %>:</span> <%= couple.marriage %></p>
+    <p><span class='font-semibold'><%= t('couples.table.separation') %>:</span> <%= couple.separation %></p>
+    <p><span class='font-semibold'><%= t('couples.table.location') %>:</span> <%= couple.local %></p>
+  </div>
 </div>

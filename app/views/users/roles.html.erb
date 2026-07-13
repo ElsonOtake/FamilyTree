@@ -1,230 +1,88 @@
-<!-- Hero Section -->
-<section class='hero is-info is-small mb-5'>
-  <div class='hero-body'>
-    <div class='container'>
-      <h1 class='title'>
-        <span class='icon-text'>
-          <span class='icon'>
-            <i class='fas fa-user-shield'></i>
-          </span>
-          <span><%= t('.role') %></span>
-        </span>
-      </h1>
-      <p class='subtitle'>
-        <%= t('.manage_user_permissions') %>
-      </p>
-    </div>
-  </div>
+<section class='mb-6 rounded-2xl bg-linear-to-r from-brand-600 to-brand-500 px-6 py-5 text-white shadow-sm'>
+  <h1 class='flex items-center gap-2 text-2xl font-bold'>
+    <%= heroicon(:shield_check, class: 'size-6') %><%= t('.role') %>
+  </h1>
+  <p class='mt-1 text-sm text-white/80'><%= t('.manage_user_permissions') %></p>
 </section>
 
-<div class='container'>
-  <!-- Stats Cards -->
-  <div class='columns mb-5'>
-    <div class='column is-4'>
-      <div class='box has-background-primary-light'>
-        <div class='level'>
-          <div class='level-left'>
-            <div>
-              <p class='heading'><%= t('.total_users') %></p>
-              <p class='title is-3'><%= @users.count %></p>
-            </div>
-          </div>
-          <div class='level-right'>
-            <span class='icon is-large has-text-primary'>
-              <i class='fas fa-users fa-3x'></i>
-            </span>
-          </div>
+<div class='grid grid-cols-1 gap-4 sm:grid-cols-3'>
+  <% [[:users, 'text-brand-500', @users.count, '.total_users'],
+      [:shield_check, 'text-emerald-500', @users.count { |u| u.has_role?(:admin) }, '.administrators'],
+      [:pencil_square, 'text-blue-500', @users.count { |u| u.has_role?(:editor) }, '.editors']].each do |icon, color, value, key| %>
+    <div class='card'>
+      <div class='card-body flex items-center justify-between'>
+        <div>
+          <p class='text-xs uppercase tracking-wide text-slate-400'><%= t(key) %></p>
+          <p class='text-3xl font-bold <%= color %>'><%= value %></p>
         </div>
+        <%= heroicon(icon, class: "size-8 #{color}") %>
       </div>
-    </div>
-    
-    <div class='column is-4'>
-      <div class='box has-background-success-light'>
-        <div class='level'>
-          <div class='level-left'>
-            <div>
-              <p class='heading'><%= t('.administrators') %></p>
-              <p class='title is-3'><%= @users.select { |u| u.has_role?(:admin) }.count %></p>
-            </div>
-          </div>
-          <div class='level-right'>
-            <span class='icon is-large has-text-success'>
-              <i class='fas fa-user-cog fa-3x'></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class='column is-4'>
-      <div class='box has-background-info-light'>
-        <div class='level'>
-          <div class='level-left'>
-            <div>
-              <p class='heading'><%= t('.editors') %></p>
-              <p class='title is-3'><%= @users.select { |u| u.has_role?(:editor) }.count %></p>
-            </div>
-          </div>
-          <div class='level-right'>
-            <span class='icon is-large has-text-info'>
-              <i class='fas fa-user-edit fa-3x'></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pagination -->
-  <% if @pagy.pages > 1 %>
-    <div class='mb-4'>
-      <%== pagy_bulma_nav(@pagy) %>
-    </div>
-  <% end %>
-
-  <!-- Users Table -->
-  <div class='box'>
-    <div class='table-container'>
-      <table class='table is-fullwidth is-striped is-hoverable'>
-        <thead>
-          <tr>
-            <th>
-              <span class='icon-text'>
-                <span class='icon has-text-info'>
-                  <i class='fas fa-user'></i>
-                </span>
-                <span><%= t('people.form.name') %></span>
-              </span>
-            </th>
-            <th>
-              <span class='icon-text'>
-                <span class='icon has-text-info'>
-                  <i class='fas fa-envelope'></i>
-                </span>
-                <span>E-mail</span>
-              </span>
-            </th>
-            <th>
-              <span class='icon-text'>
-                <span class='icon has-text-info'>
-                  <i class='fas fa-shield-alt'></i>
-                </span>
-                <span><%= t('.level') %></span>
-              </span>
-            </th>
-            <th>
-              <span class='icon-text'>
-                <span class='icon has-text-info'>
-                  <i class='fas fa-clock'></i>
-                </span>
-                <span><%= t('.last_access') %></span>
-              </span>
-            </th>
-            <th>
-              <span class='icon-text'>
-                <span class='icon has-text-info'>
-                  <i class='fas fa-check-circle'></i>
-                </span>
-                <span><%= t('.status') %></span>
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @users.each do |user| %>
-            <tr>
-              <td>
-                <div class='is-flex is-align-items-center'>
-                  <span class='icon mr-2'>
-                    <% if user.has_role?(:admin) %>
-                      <i class='fas fa-user-cog has-text-danger'></i>
-                    <% elsif user.has_role?(:editor) %>
-                      <i class='fas fa-user-edit has-text-info'></i>
-                    <% else %>
-                      <i class='fas fa-user has-text-grey'></i>
-                    <% end %>
-                  </span>
-                  <div>
-                    <p class='has-text-weight-semibold'><%= user.name || t('.unnamed_user') %></p>
-                    <% if user.locale.present? %>
-                      <p class='is-size-7 has-text-grey'>
-                        <span class='icon-text'>
-                          <span class='icon is-small'>
-                            <i class='fas fa-globe'></i>
-                          </span>
-                          <span><%= t("locales.#{user.locale}") %></span>
-                        </span>
-                      </p>
-                    <% end %>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div>
-                  <p><%= user.email %></p>
-                  <% if user.provider.present? %>
-                    <span class='tag is-light is-small mt-1'>
-                      <span class='icon-text'>
-                        <span class='icon'>
-                          <i class='fab fa-<%= user.provider %>'></i>
-                        </span>
-                        <span><%= user.provider.capitalize %></span>
-                      </span>
-                    </span>
-                  <% end %>
-                </div>
-              </td>
-              <td>
-                <%= render 'form_role', user: user %>
-              </td>
-              <td>
-                <% if user.respond_to?(:current_sign_in_at) && user.current_sign_in_at %>
-                  <p class='is-size-7'>
-                    <%= l(user.current_sign_in_at, format: :short) %>
-                  </p>
-                  <% if user.respond_to?(:sign_in_count) %>
-                    <p class='is-size-7 has-text-grey'>
-                      <%= t('.sign_in_count', count: user.sign_in_count || 0) %>
-                    </p>
-                  <% end %>
-                <% else %>
-                  <span class='has-text-grey'>
-                    <%= t('.never_signed_in') %>
-                  </span>
-                <% end %>
-              </td>
-              <td>
-                <% if user.respond_to?(:confirmed_at) && user.confirmed_at %>
-                  <span class='tag is-success is-light'>
-                    <span class='icon-text'>
-                      <span class='icon'>
-                        <i class='fas fa-check'></i>
-                      </span>
-                      <span><%= t('.confirmed') %></span>
-                    </span>
-                  </span>
-                <% else %>
-                  <span class='tag is-warning is-light'>
-                    <span class='icon-text'>
-                      <span class='icon'>
-                        <i class='fas fa-clock'></i>
-                      </span>
-                      <span><%= t('.pending') %></span>
-                    </span>
-                  </span>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Pagination Bottom -->
-  <% if @pagy.pages > 1 %>
-    <div class='mt-4'>
-      <%== pagy_bulma_nav(@pagy) %>
     </div>
   <% end %>
 </div>
+
+<% if @pagy.pages > 1 %>
+  <div class='mt-4'><%== pagy_nav(@pagy) %></div>
+<% end %>
+
+<div class='card mt-6'>
+  <div class='card-body overflow-x-auto'>
+    <table class='w-full text-left text-sm'>
+      <thead class='border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500 dark:border-slate-700'>
+        <tr>
+          <th class='py-2 pr-3'><%= t('people.form.name') %></th>
+          <th class='py-2 pr-3'>E-mail</th>
+          <th class='py-2 pr-3'><%= t('.level') %></th>
+          <th class='py-2 pr-3'><%= t('.last_access') %></th>
+          <th class='py-2'><%= t('.status') %></th>
+        </tr>
+      </thead>
+      <tbody class='divide-y divide-slate-100 dark:divide-slate-700'>
+        <% @users.each do |user| %>
+          <tr>
+            <td class='py-2 pr-3'>
+              <div class='flex items-center gap-2'>
+                <% role_icon, role_color = user.has_role?(:admin) ? [:shield_check, 'text-red-500'] : user.has_role?(:editor) ? [:pencil_square, 'text-blue-500'] : [:user, 'text-slate-400'] %>
+                <%= heroicon(role_icon, class: "size-5 #{role_color}") %>
+                <div>
+                  <p class='font-semibold'><%= user.name || t('.unnamed_user') %></p>
+                  <% if user.locale.present? %>
+                    <p class='text-xs text-slate-400'><%= t("locales.#{user.locale}") %></p>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+            <td class='py-2 pr-3'>
+              <p><%= user.email %></p>
+              <% if user.provider.present? %>
+                <span class='badge'><%= user.provider.capitalize %></span>
+              <% end %>
+            </td>
+            <td class='py-2 pr-3'><%= render 'form_role', user: user %></td>
+            <td class='py-2 pr-3'>
+              <% if user.respond_to?(:current_sign_in_at) && user.current_sign_in_at %>
+                <p class='text-xs'><%= l(user.current_sign_in_at, format: :short) %></p>
+                <% if user.respond_to?(:sign_in_count) %>
+                  <p class='text-xs text-slate-400'><%= t('.sign_in_count', count: user.sign_in_count || 0) %></p>
+                <% end %>
+              <% else %>
+                <span class='text-slate-400'><%= t('.never_signed_in') %></span>
+              <% end %>
+            </td>
+            <td class='py-2'>
+              <% if user.respond_to?(:confirmed_at) && user.confirmed_at %>
+                <span class='badge-alive badge'><%= t('.confirmed') %></span>
+              <% else %>
+                <span class='badge bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200'><%= t('.pending') %></span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% if @pagy.pages > 1 %>
+  <div class='mt-4'><%== pagy_nav(@pagy) %></div>
+<% end %>

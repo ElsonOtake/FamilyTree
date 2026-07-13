@@ -1,36 +1,36 @@
 <% content_for :title, t('users.index.title') %>
 
-<section class="section">
-  <div class="container">
-    <h1 class="title">Users</h1>
-    
-    <div class="table-container">
-      <table class="table is-fullwidth is-striped">
-        <thead>
+<div class='card'>
+  <div class='card-body'>
+    <h1 class='mb-4 text-2xl font-bold text-slate-800 dark:text-slate-100'>Users</h1>
+
+    <div class='overflow-x-auto'>
+      <table class='w-full text-left text-sm'>
+        <thead class='border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500 dark:border-slate-700'>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Locale</th>
-            <th>Roles</th>
-            <th>Created</th>
+            <th class='py-2 pr-3'>Name</th>
+            <th class='py-2 pr-3'>Email</th>
+            <th class='py-2 pr-3'>Locale</th>
+            <th class='py-2 pr-3'>Roles</th>
+            <th class='py-2'>Created</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class='divide-y divide-slate-100 dark:divide-slate-700'>
           <% @users.each do |user| %>
             <tr>
-              <td><%= user.name %></td>
-              <td><%= user.email %></td>
-              <td><%= user.locale %></td>
-              <td>
+              <td class='py-2 pr-3'><%= user.name %></td>
+              <td class='py-2 pr-3'><%= user.email %></td>
+              <td class='py-2 pr-3'><%= user.locale %></td>
+              <td class='py-2 pr-3'>
                 <% user.roles.each do |role| %>
-                  <span class="tag is-primary"><%= role.name %></span>
+                  <span class='badge bg-brand-100 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200'><%= role.name %></span>
                 <% end %>
               </td>
-              <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
+              <td class='py-2'><%= user.created_at.strftime('%Y-%m-%d') %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
-</section>
+</div>

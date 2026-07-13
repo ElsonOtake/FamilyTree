@@ -1,181 +1,85 @@
 <% if person %>
-<div class='columns is-multiline is-mobile mb-5'>
-  <!-- Hero Section -->
-  <div class='column is-12'>
-    <div id="<%= dom_id person %>" class='card'>
-      <div class='card-content p-0'>
-        <div class='hero is-info is-small'>
-      <div class='hero-body px-4 py-4 px-6-tablet py-5-tablet'>
-        <div class='has-text-centered has-text-left-tablet'>
-          <!-- Avatar - Centered on Mobile -->
-          <div class='mb-4 mb-0-tablet is-inline-block-tablet' style='vertical-align: top;'>
-            <figure class='image is-80x80-mobile is-128x128-tablet mx-auto mx-0-tablet'>
-              <% if person&.avatar&.attached? %>
-                <%= link_to image_tag(person&.avatar&.variant(:thumb),
-                  class: 'is-rounded',
-                  style: 'width: 100%; height: 100%; object-fit: cover;'),
-                  person&.avatar %>
-              <% else %>
-                <img src='<%= image_path '96x96.png' %>'
-                  alt='Placeholder image'
-                  class='is-rounded'
-                  style='width: 100%; height: 100%; background: white;'>
-              <% end %>
-            </figure>
-          </div>
+  <div id='<%= dom_id person %>' class='mb-6 space-y-6'>
+    <%# Hero %>
+    <div class='overflow-hidden rounded-2xl bg-linear-to-r from-brand-600 to-brand-500 text-white shadow-sm'>
+      <div class='flex flex-col items-center gap-5 p-6 sm:flex-row sm:items-start'>
+        <figure class='size-24 shrink-0 sm:size-32'>
+          <% if person.avatar.attached? %>
+            <%= link_to rails_blob_path(person.avatar, disposition: 'inline') do %>
+              <%= image_tag person.avatar.variant(:thumb), class: 'avatar size-full object-cover ring-2 ring-white/40' %>
+            <% end %>
+          <% else %>
+            <span class='flex size-full items-center justify-center rounded-full bg-white/15 text-white'>
+              <%= heroicon(:user, class: 'size-14') %>
+            </span>
+          <% end %>
+        </figure>
 
-          <!-- Content - Centered on Mobile -->
-          <div class='is-inline-block-tablet ml-0-mobile ml-4-tablet' style='vertical-align: top; width: 100%;' class='mobile-full-width'>
-            <div class='mb-4'>
-              <h1 class='title is-4-mobile is-2-tablet has-text-white mb-3 has-text-centered has-text-left-tablet'>
-                <span class='icon-text is-inline-flex is-align-items-start is-justify-content-center is-justify-content-start-tablet'>
-                  <span class='icon' style='margin-top: 0.25em; margin-bottom: 0.25em;'>
-                    <%= render 'icon', person: person, theme: 'dark' %>
-                  </span>
-                  <span style='display: inline-block; line-height: 1.4;'><%= person&.name || '' %></span>
-                </span>
-              </h1>
-              <% if person&.kanji.present? %>
-                <p class='subtitle is-6-mobile is-4-tablet has-text-white-ter my-1 has-text-centered has-text-left-tablet' style='word-break: keep-all; white-space: nowrap; overflow-wrap: normal;'>
-                  <%= person&.kanji %>
-                </p>
-              <% end %>
-            </div>
+        <div class='min-w-0 flex-1 text-center sm:text-left'>
+          <h1 class='flex items-center justify-center gap-2 text-2xl font-bold sm:justify-start sm:text-3xl'>
+            <%= render 'icon', person: person %>
+            <span class='break-words'><%= person.name %></span>
+          </h1>
+          <% if person.kanji.present? %>
+            <p class='mt-1 text-lg text-white/80'><%= person.kanji %></p>
+          <% end %>
 
-            <!-- Buttons - Full width on Mobile -->
-            <div class='buttons is-centered is-justify-content-start-tablet is-flex-wrap-wrap' style='gap: 0.5rem;'>
-                <!-- Edit Button -->
-                <% if person && policy(person).edit? %>
-                  <%= link_to edit_person_path(person),
-                    class: 'button is-small is-white is-outlined',
-                    data: {
-                      turbo_frame: 'edit_person',
-                      controller: 'stimulus',
-                      stimulus_id_value: 'person_edit',
-                      action: 'stimulus#open'
-                    },
-                    title: t('helpers.submit.edit', model: t('people.form.person')) do %>
-                    <span class='icon'>
-                      <i class='fas fa-edit'></i>
-                    </span>
-                    <span><%= t('people.show.edit') %></span>
-                  <% end %>
-                <% end %>
-                
-                <!-- Favorite Toggle Button -->
-                <% if @favorite %>
-                  <%= button_to person_favorite_path(person, @favorite), 
-                    method: :delete,
-                    remote: true,
-                    data: { 
-                      controller: 'favorites',
-                      action: 'click->favorites#toggle'
-                    },
-                    class: 'button is-small is-danger',
-                    title: t('favorites.remove') do %>
-                    <span class='icon'>
-                      <i class='fas fa-heart'></i>
-                    </span>
-                    <span><%= t('favorites.remove') %></span>
-                  <% end %>
-                <% else %>
-                  <%= button_to person_favorites_path(person), 
-                    remote: true,
-                    data: { 
-                      controller: 'favorites',
-                      action: 'click->favorites#toggle'
-                    },
-                    class: 'button is-small is-white is-outlined',
-                    title: t('favorites.add') do %>
-                    <span class='icon'>
-                      <i class='far fa-heart'></i>
-                    </span>
-                    <span><%= t('favorites.add') %></span>
-                  <% end %>
-                <% end %>
-                <% if person && policy(person).destroy? %>
-                  <form action="<%= person_path(person) %>" method="post" style="display: inline;">
-                    <input type="hidden" name="_method" value="delete">
-                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                    <button type="submit" 
-                            class="button is-small is-danger"
-                            title="<%= t('helpers.submit.delete', model: t('people.form.person')) %>"
-                            onclick="return confirm('<%= j(t('people.show.delete_confirmation', name: person&.name)) %>')">
-                      <span class="icon">
-                        <i class="fas fa-trash"></i>
-                      </span>
-                      <span><%= t('people.show.delete') %></span>
-                    </button>
-                  </form>
-                <% end %>
-              </div>
-            </div>
+          <div class='mt-4 flex flex-wrap justify-center gap-2 sm:justify-start'>
+            <% if policy(person).edit? %>
+              <%= link_to edit_person_path(person), class: 'btn btn-sm btn-secondary',
+                data: { turbo_frame: 'edit_person', controller: 'stimulus', stimulus_id_value: 'person_edit', action: 'stimulus#open' },
+                title: t('helpers.submit.edit', model: t('people.form.person')) do %>
+                <%= heroicon(:pencil_square, class: 'size-4') %><span><%= t('people.show.edit') %></span>
+              <% end %>
+            <% end %>
+
+            <%= render 'people/favorite_button', person: person, favorite: @favorite, show_label: true %>
+
+            <%= link_to arvore_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
+              title: t('people.show.download_tree') do %>
+              <%= heroicon(:document_arrow_down, class: 'size-4') %><span><%= t('people.show.download_tree') %></span>
+            <% end %>
+
+            <% if policy(person).destroy? %>
+              <%= button_to person_path(person), method: :delete, class: 'btn btn-sm btn-danger',
+                form: { data: { turbo_confirm: t('people.show.delete_confirmation', name: person.name) } },
+                title: t('helpers.submit.delete', model: t('people.form.person')) do %>
+                <%= heroicon(:trash, class: 'size-4') %><span><%= t('people.show.delete') %></span>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
 
-  <!-- Life Events Section -->
-  <div class='column is-12'>
+    <%# Life events %>
     <div class='card'>
-      <div class='card-content'>
-        <!-- Life Dates -->
-        <div class='box'>
-          <h3 class='title is-5 mb-3'>
-            <span class='icon-text'>
-              <span class='icon has-text-info'>
-                <i class='fas fa-calendar'></i>
-              </span>
-              <span><%= t('people.show.life_events') %></span>
-            </span>
+      <div class='card-body space-y-4'>
+        <div class='rounded-xl bg-slate-50 p-4 dark:bg-slate-900/40'>
+          <h3 class='card-title mb-2'>
+            <%= heroicon(:calendar, class: 'size-5 text-brand-500') %><%= t('people.show.life_events') %>
           </h3>
-          <div class='content'>
-            <p class='mb-2'>
-              <%= person&.date_text %>
+          <p class='text-sm text-slate-700 dark:text-slate-200'><%= person.date_text %></p>
+          <% if person.birth_text.present? %>
+            <p class='mt-1 text-sm text-slate-600 dark:text-slate-300'><%= person.birth_text %></p>
+          <% end %>
+          <% unless person.alive %>
+            <p class='mt-1 flex items-center gap-1 text-sm text-slate-500'>
+              <%= heroicon(:clock, class: 'size-4') %>
+              <%= t('people.show.died') %><%= ": #{person.death_date_formatted}" if person.death_date_formatted.present? %>
             </p>
-            <% if person&.birth_text.present? %>
-              <p class='mb-2'>
-                <span class='icon-text'>
-                  <span class='icon has-text-info'>
-                    <i class='fas fa-map-marker-alt'></i>
-                </span>
-                  <span><%= person&.birth_text %></span>
-                </span>
-              </p>
-            <% end %>
-            <% unless person&.alive %>
-              <p class='mb-2'>
-                <span class='icon-text'>
-                  <span class='icon has-text-danger'>
-                    <i class='fas fa-cross'></i>
-                  </span>
-                  <span><%= t('people.show.died') %>: <%= person&.death_date_formatted if person&.death_date_formatted.present? %></span>
-                </span>
-              </p>
-            <% end %>
-          </div>
+          <% end %>
         </div>
 
-        <!-- Description/Notes -->
-        <% if person&.description.present? %>
-          <div class='box'>
-            <h3 class='title is-5 mb-3'>
-              <span class='icon-text'>
-                <span class='icon has-text-warning'>
-                  <i class='fas fa-sticky-note'></i>
-                </span>
-                <span><%= t('people.show.notes') %></span>
-              </span>
+        <% if person.description.present? %>
+          <div class='rounded-xl bg-slate-50 p-4 dark:bg-slate-900/40'>
+            <h3 class='card-title mb-2'>
+              <%= heroicon(:document_note, class: 'size-5 text-amber-500') %><%= t('people.show.notes') %>
             </h3>
-            <div class='content'>
-              <p><%= person&.description %></p>
-            </div>
+            <p class='whitespace-pre-line text-sm text-slate-700 dark:text-slate-200'><%= person.description %></p>
           </div>
         <% end %>
       </div>
     </div>
   </div>
-</div>
 <% end %>

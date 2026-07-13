@@ -1,74 +1,38 @@
-<div class='columns is-centered'>
-  <div class='column is-5'>
-    <!-- Password Reset Card -->
-    <div class='box'>
-      <!-- Icon and Title -->
-      <div class='has-text-centered mb-5'>
-        <div class='icon is-large has-text-info mb-4'>
-          <i class='fas fa-key fa-3x'></i>
-        </div>
-        <h2 class='title is-3 has-text-info'>
-          <%= t('.forgot_your_password') %>
-        </h2>
-        <p class='subtitle is-6 has-text-grey'>
-          <%= t('.reset_password_description') %>
-        </p>
+<div class='mx-auto max-w-md'>
+  <div class='card'>
+    <div class='card-body'>
+      <div class='mb-6 text-center'>
+        <span class='mx-auto mb-3 flex size-16 items-center justify-center rounded-full bg-brand-50 text-brand-500 dark:bg-slate-700'>
+          <%= heroicon(:key, class: 'size-8') %>
+        </span>
+        <h2 class='text-2xl font-bold text-slate-800 dark:text-slate-100'><%= t('.forgot_your_password') %></h2>
+        <p class='mt-1 text-sm text-slate-500'><%= t('.reset_password_description') %></p>
       </div>
 
       <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
         <%= render 'devise/shared/error_messages', resource: resource %>
 
-        <!-- Email Field -->
         <div class='field'>
           <%= f.label :email, t('devise.email'), class: 'label' %>
-          <div class='control has-icons-left'>
-            <%= f.email_field :email, 
-              autofocus: true, 
-              autocomplete: 'email', 
-              class: 'input is-medium', 
-              placeholder: t('.email_placeholder') %>
-            <span class='icon is-left'>
-              <i class='fas fa-envelope'></i>
-            </span>
-          </div>
-          <p class='help'>
-            <%= t('.email_help_text') %>
-          </p>
+          <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'input', placeholder: t('.email_placeholder') %>
+          <p class='mt-1 text-xs text-slate-400'><%= t('.email_help_text') %></p>
         </div>
 
-        <!-- Submit Button -->
-        <div class='field mt-5'>
-          <%= f.submit t('.send_me_reset_password_instructions'), 
-            class: 'button is-info is-fullwidth is-medium' %>
-        </div>
+        <%= f.submit t('.send_me_reset_password_instructions'), class: 'btn btn-primary mt-2 w-full cursor-pointer' %>
       <% end %>
 
-      <!-- Divider -->
-      <hr class='my-5'>
-
-      <!-- Back to Sign In -->
-      <div class='has-text-centered'>
-        <p class='mb-3'>
-          <%= t('.remember_password') %>
-        </p>
-        <%= link_to new_session_path(resource_name), 
-          class: 'button is-light is-medium' do %>
-          <span class='icon'>
-            <i class='fas fa-arrow-left'></i>
-          </span>
-          <span><%= t('.back_to_sign_in') %></span>
+      <div class='mt-6 border-t border-slate-100 pt-5 text-center dark:border-slate-700'>
+        <p class='mb-3 text-sm text-slate-500'><%= t('.remember_password') %></p>
+        <%= link_to new_session_path(resource_name), class: 'btn btn-secondary' do %>
+          <%= heroicon(:arrow_left, class: 'size-5') %><span><%= t('.back_to_sign_in') %></span>
         <% end %>
       </div>
 
-      <!-- Sign Up Link -->
       <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-        <div class='has-text-centered mt-4'>
-          <p>
-            <%= t('.dont_have_account') %> 
-            <%= link_to t('.sign_up_link'), new_registration_path(resource_name), 
-              class: 'has-text-info has-text-weight-bold' %>
-          </p>
-        </div>
+        <p class='mt-4 text-center text-sm text-slate-500'>
+          <%= t('.dont_have_account') %>
+          <%= link_to t('.sign_up_link'), new_registration_path(resource_name), class: 'font-semibold text-brand-600 hover:underline dark:text-brand-300' %>
+        </p>
       <% end %>
     </div>
   </div>

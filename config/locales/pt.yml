@@ -108,6 +108,8 @@ pt:
       mate: "Cônjuge/Parceiro"
       children: "Filhos"
       back_to_people: "Voltar para pessoas"
+      download_tree: "Baixar árvore (PDF)"
+      pedigree_title: "Descendentes de %{name}"
       life_events: "Eventos da Vida"
       notes: "Notas"
       born: "Nascido"
@@ -224,6 +226,8 @@ pt:
       with_children: "Com Filhos"
       without_children: "Sem Filhos"
   devise:
+    failure:
+      not_approved: "Sua conta está aguardando aprovação do administrador. Você será notificado por e-mail assim que for aprovada."
     confirmations:
       new:
         resend_confirmation_instructions: "Reenviar instruções de confirmação"
@@ -269,6 +273,7 @@ pt:
         sign_up_link: "Registre-se"
         send_me_reset_password_instructions: "Envie-me instruções de redefinição de senha"
     registrations:
+      signed_up_but_unconfirmed: "Uma mensagem com um link de confirmação foi enviada para o seu e-mail. Após confirmar, um administrador precisa aprovar seu acesso antes de você entrar."
       edit:
         edit_user: "Editar usuário"
         current_password: "Senha atual"
@@ -708,3 +713,9 @@ pt:
       blank: "está em branco"
       'null': "é nulo"
       not_null: "não é nulo"
+  user_mailer:
+    approved:
+      subject: "Seu acesso ao Family Tree foi aprovado"
+      greeting: "Olá %{name},"
+      body: "Um administrador aprovou seu acesso ao Family Tree. Agora você pode entrar e explorar os dados da família."
+      sign_in: "Entrar"

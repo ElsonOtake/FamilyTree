@@ -1,30 +1,24 @@
 <%= turbo_frame_tag 'new_couple' do %>
-  <h1 class='title has-text-info'><%= t('helpers.submit.create', model: t('people.show.mate')) %> <%= @person.name %></h1>
-  <div class='tabs is-boxed'>
-    <ul>
-      <li class='is-active' data-controller='tabs' data-target='new-mate' data-action='click->tabs#selectTab'>
-        <a class='conditional-blue-text'>
-          <span class='icon is-small'
-            ><i class='fas fa-user-plus' aria-hidden='true'></i
-          ></span>
-          <span><%= t('couples.form.new_partner') %></span>
-        </a>
-      </li>
-      <li data-target='existing-mate' data-controller='tabs' data-action='click->tabs#selectTab'>
-        <a class='conditional-blue-text'>
-          <span class='icon is-small'
-            ><i class='fas fa-user' aria-hidden='true'></i
-          ></span>
-          <span><%= t('couples.form.existing_partner') %></span>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class='px-2' id='tab-content'>
-    <div id='new-mate'>
+  <h1 class='mb-4 text-xl font-bold text-slate-800 dark:text-slate-100'>
+    <%= t('helpers.submit.create', model: t('people.show.mate')) %> — <%= @person.name %>
+  </h1>
+
+  <div data-controller='tabs'>
+    <div class='mb-4 flex gap-1 border-b border-slate-200 dark:border-slate-700'>
+      <button type='button' data-tabs-target='tab' data-tabs-panel-param='new-mate' data-action='tabs#select'
+              class='flex items-center gap-1.5 border-b-2 border-brand-500 px-3 py-2 text-sm font-medium text-brand-600'>
+        <%= heroicon(:user_plus, class: 'size-4') %><%= t('couples.form.new_partner') %>
+      </button>
+      <button type='button' data-tabs-target='tab' data-tabs-panel-param='existing-mate' data-action='tabs#select'
+              class='flex items-center gap-1.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium text-slate-500'>
+        <%= heroicon(:user, class: 'size-4') %><%= t('couples.form.existing_partner') %>
+      </button>
+    </div>
+
+    <div data-tabs-target='panel' data-tabs-panel='new-mate'>
       <%= render 'people/form', person: Person.new, couple: nil, mate: @couple.person1_id %>
     </div>
-    <div id='existing-mate' class='is-hidden'>
+    <div data-tabs-target='panel' data-tabs-panel='existing-mate' class='hidden'>
       <%= render 'form', couple: @couple, url: person_couples_path(@person) %>
     </div>
   </div>
