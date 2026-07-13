@@ -4,19 +4,29 @@
   <p class='mx-auto mt-3 max-w-2xl text-white/80'><%= t('.description') %></p>
 </section>
 
-<div class='mx-auto max-w-5xl'>
+<div class='mx-auto max-w-4xl'>
   <h2 class='mb-6 flex items-center justify-center gap-2 text-2xl font-bold text-slate-800 dark:text-slate-100'>
-    <%= heroicon(:star, class: 'size-6 text-amber-400') %><%= t('.features') %>
+    <%= heroicon(:information_circle, class: 'size-6 text-brand-500') %><%= t('.guide_heading') %>
   </h2>
 
-  <div class='grid grid-cols-1 gap-4 sm:grid-cols-3'>
-    <% [[:users, 'text-emerald-500', '.feature_1'], [:user_group, 'text-brand-500', '.feature_2'], [:pencil_square, 'text-blue-500', '.feature_3']].each do |icon, color, key| %>
+  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+    <% [[:magnifying_glass, 'text-brand-500', 'search'],
+        [:user_plus, 'text-emerald-500', 'people'],
+        [:user_group, 'text-blue-500', 'relationships'],
+        [:heart, 'text-female', 'favorites'],
+        [:cake, 'text-amber-500', 'birthdays'],
+        [:document_arrow_down, 'text-brand-500', 'tree'],
+        [:shield_check, 'text-emerald-600', 'approval'],
+        [:globe_alt, 'text-slate-500', 'languages']].each do |icon, color, key| %>
       <div class='card'>
-        <div class='card-body text-center'>
-          <span class='mx-auto mb-3 flex size-14 items-center justify-center rounded-full bg-slate-50 dark:bg-slate-700 <%= color %>'>
-            <%= heroicon(icon, class: 'size-7') %>
-          </span>
-          <p class='font-semibold text-slate-700 dark:text-slate-200'><%= t(key) %></p>
+        <div class='card-body'>
+          <h3 class='mb-2 flex items-center gap-2 font-semibold text-slate-800 dark:text-slate-100'>
+            <span class='flex size-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-700 <%= color %>'>
+              <%= heroicon(icon, class: 'size-5') %>
+            </span>
+            <%= t(".guide_#{key}_title") %>
+          </h3>
+          <p class='text-sm leading-relaxed text-slate-600 dark:text-slate-300'><%= t(".guide_#{key}_body") %></p>
         </div>
       </div>
     <% end %>
