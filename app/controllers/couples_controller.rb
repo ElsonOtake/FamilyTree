@@ -3,7 +3,7 @@
 # This controller manages the couples in the family tree.
 class CouplesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_couple, only: %i[show edit update destroy]
+  before_action :set_couple, only: %i[edit update destroy]
   before_action :set_person, only: %i[new edit create update destroy]
   before_action :set_people, only: %i[new edit]
   before_action -> { authorize Couple }

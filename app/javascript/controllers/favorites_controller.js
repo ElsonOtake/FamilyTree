@@ -1,112 +1,62 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Connects to data-controller="favorites"
+// Toggles a person's favorite state via fetch (JSON) without a full navigation,
+// then swaps the button's Tailwind classes and its form action/method in place.
 export default class extends Controller {
+  static FAVORITED = "btn btn-sm btn-danger"
+  static UNFAVORITED = "btn btn-sm btn-secondary"
 
   toggle = async (event) => {
-    event.preventDefault();
-    
-    const form = event.target.closest('form');
-    if (!form) return;
-    
-    const button = form.querySelector('button');
-    const icon = button.querySelector('i');
-    const originalHTML = button.innerHTML;
-    
-    // Show loading state
-    button.disabled = true;
-    icon.className = 'fas fa-spinner fa-spin';
-    
+    event.preventDefault()
+    const form = event.target.closest("form")
+    if (!form) return
+    const button = form.querySelector("button")
+    button.disabled = true
+
     try {
       const response = await fetch(form.action, {
         method: form.method,
-        headers: {
-          'Accept': 'application/json',
-          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
-        },
+        headers: { Accept: "application/json", "X-CSRF-Token": this.csrfToken() },
         body: new FormData(form)
-      });
-      
-      const result = await response.json();
-      
-      if (response.ok) {
-        if (result.status === 'favorited') {
-          // Switch to unfavorite button
-          button.className = 'button is-small is-danger';
-          button.title = button.dataset.removeTitle || 'Remove from favorites';
-          icon.className = 'fas fa-heart';
-          form.action = form.action.replace('/favorites', '/favorites/' + result.id);
-          form.method = 'POST';
-          const methodInput = form.querySelector('input[name="_method"]');
-          if (methodInput) {
-            methodInput.value = 'delete';
-          } else {
-            const deleteMethod = document.createElement('input');
-            deleteMethod.type = 'hidden';
-            deleteMethod.name = '_method';
-            deleteMethod.value = 'delete';
-            form.appendChild(deleteMethod);
-          }
-        } else if (result.status === 'unfavorited') {
-          // Switch to favorite button
-          button.className = 'button is-small is-light';
-          button.title = button.dataset.addTitle || 'Add to favorites';
-          icon.className = 'far fa-heart';
-          form.action = form.action.replace(/\/favorites\/\d+/, '/favorites');
-          form.method = 'POST';
-          const methodInput = form.querySelector('input[name="_method"]');
-          if (methodInput) {
-            methodInput.remove();
-          }
-        }
-        
-        // Show flash message if needed
-        if (result.message) {
-          this.showFlashMessage(result.message, 'success');
-        }
-      } else {
-        // Show error message
-        if (result.message) {
-          this.showFlashMessage(result.message, 'error');
-        }
-        // Restore original button state
-        button.innerHTML = originalHTML;
+      })
+      const result = await response.json()
+      if (!response.ok) return
+
+      if (result.status === "favorited") {
+        button.className = this.constructor.FAVORITED
+        button.title = button.dataset.removeTitle || button.title
+        form.action = form.action.replace(/\/favorites(\/\d+)?$/, `/favorites/${result.id}`)
+        this.setMethod(form, "delete")
+      } else if (result.status === "unfavorited") {
+        button.className = this.constructor.UNFAVORITED
+        button.title = button.dataset.addTitle || button.title
+        form.action = form.action.replace(/\/favorites\/\d+$/, "/favorites")
+        this.setMethod(form, null)
       }
     } catch (error) {
-      console.error('Favorite toggle error:', error);
-      let errorMessage = 'An error occurred. Please try again.';
-      if (!navigator.onLine) {
-        errorMessage = 'Please check your internet connection.';
-      }
-      this.showFlashMessage(errorMessage, 'error');
-      // Restore original button state
-      button.innerHTML = originalHTML;
+      // Leave the button unchanged on network error; server-side flash covers it.
     } finally {
-      button.disabled = false;
+      button.disabled = false
     }
-  };
-  
-  showFlashMessage = (message, type) => {
-    // Create flash message element
-    const flash = document.createElement('div');
-    flash.className = `notification ${type === 'success' ? 'is-success' : 'is-danger'} is-light`;
-    flash.innerHTML = `
-      <button class="delete" onclick="this.parentElement.remove()"></button>
-      ${message}
-    `;
-    
-    // Add to page (look for existing flash container or create one)
-    let flashContainer = document.querySelector('.flash-messages');
-    if (!flashContainer) {
-      flashContainer = document.createElement('div');
-      flashContainer.className = 'flash-messages';
-      document.body.insertBefore(flashContainer, document.body.firstChild);
+  }
+
+  setMethod(form, method) {
+    let input = form.querySelector('input[name="_method"]')
+    if (method) {
+      if (!input) {
+        input = document.createElement("input")
+        input.type = "hidden"
+        input.name = "_method"
+        form.appendChild(input)
+      }
+      input.value = method
+    } else if (input) {
+      input.remove()
     }
-    
-    flashContainer.appendChild(flash);
-    
-    // Auto-remove after 3 seconds
-    setTimeout(() => {
-      flash.remove();
-    }, 3000);
-  };
+  }
+
+  csrfToken() {
+    return document.querySelector('meta[name="csrf-token"]')?.content
+  }
 }

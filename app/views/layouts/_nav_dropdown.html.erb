@@ -1,0 +1,13 @@
+<%# Desktop nav dropdown. Pass label:, icon: and a block of menu items. %>
+<div class='relative'>
+  <button type='button' data-action='navbar#toggle'
+          class='inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10'>
+    <%= heroicon(icon, class: 'size-5') %>
+    <span><%= label %></span>
+    <%= heroicon(:chevron_down, class: 'size-4 opacity-70') %>
+  </button>
+  <div data-navbar-target='panel'
+       class='absolute right-0 z-40 mt-1 hidden min-w-48 rounded-xl bg-white p-1 shadow-lg ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'>
+    <%= yield %>
+  </div>
+</div>

@@ -1,47 +1,42 @@
-<section class="section">
-  <div class="container">
-    <h1 class="title"><%= t('.title') %></h1>
-    <p class="subtitle is-6"><%= t('.intro') %></p>
+<div class='mx-auto max-w-2xl space-y-6'>
+  <div>
+    <h1 class='flex items-center gap-2 text-2xl font-bold text-slate-800 dark:text-slate-100'>
+      <%= heroicon(:cpu_chip, class: 'size-6 text-brand-500') %><%= t('.title') %>
+    </h1>
+    <p class='mt-1 text-sm text-slate-500'><%= t('.intro') %></p>
+  </div>
 
-    <div class="box">
+  <div class='card'>
+    <div class='card-body space-y-4'>
       <% if @user.mcp_enabled? %>
-        <div class="field">
-          <label class="label"><%= t('.your_token') %></label>
-          <div class="control">
-            <input class="input is-family-monospace" type="text" readonly
-                   value="<%= @user.mcp_token %>"
-                   onclick="this.select()">
-          </div>
-          <p class="help"><%= t('.token_help') %></p>
+        <div class='field'>
+          <label class='label'><%= t('.your_token') %></label>
+          <input class='input font-mono text-sm' type='text' readonly value='<%= @user.mcp_token %>' onclick='this.select()'>
+          <p class='mt-1 text-xs text-slate-400'><%= t('.token_help') %></p>
         </div>
 
-        <div class="field">
-          <label class="label"><%= t('.endpoint') %></label>
-          <div class="control">
-            <input class="input is-family-monospace" type="text" readonly
-                   value="<%= request.base_url %>/mcp/sse"
-                   onclick="this.select()">
-          </div>
+        <div class='field'>
+          <label class='label'><%= t('.endpoint') %></label>
+          <input class='input font-mono text-sm' type='text' readonly value='<%= request.base_url %>/mcp/sse' onclick='this.select()'>
         </div>
 
-        <div class="buttons">
-          <%= button_to t('.regenerate'), regenerate_mcp_token_users_path,
-                        method: :post, class: 'button is-warning',
-                        data: { turbo_confirm: t('.regenerate_confirm') } %>
-          <%= button_to t('.revoke'), revoke_mcp_token_users_path,
-                        method: :delete, class: 'button is-danger',
-                        data: { turbo_confirm: t('.revoke_confirm') } %>
+        <div class='flex flex-wrap gap-2'>
+          <%= button_to t('.regenerate'), regenerate_mcp_token_users_path, method: :post, class: 'btn btn-secondary',
+                        form: { data: { turbo_confirm: t('.regenerate_confirm') } } %>
+          <%= button_to t('.revoke'), revoke_mcp_token_users_path, method: :delete, class: 'btn btn-danger',
+                        form: { data: { turbo_confirm: t('.revoke_confirm') } } %>
         </div>
       <% else %>
-        <p class="mb-4"><%= t('.disabled') %></p>
-        <%= button_to t('.enable'), regenerate_mcp_token_users_path,
-                      method: :post, class: 'button is-primary' %>
+        <p class='text-sm text-slate-600 dark:text-slate-300'><%= t('.disabled') %></p>
+        <%= button_to t('.enable'), regenerate_mcp_token_users_path, method: :post, class: 'btn btn-primary' %>
       <% end %>
     </div>
+  </div>
 
-    <div class="content">
-      <h2 class="title is-5"><%= t('.what_you_can_ask') %></h2>
-      <ul>
+  <div class='card'>
+    <div class='card-body'>
+      <h2 class='mb-2 font-semibold text-slate-700 dark:text-slate-200'><%= t('.what_you_can_ask') %></h2>
+      <ul class='list-inside list-disc space-y-1 text-sm text-slate-600 dark:text-slate-300'>
         <li><%= t('.example_parents') %></li>
         <li><%= t('.example_siblings') %></li>
         <li><%= t('.example_age') %></li>
@@ -49,4 +44,4 @@
       </ul>
     </div>
   </div>
-</section>
+</div>

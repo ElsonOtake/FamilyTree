@@ -11,6 +11,7 @@ ActiveAdmin.register User do
   filter :phone
   filter :created_at
   filter :confirmed_at
+  filter :approved
 
   index pagination_total: false, download_links: [:csv] do
     id_column
@@ -25,6 +26,13 @@ ActiveAdmin.register User do
         status_tag "Confirmed", class: 'ok'
       else
         status_tag "Unconfirmed", class: 'error'
+      end
+    end
+    column :approval_status do |user|
+      if user.approved?
+        status_tag "Approved", class: 'ok'
+      else
+        status_tag "Pending", class: 'warning'
       end
     end
     column :roles do |user|
@@ -51,18 +59,27 @@ ActiveAdmin.register User do
           "Not confirmed"
         end
       end
+      row :approval_status do |user|
+        status_tag(user.approved? ? 'Approved' : 'Pending', class: user.approved? ? 'ok' : 'warning')
+      end
       row :events do |user|
         link_to "Events", admin_events_path(q: { user_id_eq: user.id }), class: "preview-link"
       end
     end
     
-    unless resource.confirmed?
-      panel "Admin Actions" do
-        link_to "Confirm User", 
-                confirm_admin_user_path(resource), 
-                method: :patch,
-                data: { confirm: "Are you sure you want to confirm this user?" },
-                class: "button"
+    panel "Admin Actions" do
+      div do
+        unless resource.confirmed?
+          span(link_to("Confirm User", confirm_admin_user_path(resource), method: :patch,
+                                                                          data: { confirm: "Confirm this user's e-mail?" }, class: "button"))
+        end
+        if resource.approved?
+          span(link_to("Revoke Approval", unapprove_admin_user_path(resource), method: :patch,
+                                                                               data: { confirm: "Revoke this user's access?" }, class: "button"))
+        else
+          span(link_to("Approve User", approve_admin_user_path(resource), method: :patch,
+                                                                          data: { confirm: "Approve this user's access to the data? They will be notified by e-mail." }, class: "button"))
+        end
       end
     end
   end
@@ -70,6 +87,16 @@ ActiveAdmin.register User do
   member_action :confirm, method: :patch do
     resource.confirm
     redirect_to admin_user_path(resource), notice: 'User has been confirmed successfully.'
+  end
+
+  member_action :approve, method: :patch do
+    resource.approve!
+    redirect_to admin_user_path(resource), notice: 'User approved. A confirmation e-mail has been sent.'
+  end
+
+  member_action :unapprove, method: :patch do
+    resource.unapprove!
+    redirect_to admin_user_path(resource), notice: 'User approval revoked.'
   end
 
   form do |f|

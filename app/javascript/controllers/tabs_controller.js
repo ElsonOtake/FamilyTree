@@ -1,22 +1,25 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Connects to data-controller="tabs"
+// One controller wraps the tab buttons (data-tabs-target="tab" with
+// data-tabs-panel-param="<name>") and the panels (data-tabs-target="panel"
+// with data-tabs-panel="<name>"). Clicking a tab shows its panel.
 export default class extends Controller {
+  static targets = ["tab", "panel"]
 
-  selectTab = () => {
-    const tabs = document.querySelectorAll('.tabs li');
-    const tabContentBoxes = document.querySelectorAll('#tab-content > div');
-    
-    tabs.forEach(function(tab) {
-      tab.classList.remove('is-active');
-    });
-    this.element.classList.add('is-active');
+  select(event) {
+    const name = event.params.panel
 
-    tabContentBoxes.forEach((box) => {
-      if (box.getAttribute('id') === this.element.dataset.target) {
-        box.classList.remove('is-hidden');
-      } else {
-        box.classList.add('is-hidden');
-      }
-    });
-  };
+    this.panelTargets.forEach((panel) => {
+      panel.classList.toggle("hidden", panel.dataset.tabsPanel !== name)
+    })
+
+    this.tabTargets.forEach((tab) => {
+      const active = tab.dataset.tabsPanelParam === name
+      tab.classList.toggle("border-brand-500", active)
+      tab.classList.toggle("text-brand-600", active)
+      tab.classList.toggle("border-transparent", !active)
+      tab.classList.toggle("text-slate-500", !active)
+    })
+  }
 }
