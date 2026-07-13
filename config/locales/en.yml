@@ -112,6 +112,7 @@ en:
       children: "Children"
       back_to_people: "Back to people"
       download_tree: "Download tree (PDF)"
+      pedigree_title: "Descendants of %{name}"
       life_events: "Life Events"
       notes: "Notes"
       born: "Born"
