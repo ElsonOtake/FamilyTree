@@ -18,7 +18,8 @@
         <a class='flex cursor-pointer items-center gap-3 rounded-lg border border-slate-100 p-2 hover:bg-brand-50 dark:border-slate-700 dark:hover:bg-slate-700'
            data-controller='stimulus'
            data-action='click->stimulus#select_child'
-           data-stimulus-child-id-param='<%= person.id %>'>
+           data-stimulus-child-id-param='<%= person.id %>'
+           data-stimulus-name-param='<%= person.name %>'>
           <%= render 'people/icon', person: person %>
           <div class='min-w-0 flex-1'>
             <p class='font-semibold text-slate-800 dark:text-slate-100'><%= person.name %></p>

@@ -52,7 +52,7 @@ export default class extends Controller {
     const qNameCont = document.getElementById("q_name_cont")
     const submitButton = document.getElementById("submit-button")
     qNameCont.value = ""
-    name.value = this.element.innerText
+    name.value = params.name
     childId.value = params.childId
     submitButton.disabled = false
     resultsList.replaceChildren()
@@ -65,7 +65,7 @@ export default class extends Controller {
     const qNameCont = document.getElementById("q_name_cont")
     const submitButton = document.getElementById("submit-button")
     qNameCont.value = ""
-    name.value = this.element.innerText
+    name.value = params.name
     personId.value = params.personId
     submitButton.disabled = false
     resultsList.replaceChildren()
