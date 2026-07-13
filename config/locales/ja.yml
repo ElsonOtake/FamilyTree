@@ -226,6 +226,8 @@ ja:
       with_children: "子供あり"
       without_children: "子供なし"
   devise:
+    failure:
+      not_approved: "アカウントは管理者の承認待ちです。承認されるとメールで通知されます。"
     confirmations:
       new:
         resend_confirmation_instructions: "確認指示を再送信"
@@ -271,6 +273,7 @@ ja:
         sign_up_link: "新規登録"
         send_me_reset_password_instructions: "パスワードのリセット手順を送信"
     registrations:
+      signed_up_but_unconfirmed: "確認リンクを記載したメールを送信しました。確認後、管理者が承認するまでサインインできません。"
       edit:
         edit_user: "ユーザーの編集"
         current_password: "現在のパスワード"
@@ -662,3 +665,9 @@ ja:
       'null': "無効"
       not_null: "は無効ではない"
 
+  user_mailer:
+    approved:
+      subject: "Family Tree へのアクセスが承認されました"
+      greeting: "%{name} さん、"
+      body: "管理者が Family Tree へのアクセスを承認しました。サインインして家族のデータをご覧いただけます。"
+      sign_in: "サインイン"

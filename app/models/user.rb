@@ -35,6 +35,33 @@ class User < ApplicationRecord
     provider.present?
   end
 
+  # New users must be approved by an admin before they can sign in. This gates
+  # sign-in on top of e-mail confirmation, and revoking approval signs the user
+  # out on their next request.
+  def active_for_authentication?
+    super && approved?
+  end
+
+  def inactive_message
+    return super if respond_to?(:confirmed?) && !confirmed? # e-mail confirmation comes first
+
+    approved? ? super : :not_approved
+  end
+
+  # Grant access and notify the user by e-mail. No-op if already approved.
+  def approve!
+    return false if approved?
+
+    update!(approved: true)
+    UserMailer.with(user: self).approved.deliver_later
+    true
+  end
+
+  # Revoke access (they will be signed out on their next request).
+  def unapprove!
+    update!(approved: false)
+  end
+
   # Whether this user has enabled access to the MCP server.
   def mcp_enabled?
     mcp_token.present?

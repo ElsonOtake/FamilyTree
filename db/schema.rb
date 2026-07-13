@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_06_28_003436) do
+ActiveRecord::Schema[8.0].define(version: 2026_07_13_002811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -178,6 +178,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_28_003436) do
     t.string "last_sign_in_ip"
     t.integer "sign_in_count", default: 0, null: false
     t.string "mcp_token"
+    t.boolean "approved", default: false, null: false
+    t.index ["approved"], name: "index_users_on_approved"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -1,0 +1,7 @@
+<h1><%= t('user_mailer.approved.greeting', name: @user.name) %></h1>
+
+<p><%= t('user_mailer.approved.body') %></p>
+
+<p>
+  <%= link_to t('user_mailer.approved.sign_in'), new_user_session_url %>
+</p>
