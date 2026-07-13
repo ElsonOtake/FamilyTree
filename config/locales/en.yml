@@ -229,6 +229,8 @@ en:
       with_children: "With Children"
       without_children: "Without Children"
   devise:
+    failure:
+      not_approved: "Your account is pending administrator approval. You will be notified by e-mail once it is approved."
     confirmations:
       new:
         resend_confirmation_instructions: "Resend confirmation instructions"
@@ -274,6 +276,7 @@ en:
         sign_up_link: "Sign up"
         send_me_reset_password_instructions: "Send me reset password instructions"
     registrations:
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your e-mail. After confirming, an administrator must approve your access before you can sign in."
       edit:
         edit_user: "Edit user"
         current_password: "Current password"
@@ -705,3 +708,9 @@ en:
       blank: "is blank"
       'null': "is null"
       not_null: "is not null"
+  user_mailer:
+    approved:
+      subject: "Your Family Tree access has been approved"
+      greeting: "Hello %{name},"
+      body: "An administrator has approved your access to Family Tree. You can now sign in and explore the family data."
+      sign_in: "Sign in"

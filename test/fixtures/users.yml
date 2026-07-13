@@ -6,17 +6,18 @@ one:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   confirmed_at: <%= 1.week.ago %>
   sign_in_count: 0
-
+  approved: true
 two:
   name: "User Two"  
   email: "user2@example.com"
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   confirmed_at: <%= 1.week.ago %>
   sign_in_count: 0
-
+  approved: true
 admin:
   name: "Admin User"
   email: "admin@example.com"
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
   confirmed_at: <%= 1.week.ago %>
   sign_in_count: 0
+  approved: true
