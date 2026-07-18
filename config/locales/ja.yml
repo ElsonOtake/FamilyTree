@@ -112,6 +112,7 @@ ja:
       back_to_people: "人々に戻る"
       download_tree: "家系図をダウンロード (PDF)"
       pedigree_title: "%{name}の子孫"
+      pedigree_footer: "Family Tree で作成"
       life_events: "人生の出来事"
       notes: "メモ"
       born: "生まれ"

@@ -3,47 +3,72 @@
 require 'tempfile'
 
 module Pedigree
-  # Produces circular PNG image data for a person's portrait: their avatar
-  # masked to a circle when one is attached and readable, otherwise a shared
-  # silhouette placeholder. All avatar handling is guarded so any storage or
-  # image-processing failure quietly falls back to the silhouette.
+  # Produces oval PNG image data for a person's portrait: their avatar cropped to
+  # a vertical oval when one is attached and readable, otherwise a shared
+  # silhouette placeholder centred on a white oval. All avatar handling is
+  # guarded so any storage or image-processing failure quietly falls back to the
+  # silhouette.
   module Portrait
     SILHOUETTE_PATH = Rails.root.join('app/assets/images/silhouette.png')
-    RENDER_SIZE = 220
+    RENDER_W = 220
+    RENDER_H = 282
 
     module_function
 
-    # Binary PNG data for the person's circular portrait.
+    # Binary PNG data for the person's oval portrait.
     def data_for(person)
-      circular_avatar(person) || silhouette
+      oval_avatar(person) || silhouette
     end
 
+    # Silhouette drawn on a white oval so it reads as a framed portrait; masked
+    # to the oval so the frame's mat shows through the corners. Cached.
     def silhouette
-      @silhouette ||= File.binread(SILHOUETTE_PATH)
+      @silhouette ||= build_silhouette || File.binread(SILHOUETTE_PATH)
     end
 
-    def circular_avatar(person)
+    def oval_avatar(person)
       return nil unless person.avatar.attached?
 
       src = write_tempfile(person.avatar.blob.download, extension(person))
-      mask_to_circle(src.path)
+      mask_to_oval(src.path)
     rescue StandardError
       nil
     ensure
       cleanup(src)
     end
 
-    def mask_to_circle(src_path)
+    # Resize an image to fill the oval and clip it to a vertical ellipse.
+    def mask_to_oval(src_path)
+      run_magick(
+        src_path,
+        '-resize', "#{RENDER_W}x#{RENDER_H}^", '-gravity', 'center', '-extent', "#{RENDER_W}x#{RENDER_H}",
+        *ellipse_mask_args
+      )
+    end
+
+    # A white oval carrying the silhouette centred at ~60% size.
+    def build_silhouette
+      run_magick(
+        '-size', "#{RENDER_W}x#{RENDER_H}", 'xc:white',
+        '(', SILHOUETTE_PATH.to_s, '-resize', "#{(RENDER_W * 0.62).round}x#{(RENDER_H * 0.62).round}", ')',
+        '-gravity', 'center', '-composite',
+        *ellipse_mask_args
+      )
+    end
+
+    # Composited args that clip the current image to a full-frame ellipse.
+    def ellipse_mask_args
+      cx = RENDER_W / 2
+      cy = RENDER_H / 2
+      ['(', '-size', "#{RENDER_W}x#{RENDER_H}", 'xc:none', '-fill', 'white',
+       '-draw', "ellipse #{cx},#{cy} #{cx - 1},#{cy - 1} 0,360", ')',
+       '-alpha', 'off', '-compose', 'CopyOpacity', '-composite']
+    end
+
+    def run_magick(*args)
       out = Tempfile.create(['ped-out', '.png'])
       out.close
-      size = RENDER_SIZE
-      center = size / 2
-      ok = system('magick', src_path,
-                  '-resize', "#{size}x#{size}^", '-gravity', 'center', '-extent', "#{size}x#{size}",
-                  '(', '-size', "#{size}x#{size}", 'xc:none', '-fill', 'white',
-                  '-draw', "circle #{center},#{center} #{center},2", ')',
-                  '-alpha', 'off', '-compose', 'CopyOpacity', '-composite', out.path,
-                  out: File::NULL, err: File::NULL)
+      ok = system('magick', *args, out.path, out: File::NULL, err: File::NULL)
       ok && File.size?(out.path) ? File.binread(out.path) : nil
     ensure
       cleanup(out)

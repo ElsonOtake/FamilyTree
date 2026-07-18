@@ -112,6 +112,7 @@ pt:
       back_to_people: "Voltar para pessoas"
       download_tree: "Baixar árvore (PDF)"
       pedigree_title: "Descendentes de %{name}"
+      pedigree_footer: "Produzido por Family Tree"
       life_events: "Eventos da Vida"
       notes: "Notas"
       born: "Nascido"

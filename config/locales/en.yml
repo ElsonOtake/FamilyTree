@@ -115,6 +115,7 @@ en:
       back_to_people: "Back to people"
       download_tree: "Download tree (PDF)"
       pedigree_title: "Descendants of %{name}"
+      pedigree_footer: "Produced by Family Tree"
       life_events: "Life Events"
       notes: "Notes"
       born: "Born"
