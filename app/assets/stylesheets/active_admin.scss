@@ -1,17 +1,162 @@
-// Sass variable overrides must be declared before loading up Active Admin's styles.
-//
-// To view the variables that Active Admin provides, take a look at
-// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
-// Active Admin source.
-//
-// For example, to change the sidebar width:
-// $sidebar-width: 242px;
+// Brand font (same source the main app uses). A CSS @import must come first.
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap");
+
+// --- Brand variable overrides ----------------------------------------------
+// These must be declared before Active Admin's styles are loaded so its
+// `!default` values pick them up. Palette mirrors the app's Tailwind theme
+// (brand purple #8a4d76, brand-50 background, pink accent).
+$primary-color: #8a4d76; // brand-500 — header, section headers, menu
+$body-background-color: #f6eef2; // brand-50 — page background
+$link-color: #743f63; // brand-600
+$secondary-color: #f3ecf0; // light brand tint for panels/inputs
+$text-color: #2b2b2b;
+$error-color: #b3261e;
+$table-selected-color: #ecdce6; // brand-100
 
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
 
-// Overriding any non-variable Sass must be done after the fact.
-// For example, to change the default status-tag color:
-//
-//   .status_tag { background: #6090DB; }
+// --- Custom rules (after the base) -----------------------------------------
+
+$brand-500: #8a4d76;
+$brand-600: #743f63;
+$brand-700: #5c3350;
+$brand-50: #f6eef2;
+$brand-100: #ecdce6;
+$brand-200: #d9b9cc;
+$accent: #fa7c91;
+$radius: 10px;
+
+body.active_admin,
+body.logged_out {
+  font-family: "Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+
+// Header: subtle gradient in the brand purple + pink underline accent.
+#header {
+  background: linear-gradient(180deg, $brand-500 0%, $brand-600 100%);
+  border-bottom: 3px solid $accent;
+
+  h1.site_title {
+    font-weight: 800;
+  }
+
+  ul.tabs > li {
+    &.current > a,
+    > a:hover {
+      background: $brand-700;
+      color: #fff;
+    }
+  }
+}
+
+// Content panels / boxes: rounded, soft ring, white surface.
+.panel,
+.sidebar_section,
+.dashboard .panel,
+.attributes_table,
+.index_content {
+  border-radius: $radius;
+  overflow: hidden;
+}
+
+.panel {
+  border: 1px solid $brand-100;
+  box-shadow: 0 1px 2px rgba(47, 27, 41, 0.06);
+
+  > h3 {
+    background: $brand-50;
+    color: $brand-700;
+    border-bottom: 1px solid $brand-100;
+  }
+}
+
+// Index tables: brand header, rounded frame, gentle hover.
+.index_table {
+  border-radius: $radius;
+  overflow: hidden;
+
+  th {
+    background: $brand-50;
+    color: $brand-700;
+  }
+
+  tr:hover > td {
+    background: $brand-50;
+  }
+}
+
+// Buttons and primary actions in the brand purple, pill-rounded.
+a.button,
+button,
+input[type="submit"],
+.action_items a,
+.pagination a {
+  border-radius: 8px;
+}
+
+.action_items a,
+input[type="submit"],
+button[type="submit"],
+a.button {
+  background: $brand-500;
+  border: 1px solid $brand-600;
+  color: #fff;
+  text-shadow: none;
+
+  &:hover {
+    background: $brand-600;
+    color: #fff;
+  }
+}
+
+// Form inputs: rounded, brand focus ring.
+.formtastic {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="number"],
+  input[type="date"],
+  textarea,
+  select {
+    border-radius: 8px;
+    border-color: $brand-200;
+
+    &:focus {
+      border-color: $brand-500;
+      box-shadow: 0 0 0 3px rgba(138, 77, 118, 0.2);
+      outline: none;
+    }
+  }
+}
+
+// Status tags and pagination current page in brand tones.
+.status_tag {
+  border-radius: 999px;
+
+  &.yes,
+  &.approved,
+  &.published {
+    background: $brand-500;
+  }
+}
+
+.pagination .current {
+  background: $brand-500;
+  border-color: $brand-500;
+  color: #fff;
+}
+
+// Links pick up the brand hover.
+#active_admin_content a {
+  &:hover {
+    color: $brand-600;
+  }
+}
+
+// Flash messages: brand-tinted info, keep errors red.
+.flash.flash_notice {
+  background: $brand-100;
+  color: $brand-700;
+}

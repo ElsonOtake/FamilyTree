@@ -38,6 +38,7 @@ en:
       start_typing_to_search: "Start typing to search for people"
       new_person: "New person"
       existing_person: "Existing person"
+      choose_source: "How would you like to add this child?"
     errors:
       relationship_not_found: "Parent-child relationship not found"
   couples:
@@ -56,6 +57,7 @@ en:
       location_help: "You can add any relevant information about this relationship"
       new_partner: "New partner"
       existing_partner: "Existing partner"
+      choose_source: "How would you like to add this partner?"
   people:
     index:
       family_tree: "Family tree"
@@ -112,7 +114,10 @@ en:
       children: "Children"
       back_to_people: "Back to people"
       download_tree: "Download tree (PDF)"
+      ancestor_tree: "Download ancestors (PDF)"
       pedigree_title: "Descendants of %{name}"
+      ancestor_title: "Ancestors of %{name}"
+      pedigree_footer: "Produced by Family Tree"
       life_events: "Life Events"
       notes: "Notes"
       born: "Born"

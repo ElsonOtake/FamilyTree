@@ -40,6 +40,11 @@
               <%= heroicon(:document_arrow_down, class: 'size-4') %><span><%= t('people.show.download_tree') %></span>
             <% end %>
 
+            <%= link_to ascendentes_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
+              title: t('people.show.ancestor_tree') do %>
+              <%= heroicon(:user_group, class: 'size-4') %><span><%= t('people.show.ancestor_tree') %></span>
+            <% end %>
+
             <% if policy(person).destroy? %>
               <%= button_to person_path(person), method: :delete, class: 'btn btn-sm btn-danger',
                 form: { data: { turbo_confirm: t('people.show.delete_confirmation', name: person.name) } },
@@ -63,10 +68,10 @@
           <% if person.birth_text.present? %>
             <p class='mt-1 text-sm text-slate-600 dark:text-slate-300'><%= person.birth_text %></p>
           <% end %>
-          <% unless person.alive %>
+          <% if !person.alive && person.death_year.blank? %>
             <p class='mt-1 flex items-center gap-1 text-sm text-slate-500'>
               <%= heroicon(:clock, class: 'size-4') %>
-              <%= t('people.show.died') %><%= ": #{person.death_date_formatted}" if person.death_date_formatted.present? %>
+              <%= t('people.show.died') %>
             </p>
           <% end %>
         </div>

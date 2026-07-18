@@ -27,6 +27,10 @@ class PersonPolicy < ApplicationPolicy
     show?
   end
 
+  def ancestry?
+    show?
+  end
+
   def new?
     user&.has_any_role? :silver, :gold, :admin
   end
