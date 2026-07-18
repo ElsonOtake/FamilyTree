@@ -63,10 +63,10 @@
           <% if person.birth_text.present? %>
             <p class='mt-1 text-sm text-slate-600 dark:text-slate-300'><%= person.birth_text %></p>
           <% end %>
-          <% unless person.alive %>
+          <% if !person.alive && person.death_year.blank? %>
             <p class='mt-1 flex items-center gap-1 text-sm text-slate-500'>
               <%= heroicon(:clock, class: 'size-4') %>
-              <%= t('people.show.died') %><%= ": #{person.death_date_formatted}" if person.death_date_formatted.present? %>
+              <%= t('people.show.died') %>
             </p>
           <% end %>
         </div>

@@ -7,8 +7,8 @@ import { application } from "./application"
 import StimulusController from "./stimulus_controller"
 application.register("stimulus", StimulusController)
 
-import TabsController from "./tabs_controller"
-application.register("tabs", TabsController)
+import SourceToggleController from "./source_toggle_controller"
+application.register("source-toggle", SourceToggleController)
 
 import DarkModeController from "./dark_mode_controller"
 application.register("dark-mode", DarkModeController)
