@@ -37,7 +37,7 @@
 
             <%= link_to arvore_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
               title: t('people.show.download_tree') do %>
-              <%= heroicon(:document_arrow_down, class: 'size-4') %><span><%= t('people.show.download_tree') %></span>
+              <%= heroicon(:user_group, class: 'size-4') %><span><%= t('people.show.download_tree') %></span>
             <% end %>
 
             <%= link_to ascendentes_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
