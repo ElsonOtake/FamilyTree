@@ -76,6 +76,9 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'dotenv-rails'
   gem 'letter_opener'
+  # letter_opener -> launchy still `require "kconv"`, which is no longer a
+  # default gem on Ruby 3.4; nkf provides it.
+  gem 'nkf'
   gem 'web-console'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
