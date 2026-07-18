@@ -17,8 +17,8 @@ module Pedigree
       assert data.start_with?("\x89PNG".b)
     end
 
-    test 'circular_avatar is nil for a person without an avatar' do
-      assert_nil Portrait.circular_avatar(Person.new(name: 'None'))
+    test 'oval_avatar is nil for a person without an avatar' do
+      assert_nil Portrait.oval_avatar(Person.new(name: 'None'))
     end
   end
 end
