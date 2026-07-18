@@ -38,6 +38,7 @@ ja:
       start_typing_to_search: "人物を検索するには入力を開始してください"
       new_person: "新しい人物"
       existing_person: "既存の人物"
+      choose_source: "この子供をどのように追加しますか？"
     errors:
       relationship_not_found: "親子関係が見つかりません"
   couples:
@@ -56,6 +57,7 @@ ja:
       location_help: "この関係に関する関連情報を追加できます"
       new_partner: "新しいパートナー"
       existing_partner: "既存のパートナー"
+      choose_source: "このパートナーをどのように追加しますか？"
   people:
     index:
       family_tree: "家系図"

@@ -38,6 +38,7 @@ pt:
       start_typing_to_search: "Comece a digitar para buscar pessoas"
       new_person: "Novo indivíduo"
       existing_person: "Indivíduo existente"
+      choose_source: "Como você quer adicionar este filho?"
     errors:
       relationship_not_found: "Relação pai-filho não encontrada"
   couples:
@@ -56,6 +57,7 @@ pt:
       location_help: "Você pode adicionar qualquer informação relevante sobre este relacionamento"
       new_partner: "Novo parceiro(a)"
       existing_partner: "Parceiro(a) existente"
+      choose_source: "Como você quer adicionar este parceiro(a)?"
   people:
     index:
       family_tree: "Árvore genealógica"
