@@ -50,5 +50,34 @@ module Pedigree
       xs = result.root.portraits.map(&:x)
       assert_equal xs.uniq.size, xs.size
     end
+
+    test 'a couple whose child is a couple does not overlap the next sibling' do
+      # Regression: the parent couple is centered over the child's *person*, which
+      # sits left-of-center inside the child's own slot when the child is married.
+      # The node must reserve that overhang so the couple never pokes into the
+      # sibling to its left. (Mizue+Sergio next to Nelson+Rachel in the real tree.)
+      grandchild = marriage('cintia', children: [node('julia', 4)])
+      nelson = node('nelson', 2, marriages: [marriage('rachel', children: [node('rafael', 3, marriages: [grandchild])])])
+      mizue = node('mizue', 2, marriages: [marriage('sergio', children: [node('yudi', 3)])])
+      result = Layout.new(node('root', 1, marriages: [marriage('spouse', children: [mizue, nelson])])).call
+
+      assert_empty same_generation_overlaps(result.root)
+    end
+
+    private
+
+    # Every pair of portraits on the same generation whose x-spans overlap.
+    def same_generation_overlaps(root)
+      spans = Hash.new { |h, k| h[k] = [] }
+      collect = lambda do |placed|
+        placed.portraits.each { |s| spans[placed.generation] << [s.x, s.x + Geom::CELL_W] }
+        placed.marriages.each { |u| u.children.each { |c| collect.call(c) } }
+      end
+      collect.call(root)
+
+      spans.values.flat_map do |row|
+        row.combination(2).select { |(l1, r1), (l2, r2)| r1 > l2 && r2 > l1 }
+      end
+    end
   end
 end

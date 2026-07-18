@@ -4,7 +4,7 @@
 class PeopleController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!
-  before_action :set_person, only: %i[show edit update destroy pedigree]
+  before_action :set_person, only: %i[show edit update destroy pedigree ancestry]
   before_action -> { authorize Person }
 
   # GET /people or /people.json
@@ -44,6 +44,12 @@ class PeopleController < ApplicationController
   def pedigree
     pdf = Pedigree::Pdf.new(@person, generations: 5).render
     send_data pdf, filename: "arvore-#{@person.slug}.pdf",
+                   type: 'application/pdf', disposition: 'inline'
+  end
+
+  def ancestry
+    pdf = Pedigree::Ancestors::Pdf.new(@person).render
+    send_data pdf, filename: "ascendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
 
