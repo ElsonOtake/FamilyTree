@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Ruby on Rails 7.0.4 application for managing family trees, built with:
 - PostgreSQL database
 - Hotwire (Turbo & Stimulus) for reactive UI without complex JavaScript frameworks
-- Bulma CSS framework
+- Tailwind CSS (v4) utility framework
 - Multi-language support (English, Japanese, Portuguese)
 - Soft deletes via paranoia gem
 - File uploads via Active Storage, backed by Tigris (Fly.io's S3-compatible object storage) in production
@@ -84,7 +84,7 @@ yarn build:css      # Build CSS from Sass
 
 - **Hotwire/Turbo**: Most interactions are Turbo frames/streams, not full page loads
 - **Stimulus**: JavaScript behavior attached via data-controller attributes
-- **Bulma**: CSS framework classes, customized in `app/assets/stylesheets/`
+- **Tailwind CSS (v4)**: utility classes; entry point `app/assets/stylesheets/application.tailwind.css`, built to `app/assets/builds/application.css` via `yarn build:css`. Uses the `@tailwindcss/forms` and `@tailwindcss/typography` plugins
 - **No React/Vue**: This is a server-rendered Rails app with Hotwire enhancements
 
 ### Testing Approach
