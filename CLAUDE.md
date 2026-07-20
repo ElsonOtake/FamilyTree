@@ -10,7 +10,7 @@ This is a Ruby on Rails 7.0.4 application for managing family trees, built with:
 - Bulma CSS framework
 - Multi-language support (English, Japanese, Portuguese)
 - Soft deletes via paranoia gem
-- File uploads via Active Storage with S3 support in production
+- File uploads via Active Storage, backed by Tigris (Fly.io's S3-compatible object storage) in production
 
 ## Essential Development Commands
 
@@ -98,7 +98,7 @@ yarn build:css      # Build CSS from Sass
 
 - Deployed to Fly.io (see fly.toml)
 - PostgreSQL database (version 9.4+ required for birthday filtering functionality)
-- S3 for file storage in production
+- Tigris (Fly.io S3-compatible object storage) for file storage in production; configured as the `:tigris` service in `config/storage.yml` (credentials via the `AWS_*`/`BUCKET_NAME` Fly secrets). Development and test use local disk.
 - Release command runs migrations automatically
 
 ## Important Conventions
