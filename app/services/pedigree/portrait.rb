@@ -9,7 +9,13 @@ module Pedigree
   # guarded so any storage or image-processing failure quietly falls back to the
   # silhouette.
   module Portrait
-    SILHOUETTE_PATH = Rails.root.join('app/assets/images/silhouette.png')
+    # Gender-specific silhouettes; any other gender ('P'/'X') or a missing one
+    # falls back to the neutral silhouette.
+    SILHOUETTE_PATHS = {
+      'M' => Rails.root.join('app/assets/images/silhouette_male.png'),
+      'F' => Rails.root.join('app/assets/images/silhouette_female.png')
+    }.freeze
+    DEFAULT_SILHOUETTE_PATH = Rails.root.join('app/assets/images/silhouette.png')
     RENDER_W = 220
     RENDER_H = 282
 
@@ -17,13 +23,20 @@ module Pedigree
 
     # Binary PNG data for the person's oval portrait.
     def data_for(person)
-      oval_avatar(person) || silhouette
+      oval_avatar(person) || silhouette(person.gender)
     end
 
     # Silhouette drawn on a white oval so it reads as a framed portrait; masked
-    # to the oval so the frame's mat shows through the corners. Cached.
-    def silhouette
-      @silhouette ||= build_silhouette || File.binread(SILHOUETTE_PATH)
+    # to the oval so the frame's mat shows through the corners. Chosen by gender
+    # and cached per source image.
+    def silhouette(gender = nil)
+      path = silhouette_path(gender)
+      (@silhouettes ||= {})[path] ||= build_silhouette(path) || File.binread(path)
+    end
+
+    # Path to the silhouette for a gender, defaulting to the neutral one.
+    def silhouette_path(gender)
+      SILHOUETTE_PATHS.fetch(gender, DEFAULT_SILHOUETTE_PATH)
     end
 
     def oval_avatar(person)
@@ -47,10 +60,10 @@ module Pedigree
     end
 
     # A white oval carrying the silhouette centred at ~60% size.
-    def build_silhouette
+    def build_silhouette(path)
       run_magick(
         '-size', "#{RENDER_W}x#{RENDER_H}", 'xc:white',
-        '(', SILHOUETTE_PATH.to_s, '-resize', "#{(RENDER_W * 0.62).round}x#{(RENDER_H * 0.62).round}", ')',
+        '(', path.to_s, '-resize', "#{(RENDER_W * 0.62).round}x#{(RENDER_H * 0.62).round}", ')',
         '-gravity', 'center', '-composite',
         *ellipse_mask_args
       )
