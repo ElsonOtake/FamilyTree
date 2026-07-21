@@ -5,6 +5,9 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
+/* Image cropper UI (avatar "select a person from a photo"). */
+@import "cropperjs/dist/cropper.css";
+
 /* Class-based dark mode: toggled by adding `dark` to <html>. */
 @custom-variant dark (&:where(.dark, .dark *));
 
