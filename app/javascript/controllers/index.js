@@ -21,3 +21,6 @@ application.register("navbar", NavbarController)
 
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
+
+import AvatarCropperController from "./avatar_cropper_controller"
+application.register("avatar-cropper", AvatarCropperController)

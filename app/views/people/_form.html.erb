@@ -15,10 +15,26 @@
 
   <div class='space-y-5'>
     <%# Basic info %>
-    <div class='field'>
+    <div class='field' data-controller='avatar-cropper'>
       <%= form.label :avatar, t('.avatar'), class: 'label' %>
       <%= form.file_field :avatar,
+        accept: 'image/png,image/jpeg',
+        data: { avatar_cropper_target: 'input', action: 'avatar-cropper#open' },
         class: 'block w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-brand-700 hover:file:bg-brand-100' %>
+      <p class='mt-1 text-sm text-slate-500'><%= t('.avatar_crop_hint') %></p>
+
+      <%# Crop editor: shown after a photo is chosen, hidden again after applying. %>
+      <div data-avatar-cropper-target='editor' class='hidden mt-3'>
+        <div class='max-w-md'>
+          <img data-avatar-cropper-target='image' alt='' class='block max-w-full'>
+        </div>
+        <div class='mt-2 flex gap-2'>
+          <button type='button' data-action='avatar-cropper#apply' class='btn btn-primary'><%= t('.avatar_crop_apply') %></button>
+          <button type='button' data-action='avatar-cropper#cancel' class='btn btn-secondary'><%= t('.avatar_crop_cancel') %></button>
+        </div>
+      </div>
+
+      <img data-avatar-cropper-target='preview' alt='' class='hidden mt-3 size-24 rounded-full object-cover ring-1 ring-brand-200'>
     </div>
 
     <div class='grid grid-cols-1 gap-4 sm:grid-cols-2'>
