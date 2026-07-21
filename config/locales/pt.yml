@@ -736,6 +736,11 @@ pt:
       blank: "está em branco"
       'null': "é nulo"
       not_null: "não é nulo"
+  mailer:
+    app_name: "Family Tree"
+    tagline: "Gerencie e preserve a história da sua família."
+    contact: "Dúvidas? Fale conosco em"
+    automated_note: "Esta é uma mensagem automática — por favor, não responda a este e-mail."
   user_mailer:
     approved:
       subject: "Seu acesso ao Family Tree foi aprovado"
