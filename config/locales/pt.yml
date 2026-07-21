@@ -15,6 +15,10 @@ pt:
       more: "Mais"
       roles: "Funções"
       dashboard: "Painel de controle"
+      people: "Pessoas"
+      statistics: "Estatísticas"
+      birthdays: "Aniversários"
+      family_stats: "Estatísticas da família"
       download_users_csv: "Baixar usuários como CSV"
       download_roles_csv: "Baixar funções como CSV"
       download_people_csv: "Baixar pessoas como CSV"
@@ -62,6 +66,7 @@ pt:
     index:
       family_tree: "Árvore genealógica"
       search_by_name: "Busca por nome"
+      filters: "Filtros"
       birth_year: "Ano de nascimento"
       birth_month: "Mês de nascimento"
       birth_day: "Dia de nascimento"
