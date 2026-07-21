@@ -693,6 +693,11 @@ ja:
       'null': "無効"
       not_null: "は無効ではない"
 
+  mailer:
+    app_name: "Family Tree"
+    tagline: "家族の歴史を管理し、大切に残しましょう。"
+    contact: "ご質問は次のアドレスまでご連絡ください："
+    automated_note: "これは自動送信メッセージです。このメールには返信しないでください。"
   user_mailer:
     approved:
       subject: "Family Tree へのアクセスが承認されました"

@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang='<%= I18n.locale %>'>
   <head>
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-    <style>
-      table {
-        border-collapse: collapse;
-        border: 1px solid;
-      }
-      th, td {
-        padding: 5px;
-        text-align: left;
-        border: 1px solid;
-      }
-    </style>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   </head>
 
-  <body>
-    <%= yield %>
+  <body style='margin:0; padding:0; background-color:#f6eef2; font-family:Arial,Helvetica,sans-serif; color:#33272e;'>
+    <table role='presentation' width='100%' cellpadding='0' cellspacing='0' style='background-color:#f6eef2; padding:24px 12px;'>
+      <tr>
+        <td align='center'>
+          <table role='presentation' width='600' cellpadding='0' cellspacing='0' style='width:600px; max-width:100%; background-color:#ffffff; border-radius:12px; overflow:hidden;'>
+            <%# Header %>
+            <tr>
+              <td style='background-color:#5c3350; padding:20px 32px;' align='left'>
+                <img src='<%= attachments['logo.png'].url %>' alt='<%= t('mailer.app_name') %>' width='120'
+                     style='display:block; border:0; height:auto; max-width:120px;' />
+              </td>
+            </tr>
+
+            <%# Body %>
+            <tr>
+              <td style='padding:32px; font-size:16px; line-height:1.6; color:#33272e;'>
+                <%= yield %>
+              </td>
+            </tr>
+
+            <%# Footer %>
+            <tr>
+              <td style='background-color:#f6eef2; padding:20px 32px; font-size:13px; line-height:1.6; color:#6b5563;'>
+                <p style='margin:0 0 8px;'>
+                  <strong style='color:#5c3350;'><%= t('mailer.app_name') %></strong> &mdash; <%= t('mailer.tagline') %>
+                </p>
+                <p style='margin:0 0 8px;'>
+                  <%= t('mailer.contact') %>
+                  <a href='mailto:no-reply@example.com' style='color:#8a4d76;'>no-reply@example.com</a>
+                </p>
+                <p style='margin:0; color:#9b8792;'><%= t('mailer.automated_note') %></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
