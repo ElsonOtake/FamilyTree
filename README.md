@@ -11,21 +11,23 @@ A Ruby on Rails application for managing family trees with support for multiple 
 - **User Roles**: Bronze (view), Silver (create/edit), Gold (delete), Admin (full access)
 - **Favorites**: Save frequently accessed people for quick access
 - **Birthday Tracking**: View upcoming birthdays with smart date calculations
+- **Printable Charts**: Downloadable ancestor and descendant pedigree charts (PDF), with gender-specific silhouettes for people without a photo
 - **Search & Filtering**: Filter by name, gender, birth/death dates, alive status
 - **Soft Deletes**: Records are preserved for audit trails
 - **Activity Logging**: All changes are tracked with timestamps and user info
-- **File Uploads**: Avatar images via Active Storage with S3 support
+- **File Uploads**: Avatar images via Active Storage; crop a person out of a larger photo when uploading
 - **OAuth Support**: Sign in with Google
 
 ## Tech Stack
 
 - **Ruby**: 3.4.5
-- **Rails**: 8.0.0
+- **Rails**: 8.0.2
 - **Database**: PostgreSQL
-- **Frontend**: Hotwire (Turbo + Stimulus), Bulma CSS
+- **Frontend**: Hotwire (Turbo + Stimulus), Tailwind CSS
 - **Authentication**: Devise with OmniAuth
 - **Authorization**: Pundit + Rolify
-- **File Storage**: Active Storage (S3 in production)
+- **File Storage**: Active Storage (Tigris, Fly.io's S3-compatible object storage, in production)
+- **Email**: Action Mailer over Gmail SMTP in production
 
 ## Getting Started
 
@@ -88,8 +90,8 @@ bin/rails test:all          # Run all tests including system tests
 
 ### Assets
 ```bash
-yarn build          # Build JavaScript assets
-yarn build:css      # Build CSS from Sass
+yarn build          # Build JavaScript assets (esbuild)
+yarn build:css      # Build CSS with Tailwind
 ```
 
 ## Data Model
@@ -155,10 +157,14 @@ mounted directly in Rails — the tools call the existing `Person`/`Couple` mode
 | `get_children` | All children across relationships |
 | `get_siblings` | Other children of the same parents |
 | `get_partners` | Spouses/partners with marriage & separation dates |
+| `get_cousins` | First cousins (children of the parents' siblings) |
 | `get_age` | Current age (handles partial dates and deceased people) |
+| `get_birthdays` | People with a birthday today/tomorrow/this week/this month |
+| `get_anniversaries` | Couples with a wedding anniversary in a given period |
 
-Tools live in [`app/tools/`](app/tools/), share a serializer in
-[`app/mcp/person_presenter.rb`](app/mcp/person_presenter.rb), and the server is configured in
+Tools live in [`app/tools/`](app/tools/), share serializers in
+[`app/mcp/person_presenter.rb`](app/mcp/person_presenter.rb) and
+[`app/mcp/couple_presenter.rb`](app/mcp/couple_presenter.rb), and the server is configured in
 [`config/initializers/fast_mcp.rb`](config/initializers/fast_mcp.rb). Tests are in
 [`test/tools/`](test/tools/), [`test/integration/mcp_endpoint_test.rb`](test/integration/mcp_endpoint_test.rb),
 and the token lifecycle in [`test/models/user_mcp_token_test.rb`](test/models/user_mcp_token_test.rb).
@@ -201,12 +207,17 @@ For production, configure:
 
 - `DATABASE_URL` - PostgreSQL connection string
 - `RAILS_MASTER_KEY` - For credentials decryption
-- `AWS_ACCESS_KEY_ID` - S3 access key
-- `AWS_SECRET_ACCESS_KEY` - S3 secret key
-- `AWS_BUCKET` - S3 bucket name
-- `AWS_REGION` - S3 region
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth secret
+- `SECRET_KEY_BASE` - Rails secret key base
+- `AWS_ACCESS_KEY_ID` - Object storage access key (Tigris)
+- `AWS_SECRET_ACCESS_KEY` - Object storage secret key (Tigris)
+- `AWS_ENDPOINT_URL_S3` - Object storage S3 endpoint (Tigris)
+- `BUCKET_NAME` - Object storage bucket
+- `GOOGLE_ID` - Google OAuth client ID
+- `GOOGLE_SECRET` - Google OAuth secret
+- `GMAIL_APP_PASSWORD` - Gmail app password for outgoing email (SMTP)
+- `GMAIL_USERNAME` - Gmail sender address (optional; defaults to the app's mailer sender)
+
+> On Fly.io, the storage variables (`AWS_*`, `BUCKET_NAME`) are set automatically by `fly storage create` (Tigris).
 
 ## Deployment
 
