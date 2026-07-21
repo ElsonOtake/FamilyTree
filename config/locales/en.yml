@@ -15,6 +15,10 @@ en:
       more: "More"
       roles: "Roles"
       dashboard: "Dashboard"
+      people: "People"
+      statistics: "Statistics"
+      birthdays: "Birthdays"
+      family_stats: "Family Statistics"
       download_users_csv: "Download users as CSV"
       download_roles_csv: "Download roles as CSV"
       download_people_csv: "Download people as CSV"
@@ -62,6 +66,7 @@ en:
     index:
       family_tree: "Family tree"
       search_by_name: "Search by name"
+      filters: "Filters"
       birth_year: "Birth year"
       birth_month: "Birth month"
       birth_day: "Birth day"

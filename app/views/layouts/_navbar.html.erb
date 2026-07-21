@@ -17,12 +17,12 @@
     <div class='hidden items-center gap-1 lg:flex'>
       <% if user_signed_in? %>
         <%= link_to people_path, class: 'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
-          <%= heroicon(:users, class: 'size-5') %><span><%= t('people.index.title', default: 'People') %></span>
+          <%= heroicon(:users, class: 'size-5') %><span><%= t('.people') %></span>
         <% end %>
 
-        <%= render 'layouts/nav_dropdown', label: t('.statistics', default: 'Statistics'), icon: :chart_bar do %>
-          <%= render 'layouts/nav_dropdown_link', path: birthdays_people_path, icon: :cake, label: t('.birthdays', default: 'Birthdays') %>
-          <%= render 'layouts/nav_dropdown_link', path: statistics_path, icon: :chart_bar, label: t('.family_stats', default: 'Family Statistics') %>
+        <%= render 'layouts/nav_dropdown', label: t('.statistics'), icon: :chart_bar do %>
+          <%= render 'layouts/nav_dropdown_link', path: birthdays_people_path, icon: :cake, label: t('layouts.navbar.birthdays') %>
+          <%= render 'layouts/nav_dropdown_link', path: statistics_path, icon: :chart_bar, label: t('layouts.navbar.family_stats') %>
         <% end %>
       <% end %>
 
@@ -37,16 +37,16 @@
 
       <% if user_signed_in? %>
         <%= render 'layouts/nav_dropdown', label: t('.more'), icon: :ellipsis_vertical do %>
-          <%= render 'layouts/nav_dropdown_link', path: about_path, icon: :information_circle, label: t('.about') %>
-          <%= render 'layouts/nav_dropdown_link', path: mcp_access_users_path, icon: :cpu_chip, label: t('.mcp_access') %>
+          <%= render 'layouts/nav_dropdown_link', path: about_path, icon: :information_circle, label: t('layouts.navbar.about') %>
+          <%= render 'layouts/nav_dropdown_link', path: mcp_access_users_path, icon: :cpu_chip, label: t('layouts.navbar.mcp_access') %>
           <% if policy(User).roles? %>
             <div class='my-1 border-t border-slate-100 dark:border-slate-700'></div>
-            <%= render 'layouts/nav_dropdown_link', path: roles_users_path, icon: :shield_check, label: t('.roles') %>
-            <%= render 'layouts/nav_dropdown_link', path: admin_users_path, icon: :squares_2x2, label: t('.dashboard') %>
+            <%= render 'layouts/nav_dropdown_link', path: roles_users_path, icon: :shield_check, label: t('layouts.navbar.roles') %>
+            <%= render 'layouts/nav_dropdown_link', path: admin_users_path, icon: :squares_2x2, label: t('layouts.navbar.dashboard') %>
           <% end %>
           <% unless current_user.omniauth_login? %>
             <div class='my-1 border-t border-slate-100 dark:border-slate-700'></div>
-            <%= render 'layouts/nav_dropdown_link', path: edit_user_registration_path, icon: :pencil_square, label: t('.edit_profile') %>
+            <%= render 'layouts/nav_dropdown_link', path: edit_user_registration_path, icon: :pencil_square, label: t('layouts.navbar.edit_profile') %>
           <% end %>
         <% end %>
 
@@ -77,13 +77,13 @@
     <div class='flex flex-col gap-1'>
       <% if user_signed_in? %>
         <%= link_to people_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
-          <%= heroicon(:users, class: 'size-5') %><%= t('people.index.title', default: 'People') %>
+          <%= heroicon(:users, class: 'size-5') %><%= t('.people') %>
         <% end %>
         <%= link_to birthdays_people_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
-          <%= heroicon(:cake, class: 'size-5') %><%= t('.birthdays', default: 'Birthdays') %>
+          <%= heroicon(:cake, class: 'size-5') %><%= t('.birthdays') %>
         <% end %>
         <%= link_to statistics_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
-          <%= heroicon(:chart_bar, class: 'size-5') %><%= t('.family_stats', default: 'Family Statistics') %>
+          <%= heroicon(:chart_bar, class: 'size-5') %><%= t('.family_stats') %>
         <% end %>
         <%= link_to about_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
           <%= heroicon(:information_circle, class: 'size-5') %><%= t('.about') %>
