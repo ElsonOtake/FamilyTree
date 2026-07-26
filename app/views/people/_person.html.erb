@@ -35,9 +35,14 @@
 
             <%= render 'people/favorite_button', person: person, favorite: @favorite, show_label: true %>
 
-            <%= link_to arvore_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
-              title: t('people.show.download_tree') do %>
-              <%= heroicon(:user_group, class: 'size-4') %><span><%= t('people.show.download_tree') %></span>
+            <%= link_to descendentes_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
+              title: t('people.show.download_descendants') do %>
+              <%= heroicon(:user_group, class: 'size-4') %><span><%= t('people.show.download_descendants') %></span>
+            <% end %>
+
+            <%= link_to descendentes_completo_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',
+              title: t('people.show.download_descendants_full') do %>
+              <%= heroicon(:user_group, class: 'size-4') %><span><%= t('people.show.download_descendants_full') %></span>
             <% end %>
 
             <%= link_to ascendentes_person_path(person, format: :pdf), class: 'btn btn-sm btn-secondary', target: '_blank', rel: 'noopener',

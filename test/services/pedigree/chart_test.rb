@@ -48,6 +48,17 @@ module Pedigree
       assert_equal ['Other Child'], by_spouse['Second Spouse'].children.map { |c| c.person.name }
     end
 
+    test 'orders a couple\'s children by birth date, oldest first, unknown last' do
+      younger = Person.create!(name: 'Younger', gender: 'X', birth_year: 2010)
+      older = Person.create!(name: 'Older', gender: 'X', birth: Date.new(2001, 6, 1)) # date column only
+      no_date = Person.create!(name: 'No Date', gender: 'X')
+      [younger, older, no_date].each { |p| Child.create!(couple: @couple, person: p, current_user: @user) }
+
+      node = Chart.new(@focal, generations: 5).build
+      # @child (no birth date) and No Date have none, so they trail the dated two by id.
+      assert_equal ['Older', 'Younger', 'Child', 'No Date'], children_of(node).map { |c| c.person.name }
+    end
+
     test 'stops at the generation limit' do
       node = Chart.new(@focal, generations: 2).build
 
