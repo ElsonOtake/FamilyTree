@@ -5,7 +5,8 @@ Rails.application.routes.draw do
                                     sessions: 'users/sessions',
                                     registrations: 'users/registrations' }
   resources :people, path: :individuos do
-    get 'arvore', on: :member, to: 'people#pedigree'
+    get 'descendentes-completo', on: :member, to: 'people#descendants_full'
+    get 'descendentes', on: :member, to: 'people#descendants'
     get 'ascendentes', on: :member, to: 'people#ancestry'
     resources :couples, path: :casais, except: %i[show] do
       resources :children, path: :filhos
@@ -20,6 +21,8 @@ Rails.application.routes.draw do
     get 'mcp_access', on: :collection
     post 'mcp_token', on: :collection, to: 'users#regenerate_mcp_token', as: :regenerate_mcp_token
     delete 'mcp_token', on: :collection, to: 'users#revoke_mcp_token', as: :revoke_mcp_token
+    get 'tree_settings', on: :collection
+    patch 'tree_settings', on: :collection, action: :update_tree_settings, as: :update_tree_settings
     get 'roles', on: :collection
     get 'download', on: :collection
     patch 'role_update', on: :member

@@ -14,8 +14,9 @@ module Pedigree
       Node = Pedigree::Chart::Node
       Marriage = Pedigree::Chart::Marriage
 
-      def initialize(root)
+      def initialize(root, include_pets: true)
         @root = root
+        @include_pets = include_pets
         @seen = Set.new
       end
 
@@ -43,8 +44,10 @@ module Pedigree
       end
 
       # Father (male) on the left, mother on the right; otherwise keep person1/2.
+      # Pets ('P' gender) are dropped unless the viewer opted in.
       def ordered_parents(couple)
         pair = [couple.person1, couple.person2].compact
+        pair = pair.reject(&:pet?) unless @include_pets
         pair.reverse! if pair.size == 2 && pair.last.gender == 'M' && pair.first.gender != 'M'
         pair
       end

@@ -10,12 +10,13 @@ module Pedigree
     class Pdf
       include Chrome
 
-      def initialize(root_person)
+      def initialize(root_person, include_pets: true)
         @root_person = root_person
+        @include_pets = include_pets
       end
 
       def render
-        node = Ancestors::Chart.new(@root_person).build
+        node = Ancestors::Chart.new(@root_person, include_pets: @include_pets).build
         @layout = Layout.new(node).call
         @offset_x = Geom::MARGIN - @layout.min_x
 

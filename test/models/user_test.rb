@@ -87,6 +87,28 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors[:password], "é muito curto (mínimo: 6 caracteres)"
   end
 
+  # TREE SETTINGS TESTS
+  test "new user defaults to 5 generations with pets excluded" do
+    user = User.new(@valid_attributes)
+    assert_equal 5, user.tree_generations
+    assert_equal false, user.include_pets_in_tree
+  end
+
+  test "tree_generations must be an integer within 1..10" do
+    user = User.new(@valid_attributes)
+
+    [0, 11, 2.5, nil].each do |value|
+      user.tree_generations = value
+      assert_not user.valid?, "#{value.inspect} should be invalid"
+      assert user.errors[:tree_generations].any?
+    end
+
+    [1, 5, 10].each do |value|
+      user.tree_generations = value
+      assert user.valid?, "#{value} should be valid"
+    end
+  end
+
   # LOCALE ENUM TESTS
   test "should have locale enum" do
     user = User.new(@valid_attributes)

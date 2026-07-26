@@ -4,7 +4,7 @@
 class PeopleController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!
-  before_action :set_person, only: %i[show edit update destroy pedigree ancestry]
+  before_action :set_person, only: %i[show edit update destroy descendants descendants_full ancestry]
   before_action -> { authorize Person }
 
   # GET /people or /people.json
@@ -40,15 +40,25 @@ class PeopleController < ApplicationController
     @favorite = current_user.favorites.find_by(person: @person)
   end
 
-  # GET /people/1/arvore.pdf — descendant tree (up to 5 generations) as a PDF.
-  def pedigree
-    pdf = Pedigree::Pdf.new(@person, generations: 5).render
-    send_data pdf, filename: "arvore-#{@person.slug}.pdf",
+  # GET /people/1/descendentes-completo.pdf — full descendant tree (with spouses)
+  # as a PDF, limited to the viewer's configured generation depth.
+  def descendants_full
+    pdf = Pedigree::Pdf.new(@person, generations: current_user.tree_generations,
+                                     include_pets: current_user.include_pets_in_tree).render
+    send_data pdf, filename: "descendentes-completo-#{@person.slug}.pdf",
+                   type: 'application/pdf', disposition: 'inline'
+  end
+
+  # GET /people/1/descendentes.pdf — descendants-only tree (children,
+  # grandchildren, … with no generation limit and no spouses) as a PDF.
+  def descendants
+    pdf = Pedigree::Descendants::Pdf.new(@person, include_pets: current_user.include_pets_in_tree).render
+    send_data pdf, filename: "descendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
 
   def ancestry
-    pdf = Pedigree::Ancestors::Pdf.new(@person).render
+    pdf = Pedigree::Ancestors::Pdf.new(@person, include_pets: current_user.include_pets_in_tree).render
     send_data pdf, filename: "ascendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end

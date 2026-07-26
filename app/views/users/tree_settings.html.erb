@@ -1,0 +1,42 @@
+<div class='mx-auto max-w-2xl space-y-6'>
+  <div>
+    <h1 class='flex items-center gap-2 text-2xl font-bold text-slate-800 dark:text-slate-100'>
+      <%= heroicon(:adjustments_horizontal, class: 'size-6 text-brand-500') %><%= t('.title') %>
+    </h1>
+    <p class='mt-1 text-sm text-slate-500'><%= t('.intro') %></p>
+  </div>
+
+  <div class='card'>
+    <div class='card-body'>
+      <%= form_with model: @user, url: update_tree_settings_users_path, method: :patch, class: 'space-y-5' do |form| %>
+        <% if @user.errors.any? %>
+          <div class='rounded-lg bg-red-50 p-3 text-sm text-red-700'>
+            <ul class='list-inside list-disc'>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class='field'>
+          <%= form.label :tree_generations, t('.generations'), class: 'label' %>
+          <%= form.number_field :tree_generations, min: 1, max: 10, class: 'input w-32' %>
+          <p class='mt-1 text-xs text-slate-400'><%= t('.generations_help') %></p>
+        </div>
+
+        <div class='field'>
+          <label class='flex items-center gap-2'>
+            <%= form.check_box :include_pets_in_tree, class: 'checkbox' %>
+            <span class='label mb-0'><%= t('.include_pets') %></span>
+          </label>
+          <p class='mt-1 text-xs text-slate-400'><%= t('.include_pets_help') %></p>
+        </div>
+
+        <div>
+          <%= form.submit t('.save'), class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

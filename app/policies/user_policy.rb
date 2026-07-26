@@ -31,6 +31,15 @@ class UserPolicy < ApplicationPolicy
     mcp_access?
   end
 
+  # Any signed-in user may view and update their own tree export settings.
+  def tree_settings?
+    user.present?
+  end
+
+  def update_tree_settings?
+    tree_settings?
+  end
+
   def change_unidentified?
     true
   end

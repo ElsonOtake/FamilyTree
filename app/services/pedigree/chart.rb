@@ -26,9 +26,10 @@ module Pedigree
 
     DEFAULT_GENERATIONS = 5
 
-    def initialize(root, generations: DEFAULT_GENERATIONS)
+    def initialize(root, generations: DEFAULT_GENERATIONS, include_pets: true)
       @root = root
       @generations = generations
+      @include_pets = include_pets
       @seen = Set.new
     end
 
@@ -48,6 +49,7 @@ module Pedigree
     def marriages_for(person, generation)
       couples_of(person).map do |couple|
         spouse = couple.person1_id == person.id ? couple.person2 : couple.person1
+        spouse = nil if hidden?(spouse)
         children = descend?(generation) ? child_nodes(couple, generation) : []
         Marriage.new(spouse: spouse, children: children)
       end
@@ -59,11 +61,20 @@ module Pedigree
     end
 
     def child_nodes(couple, generation)
-      couple.people.map { |child| build_node(child, generation + 1) }.compact
+      BirthOrder.sort(visible(couple.people)).map { |child| build_node(child, generation + 1) }.compact
     end
 
     def descend?(generation)
       generation < @generations
+    end
+
+    # Pets ('P' gender) are dropped from the tree unless the viewer opted in.
+    def hidden?(person)
+      !@include_pets && person&.pet?
+    end
+
+    def visible(people)
+      @include_pets ? people : people.reject(&:pet?)
     end
   end
 end

@@ -251,6 +251,40 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
+  # TREE SETTINGS ACTION TESTS
+  test "should show tree settings for authenticated user" do
+    sign_in_as(@regular_user)
+
+    get tree_settings_users_path
+    assert_response :success
+  end
+
+  test "tree settings should require authentication" do
+    get tree_settings_users_path
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should update tree settings" do
+    sign_in_as(@regular_user)
+
+    patch tree_settings_users_path, params: { user: { tree_generations: 8, include_pets_in_tree: true } }
+
+    assert_redirected_to tree_settings_users_path
+    @regular_user.reload
+    assert_equal 8, @regular_user.tree_generations
+    assert @regular_user.include_pets_in_tree
+  end
+
+  test "update tree settings should reject out-of-range generations" do
+    sign_in_as(@regular_user)
+
+    patch tree_settings_users_path, params: { user: { tree_generations: 99 } }
+
+    assert_response :unprocessable_entity
+    @regular_user.reload
+    assert_equal 5, @regular_user.tree_generations
+  end
+
   # CHANGE_UNIDENTIFIED ACTION TESTS
   test "should change locale for unidentified user in session" do
     patch locale_change_unidentified_users_path('pt'), headers: { "HTTP_REFERER" => root_path }

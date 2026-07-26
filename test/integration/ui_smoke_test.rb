@@ -104,8 +104,15 @@ class UiSmokeTest < ActionDispatch::IntegrationTest
     assert_equal 'text/csv', response.media_type
   end
 
-  test 'pedigree tree renders as a PDF' do
-    get arvore_person_url(@person, format: :pdf)
+  test 'descendants full tree renders as a PDF' do
+    get descendentes_completo_person_url(@person, format: :pdf)
+    assert_response :success
+    assert_equal 'application/pdf', response.media_type
+    assert response.body.start_with?('%PDF'), 'expected a PDF body'
+  end
+
+  test 'descendants tree renders as a PDF' do
+    get descendentes_person_url(@person, format: :pdf)
     assert_response :success
     assert_equal 'application/pdf', response.media_type
     assert response.body.start_with?('%PDF'), 'expected a PDF body'
