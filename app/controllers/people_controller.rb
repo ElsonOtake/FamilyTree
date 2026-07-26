@@ -4,7 +4,7 @@
 class PeopleController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!
-  before_action :set_person, only: %i[show edit update destroy pedigree ancestry]
+  before_action :set_person, only: %i[show edit update destroy descendants descendants_full ancestry]
   before_action -> { authorize Person }
 
   # GET /people or /people.json
@@ -40,10 +40,19 @@ class PeopleController < ApplicationController
     @favorite = current_user.favorites.find_by(person: @person)
   end
 
-  # GET /people/1/arvore.pdf — descendant tree (up to 5 generations) as a PDF.
-  def pedigree
+  # GET /people/1/descendentes-completo.pdf — full descendant tree (up to 5
+  # generations, with spouses) as a PDF.
+  def descendants_full
     pdf = Pedigree::Pdf.new(@person, generations: 5).render
-    send_data pdf, filename: "arvore-#{@person.slug}.pdf",
+    send_data pdf, filename: "descendentes-completo-#{@person.slug}.pdf",
+                   type: 'application/pdf', disposition: 'inline'
+  end
+
+  # GET /people/1/descendentes.pdf — descendants-only tree (children,
+  # grandchildren, … with no generation limit and no spouses) as a PDF.
+  def descendants
+    pdf = Pedigree::Descendants::Pdf.new(@person).render
+    send_data pdf, filename: "descendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
 

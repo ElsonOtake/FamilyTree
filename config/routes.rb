@@ -5,7 +5,8 @@ Rails.application.routes.draw do
                                     sessions: 'users/sessions',
                                     registrations: 'users/registrations' }
   resources :people, path: :individuos do
-    get 'arvore', on: :member, to: 'people#pedigree'
+    get 'descendentes-completo', on: :member, to: 'people#descendants_full'
+    get 'descendentes', on: :member, to: 'people#descendants'
     get 'ascendentes', on: :member, to: 'people#ancestry'
     resources :couples, path: :casais, except: %i[show] do
       resources :children, path: :filhos

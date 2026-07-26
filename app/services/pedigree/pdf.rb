@@ -15,7 +15,7 @@ module Pedigree
     end
 
     def render
-      node = Chart.new(@root_person, generations: @generations).build
+      node = build_root_node
       @layout = Layout.new(node).call
       @offset_x = Geom::MARGIN - @layout.min_x
 
@@ -31,6 +31,12 @@ module Pedigree
 
     private
 
+    # The tree to render. Overridden by subclasses (e.g. the descendants-only
+    # chart) to swap in a different generation walk.
+    def build_root_node
+      Chart.new(@root_person, generations: @generations).build
+    end
+
     # Top-down y of a generation's portrait top edge: generation 1 at the top,
     # descendants flowing downward.
     def row_top(generation)
@@ -38,7 +44,7 @@ module Pedigree
     end
 
     def title_text
-      I18n.t('people.show.pedigree_title', name: @root_person.name)
+      I18n.t('people.show.descendants_full_title', name: @root_person.name)
     end
 
     def draw_links(pdf, placed, union)

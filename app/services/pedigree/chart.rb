@@ -59,7 +59,7 @@ module Pedigree
     end
 
     def child_nodes(couple, generation)
-      couple.people.map { |child| build_node(child, generation + 1) }.compact
+      BirthOrder.sort(couple.people).map { |child| build_node(child, generation + 1) }.compact
     end
 
     def descend?(generation)

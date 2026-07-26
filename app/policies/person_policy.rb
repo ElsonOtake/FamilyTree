@@ -22,8 +22,14 @@ class PersonPolicy < ApplicationPolicy
     true
   end
 
-  # Descendant-tree PDF export; same visibility as viewing the person.
-  def pedigree?
+  # Full descendant-tree PDF export (with spouses); same visibility as viewing
+  # the person.
+  def descendants_full?
+    show?
+  end
+
+  # Descendants-only PDF export (no spouses); same visibility.
+  def descendants?
     show?
   end
 
