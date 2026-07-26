@@ -106,6 +106,17 @@ module Pedigree
         assert_empty children_of(children_of(node).last) # Child B has no recorded children
       end
 
+      test 'excludes pets when include_pets is false, keeps them when true' do
+        pet = Person.create!(name: 'Rex', gender: 'P')
+        Child.create!(couple: @couple_a, person: pet, current_user: @user)
+
+        hidden = Chart.new(@focal, include_pets: false).build
+        assert_not_includes children_of(hidden).map { |c| c.person.name }, 'Rex'
+
+        shown = Chart.new(@focal, include_pets: true).build
+        assert_includes children_of(shown).map { |c| c.person.name }, 'Rex'
+      end
+
       test 'a person with no recorded children has no marriages' do
         assert_empty Chart.new(@grandchild).build.marriages
       end

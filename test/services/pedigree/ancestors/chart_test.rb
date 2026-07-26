@@ -66,6 +66,20 @@ module Pedigree
         assert_equal ['Grandmother'], parents_of(parents_of(node).first).map { |p| p.person.name }
       end
 
+      test 'excludes a pet parent when include_pets is false' do
+        owner = Person.create!(name: 'Owner', gender: 'M')
+        rex = Person.create!(name: 'Rex', gender: 'P')
+        couple = Couple.create!(person1: owner, person2: rex)
+        kid = Person.create!(name: 'Kid', gender: 'X')
+        Child.create!(couple: couple, person: kid, current_user: @user)
+
+        hidden = Chart.new(kid, include_pets: false).build
+        assert_equal ['Owner'], parents_of(hidden).map { |p| p.person.name }
+
+        shown = Chart.new(kid, include_pets: true).build
+        assert_includes parents_of(shown).map { |p| p.person.name }, 'Rex'
+      end
+
       test 'returns nil for a missing root' do
         assert_nil Chart.new(nil).build
       end

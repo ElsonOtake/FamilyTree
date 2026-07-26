@@ -54,6 +54,21 @@ class UsersController < ApplicationController
     redirect_to mcp_access_users_path, notice: t('users.mcp_access.revoked')
   end
 
+  # Self-service page where a signed-in user manages their family-tree export
+  # preferences (generation depth and whether pets appear).
+  def tree_settings
+    @user = current_user
+  end
+
+  def update_tree_settings
+    @user = current_user
+    if @user.update(tree_settings_params)
+      redirect_to tree_settings_users_path, notice: t('users.tree_settings.saved')
+    else
+      render :tree_settings, status: :unprocessable_entity
+    end
+  end
+
   def change
     locale = params[:locale]
 
@@ -79,5 +94,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:role)
+  end
+
+  def tree_settings_params
+    params.require(:user).permit(:tree_generations, :include_pets_in_tree)
   end
 end

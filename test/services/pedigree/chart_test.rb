@@ -59,6 +59,25 @@ module Pedigree
       assert_equal ['Older', 'Younger', 'Child', 'No Date'], children_of(node).map { |c| c.person.name }
     end
 
+    test 'excludes pets when include_pets is false, keeps them when true' do
+      pet = Person.create!(name: 'Rex', gender: 'P')
+      Child.create!(couple: @couple, person: pet, current_user: @user)
+
+      hidden = Chart.new(@focal, generations: 5, include_pets: false).build
+      assert_equal ['Child'], children_of(hidden).map { |c| c.person.name }
+
+      shown = Chart.new(@focal, generations: 5, include_pets: true).build
+      assert_includes children_of(shown).map { |c| c.person.name }, 'Rex'
+    end
+
+    test 'hides a pet spouse when include_pets is false' do
+      pet_spouse = Person.create!(name: 'Whiskers', gender: 'P')
+      Couple.create!(person1: @focal, person2: pet_spouse)
+
+      node = Chart.new(@focal, generations: 5, include_pets: false).build
+      assert node.marriages.map(&:spouse).compact.none?(&:pet?), 'pet spouse should be hidden'
+    end
+
     test 'stops at the generation limit' do
       node = Chart.new(@focal, generations: 2).build
 

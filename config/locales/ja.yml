@@ -10,6 +10,7 @@ ja:
     navbar:
       about: "アプリについて"
       mcp_access: "MCPアクセス"
+      tree_settings: "家系図の設定"
       edit_profile: "プロファイル編集"
       log_out: "ログアウト"
       more: "もっと"
@@ -200,6 +201,15 @@ ja:
       example_siblings: "ある人の兄弟姉妹は誰ですか？"
       example_age: "ある人は何歳ですか？"
       example_children: "ある人の子供は誰ですか？"
+    tree_settings:
+      title: "家系図の設定"
+      intro: "家系図PDFの生成方法を設定します。"
+      generations: "表示する世代数"
+      generations_help: "子孫図（完全版）に表示する世代数（1〜10）。デフォルトは5です。"
+      include_pets: "ペットを含める"
+      include_pets_help: "家族のペット（「ペット」として登録された人）を書き出す家系図に表示します。デフォルトは無効です。"
+      save: "設定を保存"
+      saved: "家系図の設定を保存しました。"
   favorites:
     title: "お気に入り"
     add: "お気に入りに追加"

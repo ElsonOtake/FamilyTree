@@ -20,6 +20,9 @@ class User < ApplicationRecord
   after_create :assign_default_role
   before_save :to_lowercase
   validates :name, presence: true
+  validates :tree_generations,
+            numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
+  validates :include_pets_in_tree, inclusion: { in: [true, false] }
 
   enum :locale, %i[pt en ja]
 

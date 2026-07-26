@@ -15,8 +15,9 @@ module Pedigree
       Node = Pedigree::Chart::Node
       Marriage = Pedigree::Chart::Marriage
 
-      def initialize(root)
+      def initialize(root, include_pets: true)
         @root = root
+        @include_pets = include_pets
         @seen = Set.new
       end
 
@@ -43,9 +44,11 @@ module Pedigree
       end
 
       # All children across the person's couples, merged and ordered oldest-first
-      # (see Pedigree::BirthOrder).
+      # (see Pedigree::BirthOrder). Pets ('P' gender) are dropped unless opted in.
       def child_people(person)
-        BirthOrder.sort(Couple.where('person1_id = :id OR person2_id = :id', id: person.id).flat_map(&:people))
+        people = Couple.where('person1_id = :id OR person2_id = :id', id: person.id).flat_map(&:people)
+        people = people.reject(&:pet?) unless @include_pets
+        BirthOrder.sort(people)
       end
     end
   end

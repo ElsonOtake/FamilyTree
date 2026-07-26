@@ -37,6 +37,11 @@ class Person < ApplicationRecord
   before_validation :set_default_gender, on: :create
   before_save :set_name_normalized, if: :name_changed?
 
+  # A pet is a person with the 'P' gender; tree exports can hide them.
+  def pet?
+    gender == 'P'
+  end
+
   def siblings
     # Find couples where this person is a child
     parent_couples = couples

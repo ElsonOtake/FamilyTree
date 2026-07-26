@@ -10,6 +10,7 @@ pt:
     navbar:
       about: "Sobre"
       mcp_access: "Acesso MCP"
+      tree_settings: "Configurações da árvore"
       edit_profile: "Editar perfil"
       log_out: "Sair"
       more: "Mais"
@@ -200,6 +201,15 @@ pt:
       example_siblings: "Quem são os irmãos de alguém?"
       example_age: "Qual a idade de uma pessoa?"
       example_children: "Quem são os filhos de alguém?"
+    tree_settings:
+      title: "Configurações da árvore"
+      intro: "Defina como os PDFs da sua árvore genealógica são gerados."
+      generations: "Gerações a exibir"
+      generations_help: "Quantas gerações aparecem na árvore de descendentes completo (1–10). O padrão é 5."
+      include_pets: "Incluir pets"
+      include_pets_help: "Exibir os pets da família (pessoas marcadas como 'Pet') nas árvores exportadas. Desativado por padrão."
+      save: "Salvar configurações"
+      saved: "Suas configurações da árvore foram salvas."
   favorites:
     title: "Favoritos"
     add: "Adicionar aos favoritos"
