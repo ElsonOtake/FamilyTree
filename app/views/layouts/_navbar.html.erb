@@ -39,6 +39,7 @@
         <%= render 'layouts/nav_dropdown', label: t('.more'), icon: :ellipsis_vertical do %>
           <%= render 'layouts/nav_dropdown_link', path: about_path, icon: :information_circle, label: t('layouts.navbar.about') %>
           <%= render 'layouts/nav_dropdown_link', path: mcp_access_users_path, icon: :cpu_chip, label: t('layouts.navbar.mcp_access') %>
+          <%= render 'layouts/nav_dropdown_link', path: tree_settings_users_path, icon: :adjustments_horizontal, label: t('layouts.navbar.tree_settings') %>
           <% if policy(User).roles? %>
             <div class='my-1 border-t border-slate-100 dark:border-slate-700'></div>
             <%= render 'layouts/nav_dropdown_link', path: roles_users_path, icon: :shield_check, label: t('layouts.navbar.roles') %>
@@ -90,6 +91,9 @@
         <% end %>
         <%= link_to mcp_access_users_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
           <%= heroicon(:cpu_chip, class: 'size-5') %><%= t('.mcp_access') %>
+        <% end %>
+        <%= link_to tree_settings_users_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>
+          <%= heroicon(:adjustments_horizontal, class: 'size-5') %><%= t('.tree_settings') %>
         <% end %>
         <% if policy(User).roles? %>
           <%= link_to roles_users_path, class: 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>

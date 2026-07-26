@@ -10,6 +10,7 @@ en:
     navbar:
       about: "About"
       mcp_access: "MCP access"
+      tree_settings: "Tree settings"
       edit_profile: "Edit profile"
       log_out: "Log out"
       more: "More"
@@ -203,6 +204,15 @@ en:
       example_siblings: "Who are someone's siblings?"
       example_age: "How old is a person?"
       example_children: "Who are someone's children?"
+    tree_settings:
+      title: "Tree settings"
+      intro: "Control how your family-tree PDFs are generated."
+      generations: "Generations to show"
+      generations_help: "How many generations appear in the descendants full tree (1–10). Default is 5."
+      include_pets: "Include pets"
+      include_pets_help: "Show family pets (people marked as 'Pet') in the exported trees. Off by default."
+      save: "Save settings"
+      saved: "Your tree settings have been saved."
   favorites:
     title: "Favorites"
     add: "Add to favorites"

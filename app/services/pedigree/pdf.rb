@@ -9,9 +9,10 @@ module Pedigree
   class Pdf
     include Chrome
 
-    def initialize(root_person, generations: Chart::DEFAULT_GENERATIONS)
+    def initialize(root_person, generations: Chart::DEFAULT_GENERATIONS, include_pets: true)
       @root_person = root_person
       @generations = generations
+      @include_pets = include_pets
     end
 
     def render
@@ -34,7 +35,7 @@ module Pedigree
     # The tree to render. Overridden by subclasses (e.g. the descendants-only
     # chart) to swap in a different generation walk.
     def build_root_node
-      Chart.new(@root_person, generations: @generations).build
+      Chart.new(@root_person, generations: @generations, include_pets: @include_pets).build
     end
 
     # Top-down y of a generation's portrait top edge: generation 1 at the top,

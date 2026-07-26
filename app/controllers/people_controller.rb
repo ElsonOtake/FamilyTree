@@ -40,10 +40,11 @@ class PeopleController < ApplicationController
     @favorite = current_user.favorites.find_by(person: @person)
   end
 
-  # GET /people/1/descendentes-completo.pdf — full descendant tree (up to 5
-  # generations, with spouses) as a PDF.
+  # GET /people/1/descendentes-completo.pdf — full descendant tree (with spouses)
+  # as a PDF, limited to the viewer's configured generation depth.
   def descendants_full
-    pdf = Pedigree::Pdf.new(@person, generations: 5).render
+    pdf = Pedigree::Pdf.new(@person, generations: current_user.tree_generations,
+                                     include_pets: current_user.include_pets_in_tree).render
     send_data pdf, filename: "descendentes-completo-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
@@ -51,13 +52,13 @@ class PeopleController < ApplicationController
   # GET /people/1/descendentes.pdf — descendants-only tree (children,
   # grandchildren, … with no generation limit and no spouses) as a PDF.
   def descendants
-    pdf = Pedigree::Descendants::Pdf.new(@person).render
+    pdf = Pedigree::Descendants::Pdf.new(@person, include_pets: current_user.include_pets_in_tree).render
     send_data pdf, filename: "descendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
 
   def ancestry
-    pdf = Pedigree::Ancestors::Pdf.new(@person).render
+    pdf = Pedigree::Ancestors::Pdf.new(@person, include_pets: current_user.include_pets_in_tree).render
     send_data pdf, filename: "ascendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end

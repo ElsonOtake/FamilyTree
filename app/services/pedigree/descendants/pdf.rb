@@ -11,7 +11,7 @@ module Pedigree
       private
 
       def build_root_node
-        Descendants::Chart.new(@root_person).build
+        Descendants::Chart.new(@root_person, include_pets: @include_pets).build
       end
 
       def title_text
