@@ -24,11 +24,13 @@ class ChildrenController < ApplicationController
 
   def create
     @child = Person.find(params[:child_id])
-    @child_record = Child.new(person_id: @child.id, couple_id: @couple.id)
+    # The link may already exist as a soft-deleted row (the composite PK allows
+    # only one per pair); restore it instead of inserting a duplicate.
+    @child_record = Child.with_deleted.find_or_initialize_by(person_id: @child.id, couple_id: @couple.id)
     @child_record.current_user = current_user
 
     respond_to do |format|
-      if @child_record.save
+      if link_child(@child_record)
         format.html { redirect_to person_path(@person) }
         format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
       else
@@ -69,6 +71,23 @@ class ChildrenController < ApplicationController
   end
 
   private
+
+  # Create the link, restore a previously unlinked (soft-deleted) one (auditing
+  # the re-link), or reject a link that already exists and is active (the no-op
+  # save would otherwise report a false success).
+  def link_child(record)
+    return record.save unless record.persisted?
+
+    if record.deleted_at?
+      return false unless record.restore
+
+      record.record_relink(current_user)
+      return true
+    end
+
+    record.errors.add(:person_id, :taken)
+    false
+  end
 
   def set_person
     @person = Person.find(params[:person_id])

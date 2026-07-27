@@ -94,8 +94,9 @@ class Couple < ApplicationRecord
                    .or(Couple.includes(:person1, :person2).where(person2_id: person_id))
     return [] if couples.empty?
 
-    # Use already loaded associations
-    couples.map { |couple| couple.person1_id != person_id ? couple.person1 : couple.person2 }
+    # Use already loaded associations; compact drops a soft-deleted mate (the
+    # belongs_to returns nil under the paranoia scope) so callers don't deref nil.
+    couples.map { |couple| couple.person1_id != person_id ? couple.person1 : couple.person2 }.compact
   end
 
   def self.children(person_id)

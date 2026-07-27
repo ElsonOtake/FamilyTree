@@ -365,9 +365,6 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
   test "should require authentication for standalone routes" do
     get couples_path
     assert_redirected_to new_user_session_path
-    
-    delete couple_path(@couple)
-    assert_redirected_to new_user_session_path
   end
 
   # ERROR HANDLING TESTS

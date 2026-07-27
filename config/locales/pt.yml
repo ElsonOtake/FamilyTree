@@ -624,6 +624,8 @@ pt:
     edit: "Editar"
     delete: "Remover"
     events: "Eventos"
+    restore: "Restaurar"
+    restored: "Registro restaurado."
     delete_confirmation: "Você tem certeza que deseja remover este item?"
     create_another: "Criar outro %{model}"
     new_model: "Novo(a) %{model}"

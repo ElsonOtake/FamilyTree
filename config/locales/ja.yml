@@ -580,6 +580,8 @@ ja:
     edit: "編集"
     delete: "削除"
     events: "イベント"
+    restore: "復元"
+    restored: "レコードを復元しました。"
     delete_confirmation: "本当に削除しますか？"
     create_another: "%{model} を続けて作成する"
     new_model: "%{model} を作成する"

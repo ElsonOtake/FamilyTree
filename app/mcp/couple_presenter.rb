@@ -12,7 +12,7 @@ module CouplePresenter
   def anniversary(couple)
     {
       couple_id: couple.id,
-      partners: [PersonPresenter.summary(couple.person1), PersonPresenter.summary(couple.person2)],
+      partners: [couple.person1, couple.person2].compact.map { |person| PersonPresenter.summary(person) },
       marriage_date: couple.marriage&.iso8601,
       anniversary: couple.anniversary_this_year&.iso8601,
       days_until_anniversary: couple.days_until_anniversary,

@@ -62,6 +62,36 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to people_url
   end
 
+  test "destroying a person records a person.destroy event for the current user" do
+    @user.add_role(:admin)
+    target = Person.create!(name: "Doomed", gender: "X")
+
+    assert_difference -> { Event.where(name: "person.destroy").count }, 1 do
+      delete person_url(target)
+    end
+
+    event = Event.where(name: "person.destroy").order(:id).last
+    assert_equal @user, event.user
+    assert_equal target.id, event.resource_id
+    assert_equal "Person", event.resource_type
+    assert_equal "Doomed", event.data["name"]
+  end
+
+  test "cascaded child.unlink on person delete is attributed to the acting user" do
+    @user.add_role(:admin)
+    gp1 = Person.create!(name: "GP1", gender: "M")
+    gp2 = Person.create!(name: "GP2", gender: "F")
+    gpc = Couple.create!(person1: gp1, person2: gp2)
+    kid = Person.create!(name: "Kid", gender: "X")
+    Child.create!(couple: gpc, person: kid, current_user: @user)
+
+    delete person_url(kid)
+
+    unlink = Event.where(name: "child.unlink", resource_id: kid.id).order(:id).last
+    assert_not_nil unlink, "person delete should cascade a child.unlink event"
+    assert_equal @user, unlink.user, "should be the acting admin, not the system user"
+  end
+
   test "birthdays action shows favorites when available" do
     # Create people with birthdays
     person_with_birthday = Person.create!(

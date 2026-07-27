@@ -263,6 +263,24 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_equal @couple.id, event.data['couple_id']
   end
 
+  test "re-adding a previously unlinked child restores the link and audits it" do
+    Child.create!(couple: @couple, person: @child, current_user: @user)
+    Child.find_by(person_id: @child.id, couple_id: @couple.id).destroy
+    assert_not_includes @couple.reload.people, @child
+
+    # Composite PK allows one row per pair; re-adding must restore, not insert,
+    # and record a child.create event (after_restore), not silently skip it.
+    assert_difference -> { Event.where(name: "child.create", resource_id: @child.id).count }, 1 do
+      assert_nothing_raised do
+        post person_couple_children_path(@parent1, @couple), params: { child_id: @child.id }
+      end
+    end
+
+    assert_redirected_to person_path(@parent1)
+    assert_includes @couple.reload.people, @child
+    assert_equal 1, Child.with_deleted.where(person_id: @child.id, couple_id: @couple.id).count
+  end
+
   private
 
   def sign_in_as(user)
