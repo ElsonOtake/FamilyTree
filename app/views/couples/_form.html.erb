@@ -1,6 +1,7 @@
 <%= render 'people/search_mate_name' unless couple.persisted? %>
 <% mate_name = if couple.persisted?
-                 (couple.person1_id == @person.id ? Person.find(couple.person2_id) : Person.find(couple.person1_id)).name
+                 mate_id = couple.person1_id == @person.id ? couple.person2_id : couple.person1_id
+                 Person.with_deleted.find_by(id: mate_id)&.name
                else
                  ''
                end %>

@@ -436,6 +436,16 @@ class CoupleTest < ActiveSupport::TestCase
     assert_includes callbacks, :record_create
   end
 
+  test "mates omits a soft-deleted spouse so the show page can't deref nil" do
+    live = Person.create!(name: "Live Spouse", gender: "M")
+    gone = Person.create!(name: "Gone Spouse", gender: "M")
+    Couple.create!(person1: @person1, person2: live)
+    Couple.create!(person1: @person1, person2: gone)
+    gone.destroy
+
+    assert_equal ["Live Spouse"], @person1.reload.mates.map(&:name)
+  end
+
   test "auditing a couple update/unlink does not crash when a member is soft-deleted" do
     user = User.create!(name: "Actor", email: "actor-#{SecureRandom.hex(3)}@example.com",
                         password: "password123", confirmed_at: Time.current)
