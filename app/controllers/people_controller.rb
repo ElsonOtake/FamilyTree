@@ -145,6 +145,7 @@ class PeopleController < ApplicationController
   def destroy
     authorize @person
     person_name = @person.name
+    current_user.events.create(name: 'person.destroy', resource: @person, data: { name: person_name })
     @person.destroy
 
     respond_to do |format|
