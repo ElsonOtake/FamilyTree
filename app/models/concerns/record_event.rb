@@ -52,8 +52,10 @@ module RecordEvent
 
   def record_event(actor, action, data)
     name = "#{self.class.name.underscore}.#{action}"
-    people = is_a?(Person) ? [self] : [Person.find(person1_id), Person.find(person2_id)]
-    people.each { |person| actor.events.create(name: name, data: data, resource: person) }
+    # with_deleted: a couple can outlive a soft-deleted member, and Person.find
+    # (paranoia default scope) would raise RecordNotFound while auditing it.
+    people = is_a?(Person) ? [self] : [person1_id, person2_id].map { |id| Person.with_deleted.find_by(id: id) }
+    people.compact.each { |person| actor.events.create(name: name, data: data, resource: person) }
   end
 
   def destroyed_logically?

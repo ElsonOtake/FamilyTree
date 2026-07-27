@@ -294,4 +294,22 @@ class ChildTest < ActiveSupport::TestCase
     @child_person.restore(recursive: true)
     assert_includes @couple.reload.people, @child_person
   end
+
+  test "recursive restore with a recovery window does not resurrect an old independent unlink" do
+    other = Couple.create!(person1: Person.create!(name: "O1", gender: "M"),
+                           person2: Person.create!(name: "O2", gender: "F"))
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+    Child.create!(couple: other, person: @child_person, current_user: @user)
+
+    # Independently unlink from `other` well before the person is deleted.
+    old = Child.find_by(person_id: @child_person.id, couple_id: other.id)
+    old.destroy
+    old.update_column(:deleted_at, 1.hour.ago)
+
+    @child_person.destroy # cascade-soft-deletes the @couple link now
+    @child_person.restore(recursive: true, recovery_window: 10.seconds)
+
+    assert_includes @child_person.reload.couples, @couple
+    assert_not_includes @child_person.couples, other, "the old intentional unlink must stay unlinked"
+  end
 end
