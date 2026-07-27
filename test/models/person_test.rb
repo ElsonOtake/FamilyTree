@@ -231,6 +231,26 @@ class PersonTest < ActiveSupport::TestCase
     assert_nil person_invalid.days_until_birthday
   end
 
+  # AUDIT EVENT TESTS
+  test "person update is audited via Current.user, silent without an actor" do
+    user = User.new(name: "Actor", email: "actor-#{SecureRandom.hex(3)}@example.com",
+                    password: "password123", confirmed_at: Time.current)
+    user.save!
+    person = Person.create!(name: "Before", gender: "M")
+
+    assert_no_difference -> { Event.where(name: "person.update").count } do
+      person.update!(name: "NoActor") # no current_user and no Current.user set
+    end
+
+    Current.user = user
+    assert_difference -> { Event.where(name: "person.update").count }, 1 do
+      person.update!(name: "WithActor")
+    end
+    assert_equal user, Event.where(name: "person.update").order(:id).last.user
+  ensure
+    Current.user = nil
+  end
+
   # PARENT LOOKUP TESTS
   test "father and mother return the male and female parent" do
     child = build_child_of("Dad", "M", "Mom", "F")

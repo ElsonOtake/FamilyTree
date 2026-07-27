@@ -1,6 +1,10 @@
 # frozen_string_literal: true
-#
-# This module is used to record events in the database.
+
+# Records create/update/unlink audit events for the including model (Person and
+# Couple). The acting user is whoever is set on the record, falling back to the
+# request-wide Current.user — so admin, console-with-Current and cascaded writes
+# are audited too, not only writes that thread `current_user` through explicitly.
+# Bulk contexts (seeds, migrations) set neither and are deliberately not logged.
 module RecordEvent
   extend ActiveSupport::Concern
   include ActiveModel::Dirty
@@ -14,75 +18,43 @@ module RecordEvent
   end
 
   def record_create
-    return unless current_user
+    actor = event_actor
+    return unless actor
 
     changes = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
-
-    if self.class == Person
-      current_user.events.create(
-        name: "#{self.class.name.underscore}.create",
-        data: changes,
-        resource: self
-      )
-    else
-      current_user.events.create(
-        name: "#{self.class.name.underscore}.create",
-        data: changes,
-        resource: Person.find(self.person1_id)
-      )
-      current_user.events.create(
-        name: "#{self.class.name.underscore}.create",
-        data: changes,
-        resource: Person.find(self.person2_id)
-      )
-    end
+    record_event(actor, 'create', changes)
   end
 
   def record_update
-    return unless current_user
+    actor = event_actor
+    return unless actor
 
-    changes = saved_changes
-
-    if self.class == Person
-      current_user.events.create(
-        name: "#{self.class.name.underscore}.update",
-        data: changes,
-        resource: self
-      )
-    else
-      current_user.events.create(
-        name: "#{self.class.name.underscore}.update",
-        data: changes,
-        resource: Person.find(self.person1_id)
-      )
-      current_user.events.create(
-        name: "#{self.class.name.underscore}.update",
-        data: changes,
-        resource: Person.find(self.person2_id)
-      )
-    end
+    record_event(actor, 'update', saved_changes)
   end
 
+  # Couple-only: a Couple soft-delete is an "unlink" of its two people. Person
+  # deletion is audited separately as a person.destroy event (PeopleController),
+  # so skip it here — a Person has no person1_id/person2_id to resolve.
   def record_destroy
-    return unless destroyed_logically? && current_user
+    return if is_a?(Person)
 
-    current_user.events.create(
-      name: "#{self.class.name.underscore}.unlink",
-      data: {
-        deleted_at: deleted_at
-      },
-      resource: Person.find(self.person1_id)
-    )
-    current_user.events.create(
-      name: "#{self.class.name.underscore}.unlink",
-      data: {
-        deleted_at: deleted_at
-      },
-      resource: Person.find(self.person2_id)
-    )
+    actor = event_actor
+    return unless destroyed_logically? && actor
+
+    record_event(actor, 'unlink', { deleted_at: deleted_at })
   end
 
   private
+
+  def event_actor
+    current_user || Current.user
+  end
+
+  def record_event(actor, action, data)
+    name = "#{self.class.name.underscore}.#{action}"
+    people = is_a?(Person) ? [self] : [Person.find(person1_id), Person.find(person2_id)]
+    people.each { |person| actor.events.create(name: name, data: data, resource: person) }
+  end
 
   def destroyed_logically?
     deleted_at.present?
