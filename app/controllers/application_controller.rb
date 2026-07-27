@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_current_user
   around_action :switch_locale
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -28,6 +29,13 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Expose the acting user request-wide so model callbacks that run outside a
+  # controller's reach (e.g. Child events fired by dependent: :destroy cascades)
+  # can attribute events to them instead of falling back to the system user.
+  def set_current_user
+    Current.user = current_user
+  end
 
   def user_not_authorized
     flash[:alert] = t('errors.messages.unauthorized')

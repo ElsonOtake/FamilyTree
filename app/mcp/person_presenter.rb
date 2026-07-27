@@ -17,7 +17,11 @@ module PersonPresenter
   module_function
 
   # Compact representation used for lists (e.g. search results, sibling lists).
+  # Returns nil for a nil person (e.g. a soft-deleted couple member) so callers
+  # that map over people don't crash on nil.id.
   def summary(person)
+    return nil if person.nil?
+
     {
       id: person.id,
       slug: person.slug,
@@ -61,9 +65,10 @@ module PersonPresenter
     )
   end
 
-  # Map a collection of people to summaries.
+  # Map a collection of people to summaries, dropping any nils (e.g. soft-deleted
+  # couple members surfaced as a nil person1/person2).
   def summaries(people)
-    people.map { |person| summary(person) }
+    people.compact.map { |person| summary(person) }
   end
 
   # Birthday-focused entry: a summary plus this year's birthday date, how many

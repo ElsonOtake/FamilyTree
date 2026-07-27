@@ -261,4 +261,74 @@ class ChildTest < ActiveSupport::TestCase
     assert_equal @couple.id, event.data['couple_id']
     assert_equal @child_person.id, event.data['person_id']
   end
+
+  # SOFT-DELETE (PARANOIA) TESTS
+  test "destroy soft-deletes the link and restore brings it back" do
+    child = Child.create!(couple: @couple, person: @child_person, current_user: @user)
+
+    child.destroy
+    assert_empty Child.where(person_id: @child_person.id, couple_id: @couple.id)
+    assert Child.with_deleted.where(person_id: @child_person.id, couple_id: @couple.id).exists?
+    assert_not_includes @couple.reload.people, @child_person
+
+    Child.with_deleted.find_by(person_id: @child_person.id, couple_id: @couple.id).restore
+    assert_includes @couple.reload.people, @child_person
+  end
+
+  test "recursive restore of a couple brings back its children links" do
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+
+    @couple.destroy
+    assert_empty Couple.with_deleted.find(@couple.id).people
+
+    Couple.with_deleted.find(@couple.id).restore(recursive: true)
+    assert_includes @couple.reload.people, @child_person
+  end
+
+  test "recursive restore of a person brings back their parent link" do
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+
+    @child_person.destroy
+    assert_empty @couple.reload.people
+
+    @child_person.restore(recursive: true)
+    assert_includes @couple.reload.people, @child_person
+  end
+
+  test "restoring links does not mint phantom or duplicate child.create events" do
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+    Current.user = @user
+
+    # Restoring an already-active link must not create an event.
+    assert_no_difference -> { Event.where(name: "child.create").count } do
+      Child.find_by(person_id: @child_person.id, couple_id: @couple.id).restore
+    end
+
+    # A recursive person restore brings the link back but must not audit it as a
+    # new child.create (that is only for an explicit re-link via the controller).
+    @child_person.destroy
+    assert_no_difference -> { Event.where(name: "child.create").count } do
+      @child_person.restore(recursive: true, recovery_window: 10.seconds)
+    end
+  ensure
+    Current.reset
+  end
+
+  test "recursive restore with a recovery window does not resurrect an old independent unlink" do
+    other = Couple.create!(person1: Person.create!(name: "O1", gender: "M"),
+                           person2: Person.create!(name: "O2", gender: "F"))
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+    Child.create!(couple: other, person: @child_person, current_user: @user)
+
+    # Independently unlink from `other` well before the person is deleted.
+    old = Child.find_by(person_id: @child_person.id, couple_id: other.id)
+    old.destroy
+    old.update_column(:deleted_at, 1.hour.ago)
+
+    @child_person.destroy # cascade-soft-deletes the @couple link now
+    @child_person.restore(recursive: true, recovery_window: 10.seconds)
+
+    assert_includes @child_person.reload.couples, @couple
+    assert_not_includes @child_person.couples, other, "the old intentional unlink must stay unlinked"
+  end
 end

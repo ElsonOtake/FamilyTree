@@ -160,3 +160,9 @@ a.button {
   background: $brand-100;
   color: $brand-700;
 }
+
+// Space out the per-row action links (View / Events / Restore) so custom
+// `item` links don't run together (e.g. "EventosRestore").
+.index_table td.col-actions a:not(:last-child) {
+  margin-right: 0.5rem;
+}
