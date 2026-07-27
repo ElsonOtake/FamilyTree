@@ -1,8 +1,6 @@
 ActiveAdmin.register Couple do
   menu priority: 4
 
-  includes :person1, :person2
-
   actions :index
   restorable!
 
@@ -28,7 +26,7 @@ ActiveAdmin.register Couple do
     column :updated_at
     column :deleted_at
     actions defaults: false do |couple|
-      item 'Restore', restore_admin_couple_path(couple), method: :put if couple.deleted_at?
+      item I18n.t('active_admin.restore', default: 'Restore'), restore_admin_couple_path(couple), method: :put if couple.deleted_at?
     end
   end
 end

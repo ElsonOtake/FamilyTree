@@ -145,8 +145,9 @@ class PeopleController < ApplicationController
   def destroy
     authorize @person
     person_name = @person.name
-    current_user.events.create(name: 'person.destroy', resource: @person, data: { name: person_name })
-    @person.destroy
+    destroyed = @person.destroy
+    # Only audit a delete that actually happened (destroy returns false if halted).
+    current_user.events.create(name: 'person.destroy', resource: @person, data: { name: person_name }) if destroyed
 
     respond_to do |format|
       format.html { 

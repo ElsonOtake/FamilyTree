@@ -23,8 +23,11 @@ class Child < ApplicationRecord
 
   validates :person_id, uniqueness: { scope: :couple_id }
 
-  # Record events when children are added or removed
+  # Record events when children are added or removed. after_restore covers
+  # re-linking a previously unlinked child (and links brought back by a
+  # recursive person/couple restore), which otherwise skip after_create.
   after_create :record_child_added
+  after_restore :record_child_added
   after_destroy :record_child_removed
 
   private

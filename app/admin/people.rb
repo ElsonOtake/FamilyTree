@@ -30,12 +30,12 @@ ActiveAdmin.register Person do
     column :deleted_at
     actions do |person|
       item I18n.t("active_admin.events"), admin_events_path(q: { resource_type_eq: person.class, resource_id_eq: person.id }), class: "preview-link"
-      item "Restore", restore_admin_person_path(person), method: :put if person.deleted_at?
+      item I18n.t("active_admin.restore", default: "Restore"), restore_admin_person_path(person), method: :put if person.deleted_at?
     end
   end
 
   action_item :restore, only: :show, if: -> { resource.deleted_at? } do
-    link_to "Restore", restore_admin_person_path(resource), method: :put
+    link_to I18n.t("active_admin.restore", default: "Restore"), restore_admin_person_path(resource), method: :put
   end
 
   show do

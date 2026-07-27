@@ -435,4 +435,20 @@ class CoupleTest < ActiveSupport::TestCase
     callbacks = Couple._create_callbacks.map(&:filter)
     assert_includes callbacks, :record_create
   end
+
+  test "auditing a couple update/unlink does not crash when a member is soft-deleted" do
+    user = User.create!(name: "Actor", email: "actor-#{SecureRandom.hex(3)}@example.com",
+                        password: "password123", confirmed_at: Time.current)
+    couple = Couple.create!(person1: @person1, person2: @person2)
+    @person2.destroy # soft-delete a member; the couple survives
+
+    Current.user = user
+    couple.current_user = user
+    assert_nothing_raised do
+      couple.update!(local: "Somewhere")
+      couple.destroy
+    end
+  ensure
+    Current.reset
+  end
 end
