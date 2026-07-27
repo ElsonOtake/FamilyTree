@@ -30,9 +30,7 @@ class Child < ApplicationRecord
   private
 
   def record_child_added
-    user = current_user || system_user_with_warning('record_child_added')
-
-    user.events.create(
+    event_user('record_child_added').events.create(
       name: 'child.create',
       data: {
         couple_id: couple_id,
@@ -43,9 +41,7 @@ class Child < ApplicationRecord
   end
 
   def record_child_removed
-    user = current_user || system_user_with_warning('record_child_removed')
-
-    user.events.create(
+    event_user('record_child_removed').events.create(
       name: 'child.unlink',
       data: {
         couple_id: couple_id,
@@ -53,6 +49,12 @@ class Child < ApplicationRecord
       },
       resource: person
     )
+  end
+
+  # Prefer the explicitly-set actor, then the request-wide Current.user (set for
+  # cascaded destroys where current_user isn't threaded through), then fall back.
+  def event_user(action)
+    current_user || Current.user || system_user_with_warning(action)
   end
 
   def system_user_with_warning(action)
