@@ -23,12 +23,19 @@ class Child < ApplicationRecord
 
   validates :person_id, uniqueness: { scope: :couple_id }
 
-  # Record events when children are added or removed. after_restore covers
-  # re-linking a previously unlinked child (and links brought back by a
-  # recursive person/couple restore), which otherwise skip after_create.
+  # Record events when children are added or removed. Re-linking (restore) is
+  # audited explicitly via #record_relink from the controller, not an
+  # after_restore hook: paranoia runs :restore callbacks unconditionally (even
+  # for no-op or out-of-recovery-window restores and for admin cascade restores
+  # where the actor is unknown), which would mint phantom/duplicate events.
   after_create :record_child_added
-  after_restore :record_child_added
   after_destroy :record_child_removed
+
+  # Audit a manual re-link (a restored soft-deleted row) as a fresh add.
+  def record_relink(user)
+    self.current_user = user
+    record_child_added
+  end
 
   private
 

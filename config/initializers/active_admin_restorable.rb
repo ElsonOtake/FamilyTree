@@ -27,6 +27,10 @@ module ActiveAdminRestorable
       # limits the cascade to links deleted *with* this record, so links the user
       # unlinked independently earlier are not resurrected.
       resource.restore(recursive: true, recovery_window: 10.seconds)
+      # Audit the restore against the acting admin (paranoia's restore fires no
+      # create/update callback, so RecordEvent would otherwise miss it).
+      current_user&.events&.create(name: "#{resource.class.name.underscore}.restore",
+                                   resource: resource, data: { id: resource.id })
       # Fall back to the index (always routed); some resources have no show route.
       redirect_back_or_to collection_path, notice: I18n.t('active_admin.restored', default: 'Record restored.')
     end

@@ -72,12 +72,18 @@ class ChildrenController < ApplicationController
 
   private
 
-  # Create the link, restore a previously unlinked (soft-deleted) one, or reject
-  # a link that already exists and is active (the no-op save would otherwise
-  # report a false success).
+  # Create the link, restore a previously unlinked (soft-deleted) one (auditing
+  # the re-link), or reject a link that already exists and is active (the no-op
+  # save would otherwise report a false success).
   def link_child(record)
     return record.save unless record.persisted?
-    return record.restore if record.deleted_at?
+
+    if record.deleted_at?
+      return false unless record.restore
+
+      record.record_relink(current_user)
+      return true
+    end
 
     record.errors.add(:person_id, :taken)
     false

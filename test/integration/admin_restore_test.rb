@@ -45,6 +45,14 @@ class AdminRestoreTest < ActionDispatch::IntegrationTest
     assert_not Person.only_deleted.exists?(@person.id)
   end
 
+  test 'restoring records a person.restore audit event for the acting admin' do
+    assert_difference -> { Event.where(name: 'person.restore', resource_id: @person.id).count }, 1 do
+      put restore_admin_person_path(@person)
+    end
+
+    assert_equal @admin, Event.where(name: 'person.restore', resource_id: @person.id).last.user
+  end
+
   test 'admin couples index renders when a couple member is soft-deleted' do
     live = Person.create!(name: 'LiveMember', gender: 'F')
     gone = Person.create!(name: 'DeletedMember', gender: 'M')

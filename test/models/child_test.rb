@@ -295,6 +295,25 @@ class ChildTest < ActiveSupport::TestCase
     assert_includes @couple.reload.people, @child_person
   end
 
+  test "restoring links does not mint phantom or duplicate child.create events" do
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+    Current.user = @user
+
+    # Restoring an already-active link must not create an event.
+    assert_no_difference -> { Event.where(name: "child.create").count } do
+      Child.find_by(person_id: @child_person.id, couple_id: @couple.id).restore
+    end
+
+    # A recursive person restore brings the link back but must not audit it as a
+    # new child.create (that is only for an explicit re-link via the controller).
+    @child_person.destroy
+    assert_no_difference -> { Event.where(name: "child.create").count } do
+      @child_person.restore(recursive: true, recovery_window: 10.seconds)
+    end
+  ensure
+    Current.reset
+  end
+
   test "recursive restore with a recovery window does not resurrect an old independent unlink" do
     other = Couple.create!(person1: Person.create!(name: "O1", gender: "M"),
                            person2: Person.create!(name: "O2", gender: "F"))
