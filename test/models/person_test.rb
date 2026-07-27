@@ -222,12 +222,58 @@ class PersonTest < ActiveSupport::TestCase
     # Person with invalid date (Feb 30)
     person_invalid = Person.new(
       name: "Invalid Date",
-      birth_year: 1990, 
+      birth_year: 1990,
       birth_month: 2,
       birth_day: 30
     )
-    
+
     assert_nil person_invalid.birthday_this_year
     assert_nil person_invalid.days_until_birthday
+  end
+
+  # PARENT LOOKUP TESTS
+  test "father and mother return the male and female parent" do
+    child = build_child_of("Dad", "M", "Mom", "F")
+
+    assert_equal "Dad", child.father.name
+    assert_equal "Mom", child.mother.name
+  end
+
+  test "father and mother order parents by gender regardless of couple order" do
+    # person1 is female, person2 is male: father must still be the male parent.
+    child = build_child_of("Mom", "F", "Dad", "M")
+
+    assert_equal "Dad", child.father.name
+    assert_equal "Mom", child.mother.name
+  end
+
+  test "soft-deleting a parent does not break father/mother (regression)" do
+    child = build_child_of("Dad", "M", "Mom", "F")
+    child.father.destroy # soft delete the father
+
+    child.reload
+    assert_nil child.father, "deleted father should drop out"
+    assert_equal "Mom", child.mother.name, "surviving parent should still show, once"
+  end
+
+  test "cousins is nil-safe when a parent is soft-deleted (regression)" do
+    child = build_child_of("Dad", "M", "Mom", "F")
+    child.mother.destroy
+
+    child.reload
+    assert_nothing_raised { child.cousins }
+  end
+
+  private
+
+  def build_child_of(p1_name, p1_gender, p2_name, p2_gender)
+    user = User.create!(name: "Recorder", email: "rec-#{SecureRandom.hex(4)}@example.com",
+                        password: "password123", confirmed_at: Time.current)
+    p1 = Person.create!(name: p1_name, gender: p1_gender)
+    p2 = Person.create!(name: p2_name, gender: p2_gender)
+    couple = Couple.create!(person1: p1, person2: p2)
+    child = Person.create!(name: "Kid", gender: "X")
+    Child.create!(couple: couple, person: child, current_user: user)
+    child
   end
 end

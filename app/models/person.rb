@@ -52,8 +52,9 @@ class Person < ApplicationRecord
   end
 
   def cousins
-    # Parents are person1/person2 of this person's parent couples.
-    parents = couples.flat_map { |couple| [couple.person1, couple.person2] }.uniq
+    # Parents are person1/person2 of this person's parent couples; compact drops
+    # any soft-deleted parent (the belongs_to returns nil under the paranoia scope).
+    parents = couples.flat_map { |couple| [couple.person1, couple.person2] }.compact.uniq
     return [] if parents.empty?
 
     # Aunts/uncles are the parents' siblings; first cousins are their children.
@@ -62,21 +63,11 @@ class Person < ApplicationRecord
   end
 
   def father
-    return nil if couples.empty?
-
-    couple = couples.first
-    # Use already loaded associations instead of find
-    person1 = couple.person1
-    person1.gender == 'M' ? person1 : couple.person2
+    parent_pair.first
   end
 
   def mother
-    return nil if couples.empty?
-
-    couple = couples.first
-    # Use already loaded associations instead of find
-    person1 = couple.person1
-    person1.gender != 'M' ? person1 : couple.person2
+    parent_pair.last
   end
 
   def mate(couple_id)
@@ -260,6 +251,21 @@ class Person < ApplicationRecord
     start_date, end_date = birthday_date_range(days_ahead, days_back)
     # MAKE_DATE requires PostgreSQL 9.4+; avatar is eager-loaded for the view.
     people_collection.includes(:avatar_attachment).birthdays_between(start_date, end_date)
+  end
+
+  # [father, mother] for the first parent couple. A male parent is placed first
+  # (father), the other second (mother), preserving the historic labelling. Soft-
+  # deleted couple members return nil from the belongs_to (paranoia scope) and are
+  # dropped, so a surviving parent is never duplicated across both slots and either
+  # slot may be nil.
+  def parent_pair
+    return [nil, nil] if couples.empty?
+
+    people = [couples.first.person1, couples.first.person2].compact
+    male = people.find { |person| person.gender == 'M' }
+    return [male, (people - [male]).first] if male
+
+    [people.second, people.first]
   end
 
   def set_default_gender
