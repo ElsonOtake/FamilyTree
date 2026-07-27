@@ -2,6 +2,7 @@ ActiveAdmin.register Person do
   menu priority: 3
 
   actions :index, :show
+  restorable!
 
   config.sort_order = 'id_asc'
 
@@ -26,9 +27,15 @@ ActiveAdmin.register Person do
     column :description
     column :created_at
     column :updated_at
+    column :deleted_at
     actions do |person|
       item I18n.t("active_admin.events"), admin_events_path(q: { resource_type_eq: person.class, resource_id_eq: person.id }), class: "preview-link"
+      item "Restore", restore_admin_person_path(person), method: :put if person.deleted_at?
     end
+  end
+
+  action_item :restore, only: :show, if: -> { resource.deleted_at? } do
+    link_to "Restore", restore_admin_person_path(resource), method: :put
   end
 
   show do
@@ -43,6 +50,7 @@ ActiveAdmin.register Person do
       row :description
       row :created_at
       row :updated_at
+      row :deleted_at
       row :events do
         link_to "Events", admin_events_path(q: { resource_type_eq: resource.class, resource_id_eq: resource.id }), class: "preview-link"
       end
