@@ -9,6 +9,13 @@ class Child < ApplicationRecord
   self.table_name = 'couples_people'
   self.primary_key = [:person_id, :couple_id]
 
+  # Soft-delete the couple<->child link so unlinking (and cascades from a
+  # soft-deleted person/couple) can be restored. The table's composite PK
+  # (person_id, couple_id) still allows only one row per pair, so re-adding a
+  # previously unlinked child must restore that row rather than insert a
+  # duplicate (see ChildrenController#create).
+  acts_as_paranoid
+
   belongs_to :couple
   belongs_to :person
 

@@ -22,7 +22,9 @@ module ActiveAdminRestorable
     scope 'All', :with_deleted
 
     member_action :restore, method: :put do
-      resource.restore
+      # Recursive so a restored person/couple also brings back its soft-deleted
+      # child links (the couples_people join is paranoid too).
+      resource.restore(recursive: true)
       # Fall back to the index (always routed); some resources have no show route.
       redirect_back_or_to collection_path, notice: 'Record restored.'
     end
