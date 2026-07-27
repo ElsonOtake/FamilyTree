@@ -261,4 +261,37 @@ class ChildTest < ActiveSupport::TestCase
     assert_equal @couple.id, event.data['couple_id']
     assert_equal @child_person.id, event.data['person_id']
   end
+
+  # SOFT-DELETE (PARANOIA) TESTS
+  test "destroy soft-deletes the link and restore brings it back" do
+    child = Child.create!(couple: @couple, person: @child_person, current_user: @user)
+
+    child.destroy
+    assert_empty Child.where(person_id: @child_person.id, couple_id: @couple.id)
+    assert Child.with_deleted.where(person_id: @child_person.id, couple_id: @couple.id).exists?
+    assert_not_includes @couple.reload.people, @child_person
+
+    Child.with_deleted.find_by(person_id: @child_person.id, couple_id: @couple.id).restore
+    assert_includes @couple.reload.people, @child_person
+  end
+
+  test "recursive restore of a couple brings back its children links" do
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+
+    @couple.destroy
+    assert_empty Couple.with_deleted.find(@couple.id).people
+
+    Couple.with_deleted.find(@couple.id).restore(recursive: true)
+    assert_includes @couple.reload.people, @child_person
+  end
+
+  test "recursive restore of a person brings back their parent link" do
+    Child.create!(couple: @couple, person: @child_person, current_user: @user)
+
+    @child_person.destroy
+    assert_empty @couple.reload.people
+
+    @child_person.restore(recursive: true)
+    assert_includes @couple.reload.people, @child_person
+  end
 end
