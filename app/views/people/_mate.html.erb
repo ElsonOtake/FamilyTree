@@ -7,7 +7,7 @@
   </div>
   <div class='flex items-center gap-1'>
     <% if policy(couple).destroy? %>
-      <%= link_to couple, class: 'btn btn-sm btn-ghost',
+      <%= link_to person_couple_path(person, couple), class: 'btn btn-sm btn-ghost',
           data: { turbo_method: :delete, turbo_confirm: t('confirm.messages.unlink_mate', person_name: person.name, mate_name: mate.name) },
           title: t('helpers.submit.unlink', model: t('people.show.mate')) do %>
         <%= heroicon(:link_slash, class: 'size-4 text-red-500') %>

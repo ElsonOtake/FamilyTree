@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   resources :events, only: [:index] do
     get 'download', on: :collection
   end
-  resources :couples, path: :casais, only: %i[index destroy] do
+  resources :couples, path: :casais, only: %i[index] do
     get 'download', on: :collection
   end
   get 'children/download', to: 'children#download', as: 'download_children'
