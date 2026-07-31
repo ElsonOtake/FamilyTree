@@ -231,6 +231,21 @@ class PersonTest < ActiveSupport::TestCase
     assert_nil person_invalid.days_until_birthday
   end
 
+  # GENDER RANSACK TESTS
+  test "ransack matches gender by enum key, not a coerced integer" do
+    female = Person.create!(name: "Fem", gender: "F")
+    male = Person.create!(name: "Male", gender: "M")
+
+    result_ids = Person.ransack(gender_eq: "F").result.ids
+    assert_includes result_ids, female.id
+    assert_not_includes result_ids, male.id, "gender_eq 'F' must not coerce to 0 (Male)"
+
+    # The main app filters via gender_in with integers; that must still work.
+    int_ids = Person.ransack(gender_in: [Person.genders["F"]]).result.ids
+    assert_includes int_ids, female.id
+    assert_not_includes int_ids, male.id
+  end
+
   # AUDIT EVENT TESTS
   test "person update is audited via Current.user, silent without an actor" do
     user = User.new(name: "Actor", email: "actor-#{SecureRandom.hex(3)}@example.com",

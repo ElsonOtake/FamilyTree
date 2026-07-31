@@ -8,13 +8,14 @@ ActiveAdmin.register Person do
 
   filter :name
   filter :kanji
-  filter :gender_eq, as: :select, collection: Person.genders
+  filter :gender_eq, as: :select, collection: -> { Person.genders.keys }
   filter :alive
   filter :birth
   filter :death
   filter :description
   filter :created_at
   filter :updated_at
+  filter :deleted_at
 
   index pagination_total: false, download_links: [:csv] do
     id_column

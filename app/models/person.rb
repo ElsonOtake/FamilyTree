@@ -29,6 +29,15 @@ class Person < ApplicationRecord
 
   enum :gender, %i[M F P X]
 
+  # Let ransack (admin filters and search) match gender by its enum key ("F") as
+  # well as by the stored integer, and surface the key rather than the raw
+  # integer in filter summaries. Ransack casts a bare "F" to 0 via to_i, so this
+  # formatter maps the key to its enum value; integers already in string/int form
+  # pass through unchanged.
+  ransacker :gender, formatter: proc { |value| Person.genders.fetch(value.to_s, value) } do |parent|
+    parent.table[:gender]
+  end
+
   scope :without_recorded_parents, -> { where.missing(:couples) }
   scope :with_birthdays_in_period, -> {
     where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
@@ -233,7 +242,7 @@ class Person < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[alive birth birth_year birth_month birth_day death description gender name kanji]
+    %w[alive birth birth_year birth_month birth_day death description gender name kanji created_at updated_at deleted_at]
   end
 
   def self.ransackable_associations(_auth_object = nil)

@@ -652,8 +652,9 @@ pt:
       all: "Todos"
     search_status:
       headline: "Buscou"
-      title: "Active Search"
-      title_with_scope: "Active Search de %{name}"
+      current_scope: "Escopo:"
+      title: "Busca ativa"
+      title_with_scope: "Busca ativa de %{name}"
       no_current_filters: "Nenhum filtro aplicado"
       current_filters: "Filtros aplicados"
     status_tag:
