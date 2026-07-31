@@ -606,6 +606,7 @@ ja:
         to: "終了"
     search_status:
       headline: "検索状態"
+      current_scope: "スコープ:"
       title: "アクティブ検索"
       title_with_scope: "%{name}のアクティブ検索"
       no_current_filters: "なし"

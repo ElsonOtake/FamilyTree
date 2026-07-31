@@ -647,6 +647,7 @@ en:
       all: "All"
     search_status:
       headline: "Search Status"
+      current_scope: "Scope:"
       title: "Active Search"
       title_with_scope: "Active Search for %{name}"
       no_current_filters: "No filters applied"
