@@ -10,6 +10,7 @@ ActiveAdmin.register Couple do
   filter :local
   filter :created_at
   filter :updated_at
+  filter :deleted_at
 
   index pagination_total: false, download_links: [:csv] do
     id_column
