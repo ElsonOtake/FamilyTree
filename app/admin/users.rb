@@ -4,6 +4,7 @@ ActiveAdmin.register User do
 
   config.sort_order = 'id_asc'
 
+  filter :id
   filter :name
   filter :email
   filter :locale

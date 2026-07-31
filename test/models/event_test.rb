@@ -143,7 +143,7 @@ class EventTest < ActiveSupport::TestCase
   test "ransackable_attributes returns correct attributes" do
     ransackable_attrs = Event.ransackable_attributes
     
-    expected_attrs = %w[name user_id resource_type resource_id created_at]
+    expected_attrs = %w[id name user_id resource_type resource_id created_at]
     assert_equal expected_attrs, ransackable_attrs
   end
 

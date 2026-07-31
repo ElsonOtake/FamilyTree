@@ -252,7 +252,7 @@ class CoupleTest < ActiveSupport::TestCase
   test "ransackable_attributes returns correct attributes" do
     ransackable_attrs = Couple.ransackable_attributes
     
-    expected_attrs = %w[created_at local marriage separation updated_at deleted_at couple_person1_name_or_couple_person2_name]
+    expected_attrs = %w[id created_at local marriage separation updated_at deleted_at couple_person1_name_or_couple_person2_name]
     assert_equal expected_attrs, ransackable_attrs
   end
 
