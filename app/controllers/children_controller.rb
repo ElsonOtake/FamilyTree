@@ -58,11 +58,14 @@ class ChildrenController < ApplicationController
       return
     end
 
-    # Check if person has any remaining children before destroying (avoids reload)
-    @has_remaining_children = @person.parent_relationships.where.not(couple_id: @couple.id).exists?
-
     @child_record.current_user = current_user
     @child_record.destroy
+
+    # Restore the "no children" empty state only when this was the person's last
+    # child. Use the same lookup the show view renders with (children of the
+    # person's couples) so the two stay consistent — the previous check queried
+    # the person's own parent links, which are unrelated to their children.
+    @has_remaining_children = @person.children.any?
 
     respond_to do |format|
       format.html { redirect_to person_url(@person) }
