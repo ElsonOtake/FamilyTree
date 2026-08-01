@@ -42,6 +42,14 @@ body.logged_out {
     font-weight: 800;
   }
 
+  // Constrain the brand logo (EAO.png is high-res) so it fits the header.
+  #site_title_image,
+  h1.site_title img {
+    height: 2rem;
+    width: auto;
+    display: block;
+  }
+
   ul.tabs > li {
     &.current > a,
     > a:hover {
