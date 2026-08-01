@@ -1,2 +1,3 @@
+<%= turbo_stream.remove 'no-mate-message' %>
 <%= turbo_stream.append 'mate', partial: 'people/mate', locals: { mate: @mate, person: @person } %>
 <%= render_turbo_stream_flash_messages %>

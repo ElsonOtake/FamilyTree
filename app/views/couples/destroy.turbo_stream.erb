@@ -1,2 +1,7 @@
 <%= turbo_stream.remove @couple %>
+<% unless @has_remaining_mates %>
+  <%= turbo_stream.append 'mate' do %>
+    <p class='empty-state' id='no-mate-message'><%= t('people.show.no_spouse') %></p>
+  <% end %>
+<% end %>
 <%= render_turbo_stream_flash_messages %>

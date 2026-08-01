@@ -6,6 +6,7 @@ ActiveAdmin.register Person do
 
   config.sort_order = 'id_asc'
 
+  filter :id
   filter :name
   filter :kanji
   filter :gender_eq, as: :select, collection: -> { Person.genders.keys }
