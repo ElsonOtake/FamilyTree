@@ -58,15 +58,15 @@
         <% end %>
       </div>
       <div class='card-body'>
-        <% if @person.mates.any? %>
-          <div class='space-y-2' id='mate'>
+        <div class='space-y-2' id='mate'>
+          <% if @person.mates.any? %>
             <% @person.mates.each do |mate| %>
               <%= render 'mate', person: @person, mate: mate %>
             <% end %>
-          </div>
-        <% else %>
-          <p class='empty-state'><%= t('people.show.no_spouse') %></p>
-        <% end %>
+          <% else %>
+            <p class='empty-state' id='no-mate-message'><%= t('people.show.no_spouse') %></p>
+          <% end %>
+        </div>
       </div>
     </div>
 
