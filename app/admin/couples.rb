@@ -4,6 +4,7 @@ ActiveAdmin.register Couple do
   actions :index
   restorable!
 
+  filter :id
   filter :person1_name_or_person2_name_cont, as: :string, label: 'Person Name'
   filter :marriage
   filter :separation
