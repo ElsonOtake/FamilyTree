@@ -66,6 +66,11 @@ class CouplesController < ApplicationController
 
   # DELETE /couples/1 or /couples/1.json
   def destroy
+    # Check for other mates before destroying so the empty state can be
+    # restored in the Turbo Stream when this was the person's last one.
+    @has_remaining_mates = Couple.where('person1_id = :id OR person2_id = :id', id: @person.id)
+                                 .where.not(id: @couple.id).exists?
+
     @couple.current_user = current_user
     @couple.destroy
 
