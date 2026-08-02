@@ -124,7 +124,7 @@ ActiveAdmin.register User do
     # against the acting admin (matching UsersController#role_update).
     def update
       if resource.update_role!(params.dig(:user, :role), actor: current_user)
-        redirect_to edit_admin_user_path(resource), notice: 'Role updated.'
+        redirect_to admin_users_path, notice: 'Role updated.'
       else
         redirect_to edit_admin_user_path(resource), alert: 'Please choose a valid role.'
       end
