@@ -30,8 +30,37 @@ class User < ApplicationRecord
     email.downcase!
   end
 
+  # The access tiers, lowest to highest privilege. The single source of truth for
+  # selectable roles (admin form, role management, validation).
+  ROLES = %w[bronze silver gold admin].freeze
+
   def assign_default_role
     add_role(:bronze) if roles.blank?
+  end
+
+  # The user's single effective role (the highest one it holds), for display and
+  # the admin form. Returns nil if the user has no recognized role.
+  def role
+    (roles.map(&:name) & ROLES).max_by { |name| ROLES.index(name) }
+  end
+
+  # Replace the user's roles with `name` and audit the change against `actor`.
+  # Rejects any name outside ROLES, so a crafted param can't mint an arbitrary
+  # role or strip access with a mis-cased value. Returns false on an invalid
+  # name; true (without a redundant event) when already set.
+  def update_role!(name, actor: nil)
+    name = name.to_s
+    return false unless ROLES.include?(name)
+    return true if role == name
+
+    old_roles = roles.pluck(:name)
+    transaction do
+      roles.delete_all
+      add_role(name)
+    end
+    actor&.events&.create(name: 'role.update',
+                          data: { user_id: id, old_roles: old_roles, new_roles: [name] })
+    true
   end
 
   def omniauth_login?
