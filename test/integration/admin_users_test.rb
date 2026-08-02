@@ -37,6 +37,24 @@ class AdminUsersTest < ActionDispatch::IntegrationTest
     assert_equal ['gold'], event.data['new_roles']
   end
 
+  test 'rejects a crafted invalid role name without minting a Role or auditing' do
+    assert_no_difference 'Role.count' do
+      assert_no_difference -> { Event.where(name: 'role.update').count } do
+        patch admin_user_path(@target), params: { user: { role: 'superadmin' } }
+      end
+    end
+
+    assert_redirected_to edit_admin_user_path(@target)
+    assert_equal ['bronze'], @target.reload.roles.pluck(:name)
+  end
+
+  test 'send password reset e-mails the user (for locked-out accounts)' do
+    patch send_reset_password_admin_user_path(@target)
+
+    assert_redirected_to edit_admin_user_path(@target)
+    assert @target.reload.reset_password_token.present?, 'a reset token should be set'
+  end
+
   test 'approve then revoke access via the member actions' do
     patch approve_admin_user_path(@target)
     assert @target.reload.approved?, 'user should be approved'
