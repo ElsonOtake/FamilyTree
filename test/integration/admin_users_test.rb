@@ -30,6 +30,7 @@ class AdminUsersTest < ActionDispatch::IntegrationTest
       patch admin_user_path(@target), params: { user: { role: 'gold' } }
     end
 
+    assert_redirected_to admin_users_path
     assert_equal ['gold'], @target.reload.roles.pluck(:name)
     event = Event.where(name: 'role.update').last
     assert_equal @admin, event.user
