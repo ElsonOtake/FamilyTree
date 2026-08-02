@@ -77,4 +77,22 @@ class AdminRestoreTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     assert Couple.exists?(couple.id), 'couple should be active again after restore'
   end
+
+  test 'admin restore bounds the cascade so an old independent unlink is not resurrected' do
+    ca = Couple.create!(person1: Person.create!(name: 'A1', gender: 'M'), person2: Person.create!(name: 'A2', gender: 'F'))
+    cb = Couple.create!(person1: Person.create!(name: 'B1', gender: 'M'), person2: Person.create!(name: 'B2', gender: 'F'))
+    kid = Person.create!(name: 'Kid', gender: 'X')
+    Child.create!(couple: ca, person: kid, current_user: @admin)
+    Child.create!(couple: cb, person: kid, current_user: @admin)
+
+    old = Child.find_by(person_id: kid.id, couple_id: cb.id)
+    old.destroy
+    old.update_column(:deleted_at, 1.hour.ago) # unlinked from cb long before the person delete
+    kid.destroy                                 # cascades the ca link now
+
+    put restore_admin_person_path(kid)
+
+    assert_includes kid.reload.couples, ca
+    assert_not_includes kid.couples, cb, 'the admin restore recovery_window must exclude the old unlink'
+  end
 end

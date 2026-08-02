@@ -75,6 +75,9 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
     assert_equal target.id, event.resource_id
     assert_equal "Person", event.resource_type
     assert_equal "Doomed", event.data["name"]
+    # RecordEvent must not also emit a person.unlink (its record_destroy is
+    # couple-only; a person delete should be audited exactly once).
+    assert_equal 0, Event.where(name: "person.unlink").count
   end
 
   test "cascaded child.unlink on person delete is attributed to the acting user" do

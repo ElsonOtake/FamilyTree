@@ -27,13 +27,9 @@ class UsersController < ApplicationController
 
   def role_update
     @user = User.find(params[:id])
-    old_roles = @user.roles.pluck(:name)
-    @user.roles = []
-    @user.add_role(user_params[:role])
-    current_user.events.create(
-      name: 'role.update',
-      data: { user_id: @user.id, old_roles: old_roles, new_roles: @user.roles.pluck(:name) }
-    )
+    unless @user.update_role!(user_params[:role], actor: current_user)
+      flash[:alert] = t('errors.messages.invalid')
+    end
     redirect_to roles_users_path
   end
 
