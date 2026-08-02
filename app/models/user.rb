@@ -34,6 +34,19 @@ class User < ApplicationRecord
     add_role(:bronze) if roles.blank?
   end
 
+  # The user's single effective role, exposed for the admin edit form. Assigning
+  # it replaces any existing roles (the app treats a user as having one role).
+  def role
+    roles.first&.name
+  end
+
+  def role=(name)
+    return if name.blank? || name == role
+
+    roles.delete_all
+    add_role(name)
+  end
+
   def omniauth_login?
     provider.present?
   end
