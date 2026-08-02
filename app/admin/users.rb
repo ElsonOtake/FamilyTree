@@ -68,7 +68,7 @@ ActiveAdmin.register User do
   # The edit page manages the role (form) and access/approval (sidebar).
   form do |f|
     f.inputs 'Role' do
-      f.input :role, as: :select, collection: %w[bronze silver gold admin], include_blank: false
+      f.input :role, as: :select, collection: User::ROLES, include_blank: false
     end
     f.actions
   end
@@ -86,6 +86,8 @@ ActiveAdmin.register User do
         span(link_to('Approve User', approve_admin_user_path(resource), method: :patch,
                                                                         data: { confirm: 'Approve this user\'s access? They will be notified by e-mail.' }, class: 'button'))
       end
+      span(link_to('Send Password Reset', send_reset_password_admin_user_path(resource), method: :patch,
+                                                                                         data: { confirm: 'E-mail this user a password reset link?' }, class: 'button'))
     end
   end
 
@@ -104,17 +106,28 @@ ActiveAdmin.register User do
     redirect_to edit_admin_user_path(resource), notice: 'User approval revoked.'
   end
 
-  # Audit role changes to match the app's own roles page (Current.user isn't set
-  # for ActiveAdmin, so read the actor from current_user here).
-  controller do
-    def update
-      old_roles = resource.roles.pluck(:name)
-      super
-      new_roles = resource.reload.roles.pluck(:name)
-      return if old_roles.sort == new_roles.sort
+  # A locked-out user can't self-serve via "Editar Perfil", so let an admin send
+  # the Devise reset-password e-mail (we never set passwords from the admin).
+  member_action :send_reset_password, method: :patch do
+    resource.send_reset_password_instructions
+    redirect_to edit_admin_user_path(resource), notice: 'Password reset e-mail sent.'
+  end
 
-      current_user.events.create(name: 'role.update',
-                                 data: { user_id: resource.id, old_roles: old_roles, new_roles: new_roles })
+  controller do
+    # Avoid an N+1 on the index's roles column.
+    def scoped_collection
+      super.includes(:roles)
+    end
+
+    # Role is the only editable field; route it through User#update_role!, which
+    # validates the name, swaps roles in one transaction, and audits the change
+    # against the acting admin (matching UsersController#role_update).
+    def update
+      if resource.update_role!(params.dig(:user, :role), actor: current_user)
+        redirect_to edit_admin_user_path(resource), notice: 'Role updated.'
+      else
+        redirect_to edit_admin_user_path(resource), alert: 'Please choose a valid role.'
+      end
     end
   end
 end
