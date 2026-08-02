@@ -55,6 +55,30 @@ class AdminUsersTest < ActionDispatch::IntegrationTest
     assert @target.reload.reset_password_token.present?, 'a reset token should be set'
   end
 
+  test 'update_role! rejects unknown or mis-cased role names (returns false, no change)' do
+    assert_not @target.update_role!('superadmin', actor: @admin)
+    assert_not @target.update_role!('GOLD', actor: @admin)
+    assert_equal ['bronze'], @target.reload.roles.pluck(:name)
+  end
+
+  test 'update_role! is a no-op that returns true when the role is unchanged' do
+    assert @target.update_role!('gold', actor: @admin)
+    assert @target.update_role!('gold', actor: @admin), 'assigning the same role should return true'
+  end
+
+  test 'User#role returns the highest held role' do
+    @target.add_role(:silver)
+    @target.add_role(:admin)
+
+    assert_equal 'admin', @target.reload.role
+  end
+
+  test 'rejecting an invalid role tells the admin it failed' do
+    patch admin_user_path(@target), params: { user: { role: 'superadmin' } }
+
+    assert_equal 'Please choose a valid role.', flash[:alert]
+  end
+
   test 'approve then revoke access via the member actions' do
     patch approve_admin_user_path(@target)
     assert @target.reload.approved?, 'user should be approved'
