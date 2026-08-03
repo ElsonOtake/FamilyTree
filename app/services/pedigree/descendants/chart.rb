@@ -44,7 +44,7 @@ module Pedigree
       end
 
       # All children across the person's couples, merged and ordered oldest-first
-      # (see Pedigree::BirthOrder). Pets ('P' gender) are dropped unless opted in.
+      # (see BirthOrder). Pets ('P' gender) are dropped unless opted in.
       def child_people(person)
         people = Couple.where('person1_id = :id OR person2_id = :id', id: person.id).flat_map(&:people)
         people = people.reject(&:pet?) unless @include_pets

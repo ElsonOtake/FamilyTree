@@ -299,6 +299,34 @@ class PersonTest < ActiveSupport::TestCase
     assert_nothing_raised { child.cousins }
   end
 
+  # BIRTH-ORDER TESTS (children & siblings, matching the tree PDFs)
+  test "children are ordered oldest first by birth date" do
+    user = User.create!(name: "Rec", email: "rec-#{SecureRandom.hex(4)}@example.com",
+                        password: "password123", confirmed_at: Time.current)
+    dad = Person.create!(name: "Dad", gender: "M")
+    mom = Person.create!(name: "Mom", gender: "F")
+    couple = Couple.create!(person1: dad, person2: mom)
+    young = Person.create!(name: "Young", gender: "X", birth: Date.new(2010, 1, 1))
+    old = Person.create!(name: "Old", gender: "X", birth: Date.new(2000, 1, 1))
+    mid = Person.create!(name: "Mid", gender: "X", birth_year: 2005)
+    [young, old, mid].each { |p| Child.create!(couple: couple, person: p, current_user: user) }
+
+    assert_equal %w[Old Mid Young], dad.children.map(&:name)
+  end
+
+  test "siblings are ordered oldest first and exclude self" do
+    user = User.create!(name: "Rec", email: "rec-#{SecureRandom.hex(4)}@example.com",
+                        password: "password123", confirmed_at: Time.current)
+    couple = Couple.create!(person1: Person.create!(name: "F", gender: "M"),
+                            person2: Person.create!(name: "M", gender: "F"))
+    young = Person.create!(name: "Young", gender: "X", birth: Date.new(2010, 1, 1))
+    old = Person.create!(name: "Old", gender: "X", birth: Date.new(2000, 1, 1))
+    mid = Person.create!(name: "Mid", gender: "X", birth_year: 2005)
+    [young, old, mid].each { |p| Child.create!(couple: couple, person: p, current_user: user) }
+
+    assert_equal %w[Old Young], mid.siblings.map(&:name)
+  end
+
   private
 
   def build_child_of(p1_name, p1_gender, p2_name, p2_gender)
