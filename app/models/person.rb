@@ -56,8 +56,8 @@ class Person < ApplicationRecord
     parent_couples = couples
     return [] if parent_couples.empty?
 
-    # Get all children of those parent couples, excluding self
-    parent_couples.flat_map(&:people).uniq - [self]
+    # Get all children of those parent couples, excluding self, oldest first.
+    BirthOrder.sort(parent_couples.flat_map(&:people).uniq - [self])
   end
 
   def cousins
