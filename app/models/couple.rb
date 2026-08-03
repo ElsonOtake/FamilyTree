@@ -107,8 +107,8 @@ class Couple < ApplicationRecord
                    .or(Couple.includes(:people).where(person2_id: person_id))
     return [] if couples.empty?
 
-    # Use flat_map to avoid nested arrays and get unique children
-    couples.flat_map(&:people).uniq
+    # Unique children across the person's couples, ordered oldest first.
+    BirthOrder.sort(couples.flat_map(&:people).uniq)
   end
 
   def self.ransackable_associations(auth_object = nil)
