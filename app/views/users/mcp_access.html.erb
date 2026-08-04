@@ -9,9 +9,15 @@
   <div class='card'>
     <div class='card-body space-y-4'>
       <% if @user.mcp_enabled? %>
-        <div class='field'>
+        <div class='field' data-controller='clipboard' data-clipboard-text-value='<%= @user.mcp_token %>'
+             data-clipboard-copied-value='<%= t('.copied') %>'>
           <label class='label'><%= t('.your_token') %></label>
-          <input class='input font-mono text-sm' type='text' readonly value='<%= @user.mcp_token %>' onclick='this.select()'>
+          <div class='flex gap-2'>
+            <input class='input font-mono text-sm' type='text' readonly
+                   value='<%= "#{'•' * 8}#{@user.mcp_token.last(5)}" %>'>
+            <%= tag.button t('.copy'), type: 'button', class: 'btn btn-secondary shrink-0',
+                           data: { action: 'clipboard#copy', clipboard_target: 'button' } %>
+          </div>
           <p class='mt-1 text-xs text-slate-400'><%= t('.token_help') %></p>
         </div>
 
