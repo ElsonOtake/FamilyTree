@@ -17,7 +17,7 @@ class McpInteractionLoggingTest < ActiveSupport::TestCase
     Current.user = nil
   end
 
-  test 'a tool call records an mcp event attributed to the caller with its arguments' do
+  test 'a successful tool call records an ok event with the caller and arguments' do
     Current.user = @caller
 
     assert_difference -> { @caller.events.where(name: 'mcp.get_parents').count }, 1 do
@@ -27,15 +27,36 @@ class McpInteractionLoggingTest < ActiveSupport::TestCase
     event = @caller.events.where(name: 'mcp.get_parents').order(:id).last
     assert_equal 'get_parents', event.data['tool']
     assert_equal @person.id.to_s, event.data['arguments']['person_id']
+    assert_equal 'ok', event.data['status']
+    assert_nil event.data['error']
     assert_equal @caller, event.user
   end
 
-  test 'a not-found lookup is still recorded' do
+  test 'a not-found lookup is a successful interaction and is recorded as ok' do
     Current.user = @caller
 
     assert_difference -> { Event.where(name: 'mcp.get_age').count }, 1 do
       GetAgeTool.new.call_with_schema_validation!(person_id: '999999')
     end
+
+    assert_equal 'ok', Event.where(name: 'mcp.get_age').order(:id).last.data['status']
+  end
+
+  test 'a call that raises is recorded with status error and the error re-raises' do
+    Current.user = @caller
+
+    # An empty person_id fails schema validation (required, filled), so the
+    # server dispatch raises before the tool body runs.
+    assert_difference -> { Event.where(name: 'mcp.get_parents').count }, 1 do
+      assert_raises(FastMcp::Tool::InvalidArgumentsError) do
+        GetParentsTool.new.call_with_schema_validation!(person_id: '')
+      end
+    end
+
+    event = Event.where(name: 'mcp.get_parents').order(:id).last
+    assert_equal 'error', event.data['status']
+    assert_equal 'FastMcp::Tool::InvalidArgumentsError', event.data['error']
+    assert_equal '', event.data['arguments']['person_id']
   end
 
   test 'no event is recorded without an authenticated caller' do
