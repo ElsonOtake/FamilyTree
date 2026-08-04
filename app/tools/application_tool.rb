@@ -4,7 +4,34 @@
 # family-tree query tools: resolving a person by id or slug, and serializing
 # responses as JSON text for the MCP client.
 class ApplicationTool < ActionTool::Base
+  # The MCP server dispatches every tool call through this method (see
+  # FastMcp::Server#handle_tools_call). We wrap it so each interaction is
+  # recorded as an audit Event attributed to the authenticated caller
+  # (Current.user, set by FamilyTreeTokenTransport) — giving the same per-user
+  # trail the web UI already keeps for writes, but for MCP reads.
+  def call_with_schema_validation!(**args)
+    result = super
+    record_interaction(args)
+    result
+  end
+
   private
+
+  # Log one "mcp.<tool>" Event per call with the arguments the caller passed.
+  # Best-effort: a valid MCP request always has Current.user, but if it is
+  # missing (or the write fails) we never let audit logging break a query.
+  def record_interaction(arguments)
+    user = Current.user
+    return unless user
+
+    user.events.create!(
+      name: "mcp.#{self.class.tool_name}",
+      data: { tool: self.class.tool_name, arguments: arguments.transform_keys(&:to_s) }
+    )
+  rescue StandardError => e
+    Rails.logger.warn("MCP interaction logging failed: #{e.class}: #{e.message}")
+  end
+
 
   # Resolve a Person from an id (integer), a friendly_id slug, or a name.
   # Soft-deleted people are excluded (default paranoia scope). Tried in order:
