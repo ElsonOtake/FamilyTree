@@ -24,3 +24,6 @@ application.register("flash", FlashController)
 
 import AvatarCropperController from "./avatar_cropper_controller"
 application.register("avatar-cropper", AvatarCropperController)
+
+import ClipboardController from "./clipboard_controller"
+application.register("clipboard", ClipboardController)
