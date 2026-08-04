@@ -9,25 +9,34 @@ class ApplicationTool < ActionTool::Base
   # recorded as an audit Event attributed to the authenticated caller
   # (Current.user, set by FamilyTreeTokenTransport) — giving the same per-user
   # trail the web UI already keeps for writes, but for MCP reads.
+  #
+  # Both outcomes are recorded: successful calls with status "ok", and calls
+  # that raise (invalid arguments, or the tool itself erroring) with status
+  # "error" — malformed/failed attempts are exactly what an audit trail wants,
+  # so we log the attempt and re-raise without swallowing the original error.
   def call_with_schema_validation!(**args)
     result = super
-    record_interaction(args)
+    record_interaction(args, status: 'ok')
     result
+  rescue StandardError => e
+    record_interaction(args, status: 'error', error: e.class.name)
+    raise
   end
 
   private
 
-  # Log one "mcp.<tool>" Event per call with the arguments the caller passed.
-  # Best-effort: a valid MCP request always has Current.user, but if it is
-  # missing (or the write fails) we never let audit logging break a query.
-  def record_interaction(arguments)
+  # Log one "mcp.<tool>" Event per call with the arguments the caller passed and
+  # the outcome. Best-effort: a valid MCP request always has Current.user, but
+  # if it is missing (or the write fails) we never let audit logging break — nor
+  # mask — a query.
+  def record_interaction(arguments, status:, error: nil)
     user = Current.user
     return unless user
 
-    user.events.create!(
-      name: "mcp.#{self.class.tool_name}",
-      data: { tool: self.class.tool_name, arguments: arguments.transform_keys(&:to_s) }
-    )
+    data = { tool: self.class.tool_name, arguments: arguments.transform_keys(&:to_s), status: status }
+    data[:error] = error if error
+
+    user.events.create!(name: "mcp.#{self.class.tool_name}", data: data)
   rescue StandardError => e
     Rails.logger.warn("MCP interaction logging failed: #{e.class}: #{e.message}")
   end
