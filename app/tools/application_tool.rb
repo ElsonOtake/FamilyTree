@@ -10,10 +10,12 @@ class ApplicationTool < ActionTool::Base
   # (Current.user, set by FamilyTreeTokenTransport) — giving the same per-user
   # trail the web UI already keeps for writes, but for MCP reads.
   #
-  # Both outcomes are recorded: successful calls with status "ok", and calls
-  # that raise (invalid arguments, or the tool itself erroring) with status
-  # "error" — malformed/failed attempts are exactly what an audit trail wants,
-  # so we log the attempt and re-raise without swallowing the original error.
+  # Both outcomes are recorded: successful calls as "mcp.<tool>", and calls that
+  # raise (invalid arguments, or the tool itself erroring) as "mcp.<tool>.error"
+  # — malformed/failed attempts are exactly what an audit trail wants. Encoding
+  # the outcome in the event name keeps it filterable in the Eventos admin (a
+  # "contains .error" name filter), since Event's jsonb data is not ransackable.
+  # We log the attempt and re-raise without swallowing the original error.
   def call_with_schema_validation!(**args)
     result = super
     record_interaction(args, status: 'ok')
@@ -25,18 +27,21 @@ class ApplicationTool < ActionTool::Base
 
   private
 
-  # Log one "mcp.<tool>" Event per call with the arguments the caller passed and
-  # the outcome. Best-effort: a valid MCP request always has Current.user, but
-  # if it is missing (or the write fails) we never let audit logging break — nor
-  # mask — a query.
+  # Log one Event per call: "mcp.<tool>" on success, "mcp.<tool>.error" on
+  # failure, carrying the arguments, status and (on failure) the error class.
+  # Best-effort: a valid MCP request always has Current.user, but if it is
+  # missing (or the write fails) we never let audit logging break — nor mask —
+  # a query.
   def record_interaction(arguments, status:, error: nil)
     user = Current.user
     return unless user
 
-    data = { tool: self.class.tool_name, arguments: arguments.transform_keys(&:to_s), status: status }
+    tool = self.class.tool_name
+    name = status == 'error' ? "mcp.#{tool}.error" : "mcp.#{tool}"
+    data = { tool: tool, arguments: arguments.transform_keys(&:to_s), status: status }
     data[:error] = error if error
 
-    user.events.create!(name: "mcp.#{self.class.tool_name}", data: data)
+    user.events.create!(name: name, data: data)
   rescue StandardError => e
     Rails.logger.warn("MCP interaction logging failed: #{e.class}: #{e.message}")
   end
