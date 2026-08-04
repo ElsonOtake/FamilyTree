@@ -42,18 +42,22 @@ class McpInteractionLoggingTest < ActiveSupport::TestCase
     assert_equal 'ok', Event.where(name: 'mcp.get_age').order(:id).last.data['status']
   end
 
-  test 'a call that raises is recorded with status error and the error re-raises' do
+  test 'a call that raises is recorded under an .error name and the error re-raises' do
     Current.user = @caller
 
     # An empty person_id fails schema validation (required, filled), so the
-    # server dispatch raises before the tool body runs.
-    assert_difference -> { Event.where(name: 'mcp.get_parents').count }, 1 do
-      assert_raises(FastMcp::Tool::InvalidArgumentsError) do
-        GetParentsTool.new.call_with_schema_validation!(person_id: '')
+    # server dispatch raises before the tool body runs. The failure is logged
+    # under a distinct "mcp.<tool>.error" name (filterable in the admin), not
+    # the plain success name.
+    assert_no_difference -> { Event.where(name: 'mcp.get_parents').count } do
+      assert_difference -> { Event.where(name: 'mcp.get_parents.error').count }, 1 do
+        assert_raises(FastMcp::Tool::InvalidArgumentsError) do
+          GetParentsTool.new.call_with_schema_validation!(person_id: '')
+        end
       end
     end
 
-    event = Event.where(name: 'mcp.get_parents').order(:id).last
+    event = Event.where(name: 'mcp.get_parents.error').order(:id).last
     assert_equal 'error', event.data['status']
     assert_equal 'FastMcp::Tool::InvalidArgumentsError', event.data['error']
     assert_equal '', event.data['arguments']['person_id']
