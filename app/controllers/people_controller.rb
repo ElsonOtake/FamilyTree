@@ -45,6 +45,8 @@ class PeopleController < ApplicationController
   def descendants_full
     pdf = Pedigree::Pdf.new(@person, generations: current_user.tree_generations,
                                      include_pets: current_user.include_pets_in_tree).render
+    record_tree_export('descendants_full', generations: current_user.tree_generations,
+                                           include_pets: current_user.include_pets_in_tree)
     send_data pdf, filename: "descendentes-completo-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
@@ -53,12 +55,14 @@ class PeopleController < ApplicationController
   # grandchildren, … with no generation limit and no spouses) as a PDF.
   def descendants
     pdf = Pedigree::Descendants::Pdf.new(@person, include_pets: current_user.include_pets_in_tree).render
+    record_tree_export('descendants', include_pets: current_user.include_pets_in_tree)
     send_data pdf, filename: "descendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
 
   def ancestry
     pdf = Pedigree::Ancestors::Pdf.new(@person, include_pets: current_user.include_pets_in_tree).render
+    record_tree_export('ancestry', include_pets: current_user.include_pets_in_tree)
     send_data pdf, filename: "ascendentes-#{@person.slug}.pdf",
                    type: 'application/pdf', disposition: 'inline'
   end
@@ -194,6 +198,20 @@ class PeopleController < ApplicationController
   end
 
   private
+
+  # Audit a family-tree PDF export: who exported whose tree (resource: @person),
+  # which kind, and the settings used. Distinct "person.export_<kind>" names keep
+  # each filterable in the Eventos admin. Best-effort — a failed audit write is
+  # logged at warn and never blocks the download.
+  def record_tree_export(kind, **details)
+    current_user&.events&.create!(
+      name: "person.export_#{kind}",
+      resource: @person,
+      data: { 'type' => kind }.merge(details.transform_keys(&:to_s))
+    )
+  rescue StandardError => e
+    Rails.logger.warn("Tree export logging failed: #{e.class}: #{e.message}")
+  end
 
   def search_active?
     return false unless params[:q].present?
