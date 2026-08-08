@@ -11,6 +11,7 @@ class FavoritesController < ApplicationController
     
     respond_to do |format|
       if @favorite.save
+        record_favorite_event('favorite.create')
         format.json { render json: { status: 'favorited', id: @favorite.id, message: I18n.t('favorites.added') } }
         format.html { redirect_back(fallback_location: @person, notice: I18n.t('favorites.added')) }
       else
@@ -26,6 +27,7 @@ class FavoritesController < ApplicationController
     
     respond_to do |format|
       if @favorite&.destroy
+        record_favorite_event('favorite.unlink')
         format.json { render json: { status: 'unfavorited', message: I18n.t('favorites.removed') } }
         format.html { redirect_back(fallback_location: @person, notice: I18n.t('favorites.removed')) }
       else
@@ -36,6 +38,12 @@ class FavoritesController < ApplicationController
   end
 
   private
+
+  # Audit who favorited/unfavorited whom. Attributed to the acting user, scoped
+  # (resource) to the favorited person. Fire-and-forget, matching locale.update.
+  def record_favorite_event(name)
+    current_user.events.create(name: name, resource: @person, data: { person_id: @person.id })
+  end
 
   def set_person
     @person = Person.find(params[:person_id])

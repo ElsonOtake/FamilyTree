@@ -212,6 +212,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert @regular_user.include_pets_in_tree
   end
 
+  test "updating tree settings records an audit event with the new settings" do
+    sign_in_as(@regular_user)
+
+    assert_difference -> { @regular_user.events.where(name: 'tree_settings.update').count }, 1 do
+      patch tree_settings_users_path, params: { user: { tree_generations: 8, include_pets_in_tree: true } }
+    end
+
+    event = @regular_user.events.where(name: 'tree_settings.update').order(:id).last
+    assert_equal 8, event.data['generations']
+    assert_equal true, event.data['include_pets']
+  end
+
+  test "a rejected tree settings update records no event" do
+    sign_in_as(@regular_user)
+
+    assert_no_difference -> { Event.where(name: 'tree_settings.update').count } do
+      patch tree_settings_users_path, params: { user: { tree_generations: 99 } }
+    end
+  end
+
   test "update tree settings should reject out-of-range generations" do
     sign_in_as(@regular_user)
 
