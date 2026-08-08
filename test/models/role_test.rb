@@ -13,10 +13,6 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   # BASIC MODEL TESTS
-  test "Role model includes correct modules" do
-    assert Role.include?(GenerateCsv)
-  end
-
   test "Role uses paranoid deletion" do
     role = Role.create!(name: "test_role")
     
@@ -152,32 +148,6 @@ class RoleTest < ActiveSupport::TestCase
     
     expected_attrs = ["created_at", "deleted_at", "id", "name", "resource_id", "resource_type", "updated_at"]
     assert_equal expected_attrs, ransackable_attrs
-  end
-
-  # CSV GENERATION TESTS
-  test "Role inherits CSV generation from GenerateCsv" do
-    assert_respond_to Role, :to_csv
-  end
-
-  test "Role.to_csv generates CSV with correct headers and data" do
-    role1 = Role.create!(name: "test_role_1")
-    role2 = Role.create!(name: "test_role_2")
-    
-    roles = [role1, role2]
-    csv_data = Role.to_csv(roles)
-    
-    # Check CSV structure
-    lines = csv_data.split("\n")
-    headers = lines.first.split(";")
-    
-    # Should include main Role columns
-    assert_includes headers, "name"
-    assert_includes headers, "resource_type"
-    assert_includes headers, "resource_id"
-    
-    # Check that data is included
-    assert csv_data.include?("test_role_1")
-    assert csv_data.include?("test_role_2")
   end
 
   # ROLIFY INTEGRATION TESTS

@@ -2,7 +2,6 @@
 
 # This model represents an event in the family tree.
 class Event < ApplicationRecord
-  include GenerateCsv
 
   belongs_to :user
   belongs_to :resource, polymorphic: true, optional: true

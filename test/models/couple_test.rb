@@ -39,7 +39,6 @@ class CoupleTest < ActiveSupport::TestCase
   end
 
   test "Couple model includes correct modules" do
-    assert Couple.include?(GenerateCsv)
     assert Couple.include?(RecordEvent)
   end
 
@@ -302,38 +301,6 @@ class CoupleTest < ActiveSupport::TestCase
     assert_equal 2, couple.people.count
     assert_includes couple.people, @child1
     assert_includes couple.people, @child2
-  end
-
-  test "Couple inherits CSV generation from GenerateCsv" do
-    assert_respond_to Couple, :to_csv
-  end
-
-  test "Couple.to_csv generates CSV with correct headers and data" do
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max,
-      marriage: Date.new(2020, 1, 1),
-      local: "Test Location"
-    )
-    
-    couples = [couple]
-    csv_data = Couple.to_csv(couples)
-    
-    # Check CSV structure
-    lines = csv_data.split("\n")
-    headers = lines.first.split(";")
-    
-    # Should include main Couple columns
-    assert_includes headers, "person1_id"
-    assert_includes headers, "person2_id"
-    assert_includes headers, "marriage"
-    assert_includes headers, "separation"
-    assert_includes headers, "local"
-    
-    # Check that data is included
-    assert csv_data.include?(couple.person1_id.to_s)
-    assert csv_data.include?(couple.person2_id.to_s)
-    assert csv_data.include?("Test Location")
   end
 
   test "Couple prevents duplicate relationships" do

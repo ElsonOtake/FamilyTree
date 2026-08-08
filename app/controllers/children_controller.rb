@@ -3,18 +3,9 @@
 # This controller manages the children in the family tree.
 class ChildrenController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_person, except: %i[download]
-  before_action :set_couple, except: %i[download]
+  before_action :set_person
+  before_action :set_couple
   before_action -> { authorize Child }
-
-  def download
-    children = Person.with_deleted.joins(:couples).select('person_id, couple_id')
-    respond_to do |format|
-      format.csv do
-        send_data Child.to_csv(children), filename: "children-#{Date.today}.csv"
-      end
-    end
-  end
 
   def new
     @q = Person.ransack(params[:q])

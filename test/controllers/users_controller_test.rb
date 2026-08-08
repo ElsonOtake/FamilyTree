@@ -38,69 +38,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  # DOWNLOAD ACTION TESTS
-  test "should download users CSV with admin user" do
-    sign_in_as(@admin_user)
-    
-    get download_users_path(format: :csv)
-    
-    assert_response :success
-    assert_equal "text/csv", response.media_type
-    assert_includes response.headers['Content-Disposition'], 'users'
-    assert_includes response.headers['Content-Disposition'], Date.today.to_s
-    
-    # Verify CSV contains user data
-    csv_data = response.body
-    assert_includes csv_data, @admin_user.name
-    assert_includes csv_data, @regular_user.name
-  end
-
-  test "download should require admin authorization" do
-    sign_in_as(@regular_user)
-    
-    get download_users_path(format: :csv)
-    assert_response :redirect # Should redirect due to authorization failure
-  end
-
-  test "download should require authentication" do
-    get download_users_path(format: :csv)
-    assert_response :unauthorized
-  end
-
-  test "download generates filename with current date" do
-    sign_in_as(@admin_user)
-    
-    get download_users_path(format: :csv)
-    
-    assert_response :success
-    
-    content_disposition = response.headers['Content-Disposition']
-    expected_filename = "users-#{Date.today}.csv"
-    assert_includes content_disposition, expected_filename
-  end
-
-  test "download orders users by ID" do
-    sign_in_as(@admin_user)
-    
-    get download_users_path(format: :csv)
-    
-    assert_response :success
-    csv_data = response.body
-    
-    # Should include user data in ID order
-    assert_includes csv_data, @admin_user.name
-    assert_includes csv_data, @regular_user.name
-  end
-
-  test "download only accepts CSV format" do
-    sign_in_as(@admin_user)
-    
-    # Test with HTML format (should not be supported)
-    assert_raises(ActionController::UnknownFormat) do
-      get download_users_path
-    end
-  end
-
   # ROLES ACTION TESTS
   test "should get roles with admin user" do
     sign_in_as(@admin_user)
@@ -323,7 +260,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "authorization hierarchy works correctly for admin actions" do
     actions_requiring_admin = [
       { action: -> { get users_path }, expects_success: true },
-      { action: -> { get download_users_path(format: :csv) }, expects_success: true },
       { action: -> { get roles_users_path }, expects_success: true },
       { action: -> { patch role_update_user_path(@test_user1), params: { user: { role: 'gold' } } }, expects_success: false }
     ]
@@ -394,39 +330,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_raises(ActionController::ActionControllerError) do
       patch user_locale_change_path(@regular_user, 'en')
     end
-  end
-
-  # CSV FORMAT TESTS
-  test "CSV headers should match User model columns" do
-    sign_in_as(@admin_user)
-    
-    get download_users_path(format: :csv)
-    
-    assert_response :success
-    csv_data = response.body
-    headers = csv_data.split("\n").first.split(";")
-    
-    # Should include main User model columns
-    expected_columns = %w[name email locale provider]
-    
-    expected_columns.each do |column|
-      assert_includes headers, column, "CSV should include #{column} column"
-    end
-  end
-
-  test "CSV includes user data correctly" do
-    sign_in_as(@admin_user)
-    
-    get download_users_path(format: :csv)
-    
-    assert_response :success
-    csv_data = response.body
-    
-    # Should include user names and emails
-    assert_includes csv_data, @admin_user.name
-    assert_includes csv_data, @regular_user.name
-    assert_includes csv_data, @admin_user.email
-    assert_includes csv_data, @regular_user.email
   end
 
   # PAGINATION TESTS
