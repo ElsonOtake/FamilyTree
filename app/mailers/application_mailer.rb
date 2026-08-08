@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "no-reply@example.com"
+  default from: ENV.fetch("MAILER_FROM", "no-reply@example.com")
   layout "mailer"
 
   # Embed the brand logo in every email so the shared layout header can render

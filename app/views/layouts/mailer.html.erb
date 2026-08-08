@@ -33,7 +33,8 @@
                 </p>
                 <p style='margin:0 0 8px;'>
                   <%= t('mailer.contact') %>
-                  <a href='mailto:no-reply@example.com' style='color:#8a4d76;'>no-reply@example.com</a>
+                  <% contact = ENV.fetch('CONTACT_EMAIL', 'contact@example.com') %>
+                  <a href="mailto:<%= contact %>" style='color:#8a4d76;'><%= contact %></a>
                 </p>
                 <p style='margin:0; color:#9b8792;'><%= t('mailer.automated_note') %></p>
               </td>

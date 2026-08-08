@@ -42,7 +42,7 @@
           <%= heroicon(:envelope, class: 'size-5 text-brand-500') %><%= t('.contact') %>
         </h2>
         <p class='mb-5 text-sm text-slate-500'><%= t('.contact_description') %></p>
-        <%= link_to 'mailto:contact@example.com', class: 'btn btn-primary' do %>
+        <%= link_to "mailto:#{ENV.fetch('CONTACT_EMAIL', 'contact@example.com')}", class: 'btn btn-primary' do %>
           <%= heroicon(:envelope, class: 'size-5') %><span><%= t('.contact_link') %></span>
         <% end %>
       </div>

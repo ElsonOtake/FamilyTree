@@ -39,3 +39,8 @@
 
 # Claude Code local settings
 /.claude/
+
+# Real personal data must never be committed. Keep local seed CSVs and the
+# photos they reference out of the repo; db/seeds.rb ships fictional data only.
+/lib/seeds/
+/app/assets/images/photos/

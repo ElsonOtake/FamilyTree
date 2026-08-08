@@ -2,5 +2,5 @@
 
 --
 <%= t('mailer.app_name') %> — <%= t('mailer.tagline') %>
-<%= t('mailer.contact') %> no-reply@example.com
+<%= t('mailer.contact') %> <%= ENV.fetch('CONTACT_EMAIL', 'contact@example.com') %>
 <%= t('mailer.automated_note') %>
