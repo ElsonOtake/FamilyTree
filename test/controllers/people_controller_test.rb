@@ -148,6 +148,43 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # TREE EXPORT AUDIT TESTS
+  test "descendants_full export records an audit event with settings" do
+    assert_difference -> { Event.where(name: "person.export_descendants_full").count }, 1 do
+      get descendentes_completo_person_url(@person)
+    end
+    assert_response :success
+
+    event = Event.where(name: "person.export_descendants_full").order(:id).last
+    assert_equal @user, event.user
+    assert_equal @person, event.resource
+    assert_equal "descendants_full", event.data["type"]
+    assert_equal @user.tree_generations, event.data["generations"]
+    assert_equal @user.include_pets_in_tree, event.data["include_pets"]
+  end
+
+  test "descendants export records an audit event scoped to the person" do
+    assert_difference -> { Event.where(name: "person.export_descendants").count }, 1 do
+      get descendentes_person_url(@person)
+    end
+    assert_response :success
+
+    event = Event.where(name: "person.export_descendants").order(:id).last
+    assert_equal @person, event.resource
+    assert_equal "descendants", event.data["type"]
+  end
+
+  test "ancestry export records an audit event scoped to the person" do
+    assert_difference -> { Event.where(name: "person.export_ancestry").count }, 1 do
+      get ascendentes_person_url(@person)
+    end
+    assert_response :success
+
+    event = Event.where(name: "person.export_ancestry").order(:id).last
+    assert_equal @person, event.resource
+    assert_equal "ancestry", event.data["type"]
+  end
+
   private
 
   def sign_in(user)
