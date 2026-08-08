@@ -127,6 +127,34 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # AUDIT EVENT tests
+  # Use a freshly-created person: the fixtures already have user one favoriting
+  # person one, so re-favoriting @person would be a no-op (no event).
+  test "favoriting records a favorite.create event scoped to the person" do
+    target = Person.create!(name: "Fav Target", gender: "X")
+
+    assert_difference -> { @user.events.where(name: 'favorite.create').count }, 1 do
+      post person_favorites_path(target), xhr: true
+    end
+
+    event = @user.events.where(name: 'favorite.create').order(:id).last
+    assert_equal target, event.resource
+    assert_equal target.id, event.data['person_id']
+  end
+
+  test "unfavoriting records a favorite.unlink event scoped to the person" do
+    target = Person.create!(name: "Unfav Target", gender: "X")
+    favorite = Favorite.create!(user: @user, person: target)
+
+    assert_difference -> { @user.events.where(name: 'favorite.unlink').count }, 1 do
+      delete person_favorite_path(target, favorite), xhr: true
+    end
+
+    event = @user.events.where(name: 'favorite.unlink').order(:id).last
+    assert_equal target, event.resource
+    assert_equal target.id, event.data['person_id']
+  end
+
   private
 
   def sign_in(user)

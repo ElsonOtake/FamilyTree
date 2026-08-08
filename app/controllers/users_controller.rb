@@ -59,6 +59,10 @@ class UsersController < ApplicationController
   def update_tree_settings
     @user = current_user
     if @user.update(tree_settings_params)
+      @user.events.create(
+        name: 'tree_settings.update',
+        data: { generations: @user.tree_generations, include_pets: @user.include_pets_in_tree }
+      )
       redirect_to tree_settings_users_path, notice: t('users.tree_settings.saved')
     else
       render :tree_settings, status: :unprocessable_entity
