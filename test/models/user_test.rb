@@ -15,7 +15,6 @@ class UserTest < ActiveSupport::TestCase
 
   # BASIC MODEL TESTS
   test "User model includes correct modules" do
-    assert User.include?(GenerateCsv)
     assert User.include?(ActiveModel::Dirty)
   end
 
@@ -322,39 +321,6 @@ class UserTest < ActiveSupport::TestCase
     # Test dependent destroy
     user.destroy
     assert_not Favorite.exists?(favorite.id)
-  end
-
-  # CSV GENERATION TESTS
-  test "User inherits CSV generation from GenerateCsv" do
-    assert_respond_to User, :to_csv
-  end
-
-  test "User.to_csv generates CSV with correct headers and data" do
-    user1 = User.create!(@valid_attributes.merge(email: "csv1@example.com"))
-    user2 = User.create!(@valid_attributes.merge(
-      email: "csv2@example.com",
-      name: "User Two",
-      locale: :en
-    ))
-    
-    users = [user1, user2]
-    csv_data = User.to_csv(users)
-    
-    # Check CSV structure
-    lines = csv_data.split("\n")
-    headers = lines.first.split(";")
-    
-    # Should include main User columns
-    assert_includes headers, "name"
-    assert_includes headers, "email"
-    assert_includes headers, "locale"
-    assert_includes headers, "provider"
-    
-    # Check that data is included
-    assert csv_data.include?("Test User")
-    assert csv_data.include?("User Two")
-    assert csv_data.include?("csv1@example.com")
-    assert csv_data.include?("csv2@example.com")
   end
 
   # RANSACKABLE TESTS

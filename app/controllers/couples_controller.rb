@@ -13,15 +13,6 @@ class CouplesController < ApplicationController
     @couples = Couple.includes(:person1, :person2).all
   end
 
-  def download
-    couples = Couple.with_deleted.order(:id)
-    respond_to do |format|
-      format.csv do
-        send_data Couple.to_csv(couples), filename: "couples-#{Date.today}.csv"
-      end
-    end
-  end
-
   # GET /couples/new
   def new
     @couple = Couple.new

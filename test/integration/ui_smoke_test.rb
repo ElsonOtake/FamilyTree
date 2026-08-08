@@ -98,12 +98,6 @@ class UiSmokeTest < ActionDispatch::IntegrationTest
     assert_select 'input[name=?]', 'user[password]'
   end
 
-  test 'people CSV download works' do
-    get download_people_url(format: :csv)
-    assert_response :success
-    assert_equal 'text/csv', response.media_type
-  end
-
   test 'descendants full tree renders as a PDF' do
     get descendentes_completo_person_url(@person, format: :pdf)
     assert_response :success

@@ -2,7 +2,6 @@
 
 # Role model
 class Role < ApplicationRecord
-  include GenerateCsv
 
   acts_as_paranoid
 

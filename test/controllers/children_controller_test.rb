@@ -143,24 +143,6 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes @couple.people, @child
   end
 
-  test "should download children CSV" do
-    # Add some children to couples for CSV export
-    @couple.people << @child
-    @couple.people << @another_child
-    
-    get download_children_path(format: :csv)
-    
-    assert_response :success
-    assert_equal "text/csv", response.media_type
-    assert_includes response.headers['Content-Disposition'], 'children'
-    assert_includes response.headers['Content-Disposition'], Date.today.to_s
-    
-    # Verify CSV contains data
-    csv_data = response.body
-    assert_includes csv_data, @child.id.to_s
-    assert_includes csv_data, @couple.id.to_s
-  end
-
   test "should require authentication" do
     sign_out
     

@@ -20,12 +20,6 @@ ja:
       statistics: "統計"
       birthdays: "誕生日"
       family_stats: "家族統計"
-      download_users_csv: "ユーザーをCSV形式でダウンロード"
-      download_roles_csv: "役割をCSV形式でダウンロード"
-      download_people_csv: "人々をCSV形式でダウンロード"
-      download_couples_csv: "カップルをCSV形式でダウンロード"
-      download_children_csv: "子供をCSV形式でダウンロード"
-      download_events_csv: "イベントをCSV形式でダウンロード"
   children:
     form:
       create_child: "子供を作成"

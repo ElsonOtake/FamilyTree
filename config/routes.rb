@@ -12,7 +12,6 @@ Rails.application.routes.draw do
       resources :children, path: :filhos
     end
     resources :favorites, only: [:create, :destroy]
-    get 'download', on: :collection
     get 'search_child', on: :collection
     get 'search_mate', on: :collection
     get 'birthdays', on: :collection
@@ -24,21 +23,11 @@ Rails.application.routes.draw do
     get 'tree_settings', on: :collection
     patch 'tree_settings', on: :collection, action: :update_tree_settings, as: :update_tree_settings
     get 'roles', on: :collection
-    get 'download', on: :collection
     patch 'role_update', on: :member
     patch 'change/:locale', to: 'users#change', as: 'locale_change'
     patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified', as: 'locale_change_unidentified'
   end
-  resources :roles, only: [:index] do
-    get 'download', on: :collection
-  end
-  resources :events, only: [:index] do
-    get 'download', on: :collection
-  end
-  resources :couples, path: :casais, only: %i[index] do
-    get 'download', on: :collection
-  end
-  get 'children/download', to: 'children#download', as: 'download_children'
+  resources :couples, path: :casais, only: %i[index]
   get 'about', to: 'pages#about', as: 'about'
   get 'statistics', to: 'pages#statistics', as: 'statistics'
   root 'people#index'

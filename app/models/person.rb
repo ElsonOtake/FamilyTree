@@ -2,7 +2,6 @@
 
 # This model represents a person in the family tree.
 class Person < ApplicationRecord
-  include GenerateCsv
   include RecordEvent
 
   acts_as_paranoid
