@@ -25,15 +25,6 @@ class PeopleController < ApplicationController
     @favorites_lookup = current_user.favorites.where(person: @people).index_by(&:person_id)
   end
 
-  def download
-    people = Person.with_deleted.order(:id)
-    respond_to do |format|
-      format.csv do
-        send_data Person.to_csv(people), filename: "people-#{Date.today}.csv"
-      end
-    end
-  end
-
   # GET /people/1 or /people/1.json
   def show
     # Preload favorite to avoid additional query in view

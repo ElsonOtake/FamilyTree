@@ -38,10 +38,6 @@ class ChildTest < ActiveSupport::TestCase
     assert Child < ApplicationRecord
   end
 
-  test "Child model includes correct modules" do
-    assert Child.include?(GenerateCsv)
-  end
-
   test "Child has correct table name" do
     assert_equal 'couples_people', Child.table_name
   end
@@ -160,34 +156,6 @@ class ChildTest < ActiveSupport::TestCase
     assert_equal User.system_user, event.user
     assert_equal @couple.id, event.data['couple_id']
     assert_equal @child_person.id, event.data['person_id']
-  end
-
-  test "Child inherits CSV generation from GenerateCsv" do
-    assert_respond_to Child, :to_csv
-  end
-
-  test "Child.to_csv generates CSV with correct headers and data" do
-    Child.create!(person_id: @child_person.id, couple_id: @couple.id)
-
-    children = Child.all
-    csv_data = Child.to_csv(children)
-
-    # Check CSV structure
-    lines = csv_data.split("\n")
-    assert_not_empty lines
-
-    # Check that data is included
-    assert csv_data.include?(@child_person.id.to_s)
-    assert csv_data.include?(@couple.id.to_s)
-  end
-
-  test "Child.to_csv handles empty collection" do
-    empty_collection = Child.none
-    csv_data = Child.to_csv(empty_collection)
-
-    # Should only contain headers
-    lines = csv_data.split("\n")
-    assert_equal 1, lines.length
   end
 
   test "Child model works with multiple children for same couple" do

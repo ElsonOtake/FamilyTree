@@ -10,16 +10,6 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  def download
-    users = User.all.order(:id)
-    # users = User.with_deleted.order(:id)
-    respond_to do |format|
-      format.csv do
-        send_data User.to_csv(users), filename: "users-#{Date.today}.csv"
-      end
-    end
-  end
-
   def roles
     @roles = Role.order(:id).pluck(:name)
     @pagy, @users = pagy(User.where.not(id: 1).includes(:roles).order(:name), items: 10)

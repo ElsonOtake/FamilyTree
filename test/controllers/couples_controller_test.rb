@@ -55,60 +55,6 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  # DOWNLOAD ACTION TESTS  
-  test "should download couples CSV with admin user" do
-    sign_in_as(@admin_user)
-    
-    get download_couples_path(format: :csv)
-    
-    assert_response :success
-    assert_equal "text/csv", response.media_type
-    assert_includes response.headers['Content-Disposition'], 'couples'
-    assert_includes response.headers['Content-Disposition'], Date.today.to_s
-    
-    # Verify CSV contains couple data
-    csv_data = response.body
-    assert_includes csv_data, @couple.person1_id.to_s
-    assert_includes csv_data, @couple.person2_id.to_s
-    assert_includes csv_data, "Test Location"
-  end
-
-  test "download should include soft-deleted couples" do
-    sign_in_as(@admin_user)
-    
-    # Create and soft-delete a couple
-    deleted_couple = Couple.create!(
-      person1_id: [@person2.id, @person3.id].min,
-      person2_id: [@person2.id, @person3.id].max,
-      local: "Deleted Location"
-    )
-    deleted_couple.destroy
-    
-    get download_couples_path(format: :csv)
-    
-    assert_response :success
-    csv_data = response.body
-    
-    # Should include both active and deleted couples
-    assert_includes csv_data, @couple.local
-    assert_includes csv_data, "Deleted Location"
-  end
-
-  test "download should require admin authorization" do
-    silver_user = User.create!(
-      name: "Silver User",
-      email: "silver@example.com",
-      password: "password",
-      confirmed_at: 1.week.ago
-    )
-    silver_user.add_role(:silver)
-    
-    sign_in_as(silver_user)
-    
-    get download_couples_path(format: :csv)
-    assert_response :redirect # Should redirect due to authorization failure
-  end
-
   # NEW ACTION TESTS (nested under person)
   test "should get new with silver user" do
     silver_user = User.create!(
@@ -415,24 +361,6 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
       end
       
       sign_out
-    end
-  end
-
-  # CSV FORMAT TESTS
-  test "CSV headers should match Couple model columns" do
-    sign_in_as(@admin_user)
-    
-    get download_couples_path(format: :csv)
-    
-    assert_response :success
-    csv_data = response.body
-    headers = csv_data.split("\n").first.split(";")
-    
-    # Should include main Couple model columns
-    expected_columns = %w[person1_id person2_id marriage separation local]
-    
-    expected_columns.each do |column|
-      assert_includes headers, column, "CSV should include #{column} column"
     end
   end
 

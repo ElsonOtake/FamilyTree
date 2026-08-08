@@ -11,10 +11,6 @@ class EventTest < ActiveSupport::TestCase
     )
   end
 
-  test "Event model includes correct modules" do
-    assert Event.include?(GenerateCsv)
-  end
-
   test "Event belongs to user" do
     event = Event.new(
       name: "test.action",
@@ -186,45 +182,6 @@ class EventTest < ActiveSupport::TestCase
     assert_equal "Couple", couple_event.resource_type
     assert_equal couple.id, couple_event.resource_id
     assert_equal couple, couple_event.resource
-  end
-
-  test "Event inherits CSV generation from GenerateCsv" do
-    assert_respond_to Event, :to_csv
-  end
-
-  test "Event.to_csv generates CSV with correct headers and data" do
-    # Create test events
-    Event.create!(
-      name: "test.action1",
-      data: { test: "data1" },
-      user: @user,
-      resource: @person
-    )
-    
-    Event.create!(
-      name: "test.action2", 
-      data: { test: "data2" },
-      user: @user
-    )
-    
-    events = Event.all
-    csv_data = Event.to_csv(events)
-    
-    # Check CSV structure
-    lines = csv_data.split("\n")
-    headers = lines.first.split(";")
-    
-    # Should include main Event columns
-    assert_includes headers, "name"
-    assert_includes headers, "user_id"
-    assert_includes headers, "data"
-    assert_includes headers, "resource_type"
-    assert_includes headers, "resource_id"
-    
-    # Check that data is included
-    assert csv_data.include?("test.action1")
-    assert csv_data.include?("test.action2")
-    assert csv_data.include?(@user.id.to_s)
   end
 
   test "Event stores different action types correctly" do
