@@ -36,12 +36,12 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
+          # Pin a current model — the action's old default (claude-sonnet-4-20250514) is retired and 404s.
+          model: "claude-sonnet-4-6"
+
           # This is an optional setting that allows Claude to read CI results on PRs
           additional_permissions: |
             actions: read
-          
-          # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4.1)
-          # model: "claude-opus-4-1-20250805"
           
           # Optional: Customize the trigger phrase (default: @claude)
           # trigger_phrase: "/claude"
