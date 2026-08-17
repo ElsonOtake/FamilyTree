@@ -1,0 +1,19 @@
+test/models/concerns/record_event_test.rb
+  s_28b0d8cd5c7d84::t_97d74d7c39f2fa 3-5,11,14-15,18-20,23-26,29-32,35-41,43,45-46,50-52,56-60,63-66,68-72,75-76,78-81,85-86,89,91-102,104-107,110-111,113-114,117,119-120,123-124,126-128,130,132-134,137-138,140,145-146,149-150,155-157,164-166,168-169,173-178,180,182-183,186-190,192-193,195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "71965708d9886c7cb1c6dbd14dac4068576892ec",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
