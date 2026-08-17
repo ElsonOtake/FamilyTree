@@ -1,16 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-# Initial favorite - user one has favorited person one
-one:
-  user: one
-  person: one
-
-# Another user's favorite - user two has favorited person two  
-two:
-  user: two
-  person: two
-
-# Cross-user favorite example - user two has also favorited person one
-three:
-  user: two
-  person: one
+#
+# Intentionally empty: the favorites tests (and the favorites integration test,
+# which asserts "no favorites yet" for user one) each create the favorites they
+# need. Seeding user↔person favorites here collided with those tests
+# ("User has already favorited this person").
