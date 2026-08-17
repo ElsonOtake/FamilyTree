@@ -1,0 +1,23 @@
+test/controllers/people_controller_test.rb
+  s_28b0d8cd5c7d84::t_efe75d461ebca3 7
+test/controllers/users_mcp_access_test.rb
+  s_28b0d8cd5c7d84::t_e64bf35f231ddd 9
+test/controllers/couples_controller_test.rb
+  s_28b0d8cd5c7d84::t_efe75d461ebca3 64-65,90-91,107-108,236-237,276-277,353-354
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4096aa69a9341051fec41fed1f2bb15d58b9197c",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
