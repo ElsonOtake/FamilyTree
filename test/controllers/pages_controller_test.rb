@@ -10,6 +10,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     
     @user = users(:one)
     @user.add_role(:bronze)
+    @user.update!(locale: :en)
     
     # Create test data for statistics
     setup_test_people
@@ -231,7 +232,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
         name: "#{test_case[:role].capitalize} User",
         email: "#{test_case[:role]}@pages.test",
         password: "password",
-        confirmed_at: 1.week.ago
+        confirmed_at: 1.week.ago,
+        approved: true
       )
       user.add_role(test_case[:role])
       

@@ -6,7 +6,7 @@ require 'test_helper'
 class UsersMcpAccessTest < ActionDispatch::IntegrationTest
   def setup
     @user = User.create!(name: 'Member', email: 'member@example.com',
-                         password: 'password123', confirmed_at: Time.current)
+                         password: 'password123', confirmed_at: Time.current, approved: true)
     sign_in_as(@user)
   end
 

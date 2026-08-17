@@ -56,7 +56,7 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       end
     end
     
-    assert_response :success # Form is re-rendered with errors
+    assert_response :unprocessable_entity # Turbo re-renders invalid submits with 422
   end
 
   test "create action doesn't create event if user creation fails" do
@@ -117,7 +117,7 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       }
     end
     
-    assert_response :success # Form is re-rendered with errors
+    assert_response :unprocessable_entity # Turbo re-renders invalid submits with 422
   end
 
   test "update action doesn't create event if update fails" do

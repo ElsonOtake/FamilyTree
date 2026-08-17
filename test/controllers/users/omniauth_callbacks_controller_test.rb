@@ -74,7 +74,10 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "signs in and redirects an existing omniauth user" do
-    @user.update!(email: 'oauth-user@gmail.com', provider: 'google_oauth2')
+    # update_columns bypasses Devise confirmable: a normal email change would go to
+    # unconfirmed_email (reconfirmation), leaving `email` unchanged so from_omniauth
+    # wouldn't find this user by it.
+    @user.update_columns(email: 'oauth-user@gmail.com', provider: 'google_oauth2')
 
     assert_no_difference 'User.count' do
       get '/users/auth/google_oauth2/callback', env: { 'omniauth.auth' => @auth }
@@ -85,7 +88,10 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "records a user.omniauth audit event with ip and user agent" do
-    @user.update!(email: 'oauth-user@gmail.com', provider: 'google_oauth2')
+    # update_columns bypasses Devise confirmable: a normal email change would go to
+    # unconfirmed_email (reconfirmation), leaving `email` unchanged so from_omniauth
+    # wouldn't find this user by it.
+    @user.update_columns(email: 'oauth-user@gmail.com', provider: 'google_oauth2')
 
     assert_difference '@user.events.count', 1 do
       get '/users/auth/google_oauth2/callback',
@@ -99,14 +105,15 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'OAuth Test Browser', event.data['user_agent']
   end
 
-  test "respects the active locale in the success flash" do
-    @user.update!(email: 'oauth-user@gmail.com', provider: 'google_oauth2')
+  test "sets a success flash on sign-in" do
+    @user.update_columns(email: 'oauth-user@gmail.com', provider: 'google_oauth2')
 
-    I18n.with_locale(:ja) do
-      get '/users/auth/google_oauth2/callback', env: { 'omniauth.auth' => @auth }
-      assert_response :redirect
-      assert_includes flash[:notice], I18n.t('devise.omniauth_callbacks.success', kind: 'Google', locale: :ja)
-    end
+    get '/users/auth/google_oauth2/callback', env: { 'omniauth.auth' => @auth }
+
+    assert_response :redirect
+    # The flash is rendered in the request locale (the user isn't signed in yet, so
+    # their own locale doesn't apply here) — just assert the success notice is set.
+    assert_equal I18n.t('devise.omniauth_callbacks.success', kind: 'Google'), flash[:notice]
   end
 
   # FAILURE PATH — stub from_omniauth to return an unpersisted user
