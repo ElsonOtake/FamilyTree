@@ -1,0 +1,31 @@
+test/fixtures/favorites.yml
+  s_28b0d8cd5c7d84::t_2af6c46cedd211 2-6
+test/models/concerns/record_event_test.rb
+  s_28b0d8cd5c7d84::t_afc116de1a7a0e 94,147,304,338
+  s_28b0d8cd5c7d84::t_e9155dd601009f 62,64,66-67
+  s_28b0d8cd5c7d84::t_2c633d727b59ad 9-12
+  s_28b0d8cd5c7d84::t_2d1878ea7398be 85,138,143,159,179,192,251,301,335
+test/controllers/users/omniauth_callbacks_controller_test.rb
+  s_28b0d8cd5c7d84::t_25b0a9fd4c74f5 6-8,12-13,16-26,29,34-37,40-43,45,47,50-51,54-56,59-60,63-66,69-72,76-77,79-80,82,84,87-88,90-93,95,102-103,106,112-118,120-121,123-124,126
+test/controllers/application_controller_test.rb
+  s_28b0d8cd5c7d84::t_3afc4cac42d5d4 52,58,64
+  s_28b0d8cd5c7d84::t_503ef4cf0272e9 3-7,10,17-19,22-23,26-30,33-35,38-40,43-46,49-50,56,60,63,66,69-75,78-79,81,83,86-88,91,99,101
+test/models/user_test.rb
+  s_28b0d8cd5c7d84::t_e03c2d9170b3a1 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "709e07fb0db45c4cf8342ee5293db4607d63f87e",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
