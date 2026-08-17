@@ -6,14 +6,10 @@ class RecordEventTest < ActiveSupport::TestCase
     @person = people(:one)
     @person2 = people(:two)
     
-    # Create a test class that includes RecordEvent for Couple-like behavior
-    @couple_test_class = Class.new(ActiveRecord::Base) do
-      self.table_name = 'couples'
-      include RecordEvent
-      
-      belongs_to :person1, class_name: 'Person', foreign_key: 'person1_id'
-      belongs_to :person2, class_name: 'Person', foreign_key: 'person2_id'
-    end
+    # Couple is the real non-Person model that includes RecordEvent. (An anonymous
+    # Class.new had name == nil, which broke the concern's "#{class.name.underscore}"
+    # event naming.)
+    @couple_test_class = Couple
   end
 
   # INITIALIZATION TESTS
@@ -63,12 +59,12 @@ class RecordEventTest < ActiveSupport::TestCase
   test "record_create filters out nil and empty values from changes" do
     @person.current_user = @user
     @person.name = "Updated Name"
-    @person.phone = nil  # Should be filtered out
+    @person.kanji = nil  # Should be filtered out
     @person.save!
-    
+
     event = @user.events.last
-    # Should not include phone field if it's nil
-    assert_not_includes event.data.keys, 'phone' if @person.phone.nil?
+    # Should not include kanji field if it's nil
+    assert_not_includes event.data.keys, 'kanji' if @person.kanji.nil?
   end
 
   test "record_create filters out id and updated_at fields" do
@@ -86,7 +82,7 @@ class RecordEventTest < ActiveSupport::TestCase
     couple = @couple_test_class.new(
       person1_id: @person.id,
       person2_id: @person2.id,
-      marriage_date: Date.current
+      marriage: Date.current
     )
     couple.current_user = @user
     
@@ -95,7 +91,7 @@ class RecordEventTest < ActiveSupport::TestCase
     end
     
     events = @user.events.last(2)
-    assert_equal 'couples', events.first.name.split('.').first
+    assert_equal 'couple', events.first.name.split('.').first
     assert_equal 'create', events.first.name.split('.').last
     assert_equal @person, events.first.resource
     assert_equal @person2, events.last.resource
@@ -139,16 +135,16 @@ class RecordEventTest < ActiveSupport::TestCase
     couple = @couple_test_class.create!(
       person1_id: @person.id,
       person2_id: @person2.id,
-      marriage_date: Date.current
+      marriage: Date.current
     )
     couple.current_user = @user
     
     assert_difference '@user.events.count', 2 do
-      couple.update!(marriage_date: Date.yesterday)
+      couple.update!(marriage: Date.yesterday)
     end
     
     events = @user.events.last(2)
-    assert_equal 'couples', events.first.name.split('.').first
+    assert_equal 'couple', events.first.name.split('.').first
     assert_equal 'update', events.first.name.split('.').last
     assert_equal @person, events.first.resource
     assert_equal @person2, events.last.resource
@@ -160,7 +156,7 @@ class RecordEventTest < ActiveSupport::TestCase
     couple = Couple.create!(
       person1_id: @person.id,
       person2_id: @person2.id,
-      marriage_date: Date.current
+      marriage: Date.current
     )
     couple.current_user = @user
     
@@ -180,7 +176,7 @@ class RecordEventTest < ActiveSupport::TestCase
     couple = Couple.create!(
       person1_id: @person.id,
       person2_id: @person2.id,
-      marriage_date: Date.current
+      marriage: Date.current
     )
     couple.current_user = nil
     
@@ -193,7 +189,7 @@ class RecordEventTest < ActiveSupport::TestCase
     couple = Couple.create!(
       person1_id: @person.id,
       person2_id: @person2.id,
-      marriage_date: Date.current
+      marriage: Date.current
     )
     couple.current_user = @user
     
@@ -252,7 +248,7 @@ class RecordEventTest < ActiveSupport::TestCase
     couple = Couple.create!(
       person1_id: @person.id,
       person2_id: @person2.id,
-      marriage_date: Date.current
+      marriage: Date.current
     )
     couple.current_user = @user
     
@@ -302,10 +298,10 @@ class RecordEventTest < ActiveSupport::TestCase
       person2_id: @person2.id
     )
     couple.current_user = @user
-    couple.update!(marriage_date: Date.current)
+    couple.update!(marriage: Date.current)
     
     couple_events = @user.events.last(2)
-    assert_equal 'couples.update', couple_events.first.name
+    assert_equal 'couple.update', couple_events.first.name
     assert_not_equal couple, couple_events.first.resource # Should be Person, not Couple
   end
 
@@ -336,10 +332,10 @@ class RecordEventTest < ActiveSupport::TestCase
       person2_id: @person2.id
     )
     couple.current_user = @user
-    couple.update!(marriage_date: Date.current)
+    couple.update!(marriage: Date.current)
     
     couple_event = @user.events.last
-    assert_includes couple_event.name, 'couples'
+    assert_includes couple_event.name, 'couple'
   end
 
   # MULTIPLE OPERATIONS TESTS

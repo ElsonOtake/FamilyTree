@@ -1,4 +1,5 @@
 require "test_helper"
+require "ostruct"
 
 # Configure ActionMailer for tests
 ActionMailer::Base.default_url_options[:host] = "test.host"
