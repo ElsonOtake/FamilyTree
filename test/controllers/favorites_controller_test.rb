@@ -11,7 +11,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   # CREATE tests
   test "should create favorite when authenticated" do
     assert_difference('Favorite.count', 1) do
-      post person_favorites_path(@person), xhr: true
+      post person_favorites_path(@person), as: :json
     end
     
     assert_response :success
@@ -20,7 +20,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should return JSON response when creating favorite" do
-    post person_favorites_path(@person), xhr: true, headers: { 'Accept' => 'application/json' }
+    post person_favorites_path(@person), as: :json, headers: { 'Accept' => 'application/json' }
     
     assert_response :success
     json_response = JSON.parse(response.body)
@@ -41,7 +41,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
     Favorite.create!(user: @user, person: @person)
     
     assert_no_difference('Favorite.count') do
-      post person_favorites_path(@person), xhr: true
+      post person_favorites_path(@person), as: :json
     end
     
     assert_response :success
@@ -64,7 +64,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
     favorite = Favorite.create!(user: @user, person: @person)
     
     assert_difference('Favorite.count', -1) do
-      delete person_favorite_path(@person, favorite), xhr: true
+      delete person_favorite_path(@person, favorite), as: :json
     end
     
     assert_response :success
@@ -73,7 +73,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   test "should return JSON response when destroying favorite" do
     favorite = Favorite.create!(user: @user, person: @person)
     
-    delete person_favorite_path(@person, favorite), xhr: true, headers: { 'Accept' => 'application/json' }
+    delete person_favorite_path(@person, favorite), as: :json, headers: { 'Accept' => 'application/json' }
     
     assert_response :success
     json_response = JSON.parse(response.body)
@@ -92,7 +92,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not destroy favorite that doesn't exist" do
-    delete person_favorite_path(@person, 999999), xhr: true
+    delete person_favorite_path(@person, 999999), as: :json
     
     assert_response :success
     json_response = JSON.parse(response.body)
@@ -122,9 +122,9 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle person not found" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      post "/individuos/999999/favorites"
-    end
+    # Rails rescues RecordNotFound into a 404 response rather than re-raising.
+    post "/individuos/999999/favorites"
+    assert_response :not_found
   end
 
   # AUDIT EVENT tests
