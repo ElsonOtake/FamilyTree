@@ -1,0 +1,30 @@
+test/controllers/users_controller_test.rb
+  s_28b0d8cd5c7d84::t_b324b3cf66e928 299-300
+  s_28b0d8cd5c7d84::t_7ad9bdc9526119 333-335
+test/controllers/users/omniauth_callbacks_controller_test.rb
+  s_28b0d8cd5c7d84::t_494153247a125b 77-80,91-94,109
+  s_28b0d8cd5c7d84::t_5557d45d6fb91b 108,111-116
+test/policies/application_policy_test.rb
+  s_28b0d8cd5c7d84::t_a45de8aa5b000a 131
+  s_28b0d8cd5c7d84::t_e8d3d3bf8e50fe 130
+test/controllers/pages_controller_test.rb
+  s_28b0d8cd5c7d84::t_38c0680387c644 13,235-236
+test/models/user_test.rb
+  s_28b0d8cd5c7d84::t_6ce1c0d9b63710 332
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "6eaef04526801330abb810f1eedb098cb9a887a5",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
