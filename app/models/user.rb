@@ -4,7 +4,12 @@
 class User < ApplicationRecord
   include ActiveModel::Dirty
 
-  # acts_as_paranoid
+  # Soft-delete users (paranoia). Hard-deleting a user violated the events.user_id
+  # foreign key, so account cancellation and admin deletion used to 500 for anyone
+  # who had generated an audit event. Soft-deleting keeps the row (events stay
+  # valid and the audit trail is preserved), and paranoia's default scope hides
+  # deleted users from authentication and lookups.
+  acts_as_paranoid
 
   has_many :events
   has_many :favorites, dependent: :destroy
