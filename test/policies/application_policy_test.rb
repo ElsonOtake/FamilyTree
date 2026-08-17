@@ -127,8 +127,8 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
     # Check that the result contains the expected pattern instead of exact match
     # since User object representation can vary
     assert_includes result, "filtered_scope_with_"
-    assert_includes result, ":user=>"
-    assert_includes result, @user.email
+    assert_includes result, "user:" # Ruby 3.4 renders hashes as {user: ...}, not {:user=>...}
+    assert_includes result, @user.id.to_s # email is [FILTERED] in User#inspect, so match the id
   end
 
   # INHERITANCE TESTS

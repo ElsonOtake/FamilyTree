@@ -296,7 +296,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         name: "#{test_case[:role].capitalize} User Auth",
         email: "#{test_case[:role]}auth@test.com",
         password: "password",
-        confirmed_at: 1.week.ago
+        confirmed_at: 1.week.ago,
+        approved: true
       )
       user.add_role(test_case[:role])
       
@@ -329,9 +330,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should handle missing user in role_update" do
     sign_in_as(@admin_user)
     
-    assert_raises(ActiveRecord::RecordNotFound) do
-      patch role_update_user_path(99999), params: { user: { role: 'gold' } }
-    end
+    # Rails rescues RecordNotFound into a 404 response rather than re-raising.
+    patch role_update_user_path(99999), params: { user: { role: 'gold' } }
+    assert_response :not_found
   end
 
   test "should handle invalid role in role_update" do
