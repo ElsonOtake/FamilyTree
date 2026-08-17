@@ -11,7 +11,8 @@ A Ruby on Rails application for managing family trees with support for multiple 
 - **User Roles**: Bronze (view), Silver (create/edit), Gold (delete), Admin (full access)
 - **Favorites**: Save frequently accessed people for quick access
 - **Birthday Tracking**: View upcoming birthdays with smart date calculations
-- **Printable Charts**: Downloadable ancestor and descendant pedigree charts (PDF), with gender-specific silhouettes for people without a photo
+- **Printable Charts**: Downloadable ancestor, descendant (with spouses), and descendants-only pedigree charts (PDF), with gender-specific silhouettes for people without a photo and per-user settings for generation depth and pet inclusion
+- **AI Assistant Access**: A built-in [MCP](https://modelcontextprotocol.io) server lets an AI assistant answer natural-language questions about the tree (see below)
 - **Search & Filtering**: Filter by name, gender, birth/death dates, alive status
 - **Soft Deletes**: Records are preserved for audit trails
 - **Activity Logging**: All changes are tracked with timestamps and user info
@@ -51,19 +52,25 @@ A Ruby on Rails application for managing family trees with support for multiple 
    yarn install
    ```
 
-3. Setup the database:
+3. Configure environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+   At minimum, set `DATABASE_DEV_USERNAME` / `DATABASE_DEV_PASSWORD` for your local PostgreSQL.
+
+4. Set up the database. The seed generates a small **fictional** family tree with Faker — this repository ships **no real personal data**:
    ```bash
    bin/rails db:create
    bin/rails db:migrate
    bin/rails db:seed
    ```
 
-4. Start the development server:
+5. Start the development server:
    ```bash
    bin/dev
    ```
 
-5. Visit `http://localhost:3000`
+6. Visit `http://localhost:3000` and sign in with the seeded demo account (**`demo@example.com`** / **`password`**).
 
 ## Development Commands
 
@@ -77,7 +84,7 @@ bin/rails console    # Rails console for debugging
 ### Database
 ```bash
 bin/rails db:migrate    # Run pending migrations
-bin/rails db:seed       # Load seed data
+bin/rails db:seed       # Generate a fictional demo tree with Faker
 bin/rails db:reset      # Drop, create, migrate, and seed
 ```
 
@@ -190,7 +197,7 @@ and the token lifecycle in [`test/models/user_mcp_token_test.rb`](test/models/us
 | **Bronze** | View people and couples (default) |
 | **Silver** | Create and edit people/couples |
 | **Gold** | Delete people/couples |
-| **Admin** | Full access including CSV exports |
+| **Admin** | Full access, plus the ActiveAdmin panel (restore soft-deleted records, browse the audit log) |
 
 ## Internationalization
 
@@ -203,19 +210,22 @@ Users can set their preferred language in their profile. Translations are stored
 
 ## Environment Variables
 
-For production, configure:
+Copy `.env.example` to `.env` and fill it in — it is grouped into local-development and production sections. Highlights:
+
+**Local development**
+
+- `DATABASE_DEV_USERNAME` / `DATABASE_DEV_PASSWORD` - PostgreSQL credentials for the development and test databases (required)
+- `GOOGLE_ID` / `GOOGLE_SECRET` - Google OAuth login (optional; omit to disable "Sign in with Google")
+- `CONTACT_EMAIL` - contact address shown on the About page and in email footers
+- `MAILER_FROM` - from/sender address for outgoing mail
+
+**Production**
 
 - `DATABASE_URL` - PostgreSQL connection string
-- `RAILS_MASTER_KEY` - For credentials decryption
+- `RAILS_MASTER_KEY` - decrypts `config/credentials.yml.enc` (or provide the `config/master.key` file)
 - `SECRET_KEY_BASE` - Rails secret key base
-- `AWS_ACCESS_KEY_ID` - Object storage access key (Tigris)
-- `AWS_SECRET_ACCESS_KEY` - Object storage secret key (Tigris)
-- `AWS_ENDPOINT_URL_S3` - Object storage S3 endpoint (Tigris)
-- `BUCKET_NAME` - Object storage bucket
-- `GOOGLE_ID` - Google OAuth client ID
-- `GOOGLE_SECRET` - Google OAuth secret
-- `GMAIL_APP_PASSWORD` - Gmail app password for outgoing email (SMTP)
-- `GMAIL_USERNAME` - Gmail sender address (optional; defaults to the app's mailer sender)
+- `GMAIL_USERNAME` / `GMAIL_APP_PASSWORD` - Gmail SMTP for outgoing email
+- `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_ENDPOINT_URL_S3` / `BUCKET_NAME` - S3-compatible object storage (Tigris)
 
 > On Fly.io, the storage variables (`AWS_*`, `BUCKET_NAME`) are set automatically by `fly storage create` (Tigris).
 
