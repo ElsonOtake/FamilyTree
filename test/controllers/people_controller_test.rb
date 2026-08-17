@@ -4,6 +4,7 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
   setup do
     @person = people(:one)
     @user = users(:one)
+    @user.add_role(:admin)
     sign_in @user
   end
 

@@ -61,7 +61,8 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
       name: "Silver User",
       email: "silver@example.com",
       password: "password",
-      confirmed_at: 1.week.ago
+      confirmed_at: 1.week.ago,
+      approved: true
     )
     silver_user.add_role(:silver)
     
@@ -86,7 +87,8 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
       name: "Bronze User",
       email: "bronze@example.com",
       password: "password",
-      confirmed_at: 1.week.ago
+      confirmed_at: 1.week.ago,
+      approved: true
     )
     bronze_user.add_role(:bronze)
     
@@ -102,7 +104,8 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
       name: "Gold User",
       email: "gold@example.com",
       password: "password",
-      confirmed_at: 1.week.ago
+      confirmed_at: 1.week.ago,
+      approved: true
     )
     gold_user.add_role(:gold)
     
@@ -230,7 +233,8 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
       name: "Gold User",
       email: "gold@example.com",
       password: "password",
-      confirmed_at: 1.week.ago
+      confirmed_at: 1.week.ago,
+      approved: true
     )
     gold_user.add_role(:gold)
     
@@ -269,7 +273,8 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
       name: "Silver User",
       email: "silver@example.com",
       password: "password",
-      confirmed_at: 1.week.ago
+      confirmed_at: 1.week.ago,
+      approved: true
     )
     silver_user.add_role(:silver)
     
@@ -345,7 +350,8 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
         name: "#{test_case[:role].capitalize} User Create",
         email: "#{test_case[:role]}create@test.com",
         password: "password",
-        confirmed_at: 1.week.ago
+        confirmed_at: 1.week.ago,
+      approved: true
       )
       user.add_role(test_case[:role])
       
