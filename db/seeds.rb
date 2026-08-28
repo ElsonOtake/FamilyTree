@@ -10,27 +10,38 @@
 # Roles used by rolify — safe to ensure in every environment.
 %w[bronze silver gold admin].each { |name| Role.find_or_create_by!(name: name) }
 
-if Rails.env.production?
-  Rails.logger.info('Seeds: production — skipping synthetic data (real data is loaded out of band).')
-elsif Person.any?
-  Rails.logger.info('Seeds: people already present — skipping synthetic tree.')
+# --- Bootstrap: ensure at least one admin exists, in ANY environment. ---
+# Runs once — as soon as a single User exists, this is permanently skipped.
+if User.any?
+  Rails.logger.warn('Seeds: users already present — skipping bootstrap admin.')
 else
-  require 'faker'
+  email    = ENV.fetch('SEED_ADMIN_EMAIL', 'admin@demo.com')
+  password = ENV.fetch('SEED_ADMIN_PASSWORD', 'password' )
 
-  # A demo login for exploring the app (idempotent).
-  demo = User.find_by(email: 'demo@example.com') || User.create!(
-    email: 'demo@example.com',
-    password: 'password',
-    name: 'Demo User',
+  admin = User.create!(
+    email: email,
+    password: password,
+    name: ENV.fetch('SEED_ADMIN_NAME', 'Admin User'),
     confirmed_at: Time.current,
     approved: true,
     locale: 'en'
   )
-  demo.add_role(:admin) unless demo.has_role?(:admin)
+  admin.add_role(:admin)
+
+  Rails.logger.warn("Seeds: created admin #{email}.")
+end
+
+# --- Demo/fictional data: non-production only. ---
+if Rails.env.production?
+  Rails.logger.warn('Seeds: production — skipping synthetic data (real data is loaded out of band).')
+elsif Person.any?
+  Rails.logger.warn('Seeds: people already present — skipping synthetic tree.')
+else
+  require 'faker'
 
   # Attribute the seeded records to the demo user so the audit trail is coherent
   # (and Child linking doesn't fall back to a system user).
-  Current.user = demo
+  Current.user = User.find_by!(email: ENV.fetch('SEED_ADMIN_EMAIL', 'admin@demo.com'))
 
   make_person = lambda do |gender, from:, to:, alive: true|
     first = gender == 'M' ? Faker::Name.male_first_name : Faker::Name.female_first_name
@@ -79,5 +90,5 @@ else
   end
 
   Current.user = nil
-  Rails.logger.info("Seeds: created #{Person.count} people, #{Couple.count} couples.")
+  Rails.logger.warn("Seeds: created #{Person.count} people, #{Couple.count} couples.")
 end
