@@ -30,6 +30,10 @@ A Ruby on Rails application for managing family trees with support for multiple 
 - **File Storage**: Active Storage (Tigris, Fly.io's S3-compatible object storage, in production)
 - **Email**: Action Mailer over Gmail SMTP in production
 
+## Live Demo
+
+- [Live Demo Link](https://elsonotake-familytree.onrender.com/)
+
 ## Getting Started
 
 ### Prerequisites
@@ -226,16 +230,25 @@ Copy `.env.example` to `.env` and fill it in — it is grouped into local-develo
 - `SECRET_KEY_BASE` - Rails secret key base
 - `GMAIL_USERNAME` / `GMAIL_APP_PASSWORD` - Gmail SMTP for outgoing email
 - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_ENDPOINT_URL_S3` / `BUCKET_NAME` - S3-compatible object storage (Tigris)
+- `APP_URL` - Production URL if not on Render
 
 > On Fly.io, the storage variables (`AWS_*`, `BUCKET_NAME`) are set automatically by `fly storage create` (Tigris).
 
 ## Deployment
 
-The app is configured for deployment on Fly.io. See `fly.toml` for configuration.
+The app is configured for deployment on Fly.io or Render.
+
+**Fly.io**
+
+See `fly.toml` for configuration.
 
 ```bash
 fly deploy
 ```
+
+**Render**
+
+See `/bin/render-build.sh` for configuration.
 
 Migrations run automatically via the release command.
 

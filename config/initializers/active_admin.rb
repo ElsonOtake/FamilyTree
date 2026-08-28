@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -9,14 +11,14 @@ ActiveAdmin.setup do |config|
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #
-  config.site_title_link = Rails.env.development? ? 'http://localhost:3000' : 'https://familytree-elson-otake-6347.fly.dev/'
+  config.site_title_link = Rails.env.development? ? 'http://localhost:3000' : ENV.fetch('APP_URL', 'https://elsonotake-familytree.onrender.com/')
 
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
   #
   # Note: Aim for an image that's 21px high so it fits in the header.
   #
-  config.site_title_image = "EAO.png"
+  config.site_title_image = 'EAO.png'
 
   # == Load Paths
   #
@@ -174,7 +176,7 @@ ActiveAdmin.setup do |config|
   # You can exclude possibly sensitive model attributes from being displayed,
   # added to forms, or exported by default by ActiveAdmin
   #
-  config.filter_attributes = [:encrypted_password, :password, :password_confirmation]
+  config.filter_attributes = %i[encrypted_password password password_confirmation]
 
   # == Localize Date/Time Format
   #
