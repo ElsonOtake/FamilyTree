@@ -1,0 +1,14 @@
+db/seeds.rb
+  h_7e49e1b6a1cf0d 13-16,18-19,21-24,29-40,44,93
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "a4c3bcbd04d7246de8ef204c59a9a37a471dae6e",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
