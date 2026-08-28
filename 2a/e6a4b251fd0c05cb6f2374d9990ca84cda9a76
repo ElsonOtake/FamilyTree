@@ -1,0 +1,17 @@
+config/initializers/active_admin.rb
+  h_7e49e1b6a1cf0d 1-2,14,21,179
+README.md
+  h_7e49e1b6a1cf0d 33-36,233,239,241,243,249-251
+  h_7e49e1b6a1cf0d 240,242,252
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "2ae6a4b251fd0c05cb6f2374d9990ca84cda9a76",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
