@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: John Doe
   gender: false
   alive: false
   birth: 2023-05-05
@@ -9,7 +9,7 @@ one:
   description: MyText
 
 two:
-  name: MyString
+  name: Jane Doe
   gender: false
   alive: false
   birth: 2023-05-05
