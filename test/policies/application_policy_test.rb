@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class ApplicationPolicyTest < ActiveSupport::TestCase
@@ -8,58 +10,58 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
   end
 
   # INITIALIZATION TESTS
-  test "policy initializes correctly with user and record" do
+  test 'policy initializes correctly with user and record' do
     assert_equal @user, @policy.user
     assert_equal @record, @policy.record
   end
 
-  test "policy can be initialized with nil user" do
+  test 'policy can be initialized with nil user' do
     policy = ApplicationPolicy.new(nil, @record)
     assert_nil policy.user
     assert_equal @record, policy.record
   end
 
-  test "policy can be initialized with nil record" do
+  test 'policy can be initialized with nil record' do
     policy = ApplicationPolicy.new(@user, nil)
     assert_equal @user, policy.user
     assert_nil policy.record
   end
 
   # DEFAULT PERMISSION TESTS
-  test "index? denies access by default" do
+  test 'index? denies access by default' do
     assert_not @policy.index?
   end
 
-  test "show? denies access by default" do
+  test 'show? denies access by default' do
     assert_not @policy.show?
   end
 
-  test "create? denies access by default" do
+  test 'create? denies access by default' do
     assert_not @policy.create?
   end
 
-  test "new? delegates to create?" do
+  test 'new? delegates to create?' do
     # Should return false since create? returns false by default
     assert_not @policy.new?
     assert_equal @policy.create?, @policy.new?
   end
 
-  test "update? denies access by default" do
+  test 'update? denies access by default' do
     assert_not @policy.update?
   end
 
-  test "edit? delegates to update?" do
+  test 'edit? delegates to update?' do
     # Should return false since update? returns false by default
     assert_not @policy.edit?
     assert_equal @policy.update?, @policy.edit?
   end
 
-  test "destroy? denies access by default" do
+  test 'destroy? denies access by default' do
     assert_not @policy.destroy?
   end
 
   # DELEGATION TESTS
-  test "new? always returns same as create?" do
+  test 'new? always returns same as create?' do
     # Create a test policy that overrides create?
     test_policy_class = Class.new(ApplicationPolicy) do
       def create?
@@ -73,7 +75,7 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
     assert_equal policy.create?, policy.new?
   end
 
-  test "edit? always returns same as update?" do
+  test 'edit? always returns same as update?' do
     # Create a test policy that overrides update?
     test_policy_class = Class.new(ApplicationPolicy) do
       def update?
@@ -88,27 +90,27 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
   end
 
   # SCOPE TESTS
-  test "Scope initializes correctly with user and scope" do
-    scope = "test_scope"
+  test 'Scope initializes correctly with user and scope' do
+    scope = 'test_scope'
     policy_scope = ApplicationPolicy::Scope.new(@user, scope)
-    
+
     assert_equal @user, policy_scope.send(:user)
     assert_equal scope, policy_scope.send(:scope)
   end
 
-  test "Scope resolve raises NotImplementedError" do
-    scope = "test_scope"
+  test 'Scope resolve raises NotImplementedError' do
+    scope = 'test_scope'
     policy_scope = ApplicationPolicy::Scope.new(@user, scope)
-    
+
     error = assert_raises(NotImplementedError) do
       policy_scope.resolve
     end
-    
-    assert_includes error.message, "You must define #resolve in"
+
+    assert_includes error.message, 'You must define #resolve in'
     assert_includes error.message, policy_scope.class.to_s
   end
 
-  test "Scope can be subclassed and resolve implemented" do
+  test 'Scope can be subclassed and resolve implemented' do
     test_scope_class = Class.new(ApplicationPolicy::Scope) do
       def resolve
         scope.where(user: user)
@@ -123,19 +125,19 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
 
     policy_scope = test_scope_class.new(@user, mock_scope)
     result = policy_scope.resolve
-    
+
     # Check that the result contains the expected pattern instead of exact match
     # since User object representation can vary
-    assert_includes result, "filtered_scope_with_"
-    assert_includes result, ":user=>"
-    assert_includes result, @user.email
+    assert_includes result, 'filtered_scope_with_'
+    assert_includes result, 'user: #<User id:'
+    assert_includes result, @user.name
   end
 
   # INHERITANCE TESTS
-  test "subclassed policies inherit default behavior" do
+  test 'subclassed policies inherit default behavior' do
     test_policy_class = Class.new(ApplicationPolicy)
     policy = test_policy_class.new(@user, @record)
-    
+
     # Should inherit all default denials
     assert_not policy.index?
     assert_not policy.show?
@@ -146,24 +148,24 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
     assert_not policy.destroy?
   end
 
-  test "subclassed policies can override specific methods" do
+  test 'subclassed policies can override specific methods' do
     test_policy_class = Class.new(ApplicationPolicy) do
       def show?
         true
       end
-      
+
       def create?
         user.present?
       end
     end
 
     policy = test_policy_class.new(@user, @record)
-    
+
     # Overridden methods
     assert policy.show?
     assert policy.create?
     assert policy.new? # Should delegate to create?
-    
+
     # Non-overridden methods should still use defaults
     assert_not policy.index?
     assert_not policy.update?
@@ -172,9 +174,9 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
   end
 
   # NIL USER HANDLING TESTS
-  test "all default methods handle nil user gracefully" do
+  test 'all default methods handle nil user gracefully' do
     policy = ApplicationPolicy.new(nil, @record)
-    
+
     assert_not policy.index?
     assert_not policy.show?
     assert_not policy.create?
@@ -185,47 +187,54 @@ class ApplicationPolicyTest < ActiveSupport::TestCase
   end
 
   # POLICY CONSTANTS AND STRUCTURE TESTS
-  test "ApplicationPolicy is a class" do
+  test 'ApplicationPolicy is a class' do
     assert ApplicationPolicy.is_a?(Class)
   end
 
-  test "ApplicationPolicy::Scope is a nested class" do
+  test 'ApplicationPolicy::Scope is a nested class' do
     assert ApplicationPolicy::Scope.is_a?(Class)
     # ApplicationPolicy::Scope is defined as a nested class inside ApplicationPolicy
-    assert_equal "ApplicationPolicy::Scope", ApplicationPolicy::Scope.name
+    assert_equal 'ApplicationPolicy::Scope', ApplicationPolicy::Scope.name
   end
 
-  test "policy responds to all expected methods" do
-    expected_methods = [:index?, :show?, :create?, :new?, :update?, :edit?, :destroy?, :user, :record]
-    
+  test 'policy responds to all expected methods' do
+    expected_methods = %i[index? show? create? new? update? edit? destroy? user record]
+
     expected_methods.each do |method|
       assert_respond_to @policy, method, "Policy should respond to #{method}"
     end
   end
 
-  test "scope responds to expected methods" do
+  test 'scope responds to expected methods' do
     scope = ApplicationPolicy::Scope.new(@user, @record)
     expected_methods = [:resolve]
-    
+
     expected_methods.each do |method|
       assert_respond_to scope, method, "Scope should respond to #{method}"
     end
   end
 
   # EDGE CASES
-  test "policy works with various record types" do
-    [nil, "", 0, [], {}, Object.new].each do |record|
+  test 'policy works with various record types' do
+    ['', 0, [], {}, Object.new].each do |record|
       policy = ApplicationPolicy.new(@user, record)
       assert_equal record, policy.record
       assert_not policy.index? # Should still deny by default
     end
   end
 
-  test "policy maintains attribute reader behavior" do
+  test 'policy works with nil record type' do
+    record = nil
+    policy = ApplicationPolicy.new(@user, record)
+    assert_nil policy.record
+    assert_not policy.index? # Should still deny by default
+  end
+
+  test 'policy maintains attribute reader behavior' do
     # Test that user and record are properly accessible
     assert_equal @user, @policy.user
     assert_equal @record, @policy.record
-    
+
     # Test that they are read-only (no writers defined)
     assert_not_respond_to @policy, :user=
     assert_not_respond_to @policy, :record=
