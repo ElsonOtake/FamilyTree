@@ -2,7 +2,6 @@
 
 # Role model
 class Role < ApplicationRecord
-
   acts_as_paranoid
 
   has_and_belongs_to_many :users, join_table: :users_roles
@@ -11,11 +10,11 @@ class Role < ApplicationRecord
 
   scopify
 
-  def self.ransackable_associations(auth_object = nil)
-    ["resource", "users"]
+  def self.ransackable_associations(_auth_object = nil)
+    %w[resource users]
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "deleted_at", "id", "name", "resource_id", "resource_type", "updated_at"]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[created_at deleted_at id name resource_id resource_type updated_at]
   end
 end
