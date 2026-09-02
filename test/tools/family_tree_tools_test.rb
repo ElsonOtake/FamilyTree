@@ -30,6 +30,10 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     link_child(@sibling)
   end
 
+  def teardown
+    Current.user = nil
+  end
+
   def link_child(person)
     Child.create!(couple: @parents, person: person, current_user: @user)
   end
@@ -207,7 +211,7 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   test 'tools resolve a person by display name, not just slug' do
     # The id/slug argument also accepts a human-readable name, which is
     # slugified to match (e.g. "John Doe" -> "john-doe").
-    %w[John\ Doe john\ doe].each do |identifier|
+    ['John Doe', 'john doe'].each do |identifier|
       result = call_tool(GetChildrenTool, person_id: identifier)
       assert_equal 2, result[:count], "expected #{identifier.inspect} to resolve to John Doe"
     end
@@ -381,5 +385,45 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
       assert_includes ids, no_year.id
       assert_not_includes ids, other_month.id
     end
+  end
+
+  test 'get_favorites returns the current user favorite people' do
+    Current.user = @user
+    @user.favorite_people << @father
+    @user.favorite_people << @child
+
+    result = call_tool(GetFavoritesTool)
+
+    assert_equal 2, result[:people].size
+    names = result[:people].map { |p| p[:name] }
+    assert_includes names, 'John Doe'
+    assert_includes names, 'Sam Doe'
+  end
+
+  test 'get_favorites returns an empty list when the user has no favorites' do
+    Current.user = @user
+
+    result = call_tool(GetFavoritesTool)
+
+    assert_empty result[:people]
+  end
+
+  test 'get_favorites orders results by name' do
+    Current.user = @user
+    @user.favorite_people << @child   # Sam Doe
+    @user.favorite_people << @father  # John Doe
+
+    result = call_tool(GetFavoritesTool)
+
+    person_names = result[:people].map { |p| p[:name] }
+    assert_equal ['John Doe', 'Sam Doe'], person_names
+  end
+
+  test 'get_favorites returns an error when there is no current user' do
+    Current.user = nil
+
+    result = call_tool(GetFavoritesTool)
+
+    assert result[:error].present?
   end
 end

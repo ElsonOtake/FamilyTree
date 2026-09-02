@@ -1,4 +1,6 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class ChildrenControllerTest < ActionDispatch::IntegrationTest
   def setup
@@ -7,71 +9,71 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     Role.find_or_create_by(name: 'gold')
     Role.find_or_create_by(name: 'silver')
     Role.find_or_create_by(name: 'bronze')
-    
+
     @user = users(:one)
-    @user.add_role(:admin)  # Use admin role for full access
-    
+    @user.add_role(:admin) # Use admin role for full access
+
     # Create test people
     @parent1 = Person.create!(
-      name: "Parent One",
+      name: 'Parent One',
       birth_year: 1980,
       birth_month: 5,
       birth_day: 15
     )
-    
+
     @parent2 = Person.create!(
-      name: "Parent Two", 
+      name: 'Parent Two',
       birth_year: 1982,
       birth_month: 8,
       birth_day: 20
     )
-    
+
     @child = Person.create!(
-      name: "Test Child",
+      name: 'Test Child',
       birth_year: 2010,
       birth_month: 3,
       birth_day: 10
     )
-    
+
     @another_child = Person.create!(
-      name: "Another Child",
+      name: 'Another Child',
       birth_year: 2012,
       birth_month: 7,
       birth_day: 5
     )
-    
+
     # Create a couple
     @couple = Couple.create!(
       person1_id: [@parent1.id, @parent2.id].min,
       person2_id: [@parent1.id, @parent2.id].max
     )
-    
+
     sign_in_as(@user)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get new_person_couple_child_path(@parent1, @couple)
     assert_response :success
   end
 
-  test "new action sets session id" do
+  test 'new action sets session id' do
     get new_person_couple_child_path(@parent1, @couple)
     assert_equal @parent1.id, session[:id]
   end
 
-  test "should create child successfully" do
+  test 'should create child successfully' do
     assert_difference('Event.count', 1) do
-      post person_couple_children_path(@parent1, @couple), params: { 
-        child_id: @child.id 
+      post person_couple_children_path(@parent1, @couple), params: {
+        child_id: @child.id
       }
     end
-    
+
     assert_redirected_to person_path(@parent1)
-    
+
     # Verify child was added to couple
     @couple.reload
     assert_includes @couple.people, @child
-    
+
     # Verify event was created
     event = Event.last
     assert_equal 'child.create', event.name
@@ -80,20 +82,20 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_equal @couple.id, event.data['couple_id']
   end
 
-  test "should handle create with turbo stream" do
-    post person_couple_children_path(@parent1, @couple), 
-         params: { child_id: @child.id }, 
-         headers: { "Accept" => "text/vnd.turbo-stream.html" }
-    
+  test 'should handle create with turbo stream' do
+    post person_couple_children_path(@parent1, @couple),
+         params: { child_id: @child.id },
+         headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+
     assert_response :success
-    assert_equal "text/vnd.turbo-stream.html", response.media_type
-    
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
+
     # Verify child was added
     @couple.reload
     assert_includes @couple.people, @child
   end
 
-  test "should handle adding child multiple times" do
+  test 'should handle adding child multiple times' do
     # Add a child that's already added - this should fail due to uniqueness validation
     Child.create!(person_id: @child.id, couple_id: @couple.id)
 
@@ -101,26 +103,26 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference('Child.count') do
       post person_couple_children_path(@parent1, @couple), params: {
         child_id: @child.id
-      }, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
     end
 
     assert_response :success
   end
 
-  test "should destroy child relationship" do
+  test 'should destroy child relationship' do
     # First add child to couple
     @couple.people << @child
-    
+
     assert_difference('Event.count', 1) do
       delete person_couple_child_path(@parent1, @couple, @child)
     end
-    
+
     assert_redirected_to person_path(@parent1)
-    
+
     # Verify child was removed from couple
     @couple.reload
     assert_not_includes @couple.people, @child
-    
+
     # Verify event was created
     event = Event.last
     assert_equal 'child.unlink', event.name
@@ -129,76 +131,76 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_equal @couple.id, event.data['couple_id']
   end
 
-  test "should handle destroy with turbo stream" do
+  test 'should handle destroy with turbo stream' do
     @couple.people << @child
-    
-    delete person_couple_child_path(@parent1, @couple, @child), 
-           headers: { "Accept" => "text/vnd.turbo-stream.html" }
-    
+
+    delete person_couple_child_path(@parent1, @couple, @child),
+           headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+
     assert_response :success
-    assert_equal "text/vnd.turbo-stream.html", response.media_type
-    
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
+
     # Verify child was removed
     @couple.reload
     assert_not_includes @couple.people, @child
   end
 
-  test "should require authentication" do
+  test 'should require authentication' do
     sign_out
-    
+
     get new_person_couple_child_path(@parent1, @couple)
     assert_redirected_to new_user_session_path
-    
-    post person_couple_children_path(@parent1, @couple), params: { 
-      child_id: @child.id 
+
+    post person_couple_children_path(@parent1, @couple), params: {
+      child_id: @child.id
     }
     assert_redirected_to new_user_session_path
-    
+
     delete person_couple_child_path(@parent1, @couple, @child)
     assert_redirected_to new_user_session_path
   end
 
-  test "should handle authorization" do
+  test 'should handle authorization' do
     # Test with a user who doesn't have proper authorization
     sign_out
     unauthorized_user = User.create!(
-      name: "Unauthorized User",
-      email: "unauthorized@example.com", 
-      password: "password",
+      name: 'Unauthorized User',
+      email: 'unauthorized@example.com',
+      password: 'password',
       confirmed_at: 1.week.ago
     )
     unauthorized_user.add_role(:bronze) # Bronze role doesn't have access to child operations
-    
+
     sign_in_as(unauthorized_user)
-    
+
     get new_person_couple_child_path(@parent1, @couple)
     assert_response :redirect # Should redirect due to authorization failure
   end
 
-  test "should handle missing person" do
-    get new_person_couple_child_path(99999, @couple)
+  test 'should handle missing person' do
+    get new_person_couple_child_path(99_999, @couple)
     assert_response :not_found
   end
 
-  test "should handle missing couple" do
-    get new_person_couple_child_path(@parent1, 99999)
+  test 'should handle missing couple' do
+    get new_person_couple_child_path(@parent1, 99_999)
     assert_response :not_found
   end
 
-  test "should handle missing child in create" do
+  test 'should handle missing child in create' do
     post person_couple_children_path(@parent1, @couple), params: {
-      child_id: 99999
+      child_id: 99_999
     }
     assert_response :not_found
   end
 
-  test "should handle missing child in destroy" do
-    delete person_couple_child_path(@parent1, @couple, 99999)
-    # Person with ID 99999 doesn't exist, so expect 404
+  test 'should handle missing child in destroy' do
+    delete person_couple_child_path(@parent1, @couple, 99_999)
+    # Person with ID 99_999 doesn't exist, so expect 404
     assert_response :not_found
   end
 
-  test "should handle destroy when relationship doesn't exist" do
+  test 'should handle destroy when relationship does not exist' do
     # Try to delete a child that exists but isn't linked to this couple
     delete person_couple_child_path(@parent1, @couple, @child)
 
@@ -206,31 +208,31 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t('children.errors.relationship_not_found'), flash[:alert]
   end
 
-  test "should handle destroy when relationship doesn't exist with turbo stream" do
+  test 'should handle destroy when relationship does not exist with turbo stream' do
     # Try to delete a child that exists but isn't linked to this couple
     delete person_couple_child_path(@parent1, @couple, @child),
-           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+           headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
 
     assert_response :success
-    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     # Should render flash message about relationship not found
     assert_includes response.body, I18n.t('children.errors.relationship_not_found')
   end
 
-  test "Child model methods work correctly" do
+  test 'Child model methods work correctly' do
     # Test Child model methods used in controller
     @couple.people << @child
-    
+
     children = Child.all
     assert_includes children.pluck(:person_id), @child.id
     assert_includes children.pluck(:couple_id), @couple.id
-    
+
     # Test column_names method
     assert_includes Child.column_names, 'person_id'
     assert_includes Child.column_names, 'couple_id'
   end
 
-  test "Child model creates event automatically on save" do
+  test 'Child model creates event automatically on save' do
     child_model = Child.new(person_id: @child.id, couple_id: @couple.id)
     child_model.current_user = @user
 
@@ -245,14 +247,14 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
     assert_equal @couple.id, event.data['couple_id']
   end
 
-  test "re-adding a previously unlinked child restores the link and audits it" do
+  test 're-adding a previously unlinked child restores the link and audits it' do
     Child.create!(couple: @couple, person: @child, current_user: @user)
     Child.find_by(person_id: @child.id, couple_id: @couple.id).destroy
     assert_not_includes @couple.reload.people, @child
 
     # Composite PK allows one row per pair; re-adding must restore, not insert,
     # and record a child.create event (after_restore), not silently skip it.
-    assert_difference -> { Event.where(name: "child.create", resource_id: @child.id).count }, 1 do
+    assert_difference -> { Event.where(name: 'child.create', resource_id: @child.id).count }, 1 do
       assert_nothing_raised do
         post person_couple_children_path(@parent1, @couple), params: { child_id: @child.id }
       end
@@ -266,16 +268,15 @@ class ChildrenControllerTest < ActionDispatch::IntegrationTest
   private
 
   def sign_in_as(user)
-    post user_session_path, params: { 
-      user: { 
-        email: user.email, 
-        password: 'password' 
-      } 
+    post user_session_path, params: {
+      user: {
+        email: user.email,
+        password: 'password'
+      }
     }
   end
 
   def sign_out
     delete destroy_user_session_path
   end
-
 end

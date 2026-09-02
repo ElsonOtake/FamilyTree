@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -94,7 +96,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
+  # gem 'webdrivers'
 end
 
 gem 'activeadmin'
@@ -108,4 +110,4 @@ gem 'pundit', '~> 2.3'
 gem 'ransack'
 gem 'rolify'
 
-gem "dockerfile-rails", ">= 1.7", :group => :development
+gem 'dockerfile-rails', '>= 1.7', group: :development

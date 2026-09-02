@@ -79,8 +79,10 @@ class AdminRestoreTest < ActionDispatch::IntegrationTest
   end
 
   test 'admin restore bounds the cascade so an old independent unlink is not resurrected' do
-    ca = Couple.create!(person1: Person.create!(name: 'A1', gender: 'M'), person2: Person.create!(name: 'A2', gender: 'F'))
-    cb = Couple.create!(person1: Person.create!(name: 'B1', gender: 'M'), person2: Person.create!(name: 'B2', gender: 'F'))
+    ca = Couple.create!(person1: Person.create!(name: 'A1', gender: 'M'),
+                        person2: Person.create!(name: 'A2', gender: 'F'))
+    cb = Couple.create!(person1: Person.create!(name: 'B1', gender: 'M'),
+                        person2: Person.create!(name: 'B2', gender: 'F'))
     kid = Person.create!(name: 'Kid', gender: 'X')
     Child.create!(couple: ca, person: kid, current_user: @admin)
     Child.create!(couple: cb, person: kid, current_user: @admin)
@@ -88,7 +90,7 @@ class AdminRestoreTest < ActionDispatch::IntegrationTest
     old = Child.find_by(person_id: kid.id, couple_id: cb.id)
     old.destroy
     old.update_column(:deleted_at, 1.hour.ago) # unlinked from cb long before the person delete
-    kid.destroy                                 # cascades the ca link now
+    kid.destroy # cascades the ca link now
 
     put restore_admin_person_path(kid)
 

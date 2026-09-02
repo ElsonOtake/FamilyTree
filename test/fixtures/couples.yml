@@ -1,15 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  person1_id: 
-  person2_id: 
+  person1: one
+  person2: two
   marriage: 2023-05-05
   separation: 2023-05-05
   local: MyText
 
 two:
-  person1_id: 
-  person2_id: 
+  person1: two
+  person2: one
   marriage: 2023-05-05
   separation: 2023-05-05
   local: MyText

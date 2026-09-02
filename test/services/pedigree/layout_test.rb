@@ -36,7 +36,8 @@ module Pedigree
       result = Layout.new(node('root', 1, marriages: [m1, m2])).call
 
       unions = result.root.marriages
-      assert_equal [2, 1], unions.map { |u| u.children.size }
+      children_sizes = unions.map { |u| u.children.size }
+      assert_equal [2, 1], children_sizes
       # the two marriages drop their children at different x positions
       assert_not_equal unions.first.descent_x, unions.last.descent_x
       assert_equal 2, result.generations

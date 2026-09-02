@@ -3,6 +3,7 @@
 # User model
 class User < ApplicationRecord
   include ActiveModel::Dirty
+  extend DemoMode
 
   # acts_as_paranoid
 
@@ -118,11 +119,17 @@ class User < ApplicationRecord
   end
 
   def self.from_omniauth(access_token)
-    User.where(email: access_token.info.email).first || User.create(name: access_token.info.name,
-                                                                    email: access_token.info.email,
-                                                                    password: Devise.friendly_token[0, 20],
-                                                                    provider: access_token.provider,
-                                                                    confirmed_at: Time.current)
+    user = User.find_or_create_by!(email: access_token.info.email) do |u|
+      u.name = access_token.info.name
+      u.password = Devise.friendly_token[0, 20]
+      u.provider = access_token.provider
+      u.confirmed_at = Time.current
+      u.approved = demo_mode?
+    end
+
+    user.update_role!('admin') if user.previously_new_record? && demo_mode?
+
+    user
   end
 
   def self.ransackable_attributes(_auth_object = nil)

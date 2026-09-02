@@ -31,7 +31,8 @@ module Pedigree
         assert_equal @focal, node.person
         assert_equal 1, node.marriages.size
         assert_nil node.marriages.first.spouse
-        assert_equal %w[Father Mother], parents_of(node).map { |p| p.person.name }
+        parent_names = parents_of(node).map { |p| p.person.name }
+        assert_equal %w[Father Mother], parent_names
       end
 
       test 'walks ancestors with no generation limit' do
@@ -41,7 +42,8 @@ module Pedigree
         assert_equal 2, father_node.generation
         grandparents = parents_of(father_node)
         assert_equal 3, grandparents.first.generation
-        assert_equal %w[Grandfather Grandmother], grandparents.map { |p| p.person.name }
+        grandparent_names = grandparents.map { |p| p.person.name }
+        assert_equal %w[Grandfather Grandmother], grandparent_names
         assert_empty parents_of(parents_of(node).last) # mother has no recorded parents
       end
 
@@ -56,14 +58,16 @@ module Pedigree
         Child.create!(couple: only, person: kid, current_user: @user)
         only.person2.destroy # leave a single surviving parent
 
-        assert_equal ['Solo Parent'], Chart.new(kid).build.marriages.first.children.map { |c| c.person.name }
+        parent_names = Chart.new(kid).build.marriages.first.children.map { |c| c.person.name }
+        assert_equal ['Solo Parent'], parent_names
       end
 
       test 'excludes soft-deleted ancestors' do
         @grandfather.destroy
 
         node = Chart.new(@focal).build
-        assert_equal ['Grandmother'], parents_of(parents_of(node).first).map { |p| p.person.name }
+        grandparent_names = parents_of(parents_of(node).first).map { |p| p.person.name }
+        assert_equal ['Grandmother'], grandparent_names
       end
 
       test 'excludes a pet parent when include_pets is false' do
@@ -74,7 +78,8 @@ module Pedigree
         Child.create!(couple: couple, person: kid, current_user: @user)
 
         hidden = Chart.new(kid, include_pets: false).build
-        assert_equal ['Owner'], parents_of(hidden).map { |p| p.person.name }
+        owner_name = parents_of(hidden).map { |p| p.person.name }
+        assert_equal ['Owner'], owner_name
 
         shown = Chart.new(kid, include_pets: true).build
         assert_includes parents_of(shown).map { |p| p.person.name }, 'Rex'

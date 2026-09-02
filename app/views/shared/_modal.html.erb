@@ -1,5 +1,5 @@
 <%# `modal` class is a JS hook for closeAllModals; visibility toggled via `hidden`. %>
-<div id='<%= modal_id %>' data-controller='stimulus' class='modal fixed inset-0 z-50 hidden'>
+<div id='<%= modal_id %>' data-controller='stimulus' class='modal fixed inset-0 z-50 hidden overflow-y-auto'>
   <div class='fixed inset-0 bg-black/50' data-action='click->stimulus#dismiss'></div>
 
   <div class='relative flex min-h-full items-center justify-center p-4'>

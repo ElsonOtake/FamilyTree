@@ -39,7 +39,7 @@ class Person < ApplicationRecord
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
   scope :with_birthdays_in_period, -> {
-    where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
+    where('birth_month IS NOT NULL AND birth_day IS NOT NULL')
   }
 
   before_validation :set_default_gender, on: :create
@@ -141,6 +141,7 @@ class Person < ApplicationRecord
 
   def birthday_this_year
     return nil unless birth_month && birth_day
+
     Date.new(Date.current.year, birth_month, birth_day)
   rescue Date::Error
     nil
@@ -148,6 +149,7 @@ class Person < ApplicationRecord
 
   def birthday_next_year
     return nil unless birth_month && birth_day
+
     Date.new(Date.current.year + 1, birth_month, birth_day)
   rescue Date::Error
     nil
@@ -155,12 +157,12 @@ class Person < ApplicationRecord
 
   def days_until_birthday
     return nil unless birth_month && birth_day
-    
+
     this_year = birthday_this_year
     today = Date.current
-    
+
     return nil unless this_year
-    
+
     (this_year - today).to_i
   end
 
@@ -201,21 +203,21 @@ class Person < ApplicationRecord
   # Callable on a relation to scope the result (e.g. favorites.birthdays_between).
   def self.birthdays_between(start_date, end_date)
     current_year = Date.current.year
-    scope = where("birth_month IS NOT NULL AND birth_day IS NOT NULL")
+    scope = where('birth_month IS NOT NULL AND birth_day IS NOT NULL')
 
     scope = if start_date.year == end_date.year
-              scope.where("MAKE_DATE(?, birth_month, birth_day) BETWEEN ? AND ?",
+              scope.where('MAKE_DATE(?, birth_month, birth_day) BETWEEN ? AND ?',
                           start_date.year, start_date, end_date)
             else
               scope.where(
-                "MAKE_DATE(?, birth_month, birth_day) >= ? OR MAKE_DATE(?, birth_month, birth_day) <= ?",
+                'MAKE_DATE(?, birth_month, birth_day) >= ? OR MAKE_DATE(?, birth_month, birth_day) <= ?',
                 start_date.year, start_date, end_date.year, end_date
               )
             end
 
     scope
       .select("people.*, (MAKE_DATE(#{current_year}, birth_month, birth_day) - CURRENT_DATE) AS days_until_birthday")
-      .order("days_until_birthday ASC")
+      .order('days_until_birthday ASC')
   end
 
   # People with a birthday in the given calendar month (1-12), ordered by day.

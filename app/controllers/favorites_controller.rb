@@ -8,7 +8,7 @@ class FavoritesController < ApplicationController
   def create
     @favorite = current_user.favorites.build(person: @person)
     authorize @favorite
-    
+
     respond_to do |format|
       if @favorite.save
         record_favorite_event('favorite.create')
@@ -24,7 +24,7 @@ class FavoritesController < ApplicationController
   def destroy
     @favorite = current_user.favorites.find_by(person: @person)
     authorize @favorite if @favorite
-    
+
     respond_to do |format|
       if @favorite&.destroy
         record_favorite_event('favorite.unlink')

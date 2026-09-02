@@ -31,14 +31,13 @@ else
   Rails.logger.warn("Seeds: created admin #{email}.")
 end
 
-# --- Demo/fictional data: non-production only. ---
-if Rails.env.production?
-  Rails.logger.warn('Seeds: production — skipping synthetic data (real data is loaded out of band).')
-elsif Person.any?
+# --- Demo/fictional data ---
+if Person.any?
   Rails.logger.warn('Seeds: people already present — skipping synthetic tree.')
 else
   require 'faker'
-  Current.user = User.find_by!(email: ENV.fetch('SEED_ADMIN_EMAIL', 'admin@demo.com'))
+  admin = User.find_by!(email: ENV.fetch('SEED_ADMIN_EMAIL', 'admin@demo.com'))
+  Current.user = admin
 
   make_person = lambda do |gender, from:, to:, alive: true|
     first = gender == 'M' ? Faker::Name.male_first_name : Faker::Name.female_first_name
@@ -59,18 +58,22 @@ else
     )
   end
 
+  all_people = []
+
   # Generation 1 — two founding couples (grandparents), all deceased.
   gen2_parents = []
   2.times do
     grandpa = make_person.call('M', from: Date.new(1930, 1, 1), to: Date.new(1940, 12, 31), alive: false)
     grandma = make_person.call('F', from: Date.new(1933, 1, 1), to: Date.new(1943, 12, 31), alive: false)
     couple = make_couple.call(grandpa, grandma, from: Date.new(1955, 1, 1), to: Date.new(1962, 12, 31))
+    all_people << grandpa << grandma
 
     # Generation 2 — their children.
     rand(2..3).times do
       child = make_person.call(%w[M F].sample, from: Date.new(1960, 1, 1), to: Date.new(1972, 12, 31))
       couple.people << child
       gen2_parents << child
+      all_people << child
     end
   end
 
@@ -79,13 +82,21 @@ else
     spouse_gender = parent.gender == 'M' ? 'F' : 'M'
     spouse = make_person.call(spouse_gender, from: Date.new(1962, 1, 1), to: Date.new(1974, 12, 31))
     couple = make_couple.call(parent, spouse, from: Date.new(1988, 1, 1), to: Date.new(1998, 12, 31))
+    all_people << spouse
 
     rand(1..3).times do
-      grandchild = make_person.call(%w[M F X].sample, from: Date.new(1992, 1, 1), to: Date.new(2012, 12, 31))
+      grandchild = make_person.call(%w[M F].sample, from: Date.new(1992, 1, 1), to: Date.new(2012, 12, 31))
       couple.people << grandchild
+      all_people << grandchild
     end
   end
 
+  # Flag a handful of people as the admin's favorites, so the demo has
+  # something to show in that view out of the box.
+  favorite_count = [6, all_people.size].min
+  admin.favorite_people = all_people.sample(favorite_count)
+
   Current.user = nil
-  Rails.logger.warn("Seeds: created #{Person.count} people, #{Couple.count} couples.")
+  Rails.logger.warn("Seeds: created #{Person.count} people, #{Couple.count} couples." \
+                     "#{admin.favorites.count} favorites for #{admin.email}.")
 end

@@ -18,7 +18,7 @@
         <div class='min-w-0 flex-1 text-center sm:text-left'>
           <h1 class='flex items-center justify-center gap-2 text-2xl font-bold sm:justify-start sm:text-3xl'>
             <%= render 'icon', person: person %>
-            <span class='break-words'><%= person.name %></span>
+            <span class='wrap-break-words'><%= person.name %></span>
           </h1>
           <% if person.kanji.present? %>
             <p class='mt-1 text-lg text-white/80'><%= person.kanji %></p>
