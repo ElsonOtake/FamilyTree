@@ -69,11 +69,12 @@ gem 'active_storage_validations'
 # Model Context Protocol server [https://github.com/yjacquin/fast-mcp]
 gem 'fast-mcp'
 
+# Generates the fictional family tree used by db/seeds.rb (no real data shipped).
+gem 'faker'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[ mri mingw x64_mingw ]
-  # Generates the fictional family tree used by db/seeds.rb (no real data shipped).
-  gem 'faker'
 end
 
 group :development do
