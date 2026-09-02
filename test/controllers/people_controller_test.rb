@@ -162,7 +162,7 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
     )
 
     Person.create!(
-      name: 'Non-favorite Person', 
+      name: 'Non-favorite Person',
       birth_year: 1985,
       birth_month: 9,
       birth_day: 21
@@ -184,7 +184,7 @@ class PeopleControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'birthdays action falls back to all people when no favorites' do
-    # Clear any existing favorites for this user  
+    # Clear any existing favorites for this user
     @user.favorites.destroy_all
 
     # Create people with birthdays but no favorites
