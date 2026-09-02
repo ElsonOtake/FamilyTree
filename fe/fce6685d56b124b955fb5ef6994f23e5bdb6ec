@@ -1,0 +1,15 @@
+test/tools/family_tree_tools_test.rb
+  h_7e49e1b6a1cf0d 33-36,389-426
+  h_7e49e1b6a1cf0d 427
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "fefce6685d56b124b955fb5ef6994f23e5bdb6ec",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
