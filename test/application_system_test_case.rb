@@ -15,11 +15,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       find('input[type="submit"]').click
     end
 
-    # puts "\n===== AFTER LOGIN ====="
-    # puts "URL: #{page.current_url}"
-    # puts "Flash: #{page.all('#flash').map(&:text).inspect}"
-    # puts "=======================\n"
-
     assert_no_current_path new_user_session_path
   end
 end

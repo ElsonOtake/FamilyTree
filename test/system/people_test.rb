@@ -40,7 +40,7 @@ class PeopleTest < ApplicationSystemTestCase
     find("input[name='person[alive]'][value='true']").choose if @person.alive
     find("input[name='person[alive]'][value='false']").choose unless @person.alive
 
-    sleep 5
+    sleep 2
 
     click_on I18n.t('people.form.create_person')
 
@@ -58,7 +58,7 @@ class PeopleTest < ApplicationSystemTestCase
     fill_in 'person_name', with: "#{@person.name} updated"
     fill_in 'person_description', with: "#{@person.description} updated"
 
-    sleep 5
+    sleep 2
 
     click_on I18n.t('people.form.update_person')
 
@@ -73,6 +73,7 @@ class PeopleTest < ApplicationSystemTestCase
         'helpers.submit.delete',
         model: I18n.t('people.form.person')
       ), match: :first
+      sleep 2
     end
 
     assert_text I18n.t(
