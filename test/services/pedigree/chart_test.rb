@@ -30,8 +30,10 @@ module Pedigree
       assert_equal @focal, node.person
       assert_equal 1, node.marriages.size
       assert_equal @spouse, node.marriages.first.spouse
-      assert_equal ['Child'], children_of(node).map { |c| c.person.name }
-      assert_equal ['Grandchild'], children_of(children_of(node).first).map { |c| c.person.name }
+      child_names = children_of(node).map { |c| c.person.name }
+      assert_equal ['Child'], child_names
+      grandchild_names = children_of(children_of(node).first).map { |c| c.person.name }
+      assert_equal ['Grandchild'], grandchild_names
     end
 
     test 'keeps each marriage spouse and children linked to that couple' do
@@ -44,8 +46,10 @@ module Pedigree
 
       assert_equal 2, node.marriages.size
       by_spouse = node.marriages.index_by { |m| m.spouse.name }
-      assert_equal ['Child'], by_spouse['Spouse'].children.map { |c| c.person.name }
-      assert_equal ['Other Child'], by_spouse['Second Spouse'].children.map { |c| c.person.name }
+      child_names = by_spouse['Spouse'].children.map { |c| c.person.name }
+      assert_equal ['Child'], child_names
+      other_child_names = by_spouse['Second Spouse'].children.map { |c| c.person.name }
+      assert_equal ['Other Child'], other_child_names
     end
 
     test 'orders a couple\'s children by birth date, oldest first, unknown last' do
@@ -56,7 +60,8 @@ module Pedigree
 
       node = Chart.new(@focal, generations: 5).build
       # @child (no birth date) and No Date have none, so they trail the dated two by id.
-      assert_equal ['Older', 'Younger', 'Child', 'No Date'], children_of(node).map { |c| c.person.name }
+      child_names = children_of(node).map { |c| c.person.name }
+      assert_equal ['Older', 'Younger', 'Child', 'No Date'], child_names
     end
 
     test 'excludes pets when include_pets is false, keeps them when true' do
@@ -64,7 +69,8 @@ module Pedigree
       Child.create!(couple: @couple, person: pet, current_user: @user)
 
       hidden = Chart.new(@focal, generations: 5, include_pets: false).build
-      assert_equal ['Child'], children_of(hidden).map { |c| c.person.name }
+      child_names = children_of(hidden).map { |c| c.person.name }
+      assert_equal ['Child'], child_names
 
       shown = Chart.new(@focal, generations: 5, include_pets: true).build
       assert_includes children_of(shown).map { |c| c.person.name }, 'Rex'

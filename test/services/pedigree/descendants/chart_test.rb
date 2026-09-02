@@ -40,7 +40,8 @@ module Pedigree
       test 'merges children from every couple into one marriage' do
         node = Chart.new(@focal).build
 
-        assert_equal ['Child A', 'Child B'], children_of(node).map { |c| c.person.name }
+        child_names = children_of(node).map { |c| c.person.name }
+        assert_equal ['Child A', 'Child B'], child_names
       end
 
       test 'orders children by birth date ascending, across couples, unknown last' do
@@ -52,7 +53,8 @@ module Pedigree
         Child.create!(couple: @couple_a, person: no_date, current_user: @user)
 
         node = Chart.new(@focal).build
-        assert_equal ['Child B', 'Child A', 'No Date'], children_of(node).map { |c| c.person.name }
+        child_names = children_of(node).map { |c| c.person.name }
+        assert_equal ['Child B', 'Child A', 'No Date'], child_names
       end
 
       test 'orders grandchildren by birth date too, at every generation' do
@@ -65,9 +67,9 @@ module Pedigree
 
         node = Chart.new(@focal).build
         child_a_node = children_of(node).find { |c| c.person == @child_a }
-        grandchildren = children_of(child_a_node).map { |c| c.person.name }
+        grandchild_names = children_of(child_a_node).map { |c| c.person.name }
         # @grandchild (no birth date) sorts last, after the three dated ones.
-        assert_equal ['GC Old', 'GC Mid', 'GC Young', 'Grandchild'], grandchildren
+        assert_equal ['GC Old', 'GC Mid', 'GC Young', 'Grandchild'], grandchild_names
       end
 
       test 'orders by the full birth date column when partial columns are blank' do
@@ -80,7 +82,8 @@ module Pedigree
         [younger, older].each { |p| Child.create!(couple: couple, person: p, current_user: @user) }
 
         node = Chart.new(parent).build
-        assert_equal ['Older', 'Younger'], children_of(node).map { |c| c.person.name }
+        child_names = children_of(node).map { |c| c.person.name }
+        assert_equal %w[Older Younger], child_names
       end
 
       test 'orders by partial dates: same year sorts by month then day' do
@@ -92,7 +95,8 @@ module Pedigree
         [year_only, march, june].each { |p| Child.create!(couple: couple, person: p, current_user: @user) }
 
         node = Chart.new(parent).build
-        assert_equal ['March', 'June', 'Year Only'], children_of(node).map { |c| c.person.name }
+        child_names = children_of(node).map { |c| c.person.name }
+        assert_equal ['March', 'June', 'Year Only'], child_names
       end
 
       test 'walks descendants with no generation limit' do
@@ -101,7 +105,8 @@ module Pedigree
         child_a_node = children_of(node).first
         assert_equal 2, child_a_node.generation
         grandchildren = children_of(child_a_node)
-        assert_equal %w[Grandchild], grandchildren.map { |c| c.person.name }
+        grandchild_names = grandchildren.map { |c| c.person.name }
+        assert_equal %w[Grandchild], grandchild_names
         assert_equal 3, grandchildren.first.generation
         assert_empty children_of(children_of(node).last) # Child B has no recorded children
       end
@@ -125,7 +130,8 @@ module Pedigree
         @child_a.destroy
 
         node = Chart.new(@focal).build
-        assert_equal ['Child B'], children_of(node).map { |c| c.person.name }
+        child_names = children_of(node).map { |c| c.person.name }
+        assert_equal ['Child B'], child_names
       end
 
       test 'returns nil for a missing root' do
