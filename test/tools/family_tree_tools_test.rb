@@ -211,7 +211,7 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   test 'tools resolve a person by display name, not just slug' do
     # The id/slug argument also accepts a human-readable name, which is
     # slugified to match (e.g. "John Doe" -> "john-doe").
-    %w[John\ Doe john\ doe].each do |identifier|
+    ['John Doe', 'john doe'].each do |identifier|
       result = call_tool(GetChildrenTool, person_id: identifier)
       assert_equal 2, result[:count], "expected #{identifier.inspect} to resolve to John Doe"
     end
@@ -415,7 +415,8 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
 
     result = call_tool(GetFavoritesTool)
 
-    assert_equal ['John Doe', 'Sam Doe'], result[:people].map { |p| p[:name] }
+    person_names = result[:people].map { |p| p[:name] }
+    assert_equal ['John Doe', 'Sam Doe'], person_names
   end
 
   test 'get_favorites returns an error when there is no current user' do
