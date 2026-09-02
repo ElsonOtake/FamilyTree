@@ -1,0 +1,14 @@
+Gemfile
+  h_7e49e1b6a1cf0d 72-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "f704e93f2aa5305452a662d0cb226514254d1097",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
