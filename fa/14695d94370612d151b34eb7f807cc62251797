@@ -1,0 +1,22 @@
+test/services/birth_order_test.rb
+  h_7e49e1b6a1cf0d 3,6-9,15-17,22-24,29,32-33,38-40,42
+test/services/pedigree/layout_test.rb
+  h_7e49e1b6a1cf0d 39-40
+test/services/pedigree/ancestors/chart_test.rb
+  h_7e49e1b6a1cf0d 34-35,45-46,61-62,69-70,81-82
+test/services/pedigree/chart_test.rb
+  h_7e49e1b6a1cf0d 33-36,49-52,63-64,72-73
+test/services/pedigree/descendants/chart_test.rb
+  h_7e49e1b6a1cf0d 43-44,56-57,70,72,85-86,98-99,108-109,133-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "fa14695d94370612d151b34eb7f807cc62251797",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
