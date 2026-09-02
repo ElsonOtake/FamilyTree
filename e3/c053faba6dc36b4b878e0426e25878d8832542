@@ -1,0 +1,16 @@
+app/tools/get_favorites_tool.rb
+  h_7e49e1b6a1cf0d 1-22
+test/tools/family_tree_tools_test.rb
+  h_7e49e1b6a1cf0d 214,418-419
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "e3c053faba6dc36b4b878e0426e25878d8832542",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
