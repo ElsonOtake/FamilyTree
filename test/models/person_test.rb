@@ -20,7 +20,8 @@ class PersonTest < ActiveSupport::TestCase
 
   test 'days_until_birthday returns correct negative value for past birthday' do
     travel_to Date.new(2025, 9, 25) do # 5 days after birthday
-      assert_equal -5, @person.days_until_birthday
+      past_days = -5
+      assert_equal past_days, @person.days_until_birthday
     end
   end
 
@@ -62,7 +63,7 @@ class PersonTest < ActiveSupport::TestCase
       upcoming = Person.upcoming_birthdays(7, 7)
 
       assert_includes upcoming, person_past
-      assert_includes upcoming, person_future  
+      assert_includes upcoming, person_future
       assert_includes upcoming, person_today
     end
   end
@@ -102,7 +103,7 @@ class PersonTest < ActiveSupport::TestCase
 
       # Should include people from the collection
       assert_includes upcoming, person_past
-      assert_includes upcoming, person_future  
+      assert_includes upcoming, person_future
       assert_includes upcoming, person_today
 
       # Should NOT include people outside the collection
@@ -121,7 +122,7 @@ class PersonTest < ActiveSupport::TestCase
 
     # Person with birthday at start of next month
     person_next_month = Person.create!(
-      name: 'Next Month Birthday', 
+      name: 'Next Month Birthday',
       birth_year: 1990,
       birth_month: 10,
       birth_day: 5
@@ -194,7 +195,7 @@ class PersonTest < ActiveSupport::TestCase
       utc_birthday = @person.birthday_this_year
       utc_days_until = @person.days_until_birthday
 
-      Time.zone = 'America/Sao_Paulo' 
+      Time.zone = 'America/Sao_Paulo'
       sao_paulo_birthday = @person.birthday_this_year
       sao_paulo_days_until = @person.days_until_birthday
 

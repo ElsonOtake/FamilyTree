@@ -2,16 +2,15 @@
 
 one:
   name: John Doe
-  gender: false
+  gender: M
   alive: false
   birth: 2023-05-05
-  death: 2023-05-05
+  death: 2025-10-07
   description: MyText
 
 two:
   name: Jane Doe
-  gender: false
-  alive: false
+  gender: F
+  alive: true
   birth: 2023-05-05
-  death: 2023-05-05
   description: MyText
