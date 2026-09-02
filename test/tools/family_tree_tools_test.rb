@@ -30,6 +30,10 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     link_child(@sibling)
   end
 
+  def teardown
+    Current.user = nil
+  end
+
   def link_child(person)
     Child.create!(couple: @parents, person: person, current_user: @user)
   end
@@ -381,5 +385,44 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
       assert_includes ids, no_year.id
       assert_not_includes ids, other_month.id
     end
+  end
+
+  test 'get_favorites returns the current user favorite people' do
+    Current.user = @user
+    @user.favorite_people << @father
+    @user.favorite_people << @child
+
+    result = call_tool(GetFavoritesTool)
+
+    assert_equal 2, result[:people].size
+    names = result[:people].map { |p| p[:name] }
+    assert_includes names, 'John Doe'
+    assert_includes names, 'Sam Doe'
+  end
+
+  test 'get_favorites returns an empty list when the user has no favorites' do
+    Current.user = @user
+
+    result = call_tool(GetFavoritesTool)
+
+    assert_empty result[:people]
+  end
+
+  test 'get_favorites orders results by name' do
+    Current.user = @user
+    @user.favorite_people << @child   # Sam Doe
+    @user.favorite_people << @father  # John Doe
+
+    result = call_tool(GetFavoritesTool)
+
+    assert_equal ['John Doe', 'Sam Doe'], result[:people].map { |p| p[:name] }
+  end
+
+  test 'get_favorites returns an error when there is no current user' do
+    Current.user = nil
+
+    result = call_tool(GetFavoritesTool)
+
+    assert result[:error].present?
   end
 end
