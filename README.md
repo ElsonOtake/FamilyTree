@@ -34,7 +34,7 @@ A Ruby on Rails application for managing family trees with support for multiple 
 
 - [Live Demo Link](https://elsonotake-familytree.onrender.com/)
 
-To use the administrator role, log in as admin@demo.com and use the password "password".
+To use the administrator role, log in as `admin@demo.com` and use the password `password`.
 
 ## Getting Started
 
@@ -76,7 +76,7 @@ To use the administrator role, log in as admin@demo.com and use the password "pa
    bin/dev
    ```
 
-6. Visit `http://localhost:3000` and sign in with the seeded demo account (**`demo@example.com`** / **`password`**).
+6. Visit `http://localhost:3000` and sign in with the seeded demo account (**`admin@demo.com`** / **`password`**).
 
 ## Development Commands
 
