@@ -1,0 +1,16 @@
+test/system/couples_test.rb
+  h_7e49e1b6a1cf0d 76
+test/system/children_test.rb
+  h_7e49e1b6a1cf0d 1-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "fd964bf3522647e8ad289ebe132af47ff8547fc8",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
