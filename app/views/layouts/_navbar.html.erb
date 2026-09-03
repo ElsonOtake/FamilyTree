@@ -45,10 +45,8 @@
             <%= render 'layouts/nav_dropdown_link', path: roles_users_path, icon: :shield_check, label: t('layouts.navbar.roles') %>
             <%= render 'layouts/nav_dropdown_link', path: admin_users_path, icon: :squares_2x2, label: t('layouts.navbar.dashboard') %>
           <% end %>
-          <% unless current_user.omniauth_login? %>
-            <div class='my-1 border-t border-slate-100 dark:border-slate-700'></div>
-            <%= render 'layouts/nav_dropdown_link', path: edit_user_registration_path, icon: :pencil_square, label: t('layouts.navbar.edit_profile') %>
-          <% end %>
+          <div class='my-1 border-t border-slate-100 dark:border-slate-700'></div>
+          <%= render 'layouts/nav_dropdown_link', path: edit_user_registration_path, icon: :pencil_square, label: t('layouts.navbar.edit_profile') %>
         <% end %>
 
         <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold hover:bg-white/10' do %>

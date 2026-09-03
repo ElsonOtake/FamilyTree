@@ -1,5 +1,6 @@
 ActiveAdmin.register User do
   menu priority: 1
+  restorable!
 
   # Admins only manage a user's role and access here. Users change their own
   # name / email / phone / password via "Editar Perfil"; account creation happens
@@ -27,6 +28,7 @@ ActiveAdmin.register User do
     column :provider
     column :phone
     column :created_at
+    column :deleted_at
     column :confirmation_status do |user|
       status_tag(user.confirmed? ? 'Confirmed' : 'Unconfirmed', class: user.confirmed? ? 'ok' : 'error')
     end
@@ -50,6 +52,7 @@ ActiveAdmin.register User do
       row :provider
       row :phone
       row :created_at
+      row :deleted_at
       row :confirmation_status do |user|
         user.confirmed? ? "Confirmed at #{user.confirmed_at.strftime('%B %d, %Y at %I:%M %p')}" : 'Not confirmed'
       end
@@ -117,6 +120,7 @@ ActiveAdmin.register User do
     # Avoid an N+1 on the index's roles column.
     def scoped_collection
       super.includes(:roles)
+      User.with_deleted
     end
 
     # Role is the only editable field; route it through User#update_role!, which
