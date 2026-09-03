@@ -13,9 +13,6 @@ application.register("source-toggle", SourceToggleController)
 import DarkModeController from "./dark_mode_controller"
 application.register("dark-mode", DarkModeController)
 
-import FavoritesController from "./favorites_controller"
-application.register("favorites", FavoritesController)
-
 import NavbarController from "./navbar_controller"
 application.register("navbar", NavbarController)
 
