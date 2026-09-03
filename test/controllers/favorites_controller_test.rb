@@ -13,7 +13,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   # CREATE tests
   test 'should create favorite when authenticated' do
     assert_difference('Favorite.count', 1) do
-      post person_favorites_path(@person), as: :json
+      post person_favorites_path(@person), as: :turbo_stream
     end
 
     assert_response :success
@@ -22,13 +22,9 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should return JSON response when creating favorite' do
-    post person_favorites_path(@person), as: :json, headers: { 'Accept' => 'application/json' }
+    post person_favorites_path(@person), as: :turbo_stream
 
     assert_response :success
-    json_response = JSON.parse(response.body)
-    assert_equal 'favorited', json_response['status']
-    assert json_response['id']
-    assert json_response['message']
   end
 
   test 'should redirect with HTML response when creating favorite' do
@@ -43,12 +39,10 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
     Favorite.create!(user: @user, person: @person)
 
     assert_no_difference('Favorite.count') do
-      post person_favorites_path(@person), as: :json
+      post person_favorites_path(@person), as: :turbo_stream
     end
 
     assert_response :success
-    json_response = JSON.parse(response.body)
-    assert_equal 'error', json_response['status']
   end
 
   test 'should require authentication for create' do
@@ -66,7 +60,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
     favorite = Favorite.create!(user: @user, person: @person)
 
     assert_difference('Favorite.count', -1) do
-      delete person_favorite_path(@person, favorite), as: :json
+      delete person_favorite_path(@person, favorite), as: :turbo_stream
     end
 
     assert_response :success
@@ -75,12 +69,9 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   test 'should return JSON response when destroying favorite' do
     favorite = Favorite.create!(user: @user, person: @person)
 
-    delete person_favorite_path(@person, favorite), as: :json, headers: { 'Accept' => 'application/json' }
+    delete person_favorite_path(@person, favorite), as: :turbo_stream
 
     assert_response :success
-    json_response = JSON.parse(response.body)
-    assert_equal 'unfavorited', json_response['status']
-    assert json_response['message']
   end
 
   test 'should redirect with HTML response when destroying favorite' do
@@ -94,12 +85,10 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not destroy favorite that does not exist' do
-    delete person_favorite_path(@person, 999999), as: :json
+    delete person_favorite_path(@person, 999999), as: :turbo_stream
 
     assert_response :success
-    json_response = JSON.parse(response.body)
-    assert_equal 'error', json_response['status']
-    assert_equal I18n.t('favorites.not_found'), json_response['message']
+    assert_includes response.body, I18n.t('favorites.not_found')
   end
 
   test 'should require authentication for destroy' do
@@ -136,7 +125,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
     target = Person.create!(name: 'Fav Target', gender: 'X')
 
     assert_difference -> { @user.events.where(name: 'favorite.create').count }, 1 do
-      post person_favorites_path(target), as: :json
+      post person_favorites_path(target), as: :turbo_stream
     end
 
     event = @user.events.where(name: 'favorite.create').order(:id).last
@@ -149,7 +138,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
     favorite = Favorite.create!(user: @user, person: target)
 
     assert_difference -> { @user.events.where(name: 'favorite.unlink').count }, 1 do
-      delete person_favorite_path(target, favorite), as: :json
+      delete person_favorite_path(target, favorite), as: :turbo_stream
     end
 
     event = @user.events.where(name: 'favorite.unlink').order(:id).last
