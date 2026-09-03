@@ -233,6 +233,7 @@ Copy `.env.example` to `.env` and fill it in — it is grouped into local-develo
 - `GMAIL_USERNAME` / `GMAIL_APP_PASSWORD` - Gmail SMTP for outgoing email
 - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_ENDPOINT_URL_S3` / `BUCKET_NAME` - S3-compatible object storage (Tigris)
 - `APP_URL` - Production URL if not on Render
+- `DEMO_MODE` - Demonstration or Production mode
 
 > On Fly.io, the storage variables (`AWS_*`, `BUCKET_NAME`) are set automatically by `fly storage create` (Tigris).
 
