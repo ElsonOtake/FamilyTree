@@ -34,7 +34,7 @@ A Ruby on Rails application for managing family trees with support for multiple 
 
 - [Live Demo Link](https://elsonotake-familytree.onrender.com/)
 
-To use the administrator role, log in as `admin@demo.com` and use the password `password`.
+Log in via `Google OAuth` or using the username `admin@demo.com` with the password `password`.
 
 ## Getting Started
 
