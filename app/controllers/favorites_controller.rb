@@ -26,6 +26,7 @@ class FavoritesController < ApplicationController
       else
         format.turbo_stream do
           flash.now[:alert] = @favorite.errors.full_messages.first
+          render :create_error
         end
 
         format.html do

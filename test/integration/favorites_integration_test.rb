@@ -16,7 +16,7 @@ class FavoritesIntegrationTest < ActionDispatch::IntegrationTest
     assert_select 'tbody tr', count: 0
 
     assert_difference('Favorite.count', 1) do
-      post person_favorites_path(@person1), as: :json
+      post person_favorites_path(@person1), as: :turbo_stream
     end
     assert_response :success
 
@@ -26,7 +26,7 @@ class FavoritesIntegrationTest < ActionDispatch::IntegrationTest
     assert_select 'tbody', text: /#{Regexp.escape(@person1.name)}/
 
     assert_difference('Favorite.count', 1) do
-      post person_favorites_path(@person2), as: :json
+      post person_favorites_path(@person2), as: :turbo_stream
     end
 
     get people_path
@@ -44,7 +44,7 @@ class FavoritesIntegrationTest < ActionDispatch::IntegrationTest
 
     favorite = @user.favorites.find_by(person: @person1)
     assert_difference('Favorite.count', -1) do
-      delete person_favorite_path(@person1, favorite), as: :json
+      delete person_favorite_path(@person1, favorite), as: :turbo_stream
     end
 
     get people_path
@@ -60,7 +60,7 @@ class FavoritesIntegrationTest < ActionDispatch::IntegrationTest
     assert_select '.btn', text: /#{Regexp.escape(I18n.t('favorites.add'))}/
 
     assert_difference('Favorite.count', 1) do
-      post person_favorites_path(@person1), as: :json
+      post person_favorites_path(@person1), as: :turbo_stream
     end
 
     get person_path(@person1)
@@ -69,7 +69,7 @@ class FavoritesIntegrationTest < ActionDispatch::IntegrationTest
 
     favorite = @user.favorites.find_by(person: @person1)
     assert_difference('Favorite.count', -1) do
-      delete person_favorite_path(@person1, favorite), as: :json
+      delete person_favorite_path(@person1, favorite), as: :turbo_stream
     end
 
     get person_path(@person1)
@@ -78,7 +78,7 @@ class FavoritesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'favorites persist across user sessions' do
-    post person_favorites_path(@person1), as: :json
+    post person_favorites_path(@person1), as: :turbo_stream
     assert_response :success
 
     delete destroy_user_session_path
@@ -116,16 +116,21 @@ class FavoritesIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'error handling for invalid favorite operations' do
-    delete person_favorite_path(@person1, 999_999), as: :json
+    delete person_favorite_path(@person1, 999_999), as: :turbo_stream
+
     assert_response :success
-    json_response = JSON.parse(response.body)
-    assert_equal 'error', json_response['status']
+
+    assert_includes response.body, I18n.t('favorites.not_found')
 
     Favorite.create!(user: @user, person: @person1)
-    post person_favorites_path(@person1), as: :json
+
+    assert_no_difference('Favorite.count') do
+      post person_favorites_path(@person1), as: :turbo_stream
+    end
+
     assert_response :success
-    json_response = JSON.parse(response.body)
-    assert_equal 'error', json_response['status']
+
+    assert_includes response.body, 'has already favorited this person'
   end
 
   private
