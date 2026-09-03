@@ -13,7 +13,7 @@ class ChildrenTest < ApplicationSystemTestCase
   end
 
   test 'should create and unlink Child' do
-    @child_name = 'Luna'
+    child_name = 'Luna'
 
     visit person_url(@person)
 
@@ -23,7 +23,7 @@ class ChildrenTest < ApplicationSystemTestCase
 
     assert_selector 'h1', text: "#{I18n.t('helpers.submit.create', model: I18n.t('children.form.child'))} — #{@person.name}"
 
-    fill_in 'person_name', with: @child_name
+    fill_in 'person_name', with: child_name
     fill_in 'person_description', with: 'Mixed breed dog'
 
     fill_in 'person_birth_year',  with: 2012
@@ -42,8 +42,10 @@ class ChildrenTest < ApplicationSystemTestCase
 
     assert_text I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child'))
 
+    assert_selector 'span', text: I18n.t('people.show.children')
+
     # The unlink icon link's accessible name comes from its title attribute
-    accept_confirm(I18n.t('confirm.messages.unlink_child', name: @child_name)) do
+    accept_confirm(I18n.t('confirm.messages.unlink_child', name: child_name)) do
       click_on I18n.t(
         'helpers.submit.unlink',
         model: I18n.t('children.form.child')

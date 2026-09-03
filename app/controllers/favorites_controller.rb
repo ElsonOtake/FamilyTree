@@ -12,11 +12,28 @@ class FavoritesController < ApplicationController
     respond_to do |format|
       if @favorite.save
         record_favorite_event('favorite.create')
-        format.json { render json: { status: 'favorited', id: @favorite.id, message: I18n.t('favorites.added') } }
-        format.html { redirect_back(fallback_location: @person, notice: I18n.t('favorites.added')) }
+
+        format.turbo_stream do
+          flash.now[:notice] = I18n.t('favorites.added')
+        end
+
+        format.html do
+          redirect_back(
+            fallback_location: @person,
+            notice: I18n.t('favorites.added')
+          )
+        end
       else
-        format.json { render json: { status: 'error', message: @favorite.errors.full_messages.first } }
-        format.html { redirect_back(fallback_location: @person, alert: @favorite.errors.full_messages.first) }
+        format.turbo_stream do
+          flash.now[:alert] = @favorite.errors.full_messages.first
+        end
+
+        format.html do
+          redirect_back(
+            fallback_location: @person,
+            alert: @favorite.errors.full_messages.first
+          )
+        end
       end
     end
   end
@@ -28,11 +45,28 @@ class FavoritesController < ApplicationController
     respond_to do |format|
       if @favorite&.destroy
         record_favorite_event('favorite.unlink')
-        format.json { render json: { status: 'unfavorited', message: I18n.t('favorites.removed') } }
-        format.html { redirect_back(fallback_location: @person, notice: I18n.t('favorites.removed')) }
+
+        format.turbo_stream do
+          flash.now[:notice] = I18n.t('favorites.removed')
+        end
+
+        format.html do
+          redirect_back(
+            fallback_location: @person,
+            notice: I18n.t('favorites.removed')
+          )
+        end
       else
-        format.json { render json: { status: 'error', message: I18n.t('favorites.not_found') } }
-        format.html { redirect_back(fallback_location: @person, alert: I18n.t('favorites.not_found')) }
+        format.turbo_stream do
+          flash.now[:alert] = I18n.t('favorites.not_found')
+        end
+
+        format.html do
+          redirect_back(
+            fallback_location: @person,
+            alert: I18n.t('favorites.not_found')
+          )
+        end
       end
     end
   end

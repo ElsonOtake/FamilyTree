@@ -1,0 +1,11 @@
+<%= turbo_stream.replace(
+      "favorite-button-#{@person.id}",
+      partial: 'people/favorite_button',
+      locals: {
+        person: @person,
+        favorite: @favorite,
+        show_label: false
+      }
+    ) %>
+
+<%= render_turbo_stream_flash_messages %>

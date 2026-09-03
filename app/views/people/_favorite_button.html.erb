@@ -1,17 +1,20 @@
 <%# Favorite toggle. Locals: person, favorite (record or nil), show_label (bool). %>
 <% show_label = local_assigns.fetch(:show_label, false) %>
-<% if favorite %>
-  <%= button_to person_favorite_path(person, favorite), method: :delete,
-        form: { data: { turbo: false } },
-        data: { controller: 'favorites', action: 'favorites#toggle' },
-        class: 'btn btn-sm btn-danger', title: t('favorites.remove') do %>
-    <%= heroicon(:heart, class: 'size-4') %><% if show_label %><span><%= t('favorites.remove') %></span><% end %>
+<div id="favorite-button-<%= person.id %>">
+  <%= button_to(
+        favorite ? person_favorite_path(person, favorite) : person_favorites_path(person),
+        method: favorite ? :delete : :post,
+        form: {
+          data: {
+            turbo_stream: true
+          }
+        },
+        class: favorite ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-secondary',
+        title: favorite ? t('favorites.remove') : t('favorites.add')
+      ) do %>
+    <%= heroicon(:heart, class: 'size-4') %>
+    <% if show_label %>
+      <span><%= favorite ? t('favorites.remove') : t('favorites.add') %></span>
+    <% end %>
   <% end %>
-<% else %>
-  <%= button_to person_favorites_path(person),
-        form: { data: { turbo: false } },
-        data: { controller: 'favorites', action: 'favorites#toggle' },
-        class: 'btn btn-sm btn-secondary', title: t('favorites.add') do %>
-    <%= heroicon(:heart, class: 'size-4') %><% if show_label %><span><%= t('favorites.add') %></span><% end %>
-  <% end %>
-<% end %>
+</div>
