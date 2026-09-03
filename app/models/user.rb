@@ -5,7 +5,7 @@ class User < ApplicationRecord
   include ActiveModel::Dirty
   extend DemoMode
 
-  # acts_as_paranoid
+  acts_as_paranoid
 
   has_many :events
   has_many :favorites, dependent: :destroy

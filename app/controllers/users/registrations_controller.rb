@@ -38,6 +38,15 @@ module Users
 
     protected
 
+    def update_resource(resource, params)
+      if resource.omniauth_login?
+        resource.skip_reconfirmation! if resource.respond_to?(:skip_reconfirmation!)
+        resource.update(params.except(:current_password))
+      else
+        resource.update_with_password(params)
+      end
+    end
+
     def build_resource(hash = {})
       super
       return unless demo_mode?

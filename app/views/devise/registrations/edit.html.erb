@@ -3,7 +3,9 @@
     <h1 class='flex items-center gap-2 text-2xl font-bold'>
       <%= heroicon(:pencil_square, class: 'size-6') %><%= t('.edit_user') %>
     </h1>
-    <p class='mt-1 text-sm text-white/80'><%= t('.we_need_your_current_password') %></p>
+    <% unless resource.omniauth_login? %>
+      <p class='mt-1 text-sm text-white/80'><%= t('.we_need_your_current_password') %></p>
+    <% end %>
   </section>
 
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
@@ -45,11 +47,13 @@
           <%= f.label :password_confirmation, t('devise.password_confirmation'), class: 'label' %>
           <%= f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input', placeholder: t('.placeholder_confirm_password') %>
         </div>
-        <div class='field mb-0 border-t border-slate-100 pt-4 dark:border-slate-700'>
-          <%= f.label :current_password, t('.current_password'), class: 'label' %>
-          <%= f.password_field :current_password, autocomplete: 'current-password', class: 'input', placeholder: t('.placeholder_current_password') %>
-          <p class='mt-1 text-xs text-red-600'><%= t('.we_need_your_current_password') %></p>
-        </div>
+        <% unless resource.omniauth_login? %>
+          <div class='field mb-0 border-t border-slate-100 pt-4 dark:border-slate-700'>
+            <%= f.label :current_password, t('.current_password'), class: 'label' %>
+            <%= f.password_field :current_password, autocomplete: 'current-password', class: 'input', placeholder: t('.placeholder_current_password') %>
+            <p class='mt-1 text-xs text-red-600'><%= t('.we_need_your_current_password') %></p>
+          </div>
+        <% end %>
       </div>
     </div>
 
