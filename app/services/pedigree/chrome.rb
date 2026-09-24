@@ -34,7 +34,36 @@ module Pedigree
     WATERMARK_PATH = Rails.root.join('app/assets/images/tree_watermark.png')
     WATERMARK_OPACITY = 0.16
 
+    # CJK font for kanji names — Prawn's built-in AFM fonts (Times-Roman/Bold)
+    # only support WinAnsi and have no CJK glyphs at all, so kanji needs its own
+    # embedded TrueType font. Adjust the path/filenames to match wherever the
+    # font file actually lives in the repo.
+    KANJI_FONT_NAME    = 'NotoSansJP'
+    KANJI_FONT_REGULAR = Rails.root.join('app/assets/fonts/NotoSansJP-Regular.ttf')
+    KANJI_FONT_BOLD    = Rails.root.join('app/assets/fonts/NotoSansJP-Bold.ttf')
+
     private
+
+    # --- fonts -------------------------------------------------------------
+
+    # Registers the CJK font family on this document. Call once per
+    # Prawn::Document, before any kanji text is drawn. Safe to call even if the
+    # font file isn't present (e.g. not yet added to the repo) — kanji lines
+    # are simply skipped in that case rather than raising.
+    def register_fonts(pdf)
+      return unless File.exist?(KANJI_FONT_REGULAR)
+
+      pdf.font_families.update(
+        KANJI_FONT_NAME => {
+          normal: KANJI_FONT_REGULAR.to_s,
+          bold: (File.exist?(KANJI_FONT_BOLD) ? KANJI_FONT_BOLD.to_s : KANJI_FONT_REGULAR.to_s)
+        }
+      )
+    end
+
+    def kanji_font_available?(pdf)
+      pdf.font_families.key?(KANJI_FONT_NAME)
+    end
 
     # --- page geometry ---------------------------------------------------------
 
@@ -173,23 +202,49 @@ module Pedigree
       [cy + ry + 2.5, cy - ry - 2.5].each { |y| pdf.fill { pdf.circle([center_x, y], 1.5) } }
     end
 
+    # Draws the stacked label under a portrait: name, kanji (if present), then
+    # birth/death years (if present). Each line reports how much vertical space
+    # it consumed so the next line's top offset is computed rather than
+    # hardcoded — that's what lets the kanji line be optional without disturbing
+    # the years line's position when kanji is absent.
     def draw_label(pdf, person, center_x, portrait_bottom)
       width = Geom::CELL_W + Geom::SPOUSE_GAP - 8
       left = center_x - width / 2.0
-      name_top = portrait_bottom + Geom::NAME_GAP
+      cursor = portrait_bottom + Geom::NAME_GAP
 
+      cursor = draw_name_line(pdf, person, left, width, cursor)
+      cursor = draw_kanji_line(pdf, person, left, width, cursor)
+      draw_years_line(pdf, person, left, width, cursor)
+    end
+
+    def draw_name_line(pdf, person, left, width, top)
       pdf.fill_color NAME_COLOR
       pdf.font('Times-Bold') do
-        pdf.text_box(safe(person.name), at: [left, flip(name_top)], width: width, height: 22,
+        pdf.text_box(safe(person.name), at: [left, flip(top)], width: width, height: 22,
                                         size: 7, align: :center, overflow: :shrink_to_fit, leading: 0.5)
       end
+      top + 11
+    end
 
+    def draw_kanji_line(pdf, person, left, width, top)
+      kanji = person.kanji.presence
+      return top unless kanji && kanji_font_available?(pdf)
+
+      pdf.fill_color NAME_COLOR
+      pdf.font(KANJI_FONT_NAME) do
+        pdf.text_box(safe_utf8(kanji), at: [left, flip(top)], width: width, height: 14,
+                                       size: 7, align: :center, overflow: :shrink_to_fit)
+      end
+      top + 14
+    end
+
+    def draw_years_line(pdf, person, left, width, top)
       years = years_line(person)
       return if years.blank?
 
       pdf.fill_color YEAR_COLOR
       pdf.font('Times-Roman') do
-        pdf.text_box(years, at: [left, flip(name_top + 22)], width: width, height: 12,
+        pdf.text_box(years, at: [left, flip(top)], width: width, height: 12,
                             size: 6.5, align: :center)
       end
     end
@@ -241,6 +296,13 @@ module Pedigree
     # crash rendering.
     def safe(text)
       text.to_s.encode('Windows-1252', invalid: :replace, undef: :replace, replace: '?').encode('UTF-8')
+    end
+
+    # For text drawn with the embedded CJK font — no WinAnsi round-trip, since
+    # that would mangle the kanji. Just guards against a nil value reaching
+    # Prawn.
+    def safe_utf8(text)
+      text.to_s
     end
   end
 end

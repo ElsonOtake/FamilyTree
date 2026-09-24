@@ -9,7 +9,7 @@ module Pedigree
     CELL_W      = 66   # horizontal cell per portrait
     SPOUSE_GAP  = 34   # gap between a person and their spouse portrait
     SIBLING_GAP = 40   # gap between sibling family units
-    LABEL_H     = 48   # space under a portrait for name + years
+    LABEL_H     = 48   # name(11) + kanji(14) + years(12) + NAME_GAP(10) + small buffer
     NAME_GAP    = 10   # gap between a portrait and its name
     ROW_GAP     = 52   # vertical gap between generations
     MARGIN      = 52   # page margin (holds the decorative frame)
