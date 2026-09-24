@@ -218,24 +218,38 @@ module Pedigree
     end
 
     def draw_name_line(pdf, person, left, width, top)
+      text = safe(person.name)
       pdf.fill_color NAME_COLOR
+      height = measured_height(pdf, 'Times-Bold', text, width, size: 7, leading: 0.5, cap: 20)
       pdf.font('Times-Bold') do
-        pdf.text_box(safe(person.name), at: [left, flip(top)], width: width, height: 22,
-                                        size: 7, align: :center, overflow: :shrink_to_fit, leading: 0.5)
+        pdf.text_box(text, at: [left, flip(top)], width: width, height: height,
+                           size: 7, align: :center, overflow: :shrink_to_fit, leading: 0.5)
       end
-      top + 11
+      top + height
     end
 
     def draw_kanji_line(pdf, person, left, width, top)
       kanji = person.kanji.presence
       return top unless kanji && kanji_font_available?(pdf)
 
+      text = safe_utf8(kanji)
       pdf.fill_color NAME_COLOR
+      height = measured_height(pdf, KANJI_FONT_NAME, text, width, size: 7, cap: 18)
       pdf.font(KANJI_FONT_NAME) do
-        pdf.text_box(safe_utf8(kanji), at: [left, flip(top)], width: width, height: 14,
-                                       size: 7, align: :center, overflow: :shrink_to_fit)
+        pdf.text_box(text, at: [left, flip(top)], width: width, height: height,
+                           size: 7, align: :center, overflow: :shrink_to_fit)
       end
-      top + 14
+      top + height + Geom::LABEL_LINE_GAP
+    end
+
+    # Actual rendered height a piece of text needs at this width/font/size, with a
+    # small buffer for breathing room and a hard cap so one absurdly long name
+    # can't blow out the row spacing enough to collide with the next generation.
+    # overflow: :shrink_to_fit takes over for anything beyond the cap.
+    def measured_height(pdf, font_name, text, width, size:, cap:, leading: 0)
+      raw = nil
+      pdf.font(font_name) { raw = pdf.height_of(text, width: width, size: size, leading: leading) }
+      [raw + 2, cap].min
     end
 
     def draw_years_line(pdf, person, left, width, top)
