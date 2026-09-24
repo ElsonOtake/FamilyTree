@@ -22,6 +22,7 @@ module Pedigree
 
       Prawn::Document.new(page_size: [page_width, page_height], margin: 0).tap do |pdf|
         pdf.font 'Times-Roman'
+        register_fonts(pdf)
         draw_background(pdf)
         draw_frame(pdf)
         draw_title(pdf)
