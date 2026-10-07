@@ -21,7 +21,9 @@ module RecordEvent
     actor = event_actor
     return unless actor
 
-    changes = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
+    changes = saved_changes.transform_values(&:last).reject do |k, v|
+      v.nil? || v == '' || %w[id updated_at].include?(k)
+    end
     record_event(actor, 'create', changes)
   end
 

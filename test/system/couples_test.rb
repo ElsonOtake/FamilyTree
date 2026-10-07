@@ -20,7 +20,8 @@ class CouplesTest < ApplicationSystemTestCase
 
     click_on I18n.t('people.show.add')
 
-    assert_selector 'h1', text: "#{I18n.t('helpers.submit.create', model: I18n.t('people.show.mate'))} — #{@person.name}"
+    assert_selector 'h1',
+                    text: "#{I18n.t('helpers.submit.create', model: I18n.t('people.show.mate'))} — #{@person.name}"
     assert_selector 'h3', text: I18n.t('people.form.relationship_info')
 
     fill_in 'person_name', with: @other_person.name

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDeletedAtToRoles < ActiveRecord::Migration[7.0]
   def change
     add_column :roles, :deleted_at, :datetime

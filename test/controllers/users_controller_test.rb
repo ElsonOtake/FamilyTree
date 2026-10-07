@@ -282,7 +282,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     actions_requiring_admin = [
       { action: -> { get users_path }, expects_success: true },
       { action: -> { get roles_users_path }, expects_success: true },
-      { action: -> { patch role_update_user_path(@test_user1), params: { user: { role: 'gold' } } }, expects_success: false }
+      { action: lambda {
+        patch role_update_user_path(@test_user1), params: { user: { role: 'gold' } }
+      }, expects_success: false }
     ]
 
     users_and_roles = [

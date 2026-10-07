@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Person do
   menu priority: 3
 
@@ -31,13 +33,17 @@ ActiveAdmin.register Person do
     column :updated_at
     column :deleted_at
     actions do |person|
-      item I18n.t("active_admin.events"), admin_events_path(q: { resource_type_eq: person.class, resource_id_eq: person.id }), class: "preview-link"
-      item I18n.t("active_admin.restore", default: "Restore"), restore_admin_person_path(person), method: :put if person.deleted_at?
+      item I18n.t('active_admin.events'),
+           admin_events_path(q: { resource_type_eq: person.class, resource_id_eq: person.id }), class: 'preview-link'
+      if person.deleted_at?
+        item I18n.t('active_admin.restore', default: 'Restore'), restore_admin_person_path(person),
+             method: :put
+      end
     end
   end
 
   action_item :restore, only: :show, if: -> { resource.deleted_at? } do
-    link_to I18n.t("active_admin.restore", default: "Restore"), restore_admin_person_path(resource), method: :put
+    link_to I18n.t('active_admin.restore', default: 'Restore'), restore_admin_person_path(resource), method: :put
   end
 
   show do
@@ -54,7 +60,8 @@ ActiveAdmin.register Person do
       row :updated_at
       row :deleted_at
       row :events do
-        link_to "Events", admin_events_path(q: { resource_type_eq: resource.class, resource_id_eq: resource.id }), class: "preview-link"
+        link_to 'Events', admin_events_path(q: { resource_type_eq: resource.class, resource_id_eq: resource.id }),
+                class: 'preview-link'
       end
     end
   end

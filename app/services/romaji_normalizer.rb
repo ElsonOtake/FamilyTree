@@ -36,6 +36,6 @@ module RomajiNormalizer
     SUBSTITUTIONS.each { |from, to| s = s.gsub(from, to) }
     s = s.gsub(/m([bpm])/, 'n\1')              # Hepburn n -> m before b/p/m
     s = s.gsub(/([bcdfghjklmnpqrstvwxyz])\1/, '\1') # collapse doubled consonants (sokuon)
-    s.squish                                   # collapse and trim whitespace
+    s.squish # collapse and trim whitespace
   end
 end

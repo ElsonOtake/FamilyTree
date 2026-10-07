@@ -5,7 +5,7 @@ require 'test_helper'
 class FavoriteTest < ActiveSupport::TestCase
   # Test core validations without fixtures
   test 'should be valid with valid attributes' do
-    user = User.new(name: 'Test', email: "test#{rand(10000)}@example.com", password: 'password')
+    user = User.new(name: 'Test', email: "test#{rand(10_000)}@example.com", password: 'password')
     person = Person.new(name: 'Test Person', gender: 'M')
     favorite = Favorite.new(user: user, person: person)
 

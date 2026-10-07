@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Couple do
   menu priority: 4
 
@@ -28,7 +30,10 @@ ActiveAdmin.register Couple do
     column :updated_at
     column :deleted_at
     actions defaults: false do |couple|
-      item I18n.t('active_admin.restore', default: 'Restore'), restore_admin_couple_path(couple), method: :put if couple.deleted_at?
+      if couple.deleted_at?
+        item I18n.t('active_admin.restore', default: 'Restore'), restore_admin_couple_path(couple),
+             method: :put
+      end
     end
   end
 end

@@ -172,7 +172,7 @@ class ChildPolicyTest < ActiveSupport::TestCase
 
   # ROLE HIERARCHY TESTS
   test 'role hierarchy for creation actions' do
-    creation_actions = [:new?, :edit?, :create?, :update?]
+    creation_actions = %i[new? edit? create? update?]
 
     # Admin, Gold, and Silver should have all creation permissions
     [@admin_user, @gold_user, @silver_user].each do |user|
@@ -315,9 +315,9 @@ class ChildPolicyTest < ActiveSupport::TestCase
 
   test 'all policy methods are defined' do
     policy = ChildPolicy.new(@admin_user, @child)
-    expected_methods = [
-      :index?, :download?, :show?, :new?, :edit?, :create?,
-      :update?, :destroy?
+    expected_methods = %i[
+      index? download? show? new? edit? create?
+      update? destroy?
     ]
 
     expected_methods.each do |method|
@@ -332,7 +332,7 @@ class ChildPolicyTest < ActiveSupport::TestCase
     policy = ChildPolicy.new(@silver_user, @child)
     assert policy.new? # Uses has_any_role? :silver, :gold, :admin
 
-    # Gold user should pass gold/admin check  
+    # Gold user should pass gold/admin check
     policy = ChildPolicy.new(@gold_user, @child)
     assert policy.destroy? # Uses has_any_role? :gold, :admin
 

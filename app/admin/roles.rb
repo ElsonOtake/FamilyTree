@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Role do
   restorable!
 
@@ -8,7 +10,10 @@ ActiveAdmin.register Role do
     column :name
     column :deleted_at
     actions defaults: false do |role|
-      item I18n.t('active_admin.restore', default: 'Restore'), restore_admin_role_path(role), method: :put if role.deleted_at?
+      if role.deleted_at?
+        item I18n.t('active_admin.restore', default: 'Restore'), restore_admin_role_path(role),
+             method: :put
+      end
     end
   end
 

@@ -115,7 +115,7 @@ module Pedigree
       frame_rect(pdf, 21, 8.0, FRAME_WOOD)  # mahogany band
       frame_rect(pdf, 18.5, 1.0, FRAME_HILIT) # bevel highlight on the wood
       frame_rect(pdf, 26.5, 1.4, FRAME_LINER) # light liner
-      frame_rect(pdf, 29, 0.7, FRAME_DARK)  # inner hairline
+      frame_rect(pdf, 29, 0.7, FRAME_DARK) # inner hairline
     end
 
     def frame_rect(pdf, inset, line_w, color)

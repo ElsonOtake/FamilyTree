@@ -21,7 +21,8 @@ class ChildrenTest < ApplicationSystemTestCase
 
     click_on I18n.t('helpers.submit.create', model: I18n.t('children.form.child')), match: :first
 
-    assert_selector 'h1', text: "#{I18n.t('helpers.submit.create', model: I18n.t('children.form.child'))} — #{@person.name}"
+    assert_selector 'h1',
+                    text: "#{I18n.t('helpers.submit.create', model: I18n.t('children.form.child'))} — #{@person.name}"
 
     fill_in 'person_name', with: child_name
     fill_in 'person_description', with: 'Mixed breed dog'

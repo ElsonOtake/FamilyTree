@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PopulatePartialDateFields < ActiveRecord::Migration[7.0]
   def up
     Person.find_each do |person|
@@ -35,6 +37,7 @@ class PopulatePartialDateFields < ActiveRecord::Migration[7.0]
 
   def down
     # Reverter os valores para nil, caso necessário
-    Person.update_all(birth_day: nil, birth_month: nil, birth_year: nil, death_day: nil, death_month: nil, death_year: nil)
+    Person.update_all(birth_day: nil, birth_month: nil, birth_year: nil, death_day: nil, death_month: nil,
+                      death_year: nil)
   end
 end

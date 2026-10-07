@@ -180,9 +180,9 @@ class UserTest < ActiveSupport::TestCase
   test 'should have devise modules configured' do
     devise_modules = User.devise_modules
 
-    expected_modules = [
-      :database_authenticatable, :registerable, :confirmable,
-      :recoverable, :rememberable, :validatable, :trackable, :omniauthable
+    expected_modules = %i[
+      database_authenticatable registerable confirmable
+      recoverable rememberable validatable trackable omniauthable
     ]
 
     expected_modules.each do |mod|
@@ -305,8 +305,8 @@ class UserTest < ActiveSupport::TestCase
     # Create test person for events
     person = Person.create!(name: 'Test Person', birth_year: 1980)
 
-    event1 = user.events.create!(name: 'Event 1', resource: person, data: {test: 'data1'})
-    event2 = user.events.create!(name: 'Event 2', resource: person, data: {test: 'data2'})
+    event1 = user.events.create!(name: 'Event 1', resource: person, data: { test: 'data1' })
+    event2 = user.events.create!(name: 'Event 2', resource: person, data: { test: 'data2' })
 
     assert_equal 2, user.events.count
     assert_includes user.events, event1
@@ -330,11 +330,11 @@ class UserTest < ActiveSupport::TestCase
   test 'ransackable_attributes returns correct attributes' do
     ransackable_attrs = User.ransackable_attributes
 
-    expected_attrs = [
-      'approved', 'confirmation_sent_at', 'confirmation_token', 'confirmed_at', 'created_at',
-      'deleted_at', 'email', 'encrypted_password', 'id', 'locale', 'name',
-      'phone', 'provider', 'remember_created_at', 'reset_password_sent_at',
-      'reset_password_token', 'unconfirmed_email', 'updated_at'
+    expected_attrs = %w[
+      approved confirmation_sent_at confirmation_token confirmed_at created_at
+      deleted_at email encrypted_password id locale name
+      phone provider remember_created_at reset_password_sent_at
+      reset_password_token unconfirmed_email updated_at
     ]
 
     assert_equal expected_attrs, ransackable_attrs

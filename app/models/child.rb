@@ -3,10 +3,9 @@
 # A child is a person who is a member of a couple.
 # The person_id is the child and the couple_id is the couple.
 class Child < ApplicationRecord
-
   # This model represents the couples_people join table
   self.table_name = 'couples_people'
-  self.primary_key = [:person_id, :couple_id]
+  self.primary_key = %i[person_id couple_id]
 
   # Soft-delete the couple<->child link so unlinking (and cascades from a
   # soft-deleted person/couple) can be restored. The table's composite PK

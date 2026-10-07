@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
-require 'set'
-
 # This controller manages pages in the family tree app.
 class PagesController < ApplicationController
   before_action :authenticate_user!
   # before_action -> { authorize User }
 
-  def about
-  end
+  def about; end
 
   def statistics
     @total_people = Person.count
@@ -16,7 +13,7 @@ class PagesController < ApplicationController
     @living_people = Person.where(alive: true).count
     @deceased_people = Person.where(alive: false).count
     @unknown_status = Person.where(alive: nil).count
-    
+
     @birth_year_stats = calculate_birth_year_stats
     @total_couples = Couple.count
     @people_without_parents = Person.without_recorded_parents.count

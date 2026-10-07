@@ -23,7 +23,9 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if link_child(@child_record)
         format.html { redirect_to person_path(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
+        format.turbo_stream do
+          flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child'))
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         flash.now[:notice] = @child_record.errors.full_messages[0]
@@ -60,7 +62,9 @@ class ChildrenController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to person_url(@person) }
-      format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('children.form.child')) }
+      format.turbo_stream do
+        flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('children.form.child'))
+      end
     end
   end
 

@@ -31,7 +31,9 @@ class CouplesController < ApplicationController
       if @couple.save
         @mate = @couple.person1_id == @person.id ? Person.find(@couple.person2_id) : Person.find(@couple.person1_id)
         format.html { redirect_to person_url(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
+        format.turbo_stream do
+          flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple'))
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         flash.now[:notice] = @couple.errors.full_messages[0]
@@ -46,7 +48,9 @@ class CouplesController < ApplicationController
       @couple.current_user = current_user
       if @couple.update(couple_params)
         format.html { redirect_to person_url(@person) }
-        format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('couples.form.couple')) }
+        format.turbo_stream do
+          flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('couples.form.couple'))
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         flash.now[:notice] = @couple.errors.full_messages[0]
@@ -67,7 +71,9 @@ class CouplesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to person_url(@person) }
-      format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('couples.form.couple')) }
+      format.turbo_stream do
+        flash.now[:notice] = I18n.t('activerecord.success.messages.unlinked', model: I18n.t('couples.form.couple'))
+      end
     end
   end
 

@@ -85,7 +85,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not destroy favorite that does not exist' do
-    delete person_favorite_path(@person, 999999), as: :turbo_stream
+    delete person_favorite_path(@person, 999_999), as: :turbo_stream
 
     assert_response :success
     assert_includes response.body, I18n.t('favorites.not_found')

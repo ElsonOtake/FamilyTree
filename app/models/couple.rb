@@ -89,8 +89,8 @@ class Couple < ApplicationRecord
     return [] if person_id.nil?
 
     couples = Couple.includes(:person1, :person2)
-                   .where(person1_id: person_id)
-                   .or(Couple.includes(:person1, :person2).where(person2_id: person_id))
+                    .where(person1_id: person_id)
+                    .or(Couple.includes(:person1, :person2).where(person2_id: person_id))
     return [] if couples.empty?
 
     # Use already loaded associations; compact drops a soft-deleted mate (the
@@ -102,19 +102,19 @@ class Couple < ApplicationRecord
     return [] if person_id.nil?
 
     couples = Couple.includes(:people)
-                   .where(person1_id: person_id)
-                   .or(Couple.includes(:people).where(person2_id: person_id))
+                    .where(person1_id: person_id)
+                    .or(Couple.includes(:people).where(person2_id: person_id))
     return [] if couples.empty?
 
     # Unique children across the person's couples, ordered oldest first.
     BirthOrder.sort(couples.flat_map(&:people).uniq)
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     %w[person1 person2]
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[id created_at local marriage separation updated_at deleted_at couple_person1_name_or_couple_person2_name]
   end
 end

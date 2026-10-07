@@ -17,9 +17,7 @@ class UsersController < ApplicationController
 
   def role_update
     @user = User.find(params[:id])
-    unless @user.update_role!(user_params[:role], actor: current_user)
-      flash[:alert] = t('errors.messages.invalid')
-    end
+    flash[:alert] = t('errors.messages.invalid') unless @user.update_role!(user_params[:role], actor: current_user)
     redirect_to roles_users_path
   end
 

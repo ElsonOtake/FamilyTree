@@ -91,8 +91,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     # Check that the counts appear somewhere on the page
-    assert_match(/#{living_count}/, response.body) if living_count > 0
-    assert_match(/#{deceased_count}/, response.body) if deceased_count > 0
+    assert_match(/#{living_count}/, response.body) if living_count.positive?
+    assert_match(/#{deceased_count}/, response.body) if deceased_count.positive?
   end
 
   test 'statistics should display birth year information' do
@@ -112,7 +112,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     get statistics_path
 
     assert_response :success
-    assert_match(/#{couples_count}/, response.body) if couples_count > 0
+    assert_match(/#{couples_count}/, response.body) if couples_count.positive?
   end
 
   test 'statistics should display people without parents count' do
@@ -122,7 +122,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     get statistics_path
 
     assert_response :success
-    assert_match(/#{without_parents_count}/, response.body) if without_parents_count > 0
+    assert_match(/#{without_parents_count}/, response.body) if without_parents_count.positive?
   end
 
   test 'statistics should display children-related statistics' do

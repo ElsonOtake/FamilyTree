@@ -58,7 +58,8 @@ module Pedigree
       # The node must reserve that overhang so the couple never pokes into the
       # sibling to its left. (Mizue+Sergio next to Nelson+Rachel in the real tree.)
       grandchild = marriage('cintia', children: [node('julia', 4)])
-      nelson = node('nelson', 2, marriages: [marriage('rachel', children: [node('rafael', 3, marriages: [grandchild])])])
+      nelson = node('nelson', 2,
+                    marriages: [marriage('rachel', children: [node('rafael', 3, marriages: [grandchild])])])
       mizue = node('mizue', 2, marriages: [marriage('sergio', children: [node('yudi', 3)])])
       result = Layout.new(node('root', 1, marriages: [marriage('spouse', children: [mizue, nelson])])).call
 

@@ -46,7 +46,6 @@ class ApplicationTool < ActionTool::Base
     Rails.logger.warn("MCP interaction logging failed: #{e.class}: #{e.message}")
   end
 
-
   # Resolve a Person from an id (integer), a friendly_id slug, or a name.
   # Soft-deleted people are excluded (default paranoia scope). Tried in order:
   #   1. exact id/slug

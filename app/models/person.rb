@@ -38,7 +38,7 @@ class Person < ApplicationRecord
   end
 
   scope :without_recorded_parents, -> { where.missing(:couples) }
-  scope :with_birthdays_in_period, -> {
+  scope :with_birthdays_in_period, lambda {
     where('birth_month IS NOT NULL AND birth_day IS NOT NULL')
   }
 
@@ -107,9 +107,10 @@ class Person < ApplicationRecord
   def date_text
     if death_year
       if birth_year
-        "#{I18n.t('people.person.passed_away_on_years_of_age', date: formatted_long_date(death_year, death_month, death_day), age: formatted_age(birth_year, birth_month, birth_day, death_year, death_month, death_day))}"
+        I18n.t('people.person.passed_away_on_years_of_age',
+               date: formatted_long_date(death_year, death_month, death_day), age: formatted_age(birth_year, birth_month, birth_day, death_year, death_month, death_day)).to_s
       else
-        "#{I18n.t('people.person.passed_away_on', date: formatted_long_date(death_year, death_month, death_day))}"
+        I18n.t('people.person.passed_away_on', date: formatted_long_date(death_year, death_month, death_day)).to_s
       end
     elsif birth_year && alive?
       formatted_age(birth_year, birth_month, birth_day, Date.today.year, Date.today.month, Date.today.day)
@@ -120,11 +121,13 @@ class Person < ApplicationRecord
     if birth_year && birth_month && birth_day
       "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(birth_year, birth_month, birth_day), format: :long)}"
     elsif birth_year && birth_month
-      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(birth_year, birth_month, Date.today.day), format: :month_year_long)}"
+      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(birth_year, birth_month, Date.today.day),
+                                              format: :month_year_long)}"
     elsif birth_year
       "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(birth_year, Date.today.month, Date.today.day), format: :year)}"
     elsif birth_month && birth_day
-      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(Date.today.year, birth_month, birth_day), format: :day_month_long)}"
+      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(Date.today.year, birth_month, birth_day),
+                                              format: :day_month_long)}"
     end
   end
 
@@ -243,7 +246,8 @@ class Person < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id alive birth birth_year birth_month birth_day death description gender name kanji created_at updated_at deleted_at]
+    %w[id alive birth birth_year birth_month birth_day death description gender name kanji created_at updated_at
+       deleted_at]
   end
 
   def self.ransackable_associations(_auth_object = nil)
@@ -289,19 +293,17 @@ class Person < ApplicationRecord
   end
 
   def validate_birth_date
-    if birth_year.present? || birth_month.present? || birth_day.present?
-      unless valid_partial_date?(birth_year, birth_month, birth_day)
-        errors.add(:birth_date, I18n.t('errors.messages.invalid_partial_date'))
-      end
-    end
+    return unless birth_year.present? || birth_month.present? || birth_day.present?
+    return if valid_partial_date?(birth_year, birth_month, birth_day)
+
+    errors.add(:birth_date, I18n.t('errors.messages.invalid_partial_date'))
   end
 
   def validate_death_date
-    if death_year.present? || death_month.present? || death_day.present?
-      unless valid_partial_date?(death_year, death_month, death_day)
-        errors.add(:death_date, I18n.t('errors.messages.invalid_partial_date'))
-      end
-    end
+    return unless death_year.present? || death_month.present? || death_day.present?
+    return if valid_partial_date?(death_year, death_month, death_day)
+
+    errors.add(:death_date, I18n.t('errors.messages.invalid_partial_date'))
   end
 
   def format_partial_date(day, month, year)
@@ -337,17 +339,17 @@ class Person < ApplicationRecord
     years = to_date.year - from_date.year
     months = to_date.month - from_date.month
     days = to_date.day - from_date.day
-    if days < 0
+    if days.negative?
       months -= 1
       days += (to_date - 1.month).end_of_month.day
     end
-    if months < 0
+    if months.negative?
       years -= 1
       months += 12
     end
-    if years > 0
+    if years.positive?
       I18n.t('datetime.distance_in_words.x_years_old', count: years)
-    elsif months > 0
+    elsif months.positive?
       I18n.t('datetime.distance_in_words.x_months', count: months)
     else
       I18n.t('datetime.distance_in_words.x_days', count: days)
