@@ -361,20 +361,26 @@ class Person < ApplicationRecord
   end
 
   def valid_partial_date?(year, month, day)
-    # Check if year is valid
-    return false if year.present? && year.to_i > Date.today.year
-
-    # Check if month is valid
-    return false if month.present? && (month.to_i < 1 || month.to_i > 12)
-
-    # Check if day is valid
-    if day.present?
-      return true if year.present? && month.present? && Date.valid_date?(year.to_i, month.to_i, day.to_i)
-      return false if day.to_i < 1 || day.to_i > 31
-      return false if month.present? && day.to_i == 31 && [2, 4, 6, 9, 11].include?(month.to_i)
-      return false if month.present? && day.to_i > 28 && month.to_i == 2
-    end
+    return false unless valid_year?(year)
+    return false unless valid_month?(month)
+    return false unless valid_day?(day, month, year)
 
     true
+  end
+
+  def valid_year?(year)
+    year.blank? || year.to_i <= Date.current.year
+  end
+
+  def valid_month?(month)
+    month.blank? || (1..12).cover?(month.to_i)
+  end
+
+  def valid_day?(day, month, year)
+    return true if day.blank?
+    return (1..31).cover?(day.to_i) if month.blank?
+
+    dummy_year = year.presence&.to_i || 2000 # 2000 is a leap year to allow Feb 29 for partial dates
+    Date.valid_date?(dummy_year, month.to_i, day.to_i)
   end
 end
