@@ -1,4 +1,5 @@
-# A couple is a pair of people. The order of the people is important, person1_id must be less than person2_id. This way is possible to avoid duplicates.
+# A couple is a pair of people. The order of the people is important, person1_id must be less than person2_id.
+# This way is possible to avoid duplicates.
 class Couple < ApplicationRecord
   include RecordEvent
 
