@@ -311,14 +311,17 @@ class Person < ApplicationRecord
   end
 
   def format_partial_date(day, month, year)
-    if day && month && year
+    today = Date.current
+
+    case [year.present?, month.present?, day.present?]
+    in [true, true, true]
       I18n.l(Date.new(year, month, day), format: :day_month_year)
-    elsif month && year
-      I18n.l(Date.new(year, month, Date.today.day), format: :month_year)
-    elsif day && month
-      I18n.l(Date.new(Date.today.year, month, day), format: :day_month)
-    elsif year
-      I18n.l(Date.new(year, Date.today.month, Date.today.day), format: :year)
+    in [true, true, false]
+      I18n.l(Date.new(year, month, today.day), format: :month_year)
+    in [false, true, true]
+      I18n.l(Date.new(today.year, month, day), format: :day_month)
+    in [true, false, _]
+      I18n.l(Date.new(year, today.month, today.day), format: :year)
     else
       ''
     end
