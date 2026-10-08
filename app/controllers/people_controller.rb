@@ -75,8 +75,9 @@ class PeopleController < ApplicationController
       @person.current_user = current_user
       if @person.save!
         if couple_params[:mate].present?
-          @couple = Couple.new(person1_id: couple_params[:mate], person2_id: @person.id, marriage: couple_params[:marriage],
-                               separation: couple_params[:separation], local: couple_params[:local])
+          @couple = Couple.new(person1_id: couple_params[:mate], person2_id: @person.id,
+                               marriage: couple_params[:marriage], separation: couple_params[:separation],
+                               local: couple_params[:local])
           @couple.current_user = current_user
 
           if @couple.save
@@ -247,7 +248,8 @@ class PeopleController < ApplicationController
   end
 
   def permitted_params
-    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth_year, :birth_month, :birth_day, :death_year, :death_month, :death_day, :description,
-                                   :avatar, :couple, :mate, :marriage, :separation, :local)
+    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth_year, :birth_month, :birth_day, :death_year,
+                                   :death_month, :death_day, :description, :avatar, :couple, :mate, :marriage,
+                                   :separation, :local)
   end
 end
