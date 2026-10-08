@@ -107,7 +107,8 @@ class Person < ApplicationRecord
     if death_year
       if birth_year
         I18n.t('people.person.passed_away_on_years_of_age',
-               date: formatted_long_date(death_year, death_month, death_day), age: formatted_age(birth_year, birth_month, birth_day, death_year, death_month, death_day)).to_s
+               date: formatted_long_date(death_year, death_month, death_day),
+               age: formatted_age(birth_year, birth_month, birth_day, death_year, death_month, death_day)).to_s
       else
         I18n.t('people.person.passed_away_on', date: formatted_long_date(death_year, death_month, death_day)).to_s
       end
