@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 class RecordEventTest < ActiveSupport::TestCase
@@ -95,7 +93,7 @@ class RecordEventTest < ActiveSupport::TestCase
 
     events = @user.events.last(2)
     assert_equal ['couple.create', 'couple.create'], events.map(&:name)
-    assert_equal [@person, @person2].to_set, events.map(&:resource).to_set
+    assert_equal [@person, @person2].to_set, events.to_set(&:resource)
   end
 
   # RECORD_UPDATE TESTS FOR PERSON
@@ -146,7 +144,7 @@ class RecordEventTest < ActiveSupport::TestCase
 
     events = @user.events.last(2)
     assert_equal ['couple.update', 'couple.update'], events.map(&:name)
-    assert_equal [@person, @person2].to_set, events.map(&:resource).to_set
+    assert_equal [@person, @person2].to_set, events.to_set(&:resource)
   end
 
   # RECORD_DESTROY TESTS
@@ -165,7 +163,7 @@ class RecordEventTest < ActiveSupport::TestCase
 
     events = @user.events.last(2)
     assert_equal ['couple.unlink', 'couple.unlink'], events.map(&:name)
-    assert_equal [@person, @person2].to_set, events.map(&:resource).to_set
+    assert_equal [@person, @person2].to_set, events.to_set(&:resource)
     assert_not_nil events.first.data['deleted_at']
     assert_not_nil events.last.data['deleted_at']
   end

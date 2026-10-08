@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Return the first cousins of a person (children of the person's
 # aunts and uncles, i.e. the siblings of their parents).
 class GetCousinsTool < ApplicationTool
@@ -15,7 +13,7 @@ class GetCousinsTool < ApplicationTool
 
   arguments do
     required(:person_id).filled(:string)
-                        .description('The id (or slug) of the person')
+      .description('The id (or slug) of the person')
   end
 
   def call(person_id:)

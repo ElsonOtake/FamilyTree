@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Policy for the person model
 class PersonPolicy < ApplicationPolicy
   attr_reader :user

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # Verifies that spelling variants of the same romanized name canonicalize to

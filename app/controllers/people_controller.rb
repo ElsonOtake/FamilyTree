@@ -1,8 +1,7 @@
-# frozen_string_literal: true
-
 # This controller manages the people in the family tree.
 class PeopleController < ApplicationController
   include Pagy::Backend
+
   before_action :authenticate_user!
   before_action :set_person, only: %i[show edit update destroy descendants descendants_full ancestry]
   before_action -> { authorize Person }

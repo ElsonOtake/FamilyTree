@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Formats Person records into plain hashes for MCP tool responses.
 #
 # The family tree stores partial dates (year/month/day can each be missing), so

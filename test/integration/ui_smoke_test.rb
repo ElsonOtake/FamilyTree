@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # Phase 0 safety net for the Bulma -> Tailwind UI refactor. These fast

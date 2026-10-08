@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   # This controller manages the sessions of the users.
   # It inherits from Devise::SessionsController to handle user authentication.

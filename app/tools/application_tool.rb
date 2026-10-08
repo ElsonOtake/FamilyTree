@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Base class for all MCP tools in this app. Provides helpers shared across the
 # family-tree query tools: resolving a person by id or slug, and serializing
 # responses as JSON text for the MCP client.

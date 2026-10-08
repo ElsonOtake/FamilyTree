@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Policy for the child model
 class ChildPolicy < ApplicationPolicy
   attr_reader :user

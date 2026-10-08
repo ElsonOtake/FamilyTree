@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'application_system_test_case'
 
 class CouplesTest < ApplicationSystemTestCase
@@ -27,13 +25,13 @@ class CouplesTest < ApplicationSystemTestCase
     fill_in 'person_name', with: @other_person.name
     fill_in 'person_description', with: @other_person.description
 
-    fill_in 'person_birth_year',  with: @other_person.birth&.year
+    fill_in 'person_birth_year', with: @other_person.birth&.year
     fill_in 'person_birth_month', with: @other_person.birth&.month
-    fill_in 'person_birth_day',   with: @other_person.birth&.day
+    fill_in 'person_birth_day', with: @other_person.birth&.day
 
-    fill_in 'person_death_year',  with: @other_person.death&.year
+    fill_in 'person_death_year', with: @other_person.death&.year
     fill_in 'person_death_month', with: @other_person.death&.month
-    fill_in 'person_death_day',   with: @other_person.death&.day
+    fill_in 'person_death_day', with: @other_person.death&.day
 
     find('input[name="person[gender]"][value="M"]').choose if @other_person.gender == 'M'
     find('input[name="person[gender]"][value="F"]').choose if @other_person.gender == 'F'

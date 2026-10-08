@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Inline SVG icons (Heroicons v2 outline, MIT). Replaces the former external
 # Font Awesome kit script. Icons use `currentColor` so they inherit text color
 # and adapt to dark mode. Usage:

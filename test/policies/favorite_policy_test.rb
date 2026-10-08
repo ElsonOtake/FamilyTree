@@ -1,23 +1,17 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
-class FavoritePolicyTest < ActiveSupport::TestCase
+class FavoritePolicyTest < ActiveSupport::TestCase # rubocop:disable Metrics/ClassLength
   def setup
     @user = users(:one)
     @other_user = users(:two)
     @person = people(:one)
     @person2 = people(:two)
     @favorite = Favorite.new(user: @user, person: @person)
-    @other_favorite = Favorite.new(user: @other_user, person: @person2) # Use different person to avoid uniqueness conflict
+    @other_favorite = Favorite.new(user: @other_user, person: @person2) # Use different person to avoid uniq conflict
 
     # Create another user for additional testing
-    @third_user = User.create!(
-      name: 'Third User',
-      email: 'third@example.com',
-      password: 'password',
-      confirmed_at: 1.week.ago
-    )
+    @third_user = User.create!(name: 'Third User', email: 'third@example.com', password: 'password',
+                               confirmed_at: 1.week.ago)
   end
 
   # INITIALIZATION TESTS

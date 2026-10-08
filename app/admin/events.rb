@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ActiveAdmin.register Event do
   menu priority: 2
 

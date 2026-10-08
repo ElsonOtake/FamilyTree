@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   # Users::OmniauthCallbacksController
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController

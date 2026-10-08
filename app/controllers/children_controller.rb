@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This controller manages the children in the family tree.
 class ChildrenController < ApplicationController
   before_action :authenticate_user!

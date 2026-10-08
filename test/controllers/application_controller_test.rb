@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # Exercises ApplicationController through real routes. The previous version drew

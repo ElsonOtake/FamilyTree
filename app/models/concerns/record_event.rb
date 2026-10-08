@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Records create/update/unlink audit events for the including model (Person and
 # Couple). The acting user is whoever is set on the record, falling back to the
 # request-wide Current.user — so admin, console-with-Current and cascaded writes

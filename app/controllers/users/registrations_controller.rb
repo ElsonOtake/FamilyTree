@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Users::RegistrationsController
 module Users
   # This controller manages user registrations.

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Pedigree
   module Descendants
     # Renders the descendants-only tree to a PDF: the focal person at the top,

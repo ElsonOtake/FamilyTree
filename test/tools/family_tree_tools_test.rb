@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # Exercises the MCP tools that answer family-tree questions (parents, siblings,
@@ -410,8 +408,8 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
 
   test 'get_favorites orders results by name' do
     Current.user = @user
-    @user.favorite_people << @child   # Sam Doe
-    @user.favorite_people << @father  # John Doe
+    @user.favorite_people << @child # Sam Doe
+    @user.favorite_people << @father # John Doe
 
     result = call_tool(GetFavoritesTool)
 

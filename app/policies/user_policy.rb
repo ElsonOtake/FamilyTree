@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Policy for the user model
 class UserPolicy < ApplicationPolicy
   def index?

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This model represents a user's favorite person in the family tree.
 class Favorite < ApplicationRecord
   belongs_to :user

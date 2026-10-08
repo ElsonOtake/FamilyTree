@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Policy for the favorite model
 class FavoritePolicy < ApplicationPolicy
   attr_reader :user, :favorite

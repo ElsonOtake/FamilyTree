@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'tempfile'
 
 module Pedigree
@@ -78,10 +76,10 @@ module Pedigree
        '-alpha', 'off', '-compose', 'CopyOpacity', '-composite']
     end
 
-    def run_magick(*args)
+    def run_magick(*)
       out = Tempfile.create(['ped-out', '.png'])
       out.close
-      ok = system('magick', *args, out.path, out: File::NULL, err: File::NULL)
+      ok = system('magick', *, out.path, out: File::NULL, err: File::NULL)
       ok && File.size?(out.path) ? File.binread(out.path) : nil
     ensure
       cleanup(out)

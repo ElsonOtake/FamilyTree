@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Role model
 class Role < ApplicationRecord
   acts_as_paranoid

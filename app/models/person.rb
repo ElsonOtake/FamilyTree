@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This model represents a person in the family tree.
 class Person < ApplicationRecord
   include RecordEvent
@@ -24,6 +22,7 @@ class Person < ApplicationRecord
   validate :validate_death_date
 
   extend FriendlyId
+
   friendly_id :slug_candidates, use: %i[slugged finders history]
 
   enum :gender, %i[M F P X]

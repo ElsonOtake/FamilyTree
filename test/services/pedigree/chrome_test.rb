@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 module Pedigree
@@ -8,6 +6,7 @@ module Pedigree
     # can be exercised directly, without going through a full chart/layout/render.
     class DummyRenderer
       include Chrome
+
       public :measured_height, :register_fonts, :kanji_font_available?,
              :safe, :safe_utf8, :draw_name_line, :draw_kanji_line
     end

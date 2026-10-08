@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Orders people oldest-first by their birth date. Used wherever a list of people
 # should read by age: the person page's siblings/children lists, the MCP tools,
 # and the descendant tree PDFs.

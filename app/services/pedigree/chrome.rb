@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'stringio'
 
 module Pedigree
@@ -13,22 +11,22 @@ module Pedigree
   # module is mixed into a PDF class; the `row_top`/`draw_links`/`title_text`
   # hooks dispatch dynamically to the including class.
   module Chrome
-    PARCHMENT   = 'efece2'
-    LINE_COLOR  = '6b6b57'
-    NAME_COLOR  = '2b2b2b'
-    YEAR_COLOR  = '6b6b6b'
+    PARCHMENT = 'efece2'.freeze
+    LINE_COLOR = '6b6b57'.freeze
+    NAME_COLOR = '2b2b2b'.freeze
+    YEAR_COLOR = '6b6b6b'.freeze
 
-    OVAL_FRAME  = '55562e' # olive portrait ring
-    MAT_COLOR   = 'f8f5ec' # cream mat behind a portrait
+    OVAL_FRAME = '55562e'.freeze # olive portrait ring
+    MAT_COLOR = 'f8f5ec'.freeze # cream mat behind a portrait
 
-    FRAME_DARK  = '3a1c18' # picture-frame hairlines
-    FRAME_WOOD  = '6e352c' # mahogany band
-    FRAME_HILIT = 'b6897a' # bevel highlight on the wood
-    FRAME_LINER = 'd8d3c4' # light inner liner
+    FRAME_DARK = '3a1c18'.freeze # picture-frame hairlines
+    FRAME_WOOD = '6e352c'.freeze # mahogany band
+    FRAME_HILIT = 'b6897a'.freeze # bevel highlight on the wood
+    FRAME_LINER = 'd8d3c4'.freeze # light inner liner
 
-    TITLE_FILL  = 'fbfaf6'
-    TITLE_EDGE  = 'a9a49a'
-    TITLE_COLOR = '4c4b2f'
+    TITLE_FILL = 'fbfaf6'.freeze
+    TITLE_EDGE = 'a9a49a'.freeze
+    TITLE_COLOR = '4c4b2f'.freeze
 
     LOGO_PATH = Rails.root.join('app/assets/images/EAO.png')
     WATERMARK_PATH = Rails.root.join('app/assets/images/tree_watermark.png')
@@ -38,9 +36,9 @@ module Pedigree
     # only support WinAnsi and have no CJK glyphs at all, so kanji needs its own
     # embedded TrueType font. Adjust the path/filenames to match wherever the
     # font file actually lives in the repo.
-    KANJI_FONT_NAME    = 'NotoSansJP'
+    KANJI_FONT_NAME = 'NotoSansJP'.freeze
     KANJI_FONT_REGULAR = Rails.root.join('app/assets/fonts/NotoSansJP-Regular.ttf')
-    KANJI_FONT_BOLD    = Rails.root.join('app/assets/fonts/NotoSansJP-Bold.ttf')
+    KANJI_FONT_BOLD = Rails.root.join('app/assets/fonts/NotoSansJP-Bold.ttf')
 
     private
 
@@ -68,13 +66,13 @@ module Pedigree
     # --- page geometry ---------------------------------------------------------
 
     def page_width
-      (@layout.max_x - @layout.min_x) + 2 * Geom::MARGIN
+      (@layout.max_x - @layout.min_x) + (2 * Geom::MARGIN)
     end
 
     def page_height
-      2 * Geom::MARGIN + Geom::TITLE_H + Geom::TITLE_GAP + Geom::FOOTER_H +
-        @layout.generations * (Geom::PORTRAIT_H + Geom::LABEL_H) +
-        (@layout.generations - 1) * Geom::ROW_GAP
+      (2 * Geom::MARGIN) + Geom::TITLE_H + Geom::TITLE_GAP + Geom::FOOTER_H +
+        (@layout.generations * (Geom::PORTRAIT_H + Geom::LABEL_H)) +
+        ((@layout.generations - 1) * Geom::ROW_GAP)
     end
 
     def x_at(px)
@@ -96,13 +94,13 @@ module Pedigree
 
     # A single faint tree centred behind the chart, like an heirloom watermark.
     def draw_watermark(pdf)
-      avail_w = page_width - 2 * Geom::MARGIN
-      avail_h = page_height - Geom::TITLE_H - Geom::FOOTER_H - 2 * Geom::MARGIN
+      avail_w = page_width - (2 * Geom::MARGIN)
+      avail_h = page_height - Geom::TITLE_H - Geom::FOOTER_H - (2 * Geom::MARGIN)
       size = [[avail_h * 0.9, avail_w * 0.6].min, 900].min
 
       pdf.transparent(WATERMARK_OPACITY) do
         pdf.image(WATERMARK_PATH.to_s, fit: [size, size],
-                                       at: [(page_width - size) / 2.0, (page_height + size) / 2.0 - Geom::MARGIN])
+                                       at: [(page_width - size) / 2.0, ((page_height + size) / 2.0) - Geom::MARGIN])
       end
     rescue StandardError
       nil
@@ -111,8 +109,8 @@ module Pedigree
     # A mahogany picture-frame border, drawn as concentric strokes just inside
     # the page edge (within the page margin).
     def draw_frame(pdf)
-      frame_rect(pdf, 16, 1.0, FRAME_DARK)  # outer hairline
-      frame_rect(pdf, 21, 8.0, FRAME_WOOD)  # mahogany band
+      frame_rect(pdf, 16, 1.0, FRAME_DARK) # outer hairline
+      frame_rect(pdf, 21, 8.0, FRAME_WOOD) # mahogany band
       frame_rect(pdf, 18.5, 1.0, FRAME_HILIT) # bevel highlight on the wood
       frame_rect(pdf, 26.5, 1.4, FRAME_LINER) # light liner
       frame_rect(pdf, 29, 0.7, FRAME_DARK) # inner hairline
@@ -121,14 +119,14 @@ module Pedigree
     def frame_rect(pdf, inset, line_w, color)
       pdf.stroke_color color
       pdf.line_width line_w
-      pdf.stroke_rectangle([inset, page_height - inset], page_width - 2 * inset, page_height - 2 * inset)
+      pdf.stroke_rectangle([inset, page_height - inset], page_width - (2 * inset), page_height - (2 * inset))
     end
 
     # --- title cartouche -------------------------------------------------------
 
     def draw_title(pdf)
       text = safe(title_text)
-      box_w = [[text.length * 9.5 + 64, 360].max, page_width - 2 * Geom::MARGIN].min
+      box_w = [[(text.length * 9.5) + 64, 360].max, page_width - (2 * Geom::MARGIN)].min
       box_h = Geom::TITLE_H - 14
       box_x = (page_width - box_w) / 2.0
       box_y = flip(Geom::MARGIN + 6) # top edge, in bottom-left coords
@@ -140,7 +138,7 @@ module Pedigree
 
       pdf.fill_color TITLE_COLOR
       pdf.font('Times-Bold') do
-        pdf.text_box(text, at: [box_x + 12, box_y - (box_h - 18) / 2.0], width: box_w - 24,
+        pdf.text_box(text, at: [box_x + 12, box_y - ((box_h - 18) / 2.0)], width: box_w - 24,
                            height: 26, size: 17, align: :center, valign: :center, overflow: :shrink_to_fit)
       end
     end
@@ -176,7 +174,7 @@ module Pedigree
     def draw_portrait(pdf, slot, generation)
       rx = Geom::PORTRAIT_W / 2.0
       ry = Geom::PORTRAIT_H / 2.0
-      center_x = x_at(slot.x) + Geom::CELL_W / 2.0
+      center_x = x_at(slot.x) + (Geom::CELL_W / 2.0)
       top = flip(row_top(generation))
       cy = top - ry
 
@@ -209,7 +207,7 @@ module Pedigree
     # the years line's position when kanji is absent.
     def draw_label(pdf, person, center_x, portrait_bottom)
       width = Geom::CELL_W + Geom::SPOUSE_GAP - 8
-      left = center_x - width / 2.0
+      left = center_x - (width / 2.0)
       cursor = portrait_bottom + Geom::NAME_GAP
 
       cursor = draw_name_line(pdf, person, left, width, cursor)
@@ -282,7 +280,7 @@ module Pedigree
       logo_top = page_height - Geom::MARGIN - Geom::FOOTER_H + 4
 
       begin
-        pdf.image(LOGO_PATH.to_s, at: [center_x - logo_w / 2.0, flip(logo_top)], fit: [logo_w, logo_h])
+        pdf.image(LOGO_PATH.to_s, at: [center_x - (logo_w / 2.0), flip(logo_top)], fit: [logo_w, logo_h])
       rescue StandardError
         nil
       end

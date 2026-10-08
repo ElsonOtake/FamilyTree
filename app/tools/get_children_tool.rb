@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Return the children of a person across all of their couples.
 class GetChildrenTool < ApplicationTool
   tool_name 'get_children'
@@ -14,7 +12,7 @@ class GetChildrenTool < ApplicationTool
 
   arguments do
     required(:person_id).filled(:string)
-                        .description('The id (or slug) of the person')
+      .description('The id (or slug) of the person')
   end
 
   def call(person_id:)

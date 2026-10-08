@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Pedigree
   # Builds a descendant tree for a focal person, up to `generations` levels
   # (the focal person is generation 1). Each node is a descendant plus one entry
@@ -57,7 +55,7 @@ module Pedigree
 
     def couples_of(person)
       Couple.where('person1_id = :id OR person2_id = :id', id: person.id)
-            .includes(:person1, :person2).order(:marriage, :id)
+        .includes(:person1, :person2).order(:marriage, :id)
     end
 
     def child_nodes(couple, generation)

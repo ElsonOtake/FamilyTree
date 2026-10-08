@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Canonicalizes romanized (rōmaji) names so spelling variants of the same
 # Japanese name collapse to a single comparable form. The same transform is
 # applied to stored names and to search queries, so it only has to be
@@ -32,9 +30,9 @@ module RomajiNormalizer
     return '' if value.nil?
 
     s = I18n.transliterate(value.to_s).downcase # strip accents/macrons (á->a, ō->o)
-    s = s.delete("'")                          # drop syllable-break apostrophes (shin'ichi)
+    s = s.delete("'") # drop syllable-break apostrophes (shin'ichi)
     SUBSTITUTIONS.each { |from, to| s = s.gsub(from, to) }
-    s = s.gsub(/m([bpm])/, 'n\1')              # Hepburn n -> m before b/p/m
+    s = s.gsub(/m([bpm])/, 'n\1') # Hepburn n -> m before b/p/m
     s = s.gsub(/([bcdfghjklmnpqrstvwxyz])\1/, '\1') # collapse doubled consonants (sokuon)
     s.squish # collapse and trim whitespace
   end

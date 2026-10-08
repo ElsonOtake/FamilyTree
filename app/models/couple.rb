@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # A couple is a pair of people. The order of the people is important, person1_id must be less than person2_id. This way is possible to avoid duplicates.
 class Couple < ApplicationRecord
   include RecordEvent
@@ -74,8 +72,8 @@ class Couple < ApplicationRecord
   # Couples with a wedding anniversary in the given calendar month (1-12).
   def self.anniversaries_in_month(month)
     where.not(marriage: nil)
-         .where('EXTRACT(MONTH FROM marriage) = ?', month)
-         .order(Arel.sql('EXTRACT(DAY FROM marriage)'))
+      .where('EXTRACT(MONTH FROM marriage) = ?', month)
+      .order(Arel.sql('EXTRACT(DAY FROM marriage)'))
   end
 
   def self.couple(person1, person2)
@@ -89,21 +87,21 @@ class Couple < ApplicationRecord
     return [] if person_id.nil?
 
     couples = Couple.includes(:person1, :person2)
-                    .where(person1_id: person_id)
-                    .or(Couple.includes(:person1, :person2).where(person2_id: person_id))
+      .where(person1_id: person_id)
+      .or(Couple.includes(:person1, :person2).where(person2_id: person_id))
     return [] if couples.empty?
 
     # Use already loaded associations; compact drops a soft-deleted mate (the
     # belongs_to returns nil under the paranoia scope) so callers don't deref nil.
-    couples.map { |couple| couple.person1_id != person_id ? couple.person1 : couple.person2 }.compact
+    couples.map { |couple| couple.person1_id == person_id ? couple.person2 : couple.person1 }.compact
   end
 
   def self.children(person_id)
     return [] if person_id.nil?
 
     couples = Couple.includes(:people)
-                    .where(person1_id: person_id)
-                    .or(Couple.includes(:people).where(person2_id: person_id))
+      .where(person1_id: person_id)
+      .or(Couple.includes(:people).where(person2_id: person_id))
     return [] if couples.empty?
 
     # Unique children across the person's couples, ordered oldest first.

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This controller manages user favorites functionality.
 class FavoritesController < ApplicationController
   before_action :authenticate_user!

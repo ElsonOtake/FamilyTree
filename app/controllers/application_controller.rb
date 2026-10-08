@@ -1,17 +1,16 @@
-# frozen_string_literal: true
-
 # This is the main controller for the application.
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_current_user
   around_action :switch_locale
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  def switch_locale(&action)
+  def switch_locale(&)
     locale = current_user.try(:locale) || session[:locale] || I18n.default_locale
-    I18n.with_locale(locale, &action)
+    I18n.with_locale(locale, &)
   end
 
   def authenticate_admin_user!

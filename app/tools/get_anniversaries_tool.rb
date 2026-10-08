@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # List couples whose wedding anniversary falls within a named period: today,
 # tomorrow, the current (Mon-Sun) week, or the current calendar month.
 # Anniversaries are matched by the marriage date's month/day, so the year is
@@ -22,7 +20,7 @@ class GetAnniversariesTool < ApplicationTool
 
   arguments do
     optional(:period).filled(:string, included_in?: PERIODS)
-                     .description('One of: today, tomorrow, week, month (default: today)')
+      .description('One of: today, tomorrow, week, month (default: today)')
   end
 
   def call(period: 'today')
@@ -48,10 +46,10 @@ class GetAnniversariesTool < ApplicationTool
   # Inclusive [from, to] date window described by the period.
   def range_for(period, today)
     case period
-    when 'today'    then [today, today]
+    when 'today' then [today, today]
     when 'tomorrow' then [today + 1, today + 1]
-    when 'week'     then [today.beginning_of_week, today.end_of_week]
-    when 'month'    then [today.beginning_of_month, today.end_of_month]
+    when 'week' then [today.beginning_of_week, today.end_of_week]
+    when 'month' then [today.beginning_of_month, today.end_of_month]
     end
   end
 end
