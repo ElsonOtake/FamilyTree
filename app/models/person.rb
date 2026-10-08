@@ -337,27 +337,10 @@ class Person < ApplicationRecord
   end
 
   def formatted_age(from_year, from_month, from_day, to_year, to_month, to_day)
-    from_date = Date.new(from_year, from_month || 1, from_day || 1)
-    to_date = Date.new(to_year, to_month || 1, to_day || 1)
-    from_date, to_date = [from_date, to_date].sort
-    years = to_date.year - from_date.year
-    months = to_date.month - from_date.month
-    days = to_date.day - from_date.day
-    if days.negative?
-      months -= 1
-      days += (to_date - 1.month).end_of_month.day
-    end
-    if months.negative?
-      years -= 1
-      months += 12
-    end
-    if years.positive?
-      I18n.t('datetime.distance_in_words.x_years_old', count: years)
-    elsif months.positive?
-      I18n.t('datetime.distance_in_words.x_months', count: months)
-    else
-      I18n.t('datetime.distance_in_words.x_days', count: days)
-    end
+    from_date, to_date = parse_date_range(from_year, from_month, from_day, to_year, to_month, to_day)
+    years, months, days = calculate_date_difference(from_date, to_date)
+
+    format_age_distance(years, months, days)
   end
 
   def valid_partial_date?(year, month, day)
@@ -382,5 +365,39 @@ class Person < ApplicationRecord
 
     dummy_year = year.presence&.to_i || 2000 # 2000 is a leap year to allow Feb 29 for partial dates
     Date.valid_date?(dummy_year, month.to_i, day.to_i)
+  end
+
+  def parse_date_range(from_year, from_month, from_day, to_year, to_month, to_day)
+    from_date = Date.new(from_year, from_month || 1, from_day || 1)
+    to_date = Date.new(to_year, to_month || 1, to_day || 1)
+    [from_date, to_date].sort
+  end
+
+  def calculate_date_difference(from_date, to_date)
+    years = to_date.year - from_date.year
+    months = to_date.month - from_date.month
+    days = to_date.day - from_date.day
+
+    if days.negative?
+      months -= 1
+      days += (to_date - 1.month).end_of_month.day
+    end
+
+    if months.negative?
+      years -= 1
+      months += 12
+    end
+
+    [years, months, days]
+  end
+
+  def format_age_distance(years, months, days)
+    if years.positive?
+      I18n.t('datetime.distance_in_words.x_years_old', count: years)
+    elsif months.positive?
+      I18n.t('datetime.distance_in_words.x_months', count: months)
+    else
+      I18n.t('datetime.distance_in_words.x_days', count: days)
+    end
   end
 end
