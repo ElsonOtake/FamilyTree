@@ -261,11 +261,15 @@ class Person < ApplicationRecord
     [today - days_back.days, today + days_ahead.days]
   end
 
+  private_class_method :birthday_date_range
+
   def self.filter_birthdays_in_range(people_collection, days_ahead, days_back)
     start_date, end_date = birthday_date_range(days_ahead, days_back)
     # MAKE_DATE requires PostgreSQL 9.4+; avatar is eager-loaded for the view.
     people_collection.includes(:avatar_attachment).birthdays_between(start_date, end_date)
   end
+
+  private_class_method :filter_birthdays_in_range
 
   # [father, mother] for the first parent couple. A male parent is placed first
   # (father), the other second (mother), preserving the historic labelling. Soft-
