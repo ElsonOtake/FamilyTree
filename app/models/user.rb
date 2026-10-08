@@ -46,7 +46,7 @@ class User < ApplicationRecord
   # Rejects any name outside ROLES, so a crafted param can't mint an arbitrary
   # role or strip access with a mis-cased value. Returns false on an invalid
   # name; true (without a redundant event) when already set.
-  def update_role!(name, actor: nil)
+  def update_role!(name, actor: nil) # rubocop:disable Naming/PredicateMethod
     name = name.to_s
     return false unless ROLES.include?(name)
     return true if role == name
@@ -79,7 +79,7 @@ class User < ApplicationRecord
   end
 
   # Grant access and notify the user by e-mail. No-op if already approved.
-  def approve!
+  def approve! # rubocop:disable Naming/PredicateMethod
     return false if approved?
 
     update!(approved: true)
