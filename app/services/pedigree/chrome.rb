@@ -126,7 +126,7 @@ module Pedigree
 
     def draw_title(pdf)
       text = safe(title_text)
-      box_w = [[(text.length * 9.5) + 64, 360].max, page_width - (2 * Geom::MARGIN)].min
+      box_w = ((text.length * 9.5) + 64).clamp(360, page_width - (2 * Geom::MARGIN))
       box_h = Geom::TITLE_H - 14
       box_x = (page_width - box_w) / 2.0
       box_y = flip(Geom::MARGIN + 6) # top edge, in bottom-left coords
