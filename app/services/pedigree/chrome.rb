@@ -264,11 +264,11 @@ module Pedigree
     def years_line(person)
       birth = person.birth_year || person.birth&.year
       death = person.death_year || person.death&.year
-      return "#{birth} – #{death}" if birth && death
-      return birth.to_s if birth
-      return "– #{death}" if death
 
-      ''
+      parts = [birth, death]
+      return '' if parts.compact.empty?
+
+      parts.join(' – ')
     end
 
     # --- footer ----------------------------------------------------------------
