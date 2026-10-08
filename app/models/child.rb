@@ -64,7 +64,8 @@ class Child < ApplicationRecord
   end
 
   def system_user_with_warning(action)
-    Rails.logger.warn("Child##{action}: Using system user - current_user not set for person_id=#{person_id}, couple_id=#{couple_id}")
+    Rails.logger.warn("Child##{action}: Using system user - current_user not set for person_id=#{person_id},
+                      couple_id=#{couple_id}")
     User.system_user
   end
 end
