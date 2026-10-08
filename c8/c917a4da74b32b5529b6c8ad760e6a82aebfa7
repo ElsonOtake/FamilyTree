@@ -1,0 +1,14 @@
+app/models/person.rb
+  h_7e49e1b6a1cf0d 314-317,319-324
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c8c917a4da74b32b5529b6c8ad760e6a82aebfa7",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
