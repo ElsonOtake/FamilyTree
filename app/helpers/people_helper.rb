@@ -25,8 +25,6 @@ module PeopleHelper
       'has-text-warning'
     when 'X'
       'has-text-success'
-    when nil
-      'has-text-grey'
     else
       'has-text-grey'
     end
@@ -42,8 +40,6 @@ module PeopleHelper
       'fas fa-venus-mars'
     when 'X'
       'fas fa-genderless'
-    when nil
-      'fas fa-question'
     else
       'fas fa-question'
     end
@@ -59,8 +55,6 @@ module PeopleHelper
       'is-warning'
     when 'X'
       'is-success'
-    when nil
-      'is-grey'
     else
       'is-grey'
     end
