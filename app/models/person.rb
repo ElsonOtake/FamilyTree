@@ -118,17 +118,10 @@ class Person < ApplicationRecord
   end
 
   def birth_text
-    if birth_year && birth_month && birth_day
-      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(birth_year, birth_month, birth_day), format: :long)}"
-    elsif birth_year && birth_month
-      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(birth_year, birth_month, Date.today.day),
-                                              format: :month_year_long)}"
-    elsif birth_year
-      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(birth_year, Date.today.month, Date.today.day), format: :year)}"
-    elsif birth_month && birth_day
-      "#{I18n.t('people.birthday')}: #{I18n.l(Date.new(Date.today.year, birth_month, birth_day),
-                                              format: :day_month_long)}"
-    end
+    formatted_date = formatted_long_date(birth_year, birth_month, birth_day)
+    return nil if formatted_date.blank?
+
+    "#{I18n.t('people.birthday')}: #{formatted_date}"
   end
 
   def slug_candidates
