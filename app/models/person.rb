@@ -325,14 +325,19 @@ class Person < ApplicationRecord
   end
 
   def formatted_long_date(year, month, day)
-    if year && month && day
+    today = Date.current
+
+    case [year.present?, month.present?, day.present?]
+    in [true, true, true]
       I18n.l(Date.new(year, month, day), format: :long)
-    elsif month && year
-      I18n.l(Date.new(year, month, Date.today.day), format: :month_year_long)
-    elsif day && month
-      I18n.l(Date.new(Date.today.year, month, day), format: :day_month_long)
-    elsif year
-      I18n.l(Date.new(year, Date.today.month, Date.today.day), format: :year)
+    in [true, true, false]
+      I18n.l(Date.new(year, month, today.day), format: :month_year_long)
+    in [false, true, true]
+      I18n.l(Date.new(today.year, month, day), format: :day_month_long)
+    in [true, false, _]
+      I18n.l(Date.new(year, today.month, today.day), format: :year)
+    else
+      nil
     end
   end
 
