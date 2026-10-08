@@ -217,13 +217,12 @@ class UserTest < ActiveSupport::TestCase
   test 'from_omniauth should find existing user by email' do
     existing_user = User.create!(@valid_attributes)
 
-    # Mock access token
-    access_token = OpenStruct.new(
-      info: OpenStruct.new(
+    access_token = OmniAuth::AuthHash.new(
+      provider: 'google_oauth2',
+      info: {
         email: existing_user.email,
         name: 'OAuth Name'
-      ),
-      provider: 'google_oauth2'
+      }
     )
 
     found_user = User.from_omniauth(access_token)
@@ -231,13 +230,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'from_omniauth should create new user when email not found' do
-    # Mock access token for new user
-    access_token = OpenStruct.new(
-      info: OpenStruct.new(
+    access_token = OmniAuth::AuthHash.new(
+      provider: 'google_oauth2',
+      info: {
         email: 'newuser@example.com',
         name: 'New OAuth User'
-      ),
-      provider: 'google_oauth2'
+      }
     )
 
     assert_difference('User.count', 1) do
@@ -251,12 +249,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'from_omniauth creates user with generated password' do
-    access_token = OpenStruct.new(
-      info: OpenStruct.new(
+    access_token = OmniAuth::AuthHash.new(
+      provider: 'google_oauth2',
+      info: {
         email: 'oauth@example.com',
         name: 'OAuth User'
-      ),
-      provider: 'google_oauth2'
+      }
     )
 
     user = User.from_omniauth(access_token)
