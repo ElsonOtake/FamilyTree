@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ActiveAdmin.register User do
   menu priority: 1
   restorable!
@@ -81,18 +79,19 @@ ActiveAdmin.register User do
   sidebar 'Access', only: :edit do
     div class: 'admin-user-access' do
       unless resource.confirmed?
-        span(link_to('Confirm e-mail', confirm_admin_user_path(resource), method: :patch,
-                                                                          data: { confirm: "Confirm this user's e-mail?" }, class: 'button'))
+        span(link_to('Confirm e-mail', confirm_admin_user_path(resource),
+                     method: :patch, data: { confirm: "Confirm this user's e-mail?" }, class: 'button'))
       end
       if resource.approved?
-        span(link_to('Revoke Approval', unapprove_admin_user_path(resource), method: :patch,
-                                                                             data: { confirm: "Revoke this user's access?" }, class: 'button'))
+        span(link_to('Revoke Approval', unapprove_admin_user_path(resource),
+                     method: :patch, data: { confirm: "Revoke this user's access?" }, class: 'button'))
       else
-        span(link_to('Approve User', approve_admin_user_path(resource), method: :patch,
-                                                                        data: { confirm: 'Approve this user\'s access? They will be notified by e-mail.' }, class: 'button'))
+        span(link_to('Approve User', approve_admin_user_path(resource),
+                     method: :patch, data: { confirm: 'Approve this user\'s access? They will be notified by e-mail.' },
+                     class: 'button'))
       end
-      span(link_to('Send Password Reset', send_reset_password_admin_user_path(resource), method: :patch,
-                                                                                         data: { confirm: 'E-mail this user a password reset link?' }, class: 'button'))
+      span(link_to('Send Password Reset', send_reset_password_admin_user_path(resource),
+                   method: :patch, data: { confirm: 'E-mail this user a password reset link?' }, class: 'button'))
     end
   end
 
