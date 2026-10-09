@@ -1,0 +1,15 @@
+test/policies/user_policy_test.rb
+  h_7e49e1b6a1cf0d 3
+  h_7e49e1b6a1cf0d 17-18,134-135,169-170,184-185
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b11356bdeff9e8d8567a66d3b26400c08306108a",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
