@@ -32,6 +32,7 @@ Metrics/BlockLength:
   Max: 36
   Exclude:
   - "spec/swagger_helper.rb"
+  - "app/admin/*"
 Metrics/ParameterLists:
   Exclude:
   - "app/models/person.rb"
