@@ -1,0 +1,15 @@
+test/models/couple_test.rb
+  h_7e49e1b6a1cf0d 151
+  h_7e49e1b6a1cf0d 5-13,21,54,60,70,80,100,102,129,149,169,205-206,214,223,240,250,260,262,277,294-295,330-331
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2a0345405f5a36161d7464693357dde419126f8c",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
