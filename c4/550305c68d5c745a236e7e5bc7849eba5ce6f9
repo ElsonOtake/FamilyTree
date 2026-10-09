@@ -1,0 +1,15 @@
+app/controllers/favorites_controller.rb
+  h_7e49e1b6a1cf0d 12,14,24-28,30,32-36,39-43,45
+  h_7e49e1b6a1cf0d 10-11,13,22-23,37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c4550305c68d5c745a236e7e5bc7849eba5ce6f9",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
