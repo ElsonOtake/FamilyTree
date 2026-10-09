@@ -1,0 +1,15 @@
+app/controllers/people_controller.rb
+  h_7e49e1b6a1cf0d 71,77,79,204-222,226-255
+  h_7e49e1b6a1cf0d 76,223-225,256
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fabd89b3dd50a42b03d1080a81418e92a115eddc",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
