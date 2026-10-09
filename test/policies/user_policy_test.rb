@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UserPolicyTest < ActiveSupport::TestCase # rubocop:disable Metrics/ClassLength
+class UserPolicyTest < ActiveSupport::TestCase
   def setup
     # Create roles if they don't exist
     Role.find_or_create_by(name: 'admin')

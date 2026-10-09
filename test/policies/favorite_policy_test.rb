@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FavoritePolicyTest < ActiveSupport::TestCase # rubocop:disable Metrics/ClassLength
+class FavoritePolicyTest < ActiveSupport::TestCase
   def setup
     @user = users(:one)
     @other_user = users(:two)
