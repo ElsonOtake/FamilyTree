@@ -10,7 +10,7 @@ module Pedigree
   # Constants resolve lexically from this module, so they work unchanged when the
   # module is mixed into a PDF class; the `row_top`/`draw_links`/`title_text`
   # hooks dispatch dynamically to the including class.
-  module Chrome
+  module Chrome # rubocop:disable Metrics/ModuleLength
     PARCHMENT = 'efece2'.freeze
     LINE_COLOR = '6b6b57'.freeze
     NAME_COLOR = '2b2b2b'.freeze
