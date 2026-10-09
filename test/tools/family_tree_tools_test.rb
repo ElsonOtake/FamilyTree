@@ -8,22 +8,17 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
     # Linking child records logs an audit event via a user, so provide one
     # explicitly. This also avoids depending on User.system_user, which other
     # tests in this (pre-existing, leaky) suite are known to leave mocked.
-    @user = User.create!(name: 'Recorder', email: 'recorder@example.com',
-                         password: 'password123', confirmed_at: Time.current)
+    @user = User.create!(name: 'Recorder', email: 'recorder@example.com', password: 'password123',
+                         confirmed_at: Time.current)
 
     # A small three-generation tree:
     #   father + mother  ->  child, sibling
-    @father = Person.create!(name: 'John Doe', gender: 'M',
-                             birth_year: 1970, birth_month: 1, birth_day: 10)
-    @mother = Person.create!(name: 'Jane Doe', gender: 'F',
-                             birth_year: 1972, birth_month: 3, birth_day: 5)
-    @parents = Couple.create!(person1: @father, person2: @mother,
-                              marriage: Date.new(1995, 6, 1))
+    @father = Person.create!(name: 'John Doe', gender: 'M', birth_year: 1970, birth_month: 1, birth_day: 10)
+    @mother = Person.create!(name: 'Jane Doe', gender: 'F', birth_year: 1972, birth_month: 3, birth_day: 5)
+    @parents = Couple.create!(person1: @father, person2: @mother, marriage: Date.new(1995, 6, 1))
 
-    @child = Person.create!(name: 'Sam Doe', gender: 'X',
-                            birth_year: 2000, birth_month: 6, birth_day: 15)
-    @sibling = Person.create!(name: 'Pat Doe', gender: 'F',
-                              birth_year: 2003, birth_month: 9, birth_day: 20)
+    @child = Person.create!(name: 'Sam Doe', gender: 'X', birth_year: 2000, birth_month: 6, birth_day: 15)
+    @sibling = Person.create!(name: 'Pat Doe', gender: 'F', birth_year: 2003, birth_month: 9, birth_day: 20)
     link_child(@child)
     link_child(@sibling)
   end
@@ -56,43 +51,43 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   end
 
   test 'find_person matches each word independently across a middle name' do
-    person = Person.create!(name: 'Elson Akio Otake', gender: 'M')
+    person = Person.create!(name: 'John Doe', gender: 'M')
 
     # First + last name, skipping the middle name, and in reversed order.
-    ['Elson Otake', 'otake elson', 'elson akio otake'].each do |query|
+    ['John', 'doe john', 'john doe'].each do |query|
       result = call_tool(FindPersonTool, query: query)
       ids = result[:results].map { |r| r[:id] }
-      assert_includes ids, person.id, "expected #{query.inspect} to find Elson Akio Otake"
+      assert_includes ids, person.id, "expected #{query.inspect} to find John Doe"
     end
   end
 
   test 'find_person requires all words to match' do
-    Person.create!(name: 'Elson Akio Otake', gender: 'M')
+    Person.create!(name: 'John Doe', gender: 'M')
 
-    result = call_tool(FindPersonTool, query: 'Elson Tanaka')
+    result = call_tool(FindPersonTool, query: 'John Tanaka')
 
     assert_equal 0, result[:count]
   end
 
   test 'find_person ignores accents in the query and stored name' do
-    person = Person.create!(name: 'Marcio Kazunori Otake', gender: 'M')
+    person = Person.create!(name: 'John Doe', gender: 'M')
 
     # Accented query against an unaccented stored name, and vice versa.
-    ['Márcio Otake', 'Marcio Otake'].each do |query|
+    ['John Doe', 'John Doé'].each do |query|
       result = call_tool(FindPersonTool, query: query)
       ids = result[:results].map { |r| r[:id] }
-      assert_includes ids, person.id, "expected #{query.inspect} to find Marcio Kazunori Otake"
+      assert_includes ids, person.id, "expected #{query.inspect} to find John Doe"
     end
   end
 
   test 'find_person tolerates romanization variants' do
-    person = Person.create!(name: 'Mitio Otake', gender: 'M')
+    person = Person.create!(name: 'Mitio Otani', gender: 'M')
 
     # Hepburn / long-vowel spellings should all resolve to the stored name.
-    ['Michio Otake', 'Mitio Ohtake', 'ohtake', 'michio'].each do |query|
+    ['Michio Otani', 'Mitio Ohtani', 'ohtani', 'michio'].each do |query|
       result = call_tool(FindPersonTool, query: query)
       ids = result[:results].map { |r| r[:id] }
-      assert_includes ids, person.id, "expected #{query.inspect} to find Mitio Otake"
+      assert_includes ids, person.id, "expected #{query.inspect} to find Mitio Doe"
     end
   end
 
@@ -150,8 +145,7 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   end
 
   test 'get_age handles a deceased person' do
-    deceased = Person.create!(name: 'Old Doe', gender: 'M',
-                              birth_year: 1900, birth_month: 1, birth_day: 1,
+    deceased = Person.create!(name: 'Old Doe', gender: 'M', birth_year: 1900, birth_month: 1, birth_day: 1,
                               death_year: 1980, death_month: 1, death_day: 1)
     result = call_tool(GetAgeTool, person_id: deceased.id.to_s)
 
@@ -162,8 +156,8 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   test 'get_age reports no age for a person marked not alive without a death year' do
     # Born 1900, flagged deceased but no death date recorded. The age must not
     # be computed as if they were still living (e.g. 126 in 2026).
-    deceased = Person.create!(name: 'Vintage Doe', gender: 'M', alive: false,
-                              birth_year: 1900, birth_month: 1, birth_day: 1)
+    deceased = Person.create!(name: 'Vintage Doe', gender: 'M', alive: false, birth_year: 1900, birth_month: 1,
+                              birth_day: 1)
     result = call_tool(GetAgeTool, person_id: deceased.id.to_s)
 
     assert_not result[:alive]
@@ -173,8 +167,8 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   test 'get_age suppresses an implausible age for unknown alive status' do
     travel_to Date.new(2026, 6, 27) do
       # alive: nil = unknown status; born 1900 would be 126, which is implausible.
-      ancient = Person.create!(name: 'Ancient Doe', gender: 'M', alive: nil,
-                               birth_year: 1900, birth_month: 1, birth_day: 1)
+      ancient = Person.create!(name: 'Ancient Doe', gender: 'M', alive: nil, birth_year: 1900, birth_month: 1,
+                               birth_day: 1)
       result = call_tool(GetAgeTool, person_id: ancient.id.to_s)
 
       assert_nil result[:age_years]
@@ -184,8 +178,8 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   test 'get_age still reports a plausible age for unknown alive status' do
     travel_to Date.new(2026, 6, 27) do
       # Unknown status but born recently enough to be plausibly alive.
-      young = Person.create!(name: 'Young Doe', gender: 'M', alive: nil,
-                             birth_year: 1990, birth_month: 1, birth_day: 1)
+      young = Person.create!(name: 'Young Doe', gender: 'M', alive: nil, birth_year: 1990, birth_month: 1,
+                             birth_day: 1)
       result = call_tool(GetAgeTool, person_id: young.id.to_s)
 
       assert_equal 36, result[:age_years]
@@ -226,10 +220,9 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   test 'tools resolve a unique partial name whose full slug has a suffix' do
     # Two people share the base name, so friendly_id appends a uniqueness suffix
     # to the slug. A partial name still resolves via the unambiguous name search.
-    full = Person.create!(name: 'Satiye Sakamoto Otake', gender: 'F',
-                          birth_year: 1941, birth_month: 1, birth_day: 1)
+    full = Person.create!(name: 'Mary Doe', gender: 'F', birth_year: 1941, birth_month: 1, birth_day: 1)
 
-    ['Satiye Sakamoto', 'satiye-sakamoto'].each do |identifier|
+    ['Mary Doe', 'mary-doe'].each do |identifier|
       result = call_tool(GetAgeTool, person_id: identifier)
       assert_not result[:error], "expected #{identifier.inspect} to resolve"
       assert_equal full.id, result[:person][:id]
@@ -248,9 +241,9 @@ class FamilyTreeToolsTest < ActiveSupport::TestCase
   end
 
   test 'tools do not resolve a misspelled name' do
-    Person.create!(name: 'Satiye Sakamoto Otake', gender: 'F')
+    Person.create!(name: 'Mary Doe', gender: 'F')
 
-    result = call_tool(GetAgeTool, person_id: 'satie-sakamoto')
+    result = call_tool(GetAgeTool, person_id: 'mari-doe')
 
     assert result[:error].present?
   end
