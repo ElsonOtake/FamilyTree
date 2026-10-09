@@ -7,33 +7,11 @@ class FavoritesController < ApplicationController
     @favorite = current_user.favorites.build(person: @person)
     authorize @favorite
 
-    respond_to do |format|
-      if @favorite.save
-        record_favorite_event('favorite.create')
-
-        format.turbo_stream do
-          flash.now[:notice] = I18n.t('favorites.added')
-        end
-
-        format.html do
-          redirect_back(
-            fallback_location: @person,
-            notice: I18n.t('favorites.added')
-          )
-        end
-      else
-        format.turbo_stream do
-          flash.now[:alert] = @favorite.errors.full_messages.first
-          render :create_error
-        end
-
-        format.html do
-          redirect_back(
-            fallback_location: @person,
-            alert: @favorite.errors.full_messages.first
-          )
-        end
-      end
+    if @favorite.save
+      record_favorite_event('favorite.create')
+      respond_with_notice(I18n.t('favorites.added'))
+    else
+      respond_with_alert(@favorite.errors.full_messages.first, render_template: :create_error)
     end
   end
 
@@ -41,36 +19,32 @@ class FavoritesController < ApplicationController
     @favorite = current_user.favorites.find_by(person: @person)
     authorize @favorite if @favorite
 
-    respond_to do |format|
-      if @favorite&.destroy
-        record_favorite_event('favorite.unlink')
-
-        format.turbo_stream do
-          flash.now[:notice] = I18n.t('favorites.removed')
-        end
-
-        format.html do
-          redirect_back(
-            fallback_location: @person,
-            notice: I18n.t('favorites.removed')
-          )
-        end
-      else
-        format.turbo_stream do
-          flash.now[:alert] = I18n.t('favorites.not_found')
-        end
-
-        format.html do
-          redirect_back(
-            fallback_location: @person,
-            alert: I18n.t('favorites.not_found')
-          )
-        end
-      end
+    if @favorite&.destroy
+      record_favorite_event('favorite.unlink')
+      respond_with_notice(I18n.t('favorites.removed'))
+    else
+      respond_with_alert(I18n.t('favorites.not_found'))
     end
   end
 
   private
+
+  def respond_with_notice(message)
+    respond_to do |format|
+      format.turbo_stream { flash.now[:notice] = message }
+      format.html { redirect_back(fallback_location: @person, notice: message) }
+    end
+  end
+
+  def respond_with_alert(message, render_template: nil)
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:alert] = message
+        render render_template if render_template
+      end
+      format.html { redirect_back(fallback_location: @person, alert: message) }
+    end
+  end
 
   # Audit who favorited/unfavorited whom. Attributed to the acting user, scoped
   # (resource) to the favorited person. Fire-and-forget, matching locale.update.
