@@ -2,40 +2,15 @@ require 'test_helper'
 
 class CoupleTest < ActiveSupport::TestCase
   def setup
-    @person1 = Person.create!(
-      name: 'Person One',
-      birth_year: 1980,
-      birth_month: 5,
-      birth_day: 15
-    )
+    @person1 = Person.create!(name: 'Person One', birth_year: 1980, birth_month: 5, birth_day: 15)
 
-    @person2 = Person.create!(
-      name: 'Person Two',
-      birth_year: 1985,
-      birth_month: 8,
-      birth_day: 20
-    )
+    @person2 = Person.create!(name: 'Person Two', birth_year: 1985, birth_month: 8, birth_day: 20)
 
-    @person3 = Person.create!(
-      name: 'Person Three',
-      birth_year: 1990,
-      birth_month: 3,
-      birth_day: 10
-    )
+    @person3 = Person.create!(name: 'Person Three', birth_year: 1990, birth_month: 3, birth_day: 10)
 
-    @child1 = Person.create!(
-      name: 'Child One',
-      birth_year: 2010,
-      birth_month: 6,
-      birth_day: 12
-    )
+    @child1 = Person.create!(name: 'Child One', birth_year: 2010, birth_month: 6, birth_day: 12)
 
-    @child2 = Person.create!(
-      name: 'Child Two',
-      birth_year: 2012,
-      birth_month: 9,
-      birth_day: 25
-    )
+    @child2 = Person.create!(name: 'Child Two', birth_year: 2012, birth_month: 9, birth_day: 25)
   end
 
   test 'Couple model includes correct modules' do
@@ -43,10 +18,7 @@ class CoupleTest < ActiveSupport::TestCase
   end
 
   test 'Couple uses paranoid deletion' do
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     # Should use soft delete
     couple.destroy
@@ -79,19 +51,13 @@ class CoupleTest < ActiveSupport::TestCase
     assert_includes couple.errors[:person2_id], 'não pode ficar em branco'
 
     # Test with both present
-    couple = Couple.new(
-      person1_id: @person1.id,
-      person2_id: @person2.id
-    )
+    couple = Couple.new(person1_id: @person1.id, person2_id: @person2.id)
     assert couple.valid?
   end
 
   test 'order_people callback ensures person1_id < person2_id' do
     # Create couple with person2_id < person1_id
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].max,
-      person2_id: [@person1.id, @person2.id].min
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].max, person2_id: [@person1.id, @person2.id].min)
 
     # Should be reordered
     assert couple.person1_id < couple.person2_id
@@ -101,10 +67,7 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'order_people callback works when already in correct order' do
     # Create couple with person1_id < person2_id
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     # Should remain in same order
     assert couple.person1_id < couple.person2_id
@@ -114,10 +77,7 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple.couple class method finds existing couple' do
     # Create a couple
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     # Should find couple regardless of parameter order
     assert_equal couple, Couple.couple(@person1, @person2)
@@ -137,15 +97,9 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple.mates returns correct mates for a person' do
     # Create couples: person1-person2, person1-person3
-    Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
-    Couple.create!(
-      person1_id: [@person1.id, @person3.id].min,
-      person2_id: [@person1.id, @person3.id].max
-    )
+    Couple.create!(person1_id: [@person1.id, @person3.id].min, person2_id: [@person1.id, @person3.id].max)
 
     # person1's mates should be person2 and person3
     mates = Couple.mates(@person1.id)
@@ -172,10 +126,7 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple.children returns correct children for a person' do
     # Create couple
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     # Add children to couple
     couple.people << @child1
@@ -195,15 +146,9 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple.children returns unique children when person has multiple couples' do
     # Create two couples with person1
-    couple1 = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple1 = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
-    couple2 = Couple.create!(
-      person1_id: [@person1.id, @person3.id].min,
-      person2_id: [@person1.id, @person3.id].max
-    )
+    couple2 = Couple.create!(person1_id: [@person1.id, @person3.id].min, person2_id: [@person1.id, @person3.id].max)
 
     # Add same child to both couples
     couple1.people << @child1
@@ -221,10 +166,7 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple.children returns empty array when no children exist' do
     # Create couple with no children
-    Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     children = Couple.children(@person1.id)
     assert_equal [], children
@@ -260,13 +202,8 @@ class CoupleTest < ActiveSupport::TestCase
     marriage_date = Date.new(2020, 6, 15)
     separation_date = Date.new(2023, 3, 10)
 
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max,
-      marriage: marriage_date,
-      separation: separation_date,
-      local: 'São Paulo, Brazil'
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max,
+                            marriage: marriage_date, separation: separation_date, local: 'São Paulo, Brazil')
 
     assert_equal marriage_date, couple.marriage
     assert_equal separation_date, couple.separation
@@ -274,10 +211,7 @@ class CoupleTest < ActiveSupport::TestCase
   end
 
   test 'Couple can be created without optional fields' do
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     assert couple.persisted?
     assert_nil couple.marriage
@@ -286,10 +220,7 @@ class CoupleTest < ActiveSupport::TestCase
   end
 
   test 'Couple associations work correctly' do
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     # Test person1 and person2 associations
     assert_equal @person1.id == couple.person1_id ? @person1 : @person2, couple.person1
@@ -306,10 +237,7 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple prevents duplicate relationships' do
     # Create first couple
-    couple1 = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple1 = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     # Try to create duplicate (should be prevented by unique constraint if exists)
     # or by application logic
@@ -319,10 +247,7 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple handles same person relationships' do
     # Test edge case: person with themselves (should probably be prevented)
-    couple = Couple.new(
-      person1_id: @person1.id,
-      person2_id: @person1.id
-    )
+    couple = Couple.new(person1_id: @person1.id, person2_id: @person1.id)
 
     # The order_people method will ensure person1_id == person2_id
     couple.save
@@ -332,15 +257,9 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple.mates uses includes for performance' do
     # Create couples
-    Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
-    Couple.create!(
-      person1_id: [@person1.id, @person3.id].min,
-      person2_id: [@person1.id, @person3.id].max
-    )
+    Couple.create!(person1_id: [@person1.id, @person3.id].min, person2_id: [@person1.id, @person3.id].max)
 
     # This should not cause N+1 queries due to includes
     mates = Couple.mates(@person1.id)
@@ -355,10 +274,7 @@ class CoupleTest < ActiveSupport::TestCase
 
   test 'Couple.children uses includes for performance' do
     # Create couple with children
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max)
 
     couple.people << @child1
     couple.people << @child2
@@ -375,12 +291,8 @@ class CoupleTest < ActiveSupport::TestCase
   end
 
   test 'Couple soft delete preserves data' do
-    couple = Couple.create!(
-      person1_id: [@person1.id, @person2.id].min,
-      person2_id: [@person1.id, @person2.id].max,
-      marriage: Date.new(2020, 1, 1),
-      local: 'Test Location'
-    )
+    couple = Couple.create!(person1_id: [@person1.id, @person2.id].min, person2_id: [@person1.id, @person2.id].max,
+                            marriage: Date.new(2020, 1, 1), local: 'Test Location')
 
     original_id = couple.id
 
@@ -415,8 +327,8 @@ class CoupleTest < ActiveSupport::TestCase
   end
 
   test 'auditing a couple update/unlink does not crash when a member is soft-deleted' do
-    user = User.create!(name: 'Actor', email: "actor-#{SecureRandom.hex(3)}@example.com",
-                        password: 'password123', confirmed_at: Time.current)
+    user = User.create!(name: 'Actor', email: "actor-#{SecureRandom.hex(3)}@example.com", password: 'password123',
+                        confirmed_at: Time.current)
     couple = Couple.create!(person1: @person1, person2: @person2)
     @person2.destroy # soft-delete a member; the couple survives
 
