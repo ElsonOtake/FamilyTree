@@ -285,12 +285,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       }, expects_success: false }
     ]
 
-    users_and_roles = [
-      { role: :bronze, can_access: false },
-      { role: :silver, can_access: false },
-      { role: :gold, can_access: false },
-      { role: :admin, can_access: true }
-    ]
+    users_and_roles = [{ role: :bronze, can_access: false }, { role: :silver, can_access: false },
+                       { role: :gold, can_access: false }, { role: :admin, can_access: true }]
 
     users_and_roles.each do |test_case|
       user = User.create!(
