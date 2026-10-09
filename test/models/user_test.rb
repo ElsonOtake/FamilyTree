@@ -6,12 +6,8 @@ ActionMailer::Base.default_url_options[:host] = 'test.host'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @valid_attributes = {
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'password123',
-      password_confirmation: 'password123'
-    }
+    @valid_attributes = { name: 'Test User', email: 'test@example.com', password: 'password123',
+                          password_confirmation: 'password123' }
   end
 
   # BASIC MODEL TESTS
@@ -217,26 +213,16 @@ class UserTest < ActiveSupport::TestCase
   test 'from_omniauth should find existing user by email' do
     existing_user = User.create!(@valid_attributes)
 
-    access_token = OmniAuth::AuthHash.new(
-      provider: 'google_oauth2',
-      info: {
-        email: existing_user.email,
-        name: 'OAuth Name'
-      }
-    )
+    access_token = OmniAuth::AuthHash.new(provider: 'google_oauth2',
+                                          info: { email: existing_user.email, name: 'OAuth Name' })
 
     found_user = User.from_omniauth(access_token)
     assert_equal existing_user, found_user
   end
 
   test 'from_omniauth should create new user when email not found' do
-    access_token = OmniAuth::AuthHash.new(
-      provider: 'google_oauth2',
-      info: {
-        email: 'newuser@example.com',
-        name: 'New OAuth User'
-      }
-    )
+    access_token = OmniAuth::AuthHash.new(provider: 'google_oauth2',
+                                          info: { email: 'newuser@example.com', name: 'New OAuth User' })
 
     assert_difference('User.count', 1) do
       user = User.from_omniauth(access_token)
@@ -249,13 +235,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'from_omniauth creates user with generated password' do
-    access_token = OmniAuth::AuthHash.new(
-      provider: 'google_oauth2',
-      info: {
-        email: 'oauth@example.com',
-        name: 'OAuth User'
-      }
-    )
+    access_token = OmniAuth::AuthHash.new(provider: 'google_oauth2',
+                                          info: { email: 'oauth@example.com', name: 'OAuth User' })
 
     user = User.from_omniauth(access_token)
     assert user.persisted?
@@ -326,12 +307,9 @@ class UserTest < ActiveSupport::TestCase
   test 'ransackable_attributes returns correct attributes' do
     ransackable_attrs = User.ransackable_attributes
 
-    expected_attrs = %w[
-      approved confirmation_sent_at confirmation_token confirmed_at created_at
-      deleted_at email encrypted_password id locale name
-      phone provider remember_created_at reset_password_sent_at
-      reset_password_token unconfirmed_email updated_at
-    ]
+    expected_attrs = %w[approved confirmation_sent_at confirmation_token confirmed_at created_at deleted_at email
+                        encrypted_password id locale name phone provider remember_created_at reset_password_sent_at
+                        reset_password_token unconfirmed_email updated_at]
 
     assert_equal expected_attrs, ransackable_attrs
   end
@@ -352,10 +330,7 @@ class UserTest < ActiveSupport::TestCase
     special_names = ['José da Silva', '北田太郎', 'User-Name_123', "O'Connor"]
 
     special_names.each_with_index do |name, index|
-      user = User.create!(@valid_attributes.merge(
-                            name: name,
-                            email: "special#{index}@example.com"
-                          ))
+      user = User.create!(@valid_attributes.merge(name: name, email: "special#{index}@example.com"))
       assert_equal name, user.name
     end
   end
@@ -428,11 +403,7 @@ class UserTest < ActiveSupport::TestCase
   private
 
   def create_test_user(suffix)
-    User.create!(
-      name: "Test User #{suffix}",
-      email: "test#{suffix}@example.com",
-      password: 'password123',
-      password_confirmation: 'password123'
-    )
+    User.create!(name: "Test User #{suffix}", email: "test#{suffix}@example.com", password: 'password123',
+                 password_confirmation: 'password123')
   end
 end
