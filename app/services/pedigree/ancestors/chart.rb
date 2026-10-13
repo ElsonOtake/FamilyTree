@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Pedigree
   module Ancestors
     # Builds an ancestor tree for a focal person: their parents, grandparents and

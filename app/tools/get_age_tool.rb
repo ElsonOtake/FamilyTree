@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Return the age of a person. Birth dates may be partial, and the person may be
 # deceased, so this returns both a structured age (when computable) and a
 # human-readable summary built from the model's own date helpers.
@@ -16,7 +14,7 @@ class GetAgeTool < ApplicationTool
 
   arguments do
     required(:person_id).filled(:string)
-                        .description('The id (or slug) of the person')
+      .description('The id (or slug) of the person')
   end
 
   def call(person_id:)

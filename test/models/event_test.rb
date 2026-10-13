@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 class EventTest < ActiveSupport::TestCase
@@ -171,7 +169,7 @@ class EventTest < ActiveSupport::TestCase
 
     # Test with Couple resource
     couple_event = Event.create!(
-      name: 'couple.create', 
+      name: 'couple.create',
       data: { marriage: '2023-01-01' },
       user: @user,
       resource: couple
@@ -284,7 +282,7 @@ class EventTest < ActiveSupport::TestCase
     )
 
     user2_event = Event.create!(
-      name: 'person.create', 
+      name: 'person.create',
       data: { test: 'user2' },
       user: another_user
     )

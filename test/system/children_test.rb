@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'application_system_test_case'
 
 class ChildrenTest < ApplicationSystemTestCase
@@ -21,14 +19,15 @@ class ChildrenTest < ApplicationSystemTestCase
 
     click_on I18n.t('helpers.submit.create', model: I18n.t('children.form.child')), match: :first
 
-    assert_selector 'h1', text: "#{I18n.t('helpers.submit.create', model: I18n.t('children.form.child'))} — #{@person.name}"
+    assert_selector 'h1',
+                    text: "#{I18n.t('helpers.submit.create', model: I18n.t('children.form.child'))} — #{@person.name}"
 
     fill_in 'person_name', with: child_name
     fill_in 'person_description', with: 'Mixed breed dog'
 
-    fill_in 'person_birth_year',  with: 2012
+    fill_in 'person_birth_year', with: 2012
     fill_in 'person_birth_month', with: 10
-    fill_in 'person_birth_day',   with: 21
+    fill_in 'person_birth_day', with: 21
 
     find('input[name="person[gender]"][value="P"]').choose
 

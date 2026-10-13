@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCompositePrimaryKeyToCouplesPeople < ActiveRecord::Migration[8.0]
   def up
     # Add composite primary key constraint to couples_people table

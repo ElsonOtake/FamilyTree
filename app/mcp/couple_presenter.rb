@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Formats Couple records into plain hashes for MCP tool responses, reusing
 # PersonPresenter for the two people in the couple.
 module CouplePresenter

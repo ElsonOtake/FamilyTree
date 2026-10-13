@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Pedigree
   module Ancestors
     # Renders an ancestor tree to a PDF (binary string): the focal person at the
@@ -37,7 +35,7 @@ module Pedigree
       # the bottom, ancestors rising toward the top.
       def row_top(generation)
         Geom::MARGIN + Geom::TITLE_H + Geom::TITLE_GAP +
-          (@layout.generations - generation) * Geom::ROW_STEP
+          ((@layout.generations - generation) * Geom::ROW_STEP)
       end
 
       def title_text
@@ -53,7 +51,7 @@ module Pedigree
         return if union.children.empty?
 
         gen = placed.generation
-        parent_mid = row_top(gen + 1) + Geom::PORTRAIT_H / 2.0
+        parent_mid = row_top(gen + 1) + (Geom::PORTRAIT_H / 2.0)
         stem_x = x_at(placed.person_center)
         parent_xs = union.children.map { |c| x_at(c.person_center) }
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Pedigree
   # Positions a descendant tree in top-down point coordinates using two passes:
   # measure each subtree's full extent, then place subtrees side by side so
@@ -27,9 +25,9 @@ module Pedigree
 
     def initialize(root_node)
       @root = root_node
-      @width = {}.compare_by_identity   # full horizontal extent of the subtree
-      @anchor = {}.compare_by_identity  # person portrait centre, offset from left
-      @shift = {}.compare_by_identity   # children left edge, offset from left
+      @width = {}.compare_by_identity # full horizontal extent of the subtree
+      @anchor = {}.compare_by_identity # person portrait centre, offset from left
+      @shift = {}.compare_by_identity # children left edge, offset from left
       @min_x = Float::INFINITY
       @max_x = -Float::INFINITY
       @generations = 1
@@ -70,11 +68,11 @@ module Pedigree
         half = spouse ? pair_width / 2.0 : Geom::CELL_W / 2.0
         ext_left = [0.0, anchor - half].min
         ext_right = [group, anchor + half].max
-        @width[node]  = ext_right - ext_left
-        @shift[node]  = -ext_left
+        @width[node] = ext_right - ext_left
+        @shift[node] = -ext_left
         @anchor[node] = @shift[node] + anchor - (spouse ? SPOUSE_OFFSET : 0.0)
       else
-        @width[node]  = spouse ? pair_width : Geom::CELL_W.to_f
+        @width[node] = spouse ? pair_width : Geom::CELL_W.to_f
         @anchor[node] = Geom::CELL_W / 2.0
       end
     end
@@ -84,10 +82,10 @@ module Pedigree
     # overhangs and the node width already contains everything.
     def measure_many(node)
       widths = slot_widths(node)
-      @width[node] = widths.sum + Geom::CELL_W + node.marriages.size * SLOT_GAP
+      @width[node] = widths.sum + Geom::CELL_W + (node.marriages.size * SLOT_GAP)
       @anchor[node] =
         if node.marriages.size == 2 # arrangement is [slot0, person, slot1]
-          widths[0] + SLOT_GAP + Geom::CELL_W / 2.0
+          widths[0] + SLOT_GAP + (Geom::CELL_W / 2.0)
         else # arrangement is [person, slot0, slot1, ...]
           Geom::CELL_W / 2.0
         end
@@ -101,7 +99,7 @@ module Pedigree
       return 0 if children.empty?
 
       children.each { |c| measure(c) }
-      children.sum { |c| @width[c] } + (children.size - 1) * Geom::SIBLING_GAP
+      children.sum { |c| @width[c] } + ((children.size - 1) * Geom::SIBLING_GAP)
     end
 
     # Anchor (midpoint of the children's person portraits) and total width of a
@@ -118,7 +116,7 @@ module Pedigree
     end
 
     def pair_width
-      2 * Geom::CELL_W + Geom::SPOUSE_GAP
+      (2 * Geom::CELL_W) + Geom::SPOUSE_GAP
     end
 
     # --- pass 2: placement -----------------------------------------------------
@@ -134,8 +132,8 @@ module Pedigree
     end
 
     def place_single(node, left)
-      center = left + @width[node] / 2.0
-      build(node, center, [Slot.new(person: node.person, x: center - Geom::CELL_W / 2.0)], [])
+      center = left + (@width[node] / 2.0)
+      build(node, center, [Slot.new(person: node.person, x: center - (Geom::CELL_W / 2.0))], [])
     end
 
     def place_one_marriage(node, left)
@@ -150,8 +148,8 @@ module Pedigree
         descent = center
       else
         kids = []
-        person_center = left + Geom::CELL_W / 2.0
-        spouse_center = left + pair_width - Geom::CELL_W / 2.0
+        person_center = left + (Geom::CELL_W / 2.0)
+        spouse_center = left + pair_width - (Geom::CELL_W / 2.0)
         descent = nil
       end
 
@@ -163,14 +161,14 @@ module Pedigree
     def place_many_marriages(node, left)
       widths = slot_widths(node)
       elements = arrangement(node, widths)
-      total = elements.sum { |e| e[:w] } + (elements.size - 1) * SLOT_GAP
-      cursor = left + (@width[node] - total) / 2.0
+      total = elements.sum { |e| e[:w] } + ((elements.size - 1) * SLOT_GAP)
+      cursor = left + ((@width[node] - total) / 2.0)
 
       person_center = nil
       spouse_centers = {}
       unions = {}
       elements.each do |element|
-        center = cursor + element[:w] / 2.0
+        center = cursor + (element[:w] / 2.0)
         if element[:person]
           person_center = center
         else
@@ -192,7 +190,7 @@ module Pedigree
     def place_slot(element, left, center)
       children = element[:marriage].children
       if children.any?
-        kids = place_children(children, left + (element[:w] - group_width(children)) / 2.0)
+        kids = place_children(children, left + ((element[:w] - group_width(children)) / 2.0))
         [center, Union.new(spouse_center: center, descent_x: child_center(kids), children: kids)]
       else
         [center, Union.new(spouse_center: center, descent_x: nil, children: [])]
@@ -224,9 +222,9 @@ module Pedigree
     end
 
     def portrait_slots(person, person_center, spouse_pairs)
-      slots = [Slot.new(person: person, x: person_center - Geom::CELL_W / 2.0)]
+      slots = [Slot.new(person: person, x: person_center - (Geom::CELL_W / 2.0))]
       spouse_pairs.each do |spouse, center|
-        slots << Slot.new(person: spouse, x: center - Geom::CELL_W / 2.0) if spouse && center
+        slots << Slot.new(person: spouse, x: center - (Geom::CELL_W / 2.0)) if spouse && center
       end
       slots
     end

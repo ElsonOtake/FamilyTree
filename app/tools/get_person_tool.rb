@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Return detailed information about a single person: name, gender, birth and
 # death dates (which may be partial), age, and a human-readable life summary.
 class GetPersonTool < ApplicationTool
@@ -15,7 +13,7 @@ class GetPersonTool < ApplicationTool
 
   arguments do
     required(:person_id).filled(:string)
-                        .description('The id (or slug) of the person')
+      .description('The id (or slug) of the person')
   end
 
   def call(person_id:)

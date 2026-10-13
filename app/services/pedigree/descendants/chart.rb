@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Pedigree
   module Descendants
     # Builds a descendants-only tree for a focal person: their children,

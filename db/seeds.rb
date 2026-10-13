@@ -16,7 +16,7 @@ if User.any?
   Rails.logger.warn('Seeds: users already present — skipping bootstrap admin.')
 else
   email    = ENV.fetch('SEED_ADMIN_EMAIL', 'admin@demo.com')
-  password = ENV.fetch('SEED_ADMIN_PASSWORD', 'password' )
+  password = ENV.fetch('SEED_ADMIN_PASSWORD', 'password')
 
   admin = User.create!(
     email: email,

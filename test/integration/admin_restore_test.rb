@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # ActiveAdmin can list and restore soft-deleted (paranoia) records.

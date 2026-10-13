@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Get the current user's favorite people: name, kanji, gender, birth/death
 # dates, age and description for each person they've favorited.
 class GetFavoritesTool < ApplicationTool

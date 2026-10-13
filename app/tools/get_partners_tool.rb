@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Return the partners/spouses of a person, with marriage and separation dates
 # for each relationship.
 class GetPartnersTool < ApplicationTool
@@ -15,7 +13,7 @@ class GetPartnersTool < ApplicationTool
 
   arguments do
     required(:person_id).filled(:string)
-                        .description('The id (or slug) of the person')
+      .description('The id (or slug) of the person')
   end
 
   def call(person_id:)
@@ -23,8 +21,8 @@ class GetPartnersTool < ApplicationTool
     return person_not_found(person_id) if person.nil?
 
     couples = Couple.includes(:person1, :person2)
-                    .where(person1_id: person.id)
-                    .or(Couple.where(person2_id: person.id))
+      .where(person1_id: person.id)
+      .or(Couple.where(person2_id: person.id))
 
     relationships = couples.map do |couple|
       partner = couple.person1_id == person.id ? couple.person2 : couple.person1

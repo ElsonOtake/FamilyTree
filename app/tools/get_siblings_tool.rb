@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Return the siblings of a person (other children of their parent couples).
 class GetSiblingsTool < ApplicationTool
   tool_name 'get_siblings'
@@ -14,7 +12,7 @@ class GetSiblingsTool < ApplicationTool
 
   arguments do
     required(:person_id).filled(:string)
-                        .description('The id (or slug) of the person')
+      .description('The id (or slug) of the person')
   end
 
   def call(person_id:)

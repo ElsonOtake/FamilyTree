@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # Verifies the /mcp endpoint is gated by per-user bearer tokens. The transport

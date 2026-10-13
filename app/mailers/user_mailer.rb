@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Account-related notifications to end users.
 class UserMailer < ApplicationMailer
   # Sent when an admin approves a pending account.

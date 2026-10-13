@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # Covers the opt-in MCP token lifecycle on User.

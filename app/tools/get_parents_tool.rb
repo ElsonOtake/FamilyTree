@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Return the parents of a person. The family tree models parents as the couple
 # a person is a child of, so this exposes both the father/mother (by gender)
 # and the full list of parents for couples that aren't a father/mother pair.
@@ -17,7 +15,7 @@ class GetParentsTool < ApplicationTool
 
   arguments do
     required(:person_id).filled(:string)
-                        .description('The id (or slug) of the person')
+      .description('The id (or slug) of the person')
   end
 
   def call(person_id:)

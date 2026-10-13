@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Pedigree
   # Renders a descendant tree to a PDF (binary string) in the classic genealogy
   # style: oval portraits, name + birth/death years below, spouses joined by a
@@ -42,7 +40,7 @@ module Pedigree
     # Top-down y of a generation's portrait top edge: generation 1 at the top,
     # descendants flowing downward.
     def row_top(generation)
-      Geom::MARGIN + Geom::TITLE_H + Geom::TITLE_GAP + (generation - 1) * Geom::ROW_STEP
+      Geom::MARGIN + Geom::TITLE_H + Geom::TITLE_GAP + ((generation - 1) * Geom::ROW_STEP)
     end
 
     def title_text
@@ -57,7 +55,7 @@ module Pedigree
     def draw_marriage_line(pdf, placed, union)
       return unless union.spouse_center
 
-      y = flip(row_top(placed.generation) + Geom::PORTRAIT_H / 2.0)
+      y = flip(row_top(placed.generation) + (Geom::PORTRAIT_H / 2.0))
       stroke(pdf) { pdf.stroke_line([x_at(placed.person_center), y], [x_at(union.spouse_center), y]) }
     end
 
@@ -67,9 +65,9 @@ module Pedigree
       gen = placed.generation
       # Drop the stem from the marriage line, at the midpoint between the couple,
       # so each marriage's children hang from that couple's own line.
-      stem_top = row_top(gen) + Geom::PORTRAIT_H / 2.0
+      stem_top = row_top(gen) + (Geom::PORTRAIT_H / 2.0)
       child_top = row_top(gen + 1)
-      bracket = child_top - Geom::ROW_GAP / 2.0
+      bracket = child_top - (Geom::ROW_GAP / 2.0)
       stem_x = x_at(descent_x(placed, union))
       child_xs = union.children.map { |c| x_at(c.person_center) }
 

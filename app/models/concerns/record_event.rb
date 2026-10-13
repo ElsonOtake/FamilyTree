@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Records create/update/unlink audit events for the including model (Person and
 # Couple). The acting user is whoever is set on the record, falling back to the
 # request-wide Current.user — so admin, console-with-Current and cascaded writes
@@ -21,7 +19,9 @@ module RecordEvent
     actor = event_actor
     return unless actor
 
-    changes = saved_changes.transform_values(&:last).reject { |k, v| v.nil? || v == '' || %w[id updated_at].include?(k) }
+    changes = saved_changes.transform_values(&:last).reject do |k, v|
+      v.nil? || v == '' || %w[id updated_at].include?(k)
+    end
     record_event(actor, 'create', changes)
   end
 

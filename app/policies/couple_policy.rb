@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Policy for the couple model
 class CouplePolicy < ApplicationPolicy
   attr_reader :user

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users, controllers: { confirmations: 'users/confirmations',
@@ -11,7 +13,7 @@ Rails.application.routes.draw do
     resources :couples, path: :casais, except: %i[show] do
       resources :children, path: :filhos
     end
-    resources :favorites, only: [:create, :destroy]
+    resources :favorites, only: %i[create destroy]
     get 'search_child', on: :collection
     get 'search_mate', on: :collection
     get 'birthdays', on: :collection
@@ -25,7 +27,8 @@ Rails.application.routes.draw do
     get 'roles', on: :collection
     patch 'role_update', on: :member
     patch 'change/:locale', to: 'users#change', as: 'locale_change'
-    patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified', as: 'locale_change_unidentified'
+    patch 'change_unidentified/:locale', on: :collection, to: 'users#change_unidentified',
+                                         as: 'locale_change_unidentified'
   end
   resources :couples, path: :casais, only: %i[index]
   get 'about', to: 'pages#about', as: 'about'

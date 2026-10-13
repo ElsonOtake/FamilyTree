@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 class UserPolicyTest < ActiveSupport::TestCase
@@ -16,12 +14,8 @@ class UserPolicyTest < ActiveSupport::TestCase
     @bronze_user = users(:two)
     @bronze_user.add_role(:bronze)
 
-    @target_user = User.create!(
-      name: 'Target User',
-      email: 'target@example.com',
-      password: 'password',
-      confirmed_at: 1.week.ago
-    )
+    @target_user = User.create!(name: 'Target User', email: 'target@example.com', password: 'password',
+                                confirmed_at: 1.week.ago)
     @target_user.add_role(:bronze)
   end
 
@@ -137,12 +131,8 @@ class UserPolicyTest < ActiveSupport::TestCase
 
   test 'non-admin roles are denied admin-only actions' do
     %i[gold silver bronze].each do |role_name|
-      user = User.create!(
-        name: "#{role_name.capitalize} User",
-        email: "#{role_name}@example.com",
-        password: 'password',
-        confirmed_at: 1.week.ago
-      )
+      user = User.create!(name: "#{role_name.capitalize} User", email: "#{role_name}@example.com",
+                          password: 'password', confirmed_at: 1.week.ago)
       user.add_role(role_name)
 
       admin_actions = %i[index? roles? role_update? download?]
@@ -176,12 +166,8 @@ class UserPolicyTest < ActiveSupport::TestCase
 
   # EDGE CASES
   test 'handles users with multiple roles' do
-    multi_role_user = User.create!(
-      name: 'Multi Role User',
-      email: 'multi@example.com',
-      password: 'password',
-      confirmed_at: 1.week.ago
-    )
+    multi_role_user = User.create!(name: 'Multi Role User', email: 'multi@example.com', password: 'password',
+                                   confirmed_at: 1.week.ago)
     multi_role_user.add_role(:bronze)
     multi_role_user.add_role(:admin)
 
@@ -195,12 +181,8 @@ class UserPolicyTest < ActiveSupport::TestCase
   end
 
   test 'handles user with no roles' do
-    no_role_user = User.create!(
-      name: 'No Role User',
-      email: 'norole@example.com',
-      password: 'password',
-      confirmed_at: 1.week.ago
-    )
+    no_role_user = User.create!(name: 'No Role User', email: 'norole@example.com', password: 'password',
+                                confirmed_at: 1.week.ago)
     # Don't add any roles
 
     policy = UserPolicy.new(no_role_user, @target_user)

@@ -1,8 +1,5 @@
-# frozen_string_literal: true
-
 # This model represents an event in the family tree.
 class Event < ApplicationRecord
-
   belongs_to :user
   belongs_to :resource, polymorphic: true, optional: true
 

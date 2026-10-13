@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 class PeopleHelperTest < ActionView::TestCase
@@ -310,7 +308,7 @@ class PeopleHelperTest < ActionView::TestCase
 
     ['M', 'F', 'P', 'X', nil].each do |gender|
       icon_class = gender_icon_class(gender)
-      icon_parts = icon_class.split(' ')
+      icon_parts = icon_class.split
 
       # First part should be a FontAwesome prefix
       assert_includes fontawesome_prefixes, icon_parts.first, "#{icon_class} should start with valid FontAwesome prefix"

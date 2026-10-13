@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'test_helper'
 
 # The ActiveAdmin user page manages only the role (users self-edit their own

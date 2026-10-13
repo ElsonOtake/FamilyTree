@@ -258,7 +258,7 @@ class CouplesControllerTest < ActionDispatch::IntegrationTest
     # The implementation sets current_user for RecordEvent callbacks
   end
 
-  # Note: Show action doesn't exist on CouplesController for nested routes
+  # NOTE: Show action doesn't exist on CouplesController for nested routes
 
   # AUTHENTICATION TESTS
   test 'should require authentication for nested routes' do

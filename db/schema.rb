@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,198 +12,200 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_07_27_025231) do
+ActiveRecord::Schema[8.0].define(version: 20_260_727_025_231) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "btree_gin"
-  enable_extension "btree_gist"
-  enable_extension "citext"
-  enable_extension "cube"
-  enable_extension "dblink"
-  enable_extension "dict_int"
-  enable_extension "dict_xsyn"
-  enable_extension "earthdistance"
-  enable_extension "fuzzystrmatch"
-  enable_extension "hstore"
-  enable_extension "intarray"
-  enable_extension "ltree"
-  enable_extension "pg_catalog.plpgsql"
-  enable_extension "pg_stat_statements"
-  enable_extension "pg_trgm"
-  enable_extension "pgcrypto"
-  enable_extension "pgrowlocks"
-  enable_extension "pgstattuple"
-  enable_extension "tablefunc"
-  enable_extension "unaccent"
-  enable_extension "uuid-ossp"
-  enable_extension "xml2"
+  enable_extension 'btree_gin'
+  enable_extension 'btree_gist'
+  enable_extension 'citext'
+  enable_extension 'cube'
+  enable_extension 'dblink'
+  enable_extension 'dict_int'
+  enable_extension 'dict_xsyn'
+  enable_extension 'earthdistance'
+  enable_extension 'fuzzystrmatch'
+  enable_extension 'hstore'
+  enable_extension 'intarray'
+  enable_extension 'ltree'
+  enable_extension 'pg_catalog.plpgsql'
+  enable_extension 'pg_stat_statements'
+  enable_extension 'pg_trgm'
+  enable_extension 'pgcrypto'
+  enable_extension 'pgrowlocks'
+  enable_extension 'pgstattuple'
+  enable_extension 'tablefunc'
+  enable_extension 'unaccent'
+  enable_extension 'uuid-ossp'
+  enable_extension 'xml2'
 
-  create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  create_table 'active_storage_attachments', force: :cascade do |t|
+    t.string 'name', null: false
+    t.string 'record_type', null: false
+    t.bigint 'record_id', null: false
+    t.bigint 'blob_id', null: false
+    t.datetime 'created_at', null: false
+    t.index ['blob_id'], name: 'index_active_storage_attachments_on_blob_id'
+    t.index %w[record_type record_id name blob_id], name: 'index_active_storage_attachments_uniqueness',
+                                                    unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
-    t.bigint "byte_size", null: false
-    t.string "checksum"
-    t.datetime "created_at", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  create_table 'active_storage_blobs', force: :cascade do |t|
+    t.string 'key', null: false
+    t.string 'filename', null: false
+    t.string 'content_type'
+    t.text 'metadata'
+    t.string 'service_name', null: false
+    t.bigint 'byte_size', null: false
+    t.string 'checksum'
+    t.datetime 'created_at', null: false
+    t.index ['key'], name: 'index_active_storage_blobs_on_key', unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
-    t.string "variation_digest", null: false
-    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  create_table 'active_storage_variant_records', force: :cascade do |t|
+    t.bigint 'blob_id', null: false
+    t.string 'variation_digest', null: false
+    t.index %w[blob_id variation_digest], name: 'index_active_storage_variant_records_uniqueness', unique: true
   end
 
-  create_table "couples", force: :cascade do |t|
-    t.integer "person1_id"
-    t.integer "person2_id"
-    t.date "marriage"
-    t.date "separation"
-    t.text "local"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "previous_id"
-    t.datetime "deleted_at"
-    t.index ["deleted_at"], name: "index_couples_on_deleted_at"
-    t.index ["previous_id"], name: "index_couples_on_previous_id"
+  create_table 'couples', force: :cascade do |t|
+    t.integer 'person1_id'
+    t.integer 'person2_id'
+    t.date 'marriage'
+    t.date 'separation'
+    t.text 'local'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.bigint 'previous_id'
+    t.datetime 'deleted_at'
+    t.index ['deleted_at'], name: 'index_couples_on_deleted_at'
+    t.index ['previous_id'], name: 'index_couples_on_previous_id'
   end
 
-  create_table "couples_people", primary_key: ["person_id", "couple_id"], force: :cascade do |t|
-    t.bigint "person_id", null: false
-    t.bigint "couple_id", null: false
-    t.datetime "deleted_at"
-    t.index ["couple_id"], name: "index_couples_people_on_couple_id"
-    t.index ["deleted_at"], name: "index_couples_people_on_deleted_at"
-    t.index ["person_id"], name: "index_couples_people_on_person_id"
+  create_table 'couples_people', primary_key: %w[person_id couple_id], force: :cascade do |t|
+    t.bigint 'person_id', null: false
+    t.bigint 'couple_id', null: false
+    t.datetime 'deleted_at'
+    t.index ['couple_id'], name: 'index_couples_people_on_couple_id'
+    t.index ['deleted_at'], name: 'index_couples_people_on_deleted_at'
+    t.index ['person_id'], name: 'index_couples_people_on_person_id'
   end
 
-  create_table "events", force: :cascade do |t|
-    t.string "name", null: false
-    t.bigint "user_id", null: false
-    t.jsonb "data", default: {}, null: false
-    t.datetime "created_at"
-    t.string "resource_type"
-    t.bigint "resource_id"
-    t.index ["resource_type", "resource_id"], name: "index_events_on_resource"
-    t.index ["user_id"], name: "index_events_on_user_id"
+  create_table 'events', force: :cascade do |t|
+    t.string 'name', null: false
+    t.bigint 'user_id', null: false
+    t.jsonb 'data', default: {}, null: false
+    t.datetime 'created_at'
+    t.string 'resource_type'
+    t.bigint 'resource_id'
+    t.index %w[resource_type resource_id], name: 'index_events_on_resource'
+    t.index ['user_id'], name: 'index_events_on_user_id'
   end
 
-  create_table "favorites", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "person_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["person_id"], name: "index_favorites_on_person_id"
-    t.index ["user_id", "person_id"], name: "index_favorites_on_user_id_and_person_id", unique: true
-    t.index ["user_id"], name: "index_favorites_on_user_id"
+  create_table 'favorites', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.bigint 'person_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['person_id'], name: 'index_favorites_on_person_id'
+    t.index %w[user_id person_id], name: 'index_favorites_on_user_id_and_person_id', unique: true
+    t.index ['user_id'], name: 'index_favorites_on_user_id'
   end
 
-  create_table "friendly_id_slugs", force: :cascade do |t|
-    t.string "slug", null: false
-    t.integer "sluggable_id", null: false
-    t.string "sluggable_type", limit: 50
-    t.string "scope"
-    t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
-    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  create_table 'friendly_id_slugs', force: :cascade do |t|
+    t.string 'slug', null: false
+    t.integer 'sluggable_id', null: false
+    t.string 'sluggable_type', limit: 50
+    t.string 'scope'
+    t.datetime 'created_at'
+    t.index %w[slug sluggable_type scope], name: 'index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope',
+                                           unique: true
+    t.index %w[slug sluggable_type], name: 'index_friendly_id_slugs_on_slug_and_sluggable_type'
+    t.index %w[sluggable_type sluggable_id], name: 'index_friendly_id_slugs_on_sluggable_type_and_sluggable_id'
   end
 
-  create_table "people", force: :cascade do |t|
-    t.string "name"
-    t.string "kanji"
-    t.integer "gender"
-    t.boolean "alive", default: true
-    t.date "birth"
-    t.date "death"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "slug"
-    t.bigint "previous_id"
-    t.datetime "deleted_at"
-    t.integer "birth_day"
-    t.integer "birth_month"
-    t.integer "birth_year"
-    t.integer "death_day"
-    t.integer "death_month"
-    t.integer "death_year"
-    t.string "name_normalized"
-    t.index ["birth_month", "birth_day"], name: "idx_people_birth_month_day"
-    t.index ["deleted_at"], name: "index_people_on_deleted_at"
-    t.index ["name_normalized"], name: "index_people_on_name_normalized"
-    t.index ["previous_id"], name: "index_people_on_previous_id"
-    t.index ["slug"], name: "index_people_on_slug"
+  create_table 'people', force: :cascade do |t|
+    t.string 'name'
+    t.string 'kanji'
+    t.integer 'gender'
+    t.boolean 'alive', default: true
+    t.date 'birth'
+    t.date 'death'
+    t.text 'description'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'slug'
+    t.bigint 'previous_id'
+    t.datetime 'deleted_at'
+    t.integer 'birth_day'
+    t.integer 'birth_month'
+    t.integer 'birth_year'
+    t.integer 'death_day'
+    t.integer 'death_month'
+    t.integer 'death_year'
+    t.string 'name_normalized'
+    t.index %w[birth_month birth_day], name: 'idx_people_birth_month_day'
+    t.index ['deleted_at'], name: 'index_people_on_deleted_at'
+    t.index ['name_normalized'], name: 'index_people_on_name_normalized'
+    t.index ['previous_id'], name: 'index_people_on_previous_id'
+    t.index ['slug'], name: 'index_people_on_slug'
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "name"
-    t.string "resource_type"
-    t.bigint "resource_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
-    t.index ["deleted_at"], name: "index_roles_on_deleted_at"
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
-    t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+  create_table 'roles', force: :cascade do |t|
+    t.string 'name'
+    t.string 'resource_type'
+    t.bigint 'resource_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.datetime 'deleted_at'
+    t.index ['deleted_at'], name: 'index_roles_on_deleted_at'
+    t.index %w[name resource_type resource_id], name: 'index_roles_on_name_and_resource_type_and_resource_id'
+    t.index %w[resource_type resource_id], name: 'index_roles_on_resource'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name"
-    t.string "phone"
-    t.integer "locale", default: 0
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.datetime "deleted_at"
-    t.string "provider"
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.integer "sign_in_count", default: 0, null: false
-    t.string "mcp_token"
-    t.boolean "approved", default: false, null: false
-    t.integer "tree_generations", default: 5, null: false
-    t.boolean "include_pets_in_tree", default: false, null: false
-    t.index ["approved"], name: "index_users_on_approved"
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["deleted_at"], name: "index_users_on_deleted_at"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["mcp_token"], name: "index_users_on_mcp_token", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  create_table 'users', force: :cascade do |t|
+    t.string 'email', default: '', null: false
+    t.string 'encrypted_password', default: '', null: false
+    t.string 'reset_password_token'
+    t.datetime 'reset_password_sent_at'
+    t.datetime 'remember_created_at'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'name'
+    t.string 'phone'
+    t.integer 'locale', default: 0
+    t.string 'confirmation_token'
+    t.datetime 'confirmed_at'
+    t.datetime 'confirmation_sent_at'
+    t.string 'unconfirmed_email'
+    t.datetime 'deleted_at'
+    t.string 'provider'
+    t.datetime 'current_sign_in_at'
+    t.datetime 'last_sign_in_at'
+    t.string 'current_sign_in_ip'
+    t.string 'last_sign_in_ip'
+    t.integer 'sign_in_count', default: 0, null: false
+    t.string 'mcp_token'
+    t.boolean 'approved', default: false, null: false
+    t.integer 'tree_generations', default: 5, null: false
+    t.boolean 'include_pets_in_tree', default: false, null: false
+    t.index ['approved'], name: 'index_users_on_approved'
+    t.index ['confirmation_token'], name: 'index_users_on_confirmation_token', unique: true
+    t.index ['deleted_at'], name: 'index_users_on_deleted_at'
+    t.index ['email'], name: 'index_users_on_email', unique: true
+    t.index ['mcp_token'], name: 'index_users_on_mcp_token', unique: true
+    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
   end
 
-  create_table "users_roles", id: false, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "role_id"
-    t.index ["role_id"], name: "index_users_roles_on_role_id"
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
-    t.index ["user_id"], name: "index_users_roles_on_user_id"
+  create_table 'users_roles', id: false, force: :cascade do |t|
+    t.bigint 'user_id'
+    t.bigint 'role_id'
+    t.index ['role_id'], name: 'index_users_roles_on_role_id'
+    t.index %w[user_id role_id], name: 'index_users_roles_on_user_id_and_role_id'
+    t.index ['user_id'], name: 'index_users_roles_on_user_id'
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "events", "users"
-  add_foreign_key "favorites", "people"
-  add_foreign_key "favorites", "users"
+  add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
+  add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
+  add_foreign_key 'events', 'users'
+  add_foreign_key 'favorites', 'people'
+  add_foreign_key 'favorites', 'users'
 end

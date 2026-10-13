@@ -1,8 +1,7 @@
-# frozen_string_literal: true
-
 # This controller manages the people in the family tree.
 class PeopleController < ApplicationController
   include Pagy::Backend
+
   before_action :authenticate_user!
   before_action :set_person, only: %i[show edit update destroy descendants descendants_full ancestry]
   before_action -> { authorize Person }
@@ -69,50 +68,15 @@ class PeopleController < ApplicationController
   # POST /people or /people.json
   def create
     @person = Person.new(person_params)
+    @person.current_user = current_user
     @mate = nil
     @child = nil
 
     respond_to do |format|
-      @person.current_user = current_user
-      if @person.save!
-        if couple_params[:mate].present?
-          @couple = Couple.new(person1_id: couple_params[:mate], person2_id: @person.id, marriage: couple_params[:marriage],
-                               separation: couple_params[:separation], local: couple_params[:local])
-          @couple.current_user = current_user
-
-          if @couple.save
-            @mate = @person
-            @person = Person.find(couple_params[:mate])
-            format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
-            format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('couples.form.couple')) }
-          else
-            format.html { render :new, status: :unprocessable_entity }
-            flash.now[:notice] = @couple.errors.full_messages[0]
-            format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
-          end
-        elsif couple_params[:couple].present?
-          @couple = Couple.find(couple_params[:couple])
-          child_record = Child.new(person_id: @person.id, couple_id: @couple.id)
-          child_record.current_user = current_user
-
-          if child_record.save
-            @child = @person
-            @person = Person.find(@couple.person1_id)
-            format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
-            format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('children.form.child')) }
-          else
-            format.html { render 'children/new', status: :unprocessable_entity }
-            flash.now[:notice] = child_record.errors.full_messages[0]
-            format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
-          end
-        else
-          format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
-          format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.created', model: I18n.t('people.form.person')) }
-        end
+      if @person.save
+        handle_person_creation_success(format)
       else
-        format.html { render :new, status: :unprocessable_entity }
-        flash.now[:notice] = @person.errors.full_messages[0]
-        format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
+        render_creation_failure(format, @person)
       end
     end
   end
@@ -123,8 +87,13 @@ class PeopleController < ApplicationController
       @person.current_user = current_user
       if @person.update(person_params)
         if @person.saved_changes?
-          format.html { redirect_to person_path(@person), notice: I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
-          format.turbo_stream { flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person')) }
+          format.html do
+            redirect_to person_path(@person),
+                        notice: I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person'))
+          end
+          format.turbo_stream do
+            flash.now[:notice] = I18n.t('activerecord.success.messages.updated', model: I18n.t('people.form.person'))
+          end
         else
           format.html { redirect_to person_path(@person) }
         end
@@ -145,14 +114,14 @@ class PeopleController < ApplicationController
     current_user.events.create(name: 'person.destroy', resource: @person, data: { name: person_name }) if destroyed
 
     respond_to do |format|
-      format.html { 
-        redirect_to people_path, 
-        notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person')) 
-      }
-      format.turbo_stream { 
-        redirect_to people_path, 
-        notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person'))
-      }
+      format.html do
+        redirect_to people_path,
+                    notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person'))
+      end
+      format.turbo_stream do
+        redirect_to people_path,
+                    notice: I18n.t('activerecord.success.messages.deleted', model: I18n.t('people.form.person'))
+      end
       format.json { head :no_content }
     end
   end
@@ -181,11 +150,11 @@ class PeopleController < ApplicationController
       @people_with_birthdays = Person.upcoming_birthdays(7, 7)
       @showing_favorites = false
     end
-    
+
     # Group by days until birthday for better organization
-    @past_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday < 0 }
-    @today_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday == 0 }
-    @upcoming_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday > 0 }
+    @past_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday.negative? }
+    @today_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday.zero? }
+    @upcoming_birthdays = @people_with_birthdays.select { |p| p.days_until_birthday.positive? }
   end
 
   private
@@ -215,7 +184,7 @@ class PeopleController < ApplicationController
   def set_person
     @person = Person.includes(
       :couples,
-      couples: [:person1, :person2, :people]
+      couples: %i[person1 person2 people]
     ).find(params[:id])
   end
 
@@ -228,7 +197,61 @@ class PeopleController < ApplicationController
   end
 
   def permitted_params
-    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth_year, :birth_month, :birth_day, :death_year, :death_month, :death_day, :description,
-                                   :avatar, :couple, :mate, :marriage, :separation, :local)
+    params.require(:person).permit(:name, :kanji, :gender, :alive, :birth_year, :birth_month, :birth_day, :death_year,
+                                   :death_month, :death_day, :description, :avatar, :couple, :mate, :marriage,
+                                   :separation, :local)
+  end
+
+  def handle_person_creation_success(format)
+    if couple_params[:mate].present?
+      create_mate_relationship(format)
+    elsif couple_params[:couple].present?
+      create_child_relationship(format)
+    else
+      respond_with_success(format, @person, 'people.form.person')
+    end
+  end
+
+  def create_mate_relationship(format)
+    @couple = Couple.new(
+      person1_id: couple_params[:mate], person2_id: @person.id,
+      marriage: couple_params[:marriage], separation: couple_params[:separation],
+      local: couple_params[:local]
+    )
+    @couple.current_user = current_user
+
+    if @couple.save
+      @mate = @person
+      @person = Person.find(couple_params[:mate])
+      respond_with_success(format, @person, 'couples.form.couple')
+    else
+      render_creation_failure(format, @couple, template: :new)
+    end
+  end
+
+  def create_child_relationship(format)
+    @couple = Couple.find(couple_params[:couple])
+    child_record = Child.new(person_id: @person.id, couple_id: @couple.id)
+    child_record.current_user = current_user
+
+    if child_record.save
+      @child = @person
+      @person = Person.find(@couple.person1_id)
+      respond_with_success(format, @person, 'children.form.child')
+    else
+      render_creation_failure(format, child_record, template: 'children/new')
+    end
+  end
+
+  def respond_with_success(format, target_person, model_i18n_key)
+    notice_msg = I18n.t('activerecord.success.messages.created', model: I18n.t(model_i18n_key))
+    format.html { redirect_to person_path(target_person), notice: notice_msg }
+    format.turbo_stream { flash.now[:notice] = notice_msg }
+  end
+
+  def render_creation_failure(format, record, template: :new)
+    flash.now[:notice] = record.errors.full_messages.first
+    format.html { render template, status: :unprocessable_entity }
+    format.turbo_stream { render turbo_stream: helpers.render_turbo_stream_inline_flash_messages }
   end
 end
