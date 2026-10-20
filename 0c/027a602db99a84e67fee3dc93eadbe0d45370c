@@ -1,0 +1,19 @@
+docker-compose.yml
+  h_7e49e1b6a1cf0d 16
+Dockerfile.dev
+  h_7e49e1b6a1cf0d 1-93
+README.md
+  h_7e49e1b6a1cf0d 43-44,49-83,85,296-302
+  h_7e49e1b6a1cf0d 84,303
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0c027a602db99a84e67fee3dc93eadbe0d45370c",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
