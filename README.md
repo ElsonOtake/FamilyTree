@@ -40,11 +40,49 @@ Log in via `Google OAuth` or using the username `admin@demo.com` with the passwo
 
 ### Prerequisites
 
+For local development without Docker:
+
 - Ruby 3.4.5
 - PostgreSQL 9.4+
 - Node.js and Yarn
 
-### Installation
+For containerized development:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) / Docker Engine
+
+### Running with Docker (Recommended)
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ElsonOtake/FamilyTree.git
+   cd FamilyTree
+   ```
+
+
+2. Build and launch the application and PostgreSQL database containers:
+
+   ```bash
+   docker compose up --build
+   ```
+
+
+3. Visit `http://localhost:3000` and sign in with the seeded demo account (**`admin@demo.com`** / **`password`**).
+
+To stop the containers:
+
+   ```bash
+   docker compose down
+   ```
+
+
+To run tests inside the Docker container:
+
+   ```bash
+   docker compose exec web bundle exec rails test
+   ```
+
+
+### Local Installation (Without Docker)
 
 1. Clone the repository:
    ```bash
@@ -254,6 +292,14 @@ fly deploy
 See `/bin/render-build.sh` for configuration.
 
 Migrations run automatically via the release command.
+
+## Author
+
+👤 **Elson Otake**
+
+- GitHub: [elsonotake](https://github.com/elsonotake)
+- X: [@elsonotake](https://x.com/elsonotake)
+- LinkedIn: [elsonotake](https://linkedin.com/in/elsonotake)
 
 ## License
 
