@@ -1,0 +1,28 @@
+README.md
+  s_06fde4b5e81e98::t_57c4b4e6a95798 275,297-320
+  s_06fde4b5e81e98::t_e513c18dfb82aa 321
+.env.example
+  s_06fde4b5e81e98::t_67c83a0d3019d2 21-24
+app/javascript/analytics.js
+  s_06fde4b5e81e98::t_67c83a0d3019d2 1-53
+app/views/layouts/application.html.erb
+  s_06fde4b5e81e98::t_67c83a0d3019d2 10-13
+app/javascript/application.js
+  s_06fde4b5e81e98::t_67c83a0d3019d2 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "80990dca0eabf11ca26f8b8495f3c85e3c15e846",
+  "prompts": {},
+  "sessions": {
+    "s_06fde4b5e81e98": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17425-1bcf-7320-bf08-a9d858c4d7a1",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Elson Otake <elsonotake@yahoo.com.br>"
+    }
+  }
+}
