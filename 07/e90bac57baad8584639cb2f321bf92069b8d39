@@ -1,0 +1,27 @@
+app/controllers/concerns/demo_mode.rb
+  h_7e49e1b6a1cf0d 1-8
+app/controllers/favorites_controller.rb
+  h_7e49e1b6a1cf0d 11,27
+app/models/person.rb
+  h_7e49e1b6a1cf0d 42,144,152,160,163,165,206,209,213,220
+app/controllers/users/registrations_controller.rb
+  h_7e49e1b6a1cf0d 3,9-10,13,39-41,43-46
+  h_7e49e1b6a1cf0d 38,42,47
+app/models/favorite.rb
+  h_7e49e1b6a1cf0d 7
+.env.example
+  h_7e49e1b6a1cf0d 34-37
+app/models/user.rb
+  h_7e49e1b6a1cf0d 6,122-132
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "07e90bac57baad8584639cb2f321bf92069b8d39",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

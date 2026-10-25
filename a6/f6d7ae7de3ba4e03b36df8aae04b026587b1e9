@@ -1,0 +1,14 @@
+.rubocop.yml
+  h_7e49e1b6a1cf0d 35-38,70-73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a6f6d7ae7de3ba4e03b36df8aae04b026587b1e9",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

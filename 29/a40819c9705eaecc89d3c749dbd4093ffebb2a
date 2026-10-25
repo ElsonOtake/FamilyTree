@@ -1,0 +1,17 @@
+app/services/pedigree/geom.rb
+  h_7e49e1b6a1cf0d 12,19
+app/services/pedigree/chrome.rb
+  h_7e49e1b6a1cf0d 221,223,225,228,235,237,239,242,245-252
+  h_7e49e1b6a1cf0d 226,240,243-244
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "29a40819c9705eaecc89d3c749dbd4093ffebb2a",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

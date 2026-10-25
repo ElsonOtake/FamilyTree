@@ -1,0 +1,81 @@
+.rubocop.yml
+  h_7e49e1b6a1cf0d 1-64
+test/policies/favorite_policy_test.rb
+  h_7e49e1b6a1cf0d 3,10
+  h_7e49e1b6a1cf0d 13-14
+app/controllers/application_controller.rb
+  h_7e49e1b6a1cf0d 4,11,13
+app/controllers/concerns/demo_mode.rb
+  h_7e49e1b6a1cf0d 4
+app/controllers/couples_controller.rb
+  h_7e49e1b6a1cf0d 65
+app/controllers/people_controller.rb
+  h_7e49e1b6a1cf0d 4
+app/controllers/users_controller.rb
+  h_7e49e1b6a1cf0d 4
+app/models/couple.rb
+  h_7e49e1b6a1cf0d 75-76,90-91,96,103-104
+app/models/person.rb
+  h_7e49e1b6a1cf0d 25
+app/services/pedigree/ancestors/pdf.rb
+  h_7e49e1b6a1cf0d 38,54
+app/services/pedigree/chart.rb
+  h_7e49e1b6a1cf0d 58
+app/services/pedigree/chrome.rb
+  h_7e49e1b6a1cf0d 14-17,19-20,22-25,27-29,39,41,69,73-75,97-98,103,112-113,122,129,141,177,210,283
+app/services/pedigree/geom.rb
+  h_7e49e1b6a1cf0d 5-16
+app/services/pedigree/layout.rb
+  h_7e49e1b6a1cf0d 28-30,71-72,75,85,88,102,119,135-136,151-152,164-165,171,193,225,227
+app/services/pedigree/pdf.rb
+  h_7e49e1b6a1cf0d 43,58,68,70
+app/services/pedigree/portrait.rb
+  h_7e49e1b6a1cf0d 79,82
+app/services/romaji_normalizer.rb
+  h_7e49e1b6a1cf0d 33,35
+app/tools/find_person_tool.rb
+  h_7e49e1b6a1cf0d 21
+app/tools/get_age_tool.rb
+  h_7e49e1b6a1cf0d 17
+app/tools/get_anniversaries_tool.rb
+  h_7e49e1b6a1cf0d 23,49,51-52
+app/tools/get_birthdays_tool.rb
+  h_7e49e1b6a1cf0d 22,48,50-51
+app/tools/get_children_tool.rb
+  h_7e49e1b6a1cf0d 15
+app/tools/get_cousins_tool.rb
+  h_7e49e1b6a1cf0d 16
+app/tools/get_parents_tool.rb
+  h_7e49e1b6a1cf0d 18
+app/tools/get_partners_tool.rb
+  h_7e49e1b6a1cf0d 16,24-25
+app/tools/get_person_tool.rb
+  h_7e49e1b6a1cf0d 16
+app/tools/get_siblings_tool.rb
+  h_7e49e1b6a1cf0d 15
+test/helpers/people_helper_test.rb
+  h_7e49e1b6a1cf0d 311
+test/models/concerns/record_event_test.rb
+  h_7e49e1b6a1cf0d 96,147,166
+test/services/pedigree/chrome_test.rb
+  h_7e49e1b6a1cf0d 9
+test/system/children_test.rb
+  h_7e49e1b6a1cf0d 28,30
+test/system/couples_test.rb
+  h_7e49e1b6a1cf0d 28,30,32,34
+test/system/people_test.rb
+  h_7e49e1b6a1cf0d 25,27,29,31
+test/tools/family_tree_tools_test.rb
+  h_7e49e1b6a1cf0d 411-412
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "860234393fe12b0d05aa96069570b04e57ad29a2",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

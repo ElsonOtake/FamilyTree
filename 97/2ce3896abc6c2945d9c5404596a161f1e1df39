@@ -1,0 +1,15 @@
+app/models/couple.rb
+  h_7e49e1b6a1cf0d 2
+  h_7e49e1b6a1cf0d 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "972ce3896abc6c2945d9c5404596a161f1e1df39",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

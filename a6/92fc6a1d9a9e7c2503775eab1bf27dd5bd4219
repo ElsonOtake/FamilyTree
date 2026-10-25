@@ -1,0 +1,17 @@
+test/integration/favorites_integration_test.rb
+  h_7e49e1b6a1cf0d 11,17,24,27,37,45,51-52,55,58,61,66,70,75,78-79,88,100,110-113,116-117,123
+  h_7e49e1b6a1cf0d 14,41,132-136,139
+test/fixtures/people.yml
+  h_7e49e1b6a1cf0d 4,12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "a692fc6a1d9a9e7c2503775eab1bf27dd5bd4219",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

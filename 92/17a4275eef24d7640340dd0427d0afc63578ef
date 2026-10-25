@@ -1,0 +1,14 @@
+app/services/pedigree/chrome.rb
+  h_7e49e1b6a1cf0d 129
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9217a4275eef24d7640340dd0427d0afc63578ef",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

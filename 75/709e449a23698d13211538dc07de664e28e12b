@@ -1,0 +1,24 @@
+test/controllers/users/sessions_controller_test.rb
+  s_28b0d8cd5c7d84::t_049beb6003d8a8 59
+  s_28b0d8cd5c7d84::t_961f25455989fb 251-253
+test/controllers/users/registrations_controller_test.rb
+  s_28b0d8cd5c7d84::t_68ed13315c33ba 59,120
+test/controllers/users/confirmations_controller_test.rb
+  s_28b0d8cd5c7d84::t_32153fcf20b783 6,9-16,21-22,25,27,30-34,37-43,46-50,53-58,62-64,66,68-69,72-73,75-76,78,81-82,86-89,92-99,101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "75709e449a23698d13211538dc07de664e28e12b",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

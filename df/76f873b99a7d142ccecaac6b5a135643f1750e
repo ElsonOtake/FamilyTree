@@ -1,0 +1,14 @@
+app/admin/users.rb
+  h_7e49e1b6a1cf0d 82-83,86-87,89-91,93-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "df76f873b99a7d142ccecaac6b5a135643f1750e",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

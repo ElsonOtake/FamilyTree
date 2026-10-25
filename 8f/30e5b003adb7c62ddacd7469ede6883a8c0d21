@@ -1,0 +1,21 @@
+app/views/favorites/create_error.turbo_stream.erb
+  h_7e49e1b6a1cf0d 1
+test/integration/favorites_integration_test.rb
+  h_7e49e1b6a1cf0d 19,29,47,63,72,81,119-120,123,126-130,132-133
+  h_7e49e1b6a1cf0d 122
+app/controllers/favorites_controller.rb
+  h_7e49e1b6a1cf0d 29
+app/policies/favorite_policy.rb
+  h_7e49e1b6a1cf0d 24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "8f30e5b003adb7c62ddacd7469ede6883a8c0d21",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

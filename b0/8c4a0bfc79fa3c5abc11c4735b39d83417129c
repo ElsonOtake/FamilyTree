@@ -1,0 +1,21 @@
+app/services/pedigree/geom.rb
+  h_7e49e1b6a1cf0d 12
+app/services/pedigree/chrome.rb
+  h_7e49e1b6a1cf0d 37-44,47-66,205-209,213-218,220,223,226-227,229-236,238-239,241,247,300-305
+  h_7e49e1b6a1cf0d 67,237,240,306
+app/services/pedigree/pdf.rb
+  h_7e49e1b6a1cf0d 25
+app/services/pedigree/ancestors/pdf.rb
+  h_7e49e1b6a1cf0d 25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "b08c4a0bfc79fa3c5abc11c4735b39d83417129c",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

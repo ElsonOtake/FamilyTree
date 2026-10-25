@@ -1,0 +1,23 @@
+README.md
+  s_79311fbd327431::t_3576d67c3dd93d 14-15
+  s_79311fbd327431::t_e88f53515b609b 55-61,68,73
+  s_79311fbd327431::t_6863698cf70f3d 87
+  s_79311fbd327431::t_db88d3b27d1302 200
+  s_79311fbd327431::t_6078b0294a777c 213-222,225,227-228
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "7c6403d6b5f9950e85ecdd0c6f8609c773d7a2a5",
+  "prompts": {},
+  "sessions": {
+    "s_79311fbd327431": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9115ca33-175f-4f96-a995-df5110b2b04d",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

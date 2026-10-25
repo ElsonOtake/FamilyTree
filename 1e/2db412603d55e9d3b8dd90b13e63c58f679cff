@@ -1,0 +1,14 @@
+test/controllers/users_controller_test.rb
+  h_7e49e1b6a1cf0d 288-289
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1e2db412603d55e9d3b8dd90b13e63c58f679cff",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

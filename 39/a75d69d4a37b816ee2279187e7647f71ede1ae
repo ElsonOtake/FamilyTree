@@ -1,0 +1,27 @@
+test/integration/favorites_integration_test.rb
+  s_28b0d8cd5c7d84::t_537ee4a46c3395 131-133,136-137
+  s_28b0d8cd5c7d84::t_674babfeefb802 27,43,60-61,106
+  s_28b0d8cd5c7d84::t_b9ff0bf7e075c1 65-67,70,72,76-77,80-81,83,87,90
+  s_28b0d8cd5c7d84::t_91e117d3dcc5a1 19,31,53,73,84,95,142,149
+test/controllers/favorites_controller_test.rb
+  s_28b0d8cd5c7d84::t_bc9e61e012a698 14,23,44,67,76,95
+  s_28b0d8cd5c7d84::t_dd26b9eb5c734c 125-127
+test/fixtures/people.yml
+  s_28b0d8cd5c7d84::t_674babfeefb802 4,12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "39a75d69d4a37b816ee2279187e7647f71ede1ae",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

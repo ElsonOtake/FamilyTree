@@ -1,0 +1,15 @@
+test/controllers/users/omniauth_callbacks_controller_test.rb
+  h_7e49e1b6a1cf0d 1,3,32,36,42,52-53,56,61,66,78-79,90-91,106-107,110-111,118
+  h_7e49e1b6a1cf0d 2,112-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "687f3529d331f2f090c3f677290e8308ef6653e8",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

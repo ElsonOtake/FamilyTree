@@ -1,0 +1,23 @@
+app/controllers/users/registrations_controller.rb
+  h_7e49e1b6a1cf0d 41-49
+app/admin/users.rb
+  h_7e49e1b6a1cf0d 3,31,55,123
+app/views/layouts/_navbar.html.erb
+  h_7e49e1b6a1cf0d 48-49
+app/views/devise/registrations/edit.html.erb
+  h_7e49e1b6a1cf0d 6-8,50-51,55-56
+  h_7e49e1b6a1cf0d 52-54
+app/models/user.rb
+  h_7e49e1b6a1cf0d 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "28940161a4e040295ecada477300d3207153615f",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

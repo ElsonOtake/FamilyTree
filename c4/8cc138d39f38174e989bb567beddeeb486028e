@@ -1,0 +1,21 @@
+.github/workflows/claude-code-review.yml
+  s_28b0d8cd5c7d84::t_6c23258b865cdb 40-41
+.github/workflows/claude.yml
+  s_28b0d8cd5c7d84::t_40289260383a6e 39-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "c48cc138d39f38174e989bb567beddeeb486028e",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

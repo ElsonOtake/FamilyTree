@@ -1,0 +1,15 @@
+app/controllers/children_controller.rb
+  h_7e49e1b6a1cf0d 39,84-85
+  h_7e49e1b6a1cf0d 86-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bcf54eb83351d0b91fdec56eed4b3e32368d49a2",
+  "prompts": {},
+  "humans": {
+    "h_7e49e1b6a1cf0d": {
+      "author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}

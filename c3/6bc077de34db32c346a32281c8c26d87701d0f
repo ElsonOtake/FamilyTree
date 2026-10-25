@@ -1,0 +1,24 @@
+db/migrate/20260817185936_make_users_email_index_paranoia_aware.rb
+  s_28b0d8cd5c7d84::t_1c23ec30e880f8 1-18
+  s_28b0d8cd5c7d84::t_230f368483ba59 19-20
+app/models/user.rb
+  s_28b0d8cd5c7d84::t_ce32673eb72e9b 7-12
+db/schema.rb
+  s_28b0d8cd5c7d84::t_de66f7f2a8d5f9 13,189
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "c36bc077de34db32c346a32281c8c26d87701d0f",
+  "prompts": {},
+  "sessions": {
+    "s_28b0d8cd5c7d84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72ecf7ec-6b5f-4cf9-a582-8daae9b5fd20",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Elson Otake <47673311+ElsonOtake@users.noreply.github.com>"
+    }
+  }
+}
