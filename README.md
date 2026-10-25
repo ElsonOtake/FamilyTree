@@ -272,6 +272,7 @@ Copy `.env.example` to `.env` and fill it in — it is grouped into local-develo
 - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_ENDPOINT_URL_S3` / `BUCKET_NAME` - S3-compatible object storage (Tigris)
 - `APP_URL` - Production URL if not on Render
 - `DEMO_MODE` - Demonstration or Production mode
+- `GA_MEASUREMENT_ID` - Optional GA4 measurement ID (`G-XXXXXXXXXX`); enables page views only in production
 
 > On Fly.io, the storage variables (`AWS_*`, `BUCKET_NAME`) are set automatically by `fly storage create` (Tigris).
 
@@ -292,6 +293,31 @@ fly deploy
 See `/bin/render-build.sh` for configuration.
 
 Migrations run automatically via the release command.
+
+## Google Analytics
+
+Create a GA4 web data stream for your production URL and copy its measurement ID.
+Turn **Enhanced measurement off** in that stream: the app sends page views explicitly
+on the initial page load and each Turbo visit, including Back/Forward navigation.
+Query strings and fragments are omitted from page URLs and referrers, and the page
+title is fixed to `FamilyTree` to avoid including personal details in these fields.
+Page paths are still included. Turbo Frame and Stream updates do not send page views.
+
+To enable tracking on Fly.io, replace the placeholder and deploy the code:
+
+```bash
+fly secrets set GA_MEASUREMENT_ID=G-XXXXXXXXXX --app familytree-elson-otake-6347
+fly deploy --app familytree-elson-otake-6347
+```
+
+Leave `GA_MEASUREMENT_ID` unset on Render to exclude its traffic. To measure Render
+separately, create another web data stream, set its measurement ID in the Render
+service's environment variables, and deploy.
+
+After deploying, visit several pages and check GA4's Realtime report. In the browser
+Network panel, requests containing `collect` should show one `page_view` per completed
+navigation. Standard reports can take 24–48 hours to populate. Development and test
+environments never load the Google tag.
 
 ## Author
 

@@ -7,6 +7,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <% if Rails.env.production? && ENV['GA_MEASUREMENT_ID'].present? %>
+      <%= tag.meta name: 'ga-measurement-id', content: ENV['GA_MEASUREMENT_ID'] %>
+    <% end %>
+
     <%# Apply the saved theme before paint to avoid a flash of the wrong mode. %>
     <script>
       (function () {
